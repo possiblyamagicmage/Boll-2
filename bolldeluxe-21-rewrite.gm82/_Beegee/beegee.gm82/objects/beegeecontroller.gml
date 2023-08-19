@@ -7,6 +7,8 @@ applies_to=self
 global.bgimages[0]=0
 global.bgcount=0
 
+displaysurface=surface_create(480,270);
+
 viewh=view_hview[0]
 vieww=view_wview[0]
 #define Step_0
@@ -36,13 +38,9 @@ lib_id=1
 action_id=603
 applies_to=self
 */
-draw_set_font(fnt_omi)
-draw_text(view_xview-64,view_yview-128,global.bgcount);
-
 if global.bgcount != 0 {
     for (i=0; i <= global.bgcount; i+=1)
     {
         draw_background(global.bgimages[i],x+vieww,y+viewh)
     }
-
 }
