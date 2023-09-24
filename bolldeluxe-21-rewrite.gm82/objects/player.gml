@@ -16,7 +16,7 @@ accel =0.06; //how fast you gain speed
 fric = 0.2; //friction, slipperiness
 maxspd = 0; //gets overridden in step event
 accel =0.06; //how fast you gain speed
-fric = 0.2; //friction, slipperiness
+fric = 0.3; //friction, slipperiness  (lower is more slippery)
 size = 1;
 starred = 0; //do not use size 4 for stars anymore that is kinda Bitch mode
 vsp=0
@@ -175,7 +175,7 @@ alarm[1] = 0;
 }
 
 if move != 0 {
-    hsp += move*accel
+    hsp += move*(accel*is_grounded==1)
     hsp = clamp(hsp,-maxspd,maxspd)
 } else {
     if grounded && !is_grinding

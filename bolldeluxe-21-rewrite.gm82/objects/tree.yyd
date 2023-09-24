@@ -29,6 +29,8 @@
 	|greenkoopa
 	|redkoopa
 	|shell
+	|pyleomspike
+	|pyleom
 +Level Objects
 	+Collision
 		|hittable

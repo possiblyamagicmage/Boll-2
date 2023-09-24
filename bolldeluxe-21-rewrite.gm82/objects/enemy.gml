@@ -78,14 +78,6 @@ grounded=1
 else
 grounded=0
 
-if (edgeturn) && !(turned) && !collision_rectangle(floor(x)+8*sign(hsp),floor(y)+8,floor(x)+9*sign(hsp),floor(y)+9,collider,true,true)
-{
-turned=1
-hsp=-hsp
-}
-
-if collision_rectangle(floor(x)-9,floor(y)+8,floor(x)+9,floor(y)+9,collider,true,true) turned=0
-
 coll = instance_place(x+hsp, y-yPlus,enemy)
 
 if(coll) && !(coll.inactive){
@@ -99,7 +91,7 @@ if (place_meeting(x+hsp,y,collider)){
     }
     if(place_meeting(x+hsp, y-yPlus,collider)){
         while(!place_meeting(x+sign(hsp),y,collider)){
-            x += sign(hsp);
+            if !(stop_moving) x += sign(hsp);
         }
         hsp = -hsp;
     }
@@ -121,7 +113,7 @@ else{
     }
 }
 
-x += hsp;
+if !(stop_moving) x += hsp;
 
 if (place_meeting(x,y+vsp,collider)){
     while(!place_meeting(x,round(y+sign(vsp)),collider)){
@@ -130,6 +122,14 @@ if (place_meeting(x,y+vsp,collider)){
     vsp = 0;
 }
 y += vsp;
+
+if (edgeturn) && !(turned) && !collision_rectangle(floor(x)+8*sign(hsp),floor(y)+8,floor(x)+9*sign(hsp),floor(y)+9,collider,true,true)
+{
+turned=1
+hsp=-hsp
+}
+
+if collision_rectangle(floor(x)-9,floor(y)+8,floor(x)+9,floor(y)+9,collider,true,true) turned=0
 
 if(!place_meeting(x,round(y),collider)){
     y=round(y);
@@ -155,6 +155,7 @@ kidhp=4 // how many kid bullets it takes to kill the enemy
 damage_on_contact=0 // this already exists, will hurt the player if they collide with it at all, making it impossible to kill, unless you have a star. if its = 2 it would be invincible to stars aswell.
 no_stomping=0 // this would make it so that the enemy wouldnt lose hp/die when being stomped, so it would make it kinda act like an ant trooper from 3d world
 edgeturn=0 // this basically just makes it turn on an edge like a red koopa/goombrat
+stop_moving=0 // step variable, this makes it so hsp just. doesnt work when activated
 hsp=-0.5
 vsp=0
 grav=0.25

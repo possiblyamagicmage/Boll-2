@@ -49,6 +49,9 @@
 		|spr_greenshell
 		|spr_redkoopa
 		|spr_redshell
+		|spr_pyleom
+		|spr_pyleomstack
+		|spr_pyleomspike
 	+Technical
 		|spr_customobject
 +Lemon-S-

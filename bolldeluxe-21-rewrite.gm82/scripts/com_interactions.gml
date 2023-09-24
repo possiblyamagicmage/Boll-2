@@ -2,7 +2,7 @@
 
 if place_meeting(x,y+1,iceblock)
 {
-fric=0.01
+fric=0.1
 }
 else //add 'else ifs' or something here
 fric=defaultfric
