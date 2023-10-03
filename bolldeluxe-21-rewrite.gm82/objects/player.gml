@@ -13,7 +13,6 @@ defaultgrav = 0.25; //for resetting gravity back to default
 grav=defaultgrav //we're having an actual grav var now because changing gravity should be EASIER!!
 maxspd = 0; //gets overridden in step event
 accel =0.06; //how fast you gain speed
-fric = 0.2; //friction, slipperiness
 maxspd = 0; //gets overridden in step event
 accel =0.06; //how fast you gain speed
 fric = 0.3; //friction, slipperiness  (lower is more slippery)
@@ -175,7 +174,7 @@ alarm[1] = 0;
 }
 
 if move != 0 {
-    hsp += move*(accel*is_grounded==1)
+    hsp += move*(accel*grounded==1)
     hsp = clamp(hsp,-maxspd,maxspd)
 } else {
     if grounded && !is_grinding
