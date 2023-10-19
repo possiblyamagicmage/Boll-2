@@ -12,9 +12,9 @@ if (LDTK_LIVE) {
 		// so we need to load directly from the project folder
 		
 		// change this to your project directory
-		//file: "D:\\Projects\\GameMaker Projects\\LDtkParser\\datafiles\\LDtkTest.ldtk",
-		//file: working_directory+"\LDtkTest.ldtk",
-		file: working_directory+"\mods\\level\\Stage.ldtk",
+		//file: working_directory+"\mods\\level\\TEST.ldtk",
+		file: working_directory+"\mods\\level\\TEST.ldtk",
+		
 		level_name: "Levelloader"
 	})
 }
@@ -22,7 +22,7 @@ else {
 	LDtkConfig({
 		//file: "D:\\Projects\\GameMaker Projects\\LDtkParser\\datafiles\\LDtkTest.ldtk",
 		//file: "LDtkTest.ldtk",
-		file: working_directory+"\mods\\level\\Stage.ldtk",
+		file: working_directory+"\mods\\level\\TEST.ldtk",
 		level_name: "Levelloader"
 	})
 }
@@ -41,6 +41,6 @@ LDtkMappings({
 		}
 	},
 	tilesets: {
-		PlaceholderTiles: "tTiles"
+		Tiles: "tTiles"
 	}
 })

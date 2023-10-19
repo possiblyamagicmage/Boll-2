@@ -425,7 +425,6 @@
     {"name":"input_check_opposing_repeat","order":8,"path":"scripts/input_check_opposing_repeat/input_check_opposing_repeat.yy",},
     {"name":"VinylNameGet","order":5,"path":"scripts/VinylNameGet/VinylNameGet.yy",},
     {"name":"VinylKnobGet","order":1,"path":"scripts/VinylKnobGet/VinylKnobGet.yy",},
-    {"name":"sTiles","order":1,"path":"sprites/sTiles/sTiles.yy",},
     {"name":"__input_config_mouse","order":8,"path":"scripts/__input_config_mouse/__input_config_mouse.yy",},
     {"name":"VinylShutdownGet","order":2,"path":"scripts/VinylShutdownGet/VinylShutdownGet.yy",},
     {"name":"scribble_font_force_bilinear_filtering","order":8,"path":"scripts/scribble_font_force_bilinear_filtering/scribble_font_force_bilinear_filtering.yy",},
