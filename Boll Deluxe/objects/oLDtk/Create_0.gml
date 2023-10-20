@@ -31,16 +31,25 @@ else {
 
 LDtkMappings({
 	layers: {
-		Entities: "Entities" // now "Tiles" layer in LDtk = "PlaceholderTiles" layer in GM
-	},
-	enums: {
-		TestEnum: {
-			//First: "First", // first is undefined, should just return the name
-			Second: "This is second",
-			Third: 3
-		}
+		Foreground_Tiles_2: "Foreground Tiles 2",
+		Foreground_Tiles: "Foreground Tiles",
+		FG_Decor_Tiles: "FG Decor Tiles",
+		Misc_Entities: "Misc Entities",
+		Ground_Tiles: "Ground Tiles",
+		Entities: "Entities",
+		Tiles: "Misc Tiles",
+		BG_Decor_Tiles: "BG Decor Tiles",
+		Background_Tiles: "Background Tiles",
+		Background_Tiles_2: "Background Tiles 2"
 	},
 	tilesets: {
-		Tiles: "tTiles"
+		Tileset_Main: "TilesetMain",
+		Tileset_Extra: "TilesetExtra",
+		Tileset_Animated4: "TilesetAnimated4",
+		Tileset_Animated8: "TilesetAnimated8",
+		Assets_Main: "AssetsMain",
+		Assets_Extra:"AssetsExtra",
+		Assets_Animated4: "AssetsAnimated4",
+		Assets_Animated8: "AssetsAnimated8"
 	}
 })

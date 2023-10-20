@@ -15,3 +15,4 @@ ysc=1
 yPlus=0;
 inactive=0;
 phaseid=0;
+turned=0;

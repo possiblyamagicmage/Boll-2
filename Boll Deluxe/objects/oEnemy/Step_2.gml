@@ -22,7 +22,8 @@ if collision_rectangle(floor(x)-9,floor(y)+8,floor(x)+9,floor(y)+9,oCollider,tru
 coll = instance_place(x+hsp, y-yPlus,oEnemy)
 
 if(coll) && !(coll.inactive){
-        hsp = -hsp;
+        coll.hsp = hsp;
+		hsp = -hsp;
 }
 
 var _Platform = instance_place(x, y + vsp, oSemilider);
