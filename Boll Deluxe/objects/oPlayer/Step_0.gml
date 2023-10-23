@@ -1,3 +1,9 @@
+if (piped) { //this just makes sure that vsp and hsp actually work while in a pipe lol
+	y+=vsp
+	x+=hsp
+	exit
+}
+
 right=input_check("right");
 left=input_check("left");
 up=input_check("up");
@@ -134,6 +140,22 @@ if !place_meeting(x,round(y),oCollider){
 
 if (grounded) jump=0
 
+//Pipes ???
+if (grounded && down && place_meeting(x,y+4,oPipeUp)) { //im not sure if this'll work but i trust it
+	with place_meeting(x,y+4,oPipeUp) {
+		if canenter {
+			with other { //god i am so sorry for the amount of { and } here
+				alarm[3] = 80
+				piped = 1
+				vsp = 1.5
+				hsp = 0
+				x = (other.x + (other.sprite_width/2))
+			}
+			global.exitlocation = target //sorry about the global variables here but the player object isnt persistent so im overpreparing for room reloads lol
+			global.exittype = "pipe"
+		}
+	}
+}
 
 //Switch direction
 if (left) 

@@ -17,6 +17,7 @@ canjump = 0;
 bufferjump = 0;
 wallbuffer = 0;
 move_lock = false;
+piped = false; //tell me if you want this gone ok thanks
 grounded = false;
 dead = 0;
 carrying = 0;
