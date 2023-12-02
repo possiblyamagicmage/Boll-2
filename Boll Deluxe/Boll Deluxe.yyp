@@ -784,6 +784,7 @@
     {"id":{"name":"__input_system_tick","path":"scripts/__input_system_tick/__input_system_tick.yy",},},
     {"id":{"name":"__VinylPatternGet","path":"scripts/__VinylPatternGet/__VinylPatternGet.yy",},},
     {"id":{"name":"__VinylBufferReadConfigJSON","path":"scripts/__VinylBufferReadConfigJSON/__VinylBufferReadConfigJSON.yy",},},
+    {"id":{"name":"scr_load_boll_stuff","path":"scripts/scr_load_boll_stuff/scr_load_boll_stuff.yy",},},
     {"id":{"name":"spr_largesambalookr","path":"sprites/spr_largesambalookr/spr_largesambalookr.yy",},},
     {"id":{"name":"__input_steam_handles_changed","path":"scripts/__input_steam_handles_changed/__input_steam_handles_changed.yy",},},
     {"id":{"name":"txr_build_stat","path":"scripts/txr_build_stat/txr_build_stat.yy",},},

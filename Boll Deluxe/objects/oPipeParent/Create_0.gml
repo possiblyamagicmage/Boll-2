@@ -1,4 +1,3 @@
-//show_debug_message("WHO PUT SHIT IN MY PIP")
 name=""
 target=""
 warp=0 //Level warping for stuff like warp zones.
