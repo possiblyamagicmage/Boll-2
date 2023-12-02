@@ -67,10 +67,94 @@ else
 
 grounded = false;
 
-// chearii: standard collision stuff below
-//nekonesse: rewrite this i beg of you this sucks ass to manage but i dont know a better way
+
+// polygons!!!!!
+
+// manage boxpoly
+P_PolygonManager(self,true);
+var this = self;
+
+// get our polygon vertices
+var verticesA = GetTransformedVertices(true,sprite_xoffset div 1,sprite_yoffset div 1);
+
+var clipcheck, clipdiff, clipsave, ynormal, polycos, polyacos, acos_check, docollide;
+
+// polygon collision handler
+with(oPolyCollider)
+{
+	if (IntersectPolygons(verticesA,GetTransformedVertices(true,sprite_xoffset div 1,sprite_yoffset div 1)))
+	{
+		// get the normal and pdepths
+        var nrm = array_get(datapacket,0);
+		var dpt = array_get(datapacket,1);
+
+		ynormal = ((abs(nrm.Y)*100) div 10);
+		polycos = abs((100 * cos(degtorad(polyangle))) div 10);
+		
+        // get the inverse cosine, for wall collisions
+		polyacos = radtodeg(arccos(-nrm.X)) div 1;
+		
+        // some junk for acos_check, mostly just the angle values
+		if ((polyacos > 90) && (polyacos <= 270))
+			acos_check = polyacos-180;
+		else
+			acos_check = polyacos;
+		
+        // reset the datapacket
+		datapacket = undefined;
+		
+        // docollide: only one type of box collision always collides, otherwise its semisolid
+		docollide = ((object_index == oPolyCollider) ? true : ((nrm.Y > 0) ? ((abs(radtodeg(nrm.X)) div 1) < 54) : false ));
+		
+        // clipcheck: check if we've clipped into a tile
+		clipcheck = false;
+		
+		if (docollide)
+		{
+			clipcheck = move_obj_by_poly(this, vector_mul(vector_mul(nrm, -1), dpt/2), true, oCollider);
+
+            if (clipcheck) // if we're clipping...
+			{
+				if (ynormal == polycos) // ...and our normals and cosine match up...
+				{
+					// ...check just how severe the clipping is
+                    clipdiff = (this.x - x) div 1;
+					
+					if (abs(clipdiff) <= 4)
+					{
+						// damage threshold, do damage stuff
+					}
+					else
+					{
+						// push the object out of the clip area
+                        clipsave = ((this.x div 1) & -16) + 16 * sign(clipdiff);
+						this.x = clipsave + (sprite_xoffset div 1);
+					}
+				}
+			}
+
+            // polygon collisions
+            if (nrm.Y > 0) // floor
+			{
+				// we hit the floor
+				this.vsp = 0; // switch this out with whatever vertical speed value you're using
+				// use radtodeg(nrm.X) to get the angle of the floor!
+			}
+            else if (abs(acos_check) == abs(polyangle)) // wall
+			{
+				// treat it like a wall
+				if (sign(this.hsp) == sign(nrm.X*10))
+					this.hsp = (sin(degtorad(polyacos))); // rebound!!
+			}
+			else
+				this.vsp = (abs(nrm.Y));
+        }
+	}
+}
 
 // chearii: standard collision stuff below
+// nekonesse: rewrite this i beg of you this sucks ass to manage but i dont know a better way
+
 var _Platform = instance_place(x, y + vsp, oSemilider);
 if (_Platform && bbox_bottom <= _Platform.bbox_top)
 {
@@ -173,7 +257,6 @@ if (grounded && down && place_meeting(x, y + 4, oPipeUp))
             // persistent so im overpreparing for room reloads lol
             global.exitlocation = target;  
             
-            // chearii: can we make this an enum? (unless it already is)
             global.exittype = warptypes.pipe;  
         }
     }
@@ -209,7 +292,9 @@ else if (right)
     xsc = 1;
 }
 
-coll = instance_place(x, y, oMushroom) if (coll)
+coll = instance_place(x, y, oMushroom);
+
+if (coll)
 {
     oldsize = size;
 

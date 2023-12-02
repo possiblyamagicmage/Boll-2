@@ -32,3 +32,6 @@ oldsize=0;
 image_speed=0
 global.paused=0
 //instance_change(oPlayerTest,true)
+
+// boxpoly setup
+setup_box_poly(self);
