@@ -4,6 +4,10 @@ if hp <= 0{
     instance_destroy();
 }
 
+if (place_meeting(x,y-1,oPlayer)) { //so the player doesnt jump on the damn goombas while warping and shoot into heaven
+	if (instance_place(x,y-1,oPlayer).piped) exit
+}
+
 if (!damage_on_contact) {
     if place_meeting(x,y-1,oPlayer) && !phaseid && round(instance_place(x,y-1,oPlayer).vsp) > 0 && !(instance_place(x,y-1,oPlayer).hurt) && !(place_meeting(x-1,y,oPlayer) && place_meeting(x+1,y,oPlayer) && instance_place(x,y,oPlayer).grounded)
     {

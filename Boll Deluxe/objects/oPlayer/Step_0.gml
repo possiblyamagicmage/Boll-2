@@ -343,17 +343,15 @@ if (!place_meeting(x, round(y), oCollider))
 if (grounded)
     jump = 0;
 
-// Pipes ??? (completely doesnt work)
+// Pipes ??? (works now)
 if (grounded && down && place_meeting(x, y + 4, oPipeUp))
 {  
-    // im not sure if this'll work but i trust it
     with instance_place(x, y + 4, oPipeUp)
     {
         if (canenter)
         {
             with other
             {  
-                // god i am so sorry for the amount of { and } here
                 alarm[3] = 80;
                 piped = 1;
                 vsp = 1.5;

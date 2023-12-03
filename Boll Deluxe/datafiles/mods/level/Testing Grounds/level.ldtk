@@ -1919,7 +1919,10 @@
 									"params": ["a"]
 								}] },
 								{ "__identifier": "warp", "__type": "String", "__value": "", "__tile": null, "defUid": 24, "realEditorValues": [] },
-								{ "__identifier": "canenter", "__type": "Bool", "__value": false, "__tile": null, "defUid": 22, "realEditorValues": [] }
+								{ "__identifier": "canenter", "__type": "Bool", "__value": true, "__tile": null, "defUid": 22, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] }
 							]
 						},
 						{
@@ -1946,7 +1949,10 @@
 									"params": ["b"]
 								}] },
 								{ "__identifier": "warp", "__type": "String", "__value": "", "__tile": null, "defUid": 24, "realEditorValues": [] },
-								{ "__identifier": "canenter", "__type": "Bool", "__value": false, "__tile": null, "defUid": 22, "realEditorValues": [] }
+								{ "__identifier": "canenter", "__type": "Bool", "__value": true, "__tile": null, "defUid": 22, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] }
 							]
 						},
 						{
