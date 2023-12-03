@@ -235,7 +235,63 @@ else
         y = round(y + yMinus);
     }
 }
-x += hsp;
+
+mplat = instance_place(x, y + 1, oMovingPlatform)
+
+if (mplat)
+{
+	chsp = mplat.x_diff;
+}
+
+var speedhtotal;
+
+speedhtotal = ((chsp + hsp) * 16) div 1;
+
+// chearii: ME WHEN GAMEMAKER COLLISION
+// heads up: this means there's currently TWO wall collision routines
+// this just iterates through all potential movements until a collision happens ("future sense")
+var wall;
+
+repeat(abs(speedhtotal))
+{
+	wall = place_meeting(x + (sign(speedhtotal)/16), y, oCollider);
+	
+	if (!wall)
+		x += sign(speedhtotal)/16;
+	else
+	{
+		hsp = 0;
+	}
+}
+
+wall = instance_place(x, y, oCollider);
+
+// chearii: unoptimized shitty loop to force the player out of a platform
+// time complexity is O(n)
+if ((wall) && (wall.object_index == oMovingPlatform))
+{
+	show_debug_message("wall clip");
+	if(x >= wall.x + ((wall.bbox_right - wall.bbox_left) / 2))
+	{
+		while(wall)
+		{
+			x += 1;
+			wall = place_meeting(x, y, oCollider);
+		}
+	}
+	else
+	{
+		while(wall)
+		{
+			x -= 1;
+			wall = place_meeting(x, y, oCollider);
+		}
+	}
+}
+
+
+//x += chsp;
+//x += hsp;
 
 coll = instance_place(x, y + vsp, oCollider) if (place_meeting(x, y + vsp, oCollider) &&
                                                  (coll.object_index != oFlipblock ||
@@ -253,15 +309,6 @@ coll = instance_place(x, y + vsp, oCollider) if (place_meeting(x, y + vsp, oColl
 	chsp = 0;
 }
 y += vsp;
-
-mplat = instance_place(x, y + 1, oMovingPlatform)
-
-if (mplat)
-{
-	chsp = mplat.x_diff;
-}
-
-x += chsp;
 
 if (!place_meeting(x, round(y), oCollider))
 {
