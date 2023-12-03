@@ -1,8 +1,16 @@
 /// @description type-based rotations
 
-if (ptype)
-{
-	otime++;
+switch (ptype) {
+	case 1:
+	{
+		otime++;
 	
-	polyangle = 22 * sin(degtorad(otime));
+		polyangle = 22 * sin(degtorad(otime));
+		break;
+	}
+	case 2:
+	{
+		polyangle++;
+		break;
+	}
 }
