@@ -59,6 +59,15 @@ if (!grounded)
 {
     vsp = min(4, vsp + grav);
     canjump -= 1;
+	
+	// chearii: coneyor speed management
+	if (abs(chsp * 100))
+	{
+		chsp *= 0.95;
+		
+		if ((chsp * 100 div 1) == 0)
+			chsp = 0;
+	}
 }
 else
 {
@@ -240,8 +249,19 @@ coll = instance_place(x, y + vsp, oCollider) if (place_meeting(x, y + vsp, oColl
     vsp = 0;
     fr = 0;
     grounded = true;
+	
+	chsp = 0;
 }
 y += vsp;
+
+mplat = instance_place(x, y + 1, oMovingPlatform)
+
+if (mplat)
+{
+	chsp = mplat.x_diff;
+}
+
+x += chsp;
 
 if (!place_meeting(x, round(y), oCollider))
 {

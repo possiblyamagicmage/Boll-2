@@ -1,7 +1,12 @@
 grav=0.25; //we're having an actual grav var now because changing gravity should be EASIER!!
 defaultgrav = grav; //for resetting gravity back to default
-vsp=0
-hsp=0
+vsp=0;
+hsp=0;
+
+// chearii: we SRB2 in this house (conveyor speeds for moving platforms)
+chsp = 0;
+cvsp = 0;
+
 maxspd = 0; //gets overridden in step event
 accel = 0.5; //how fast you gain speed
 fric = 0.4; //slipperiness

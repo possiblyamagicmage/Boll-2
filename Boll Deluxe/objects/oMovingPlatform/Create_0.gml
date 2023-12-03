@@ -1,3 +1,8 @@
+// chearii: previous x and y positions for movement
+x_prev = x;
+y_prev = y;
+x_diff = 0;
+
 is_semisolid=false;
 dir="right";
 spd=0.5;

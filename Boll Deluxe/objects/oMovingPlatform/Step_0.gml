@@ -3,6 +3,9 @@ if (dirchange) {
 	dir=dirchange.dir
 }
 
+x_prev = x;
+y_prev = y;
+
 switch (dir) {
 	case "right": {
 		x+=spd
@@ -21,3 +24,5 @@ switch (dir) {
 		break;
 	}
 }
+
+x_diff = (x - x_prev);
