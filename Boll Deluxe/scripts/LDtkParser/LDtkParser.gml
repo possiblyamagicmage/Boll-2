@@ -295,8 +295,6 @@ function LDtkLoad(level_name) {
 							gm_field_name = field_name
 						
 						
-						
-						
 						// some types require additional work
 						switch(field_type) {
 							case "Point":

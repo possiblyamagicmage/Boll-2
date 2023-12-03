@@ -75,12 +75,15 @@ function GetTransformedVertices(doOffset, xoff, yoff)
 	xoff = ((xoff == undefined) ? 0 : xoff);
 	yoff = ((yoff == undefined) ? 0 : yoff);
 	
+	
 	if (transformUpdateRequired)
 	{
 		var xo = ((doOffset) ? (-sprite_xoffset) : 0);
 		var yo = ((doOffset) ? (-sprite_yoffset) : 0);
 		
-		var transform = new GMTransform(x + xo + xoff, y + yo + yoff, polyangle);
+		var newy = y + yo + yoff;
+		
+		var transform = new GMTransform(x + xo + xoff, newy, polyangle);
 		
 		for (var i = 0; i < array_length(vertices); i++)
 		{
@@ -313,7 +316,7 @@ function draw_box_poly()
 	draw_line(vt[3].X,vt[3].Y,vt[0].X,vt[0].Y);	
 }
 
-function P_PolygonManager(obj, doOffset = false)
+function P_PolygonManager(obj, doOffset = false, xoff = 0, yoff = 0)
 {
 	if ((obj.x != poly_x_prev)||(obj.y != poly_y_prev)||(polyangle != rot_prev)||(newObjectOverride))
 	{
@@ -324,7 +327,7 @@ function P_PolygonManager(obj, doOffset = false)
 		transformUpdateRequired = false;
 
 	var bodyA = self;
-	var verticesA = GetTransformedVertices(doOffset,obj.sprite_xoffset div 1,obj.sprite_yoffset div 1);
+	var verticesA = GetTransformedVertices(doOffset,(obj.sprite_xoffset + xoff) div 1, (obj.sprite_yoffset + yoff) div 1);
 }
 
 function setup_box_poly(obj,override = undefined)

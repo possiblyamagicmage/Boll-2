@@ -278,6 +278,7 @@
     {"name":"CollageSterlizeGPUState","order":13,"path":"scripts/CollageSterlizeGPUState/CollageSterlizeGPUState.yy",},
     {"name":"input_gamepads_get_status","order":13,"path":"scripts/input_gamepads_get_status/input_gamepads_get_status.yy",},
     {"name":"input_combo_params_reset","order":7,"path":"scripts/input_combo_params_reset/input_combo_params_reset.yy",},
+    {"name":"helper_functions","order":20,"path":"scripts/helper_functions/helper_functions.yy",},
     {"name":"txr_build_loop_body","order":2,"path":"scripts/txr_build_loop_body/txr_build_loop_body.yy",},
     {"name":"__CollageSpriteFileDataClass","order":3,"path":"scripts/__CollageSpriteFileDataClass/__CollageSpriteFileDataClass.yy",},
     {"name":"input_mouse_wheel_up","order":10,"path":"scripts/input_mouse_wheel_up/input_mouse_wheel_up.yy",},

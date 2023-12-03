@@ -339,6 +339,7 @@
     {"id":{"name":"CollageSterlizeGPUState","path":"scripts/CollageSterlizeGPUState/CollageSterlizeGPUState.yy",},},
     {"id":{"name":"input_gamepads_get_status","path":"scripts/input_gamepads_get_status/input_gamepads_get_status.yy",},},
     {"id":{"name":"input_combo_params_reset","path":"scripts/input_combo_params_reset/input_combo_params_reset.yy",},},
+    {"id":{"name":"helper_functions","path":"scripts/helper_functions/helper_functions.yy",},},
     {"id":{"name":"txr_build_loop_body","path":"scripts/txr_build_loop_body/txr_build_loop_body.yy",},},
     {"id":{"name":"__CollageSpriteFileDataClass","path":"scripts/__CollageSpriteFileDataClass/__CollageSpriteFileDataClass.yy",},},
     {"id":{"name":"input_mouse_wheel_up","path":"scripts/input_mouse_wheel_up/input_mouse_wheel_up.yy",},},

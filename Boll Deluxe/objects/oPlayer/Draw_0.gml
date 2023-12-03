@@ -8,7 +8,13 @@ draw_sprite_ext(sprite_index,image_index,x,y,xsc,ysc,rot,c_white,1)
 	}
 }
 
-//draw_box_poly(); // chearii: uncomment for fuckin polygon debug
+var _drawcolor = draw_get_color();
+
+// chearii: uncomment for fuckin polygon debug
+
+//draw_set_color(c_red);
+//draw_box_poly();
+//draw_set_color(_drawcolor);
 
 /*draw_set_alpha(0.5)
 draw_rectangle_color(bbox_left,bbox_top,bbox_right,bbox_bottom,c_red,c_red,c_red,c_red,false)

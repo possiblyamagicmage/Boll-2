@@ -71,11 +71,11 @@ grounded = false;
 // polygons!!!!!
 
 // manage boxpoly
-P_PolygonManager(self,true);
+P_PolygonManager(self,false,0,-8);
 var this = self;
 
 // get our polygon vertices
-var verticesA = GetTransformedVertices(true,sprite_xoffset div 1,sprite_yoffset div 1);
+var verticesA = GetTransformedVertices(true,sprite_xoffset div 1,(sprite_yoffset - 7) div 1);
 
 var clipcheck, clipdiff, clipsave, ynormal, polycos, polyacos, acos_check, docollide;
 
@@ -132,13 +132,30 @@ with(oPolyCollider)
 					}
 				}
 			}
+			
+			//show_debug_message(this.canjump);
 
             // polygon collisions
             if (nrm.Y > 0) // floor
 			{
 				// we hit the floor
-				this.vsp = 0; // switch this out with whatever vertical speed value you're using
+				
+				if (this.vsp > 0)
+					this.vsp = 0; // switch this out with whatever vertical speed value you're using
+				
+				//show_debug_message("collide");
+				this.grounded = true;
 				// use radtodeg(nrm.X) to get the angle of the floor!
+			}
+			else if (nrm.Y > 0.2)
+			{
+				if (this.speedy >= 0)
+					this.speedy = (((16 * cos(nrm.Y)) * 2) div 3) / 16; //32 - (abs(nrm.Y * FRACUNIT) div 1);
+				
+				this.cspeedx = (rotdiff * 4) div 1;
+				
+				this.polycheck = min(4, this.polycheck + 2);
+				show_debug_message("polycheck");
 			}
             else if (abs(acos_check) == abs(polyangle)) // wall
 			{
@@ -274,7 +291,7 @@ if (!akey)
 if ((canjump > 0 && (apress)) 
     || (bufferjump))
 {
-    jump = 1;
+	jump = 1;
     fr = 1;
     bufferjump = 0;
     vsp = -6;
