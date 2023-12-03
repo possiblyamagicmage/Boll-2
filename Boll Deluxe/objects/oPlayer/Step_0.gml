@@ -193,12 +193,14 @@ if (_Platform && bbox_bottom <= _Platform.bbox_top)
     }
 }
 
-coll = instance_place(x + hsp, y, oCollider) if (place_meeting(x + hsp, y, oCollider) &&
+coll = instance_place(x + hsp, y, oCollider);
+if (place_meeting(x + hsp, y, oCollider) &&
                                                  (coll.object_index != oFlipblock ||
                                                   (coll.object_index == oFlipblock &&
                                                    coll.hit == 0 && !place_meeting(x, y, coll))))
 {
-    yPlus = 0;
+	
+	yPlus = 0;
     while (place_meeting(x + hsp, y - yPlus, oCollider) && yPlus <= abs(2 * hsp))
     {
         yPlus += 1;
@@ -243,23 +245,39 @@ if (mplat)
 	chsp = mplat.x_diff;
 }
 
-var speedhtotal;
+var speedhtotal, isFlipBlock;
 
 speedhtotal = ((chsp + hsp) * 16) div 1;
 
 // chearii: ME WHEN GAMEMAKER COLLISION
 // heads up: this means there's currently TWO wall collision routines
 // this just iterates through all potential movements until a collision happens ("future sense")
-var wall;
+var wall, hitTurning;
 
 repeat(abs(speedhtotal))
 {
-	wall = place_meeting(x + (sign(speedhtotal)/16), y, oCollider);
+	wall = instance_place(x + (sign(speedhtotal)/16), y, oCollider);
+	isFlipBlock = false;
 	
 	if (!wall)
 		x += sign(speedhtotal)/16;
 	else
 	{
+		show_debug_message(wall);
+		
+		// chearii: ME QWHEN TURN BLOKCS
+		if ((wall.object_index == oFlipblock) || (wall.object_index == oFlipblockLong))
+			isFlipBlock = true;
+			
+		if (isFlipBlock)
+			show_debug_message("EJFHAKGHJSKDFJSD");
+		
+		if ((isFlipBlock) && (wall.hit))
+		{
+			x += sign(speedhtotal)/16;
+			continue;
+		}
+		
 		hsp = 0;
 	}
 }
@@ -268,22 +286,30 @@ wall = instance_place(x, y, oCollider);
 
 // chearii: unoptimized shitty loop to force the player out of a platform
 // time complexity is O(n)
-if ((wall) && (wall.object_index == oMovingPlatform))
+if ((wall))
 {
-	if(x >= wall.x + ((wall.bbox_right - wall.bbox_left) / 2))
+	isFlipBlock = false;
+	
+	if ((wall.object_index == oFlipblock) || (wall.object_index == oFlipblockLong))
+		isFlipBlock = true;
+		
+	if (!((isFlipBlock) && (wall.hit)))
 	{
-		while(wall)
+		if(x >= wall.x + ((wall.bbox_right - wall.bbox_left) / 2))
 		{
-			x += 1;
-			wall = place_meeting(x, y, oCollider);
+			while(wall)
+			{
+				x += 1;
+				wall = place_meeting(x, y, oCollider);
+			}
 		}
-	}
-	else
-	{
-		while(wall)
+		else
 		{
-			x -= 1;
-			wall = place_meeting(x, y, oCollider);
+			while(wall)
+			{
+				x -= 1;
+				wall = place_meeting(x, y, oCollider);
+			}
 		}
 	}
 }
