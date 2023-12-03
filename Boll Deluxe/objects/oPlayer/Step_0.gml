@@ -143,7 +143,6 @@ with(oPolyCollider)
 				if (this.vsp > 0)
 					this.vsp = 0; // switch this out with whatever vertical speed value you're using
 				
-				//show_debug_message("collide");
 				this.grounded = true;
 				// use radtodeg(nrm.X) to get the angle of the floor!
 			}
@@ -155,7 +154,6 @@ with(oPolyCollider)
 				this.cspeedx = (rotdiff * 4) div 1;
 				
 				this.polycheck = min(4, this.polycheck + 2);
-				show_debug_message("polycheck");
 			}
             else if (abs(acos_check) == abs(polyangle)) // wall
 			{
