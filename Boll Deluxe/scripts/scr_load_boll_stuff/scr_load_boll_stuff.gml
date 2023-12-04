@@ -6,13 +6,13 @@ enum warptypes {
 	fade //maybe???
 }
 enum Contents {
-	coin,
-	ring,
-	mushroom,
-	flower,
-	feather,
-	mini,
-	special,
-	starman,
-	shield
+	Coin,
+	Ring,
+	Mushroom,
+	Flower,
+	Feather,
+	Mini,
+	Special,
+	Starman,
+	Shield
 }
