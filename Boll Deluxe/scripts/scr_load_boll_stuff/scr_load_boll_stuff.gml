@@ -5,7 +5,7 @@ enum warptypes {
 	flagpole,
 	fade //maybe???
 }
-enum contents {
+enum Contents {
 	coin,
 	ring,
 	mushroom,

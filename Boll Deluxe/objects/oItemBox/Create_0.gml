@@ -1,6 +1,6 @@
 event_inherited();
 no_collide = false;
 hitted=0;
-content=contents.mushroom
+content=Contents.mushroom
 
 depth=-1
