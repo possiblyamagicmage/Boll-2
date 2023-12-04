@@ -7,12 +7,13 @@ enum warptypes {
 }
 enum Contents {
 	Coin,
-	Ring,
+	MultiCoins,
 	Mushroom,
 	Flower,
 	Feather,
-	Mini,
-	Special,
+	MiniMush,
+	Ring,
+	Shield,
 	Starman,
-	Shield
+	SpecialShard //maybe???
 }
