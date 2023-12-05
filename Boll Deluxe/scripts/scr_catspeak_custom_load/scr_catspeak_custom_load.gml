@@ -49,3 +49,20 @@ Catspeak.interface.exposeAssetByTag("Catspeak");
 			"rectangle_in_circle", rectangle_in_circle
 		);
 	});
+	
+	catspeak_preset_add("custom", function (interface, keywords) {
+		interface.exposeFunction(
+	        "my_collision", my_collision,
+			"draw_player", draw_player,
+			"wave_val", wave_val,
+			"approach_val", approach_val,
+			"jump_in_direction", jump_in_direction,
+			"chance", chance,
+			"inview", inview,
+			"esign", esign,
+			"modulo", modulo,
+			"draw_text_outline", draw_text_outline,
+			"obj_get_coll", obj_get_coll,
+			"obj_place_meeting", obj_place_meeting
+	    );
+	});
