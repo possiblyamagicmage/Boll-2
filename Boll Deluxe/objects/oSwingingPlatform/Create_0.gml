@@ -12,4 +12,11 @@ image_index=is_semisolid;
 depth=5;
 fr=0
 
+orbit_speed = 4;
+orbit_length = 64;
+orbit_angle = 90;
+
 LDtkReloadFields()
+
+targetx=x;
+targety=y;

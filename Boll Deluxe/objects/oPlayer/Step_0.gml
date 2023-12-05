@@ -258,11 +258,14 @@ mplat = instance_place(x, y + 1, oMovingPlatform)
 if (mplat)
 {
 	chsp = mplat.x_diff;
+	cvsp = mplat.y_diff;
 }
 
 var speedhtotal, isFlipBlock;
 
 speedhtotal = ((chsp + hsp) * 16) div 1;
+
+y += sign(((cvsp + vsp) * 16) div 1)/16;
 
 // chearii: ME WHEN GAMEMAKER COLLISION
 // heads up: this means there's currently TWO wall collision routines
