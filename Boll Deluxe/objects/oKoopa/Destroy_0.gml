@@ -1,0 +1,1 @@
+instance_create_depth(x,y+4,0,pStompedEnemy,{sprite_index : spr_goombastomped});

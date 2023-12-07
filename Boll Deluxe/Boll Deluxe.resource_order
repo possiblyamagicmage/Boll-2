@@ -122,6 +122,7 @@
     {"name":"Stacks","order":14,"path":"folders/Vinyl/Stacks.yy",},
     {"name":"Stopping Audio","order":15,"path":"folders/Vinyl/Stopping Audio.yy",},
     {"name":"Transposition","order":16,"path":"folders/Vinyl/Transposition.yy",},
+    {"name":"Green (Regular)","order":2,"path":"folders/Sprites/Enemies/Koopas/Green (Regular).yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"input_gamepad_get_description","order":5,"path":"scripts/input_gamepad_get_description/input_gamepad_get_description.yy",},
@@ -201,6 +202,7 @@
     {"name":"input_hotswap_params_set","order":1,"path":"scripts/input_hotswap_params_set/input_hotswap_params_set.yy",},
     {"name":"__VinylClassPatternBasic","order":1,"path":"scripts/__VinylClassPatternBasic/__VinylClassPatternBasic.yy",},
     {"name":"image_get_uvs","order":9,"path":"scripts/image_get_uvs/image_get_uvs.yy",},
+    {"name":"spr_koopahitbox","order":2,"path":"sprites/spr_koopahitbox/spr_koopahitbox.yy",},
     {"name":"input_profile_get","order":4,"path":"scripts/input_profile_get/input_profile_get.yy",},
     {"name":"spr_directionchanger","order":5,"path":"sprites/spr_directionchanger/spr_directionchanger.yy",},
     {"name":"scribble_anim_cycle","order":1,"path":"scripts/scribble_anim_cycle/scribble_anim_cycle.yy",},
@@ -530,6 +532,7 @@
     {"name":"input_y","order":5,"path":"scripts/input_y/input_y.yy",},
     {"name":"input_cursor_limit_circle","order":5,"path":"scripts/input_cursor_limit_circle/input_cursor_limit_circle.yy",},
     {"name":"__input_restart_get","order":21,"path":"scripts/__input_restart_get/__input_restart_get.yy",},
+    {"name":"spr_koopawalk_g","order":1,"path":"sprites/spr_koopawalk_g/spr_koopawalk_g.yy",},
     {"name":"input_vibrate_stop","order":8,"path":"scripts/input_vibrate_stop/input_vibrate_stop.yy",},
     {"name":"__input_class_icon_category","order":9,"path":"scripts/__input_class_icon_category/__input_class_icon_category.yy",},
     {"name":"rLevelSelect","order":1,"path":"rooms/rLevelSelect/rLevelSelect.yy",},
