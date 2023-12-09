@@ -176,16 +176,6 @@ function VinylSystemReadConfig(_configData)
     else
     {
         _loadLabelsFunc(_loadLabelsFunc, _inputLabelDict, undefined);
-        
-        //Copy state data from old labels to new labels
-        var _i = 0;
-        repeat(array_length(_newLabelArray))
-        {
-            var _newLabel = _newLabelArray[_i];
-            var _oldLabel = _oldLabelDict[$ _newLabel.__name];
-            if (is_struct(_oldLabel)) _newLabel.__CopyOldState(_oldLabel);
-            ++_i;
-        }
     }
     
     
@@ -206,6 +196,7 @@ function VinylSystemReadConfig(_configData)
     }
     
     //Instantiate basic patterns for each asset in the config data
+    var _assetIndexGetter = VinylLiveUpdateGet()? VinylAssetGetIndex : asset_get_index;
     var _inputAssetDict = _configData[$ "assets"];
     if (is_undefined(_inputAssetDict))
     {
@@ -234,22 +225,8 @@ function VinylSystemReadConfig(_configData)
                 variable_struct_remove(_inputAssetDict, _assetName);
                 array_delete(_assetNameArray, _i, 1);
                 
-                //Build an array of all audio asset names on demand
-                if (!is_array(_audioAssetArray))
-                {
-                    _audioAssetArray = [];
-                    
-                    var _j = 0;
-                    repeat(1000000)
-                    {
-                        if (not audio_exists(_j)) break;
-                        array_push(_audioAssetArray, audio_get_name(_j));
-                        ++_j;
-                    }
-                }
-                
                 //Find all matching assets for the search string
-                var _array = __VinylFindMatchingAudioAssets(_assetName, _audioAssetArray);
+                var _array = __VinylFindMatchingAudioAssets(_assetName);
                 
                 if (array_length(_array) <= 0)
                 {
@@ -289,7 +266,7 @@ function VinylSystemReadConfig(_configData)
             }
             else
             {
-                var _assetIndex = asset_get_index(_assetName);
+                var _assetIndex = _assetIndexGetter(_assetName);
                 if (_assetIndex < 0)
                 {
                     __VinylTrace("Warning! Asset \"", _assetName, "\" doesn't exist");
@@ -446,6 +423,16 @@ function VinylSystemReadConfig(_configData)
     
     
     
+    //Copy state data from old labels to new labels
+    var _i = 0;
+    repeat(array_length(_newLabelArray))
+    {
+        var _newLabel = _newLabelArray[_i];
+        var _oldLabel = _oldLabelDict[$ _newLabel.__name];
+        if (is_struct(_oldLabel)) _newLabel.__CopyOldState(_oldLabel);
+        ++_i;
+    }
+    
     //Migrate all of our patterns to the new dataset
     array_foreach(_globalData.__patternArray, function(_pattern)
     {
@@ -463,6 +450,9 @@ function VinylSystemReadConfig(_configData)
     {
         _knob.__OutputRefresh();
     });
+    
+    //Dump this memory, we don't need it any more
+    __VinylCompiledSoundArrayClear();
     
     //Workaround for problems setting effects on the main audio effect bus in 2023.1
     gc_collect();

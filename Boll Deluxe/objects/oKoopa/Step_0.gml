@@ -1,6 +1,6 @@
 if global.paused || inactive exit
 
-if (in_shell) in_shell--; //Decreases the time for the koopa to get up
+if (in_shell) && (hsp=0) in_shell--; //Decreases the time for the koopa to get up
 
 if !place_meeting(x,y+1,oCollider) && !place_meeting(x,y+1,oSemilider)
 {
@@ -20,8 +20,8 @@ if collision_rectangle(floor(x)-9,floor(y)+8,floor(x)+9,floor(y)+9,oCollider,tru
 coll = instance_place(x+hsp, y-yPlus,oEnemy)
 
 if(coll) && !(coll.inactive){
-        coll.hsp = hsp;
-		hsp = -hsp;
+        coll.hsp = coll.hsp * sign(hsp);
+		hsp = hsp * -1;
 }
 
 var _Platform = instance_place(x, y + vsp, oSemilider);
@@ -82,5 +82,5 @@ if(!place_meeting(x,round(y),oCollider)){
 if hsp != 0 xsc=-esign(hsp,-1)
 
 //Animation
-if (in_shell) { sprite_index = spr_koopashellspin_g; image_speed = abs(hsp)/10;}
+if (in_shell) { sprite_index = spr_koopashellspin_g; image_speed = abs(hsp);}
 else { sprite_index = spr_koopawalk_g; image_speed = 1;}

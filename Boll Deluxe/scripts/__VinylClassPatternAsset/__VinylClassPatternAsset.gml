@@ -16,7 +16,7 @@ function __VinylClassPatternAsset(_name, _adHoc, _child, _asset) : __VinylClassP
     
     static toString = function()
     {
-        return "<asset " + audio_get_name(__asset) + ">";
+        return "<asset " + string(__asset) + " " + audio_get_name(__asset) + ">";
     }
     
     static __StoreAsset = function()
@@ -79,8 +79,9 @@ function __VinylClassPatternAsset(_name, _adHoc, _child, _asset) : __VinylClassP
         return _voice;
     }
     
-    static __PlaySimple = function(_sound_UNUSED, _gain = 1, _pitch = 1, _effectChainName = __effectChainName)
+    static __PlaySimple = function(_sound_UNUSED, _gainLo, _gainHi, _pitchLo, _pitchHi, _labelArray, _effectChainName = __effectChainName)
     {
-        return __VinylPlaySimple(__asset, _gain*__gainLo, _gain*__gainHi, _pitch*__pitchLo, _pitch*__pitchHi, __labelArray, _effectChainName);
+        __VinylAppendArray(__labelArray, _labelArray);
+        return __VinylPlaySimple(__asset, _gainLo*__gainLo, _gainHi*__gainHi, _pitchLo*__pitchLo, _pitchHi*__pitchHi, _labelArray, _effectChainName);
     }
 }

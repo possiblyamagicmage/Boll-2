@@ -1,4 +1,5 @@
-mask_index=spr_goombahitbox
+if (shell_time) mask_index=spr_shellhitbox
+else mask_index=spr_koopahitbox
 
 if hp <= 0{
     instance_destroy();
@@ -11,14 +12,19 @@ if (place_meeting(x,y-1,oPlayer)) { //so the player doesnt jump on the damn goom
 if (!damage_on_contact) {
     if place_meeting(x,y-1,oPlayer) && !phaseid && round(instance_place(x,y-1,oPlayer).vsp) > 0 && !(instance_place(x,y-1,oPlayer).hurt) && !(place_meeting(x-1,y,oPlayer) && place_meeting(x+1,y,oPlayer) && instance_place(x,y,oPlayer).grounded)
     {
+		if (no_stomping) {
+			if (in_shell) {
+				if (hsp=0) hsp = sign(phaseid.image_xscale) * 2.2;
+				else hsp = 0;
+			} else {
+				hsp = 0;
+			}
+			in_shell = shell_time;
+			show_debug_message(in_shell)
+		}
 
         phaseid=instance_place(x,y-1,oPlayer)
         phaseid.vsp=-4-phaseid.akey*1.5
-		
-		if (!no_stomping) {
-			if (in_shell) hsp = phaseid.image_xscale * 3;
-			in_shell = shell_time;
-		}
 
         exit
     }
