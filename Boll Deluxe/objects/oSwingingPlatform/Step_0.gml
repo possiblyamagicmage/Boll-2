@@ -6,10 +6,18 @@ y = ((targety) + lengthdir_y(orbit_length, orbit_angle));
 x_diff = (x - xprevious);
 y_diff = (y - yprevious);
 
-var player = instance_place(x, y -1, oPlayer)
-if (player && player.grounded)
+var player = oPlayer
+if (player && place_meeting(x, y-4, oPlayer))
 {
 	player.x += x_diff;
 	player.y += y_diff;
+	
+}
+
+if (place_meeting(x, y-4, oEnemy))
+{
+	var object = instance_place(x, y-4, oEnemy)
+	object.x += x_diff;
+	object.y += y_diff;
 	
 }
