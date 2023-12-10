@@ -333,7 +333,7 @@ if ((collhit)||(semicoll))
 // still theres something up with the collision loop because the moving platforms should NOT be doing that
 
 
-x += (hsp)/steps;
+x += hsp/steps;
 
 coll = instance_place(x, y + vsp, oCollider);
 if ((coll) && (!coll.no_collide)){
@@ -343,14 +343,7 @@ if ((coll) && (!coll.no_collide)){
     vsp = 0;
 	grounded=true
 }
-y += (vsp)/steps;
-
-if(!place_meeting(x,round(y),oCollider)){
-    y=round(y);
-}
-
-
-
+y += vsp/steps;
 
 
 }
