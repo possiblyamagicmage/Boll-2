@@ -1,12 +1,7 @@
 if global.paused || inactive exit
 
-if !place_meeting(x,y+1,oCollider) && !place_meeting(x,y+1,oSemilider)
-{
-vsp += grav;
-}
-	
 grounded=false
-
+	
 if (edgeturn) && !(turned) && !collision_rectangle(floor(x)+8*sign(hsp),floor(y)+8,floor(x)+9*sign(hsp),floor(y)+9,oCollider,true,true) && !collision_rectangle(floor(x)+8*sign(hsp),floor(y)+8,floor(x)+9*sign(hsp),floor(y)+9,oSemilider,true,true)
 {
 	turned=1
@@ -32,7 +27,9 @@ if (_Platform && bbox_bottom <= _Platform.bbox_top) {
 	}
 }
 
-if (place_meeting(x+hsp,y,oCollider)){
+coll = instance_place(x + hsp, y, oCollider);
+if ((coll) && (!coll.no_collide))
+{
     yPlus = 0;
     while(place_meeting(x+hsp,y-yPlus,oCollider) && yPlus <= abs(2*hsp)){
         yPlus +=1;
@@ -64,7 +61,8 @@ else{
 
 x += hsp;
 
-if (place_meeting(x,y+vsp,oCollider)){
+coll = instance_place(x, y + vsp, oCollider);
+if ((coll) && (!coll.no_collide)){
     while(!place_meeting(x,round(y+sign(vsp)),oCollider)){
         y += sign(vsp);
     }
@@ -78,3 +76,8 @@ if(!place_meeting(x,round(y),oCollider)){
 }
 
 if hsp != 0 xsc=-esign(hsp,-1)
+
+if grounded = false
+{
+vsp += grav;
+}

@@ -87,7 +87,11 @@ if (sprindex_prev != sprite_index)
 	sprindex_prev = sprite_index;
 }
 
-my_collision();
+steps = 1 + abs(floor(hsp/16)) + abs(floor(vsp/16));
+repeat(steps)
+{
+	my_collision();
+}
 
 if (grounded)
     jump = 0;

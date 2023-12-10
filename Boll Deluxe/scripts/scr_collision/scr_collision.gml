@@ -109,6 +109,24 @@ with(oPolyCollider)
 
 // chearii: standard collision stuff below
 // nekonesse: rewrite this i beg of you this sucks ass to manage but i dont know a better way
+// me when the code order issue hits - chopp
+
+coll = instance_place(x + hsp, y, oCollider);
+if ((coll) && (!coll.no_collide)){
+		
+		if(x >= coll.x + ((coll.bbox_right - coll.bbox_left) / 2))
+		{
+			while collider_metting(x + hsp, y){
+				x++
+			}
+		}else{
+			while collider_metting(x + hsp, y){
+				x--
+			}
+		}
+}
+
+//not sure whats happening with the flip platforms tbh
 
 var _Platform = instance_place(x, y + vsp, oSemilider);
 if (_Platform && bbox_bottom <= _Platform.bbox_top)
@@ -170,16 +188,19 @@ mplat = instance_place(x, y + 1, oMovingPlatform)
 
 if (mplat)
 {
-	chsp = mplat.x_diff;
-	cvsp = mplat.y_diff;
+	x += mplat.x_diff;
+	y += mplat.y_diff;
+	
+	//for reasons i cannot fully understand, this causes a while loop freeze?? 
+	//might be a good idea to move this to move outside player script -chopp
 }
 
-var speedhtotal, isFlipBlock;
+//var speedhtotal, isFlipBlock;
 
-speedhtotal = ((chsp + hsp) * 16) div 1;
+//speedhtotal = ((chsp + hsp) * 16) div 1;
 
-y += sign(((cvsp + vsp) * 16) div 1)/16;
-
+//y += sign(((cvsp + vsp) * 16) div 1)/16;
+/*
 // chearii: ME WHEN GAMEMAKER COLLISION
 // heads up: this means there's currently TWO wall collision routines
 // this just iterates through all potential movements until a collision happens ("future sense")
@@ -314,5 +335,37 @@ if ((collhit)||(semicoll))
 	
 	chsp = 0;
 }
+*/
 
+// making collision a "litle worse" here to make sure it actually works -chopp
+// btw this one done before you pointed out the issue you did so umm
+// oops ig this was a litle overkill lol
+// still theres something up with the collision loop because the moving platforms should NOT be doing that
+
+
+x += (hsp)/steps;
+
+coll = instance_place(x, y + vsp, oCollider);
+if ((coll) && (!coll.no_collide)){
+    while(!place_meeting(x,round(y+sign(vsp)),oCollider)){
+        y += sign(vsp);
+    }
+    vsp = 0;
+	grounded=true
+}
+y += (vsp)/steps;
+
+if(!place_meeting(x,round(y),oCollider)){
+    y=round(y);
+}
+
+
+}
+
+function collider_metting(_x,_y){
+	var Solid = instance_place(_x,_y,oCollider)
+	
+	if Solid.no_collide{
+		return true
+	}
 }

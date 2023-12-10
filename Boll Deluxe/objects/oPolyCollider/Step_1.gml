@@ -5,7 +5,7 @@ switch (ptype) {
 	{
 		otime++;
 	
-		polyangle = 22 * sin(degtorad(otime));
+		polyangle = 22 * dsin(otime);
 		break;
 	}
 	case 2:

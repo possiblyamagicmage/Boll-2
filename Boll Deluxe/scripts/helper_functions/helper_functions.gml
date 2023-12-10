@@ -42,3 +42,4 @@ function obj_get_coll(src,_x,_y)
 	
 	return whit;
 }
+
