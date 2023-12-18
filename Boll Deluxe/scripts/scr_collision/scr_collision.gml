@@ -381,6 +381,101 @@ function collision_routine_do_semisolid(obj = self, yspeed = 0)
 	}
 }
 
+// neko's bane
+// TODO: figure out the stupid fucking jittering bug
+function collision_routine_do_slope(obj = self, yspeed = 0)
+{
+	var fracy = intlib_make_fixedpoint(obj.y) >> FRACBITS;
+	
+	var sensor = [ -1, -1, -1 ];
+	
+	// collision is done through a nested loop, because yes
+	var objs, onum, o, ohit;
+	
+	var sensor_x_current = obj.bbox_left div 1;
+	var sx = 0;
+	var sy = 0;
+	var sydiff = 0;
+	
+	ohit = noone;
+	
+	// I hate this as much as you do
+	// O(n) TIMEEEEEEEEEE
+	
+	for (var j = 0; j < 3; j++)
+	{
+		objs = ds_list_create();
+	
+		with (obj)
+			onum = instance_place_list(sensor_x_current, obj.y, oSlopeCollider,objs,false);
+	
+		if (onum > 0)
+		{
+		    for (var i = 0; i < onum; ++i;)
+		    {
+		        o = (objs[| i]);
+			
+				if (o.no_collide)
+					continue;
+				
+				// y = mx + b
+				
+				sx = ((o.hflip) ? max(0, o.bbox_right - (sensor_x_current)) : ((sensor_x_current) - o.bbox_left)) div 1;
+				
+				sy = (( (-o.slopediv) * sx) + o.bbox_bottom) div 1;
+				
+				sydiff = (obj.bbox_bottom - sy);
+				
+				// only get the closest one
+				// unfortunately this means we have to loop through ALL collisions...
+				if (sensor[j] < 0)
+				{
+					sensor[j] = sydiff;
+				}
+				else if (sydiff < sensor[j])
+				{
+					sensor[j] = sydiff;
+				}
+			}
+		}
+	
+		// avoid memleaks
+		ds_list_destroy(objs);
+		
+		sensor_x_current += (intlib_make_s32((obj.bbox_right - obj.bbox_left) / 2));
+	}
+	
+	// sensor comparisons
+	show_debug_message(string(sensor));
+	
+	if ((sensor[0] >= 0) || (sensor[1] >= 0) || (sensor[2] >= 0))
+	{
+		if (sensor[0] >= sensor[1])
+		{
+			if (sensor[0] >= sensor[2])
+			{
+				obj.y -= (sensor[0] - 1);
+				obj.y_frac = intlib_make_fixedpoint(obj.y) >> FRACBITS;
+			}
+			else
+			{
+				obj.y -= (sensor[2] - 1);
+				obj.y_frac = intlib_make_fixedpoint(obj.y) >> FRACBITS;	
+			}
+		}
+		else if (sensor[1] >= sensor[2])
+		{
+			obj.y -= (sensor[1] - 1);
+			obj.y_frac = intlib_make_fixedpoint(obj.y) >> FRACBITS;
+		}
+		else
+		{
+			obj.y -= (sensor[2] - 1);
+			obj.y_frac = intlib_make_fixedpoint(obj.y) >> FRACBITS;	
+		}
+	}
+}
+
 function my_collision(obj = self) 
 {
 	// chearii: damn, I messed up, we gotta go bald
@@ -401,6 +496,8 @@ function my_collision(obj = self)
 	// before we do anything, do future sense for the y coordinate so that we can check if we 
 	// hit a semisolid
 	collision_routine_do_semisolid(obj, fracvsp);
+	
+	collision_routine_do_slope(obj, fracvsp);
 
 	// now, add the speeds to the SUBPIXEL VERSIONS of our coordinates
 	obj.x_frac += frachsp;

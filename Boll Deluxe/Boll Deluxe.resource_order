@@ -688,6 +688,7 @@
     {"name":"input_binding_scan_params_get","order":3,"path":"scripts/input_binding_scan_params_get/input_binding_scan_params_get.yy",},
     {"name":"__VinylEffectChainEnsure","order":11,"path":"scripts/__VinylEffectChainEnsure/__VinylEffectChainEnsure.yy",},
     {"name":"input_vibrate_curve","order":2,"path":"scripts/input_vibrate_curve/input_vibrate_curve.yy",},
+    {"name":"oSlopeCollider","order":3,"path":"objects/oSlopeCollider/oSlopeCollider.yy",},
     {"name":"input_mouse_check_pressed","order":1,"path":"scripts/input_mouse_check_pressed/input_mouse_check_pressed.yy",},
     {"name":"__scribble_gen_9_write_vbuffs","order":9,"path":"scripts/__scribble_gen_9_write_vbuffs/__scribble_gen_9_write_vbuffs.yy",},
     {"name":"input_icon_touch","order":2,"path":"scripts/input_icon_touch/input_icon_touch.yy",},

@@ -838,6 +838,7 @@
     {"id":{"name":"input_binding_scan_params_get","path":"scripts/input_binding_scan_params_get/input_binding_scan_params_get.yy",},},
     {"id":{"name":"__VinylEffectChainEnsure","path":"scripts/__VinylEffectChainEnsure/__VinylEffectChainEnsure.yy",},},
     {"id":{"name":"input_vibrate_curve","path":"scripts/input_vibrate_curve/input_vibrate_curve.yy",},},
+    {"id":{"name":"oSlopeCollider","path":"objects/oSlopeCollider/oSlopeCollider.yy",},},
     {"id":{"name":"__ShdCollagePremultiply","path":"shaders/__ShdCollagePremultiply/__ShdCollagePremultiply.yy",},},
     {"id":{"name":"input_mouse_check_pressed","path":"scripts/input_mouse_check_pressed/input_mouse_check_pressed.yy",},},
     {"id":{"name":"__scribble_gen_9_write_vbuffs","path":"scripts/__scribble_gen_9_write_vbuffs/__scribble_gen_9_write_vbuffs.yy",},},
