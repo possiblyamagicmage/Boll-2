@@ -42,8 +42,6 @@ move = (right - left);
 
 maxspd = 2;
 
-show_debug_message(grounded);
-
 if (move != 0)
 {
     image_speed = 1;
@@ -56,7 +54,10 @@ else
 {
     image_speed = 0;
     image_index = 0;
-	hsp = lerp(hsp, 0, fric);
+
+	// chearii: mhomentunmnm
+	if (grounded)
+		hsp = lerp(hsp, 0, fric);
 }
 
 // Fall off platform
@@ -80,11 +81,6 @@ else
 }
 
 grounded = false;
-groundtime = max(0, groundtime - 1);
-
-if (groundtime)
-	grounded = true;
-
 
 // polygons!!!!!
 //nekonesse: i beg of you turn this into a basic script/function for charm users....
