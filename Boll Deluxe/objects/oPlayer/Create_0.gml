@@ -28,9 +28,11 @@ wallbuffer = 0;
 move_lock = false;
 piped = false; //tell me if you want this gone ok thanks
 grounded = false;
+groundtime = 0;
 dead = 0;
 carrying = 0;
 run=0;
+collflags = 0; // collision flags
 
 sprindex_prev = sprite_index;
 
@@ -45,6 +47,9 @@ image_speed=0
 global.paused=0
 depth=0;
 //instance_change(oPlayerTest,true)
+
+// fracval setup
+setup_frac(self);
 
 // boxpoly setup
 setup_box_poly(self);

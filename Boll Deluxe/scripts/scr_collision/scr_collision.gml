@@ -1,308 +1,382 @@
-function my_collision() {
-//nekonesse: what the fuck did you guys do here its so messy and theres so many redundant collision checks that do nothing
+/// \file  scr_collision.gml
+/// \brief Setup and handling of collision with colloders.
 
-var bbb = max(0, sprite_yoffset - 16);
+// chearii: 256 subpixels, like the sonic hedgehogeghe
+#macro FRACBITS 8
+#macro FRACUNIT 256
+#macro TILE_PIXELS 16
 
-var topbox = (bbox_top - y) div 1;
+// collision flags
+#macro WALL_LEFT  1
+#macro WALL_RIGHT 2
+#macro WALL_FLOOR 4
+#macro WALL_CEIL  8
 
-// manage boxpoly
-P_PolygonManager(self,false,0,-8);
-var this = self;
+#macro WALL_HORIZ 3
+#macro WALL_VERTI 12
 
-// get our polygon vertices
-var verticesA = GetTransformedVertices(false,0,0,true);
-
-var clipcheck, clipdiff, clipsave, ynormal, polycos, polyacos, acos_check, docollide;
-
-// polygon collision handle
-with(oPolyCollider)
+function setup_frac(obj)
 {
-	if (IntersectPolygons(verticesA,GetTransformedVertices(true,sprite_xoffset div 1,sprite_yoffset div 1)))
+	obj.x_frac = intlib_make_fixedpoint(obj.x) >> FRACBITS;
+	obj.y_frac = intlib_make_fixedpoint(obj.y) >> FRACBITS;
+}
+
+// chearii: remind me to add all the other polygon-related functions to charm
+function collision_handle_polygon(obj = self)
+{
+	var bbb = max(0, sprite_yoffset - 16);
+
+	var topbox = (bbox_top - y) div 1;
+
+	// manage boxpoly
+	P_PolygonManager(obj,false,0,-8);
+
+	// get our polygon vertices
+	var verticesA;
+	
+	with(obj)
+		verticesA = GetTransformedVertices(false,0,0,true);
+
+	var clipcheck, clipdiff, clipsave, ynormal, polycos, polyacos, acos_check, docollide;
+
+	// polygon collision handle
+	with(oPolyCollider)
 	{
-		// get the normal and pdepths
-        var nrm = array_get(datapacket,0);
-		var dpt = array_get(datapacket,1);
-
-		ynormal = ((abs(nrm.Y)*100) div 10);
-		polycos = abs((100 * cos(degtorad(polyangle))) div 10);
-		
-        // get the inverse cosine, for wall collisions
-		polyacos = radtodeg(arccos(-nrm.X)) div 1;
-		
-        // some junk for acos_check, mostly just the angle values
-		if ((polyacos > 90) && (polyacos <= 270))
-			acos_check = polyacos-180;
-		else
-			acos_check = polyacos;
-		
-        // reset the datapacket
-		datapacket = undefined;
-		
-        // docollide: only one type of box collision always collides, otherwise its semisolid
-		docollide = ((object_index == oPolyCollider) ? true : ((nrm.Y > 0) ? ((abs(radtodeg(nrm.X)) div 1) < 54) : false ));
-		
-        // clipcheck: check if we've clipped into a tile
-		clipcheck = false;
-		
-		if (docollide)
+		if (IntersectPolygons(verticesA,GetTransformedVertices(true,sprite_xoffset div 1,sprite_yoffset div 1)))
 		{
-			clipcheck = move_obj_by_poly(this, vector_mul(vector_mul(nrm, -1), dpt/2), true, oCollider);
+			// get the normal and pdepths
+	        var nrm = array_get(datapacket,0);
+			var dpt = array_get(datapacket,1);
 
-            if (clipcheck[0]) // if we're clipping...
+			ynormal = ((abs(nrm.Y)*100) div 10);
+			polycos = abs((100 * cos(degtorad(polyangle))) div 10);
+		
+	        // get the inverse cosine, for wall collisions
+			polyacos = radtodeg(arccos(-nrm.X)) div 1;
+		
+	        // some junk for acos_check, mostly just the angle values
+			if ((polyacos > 90) && (polyacos <= 270))
+				acos_check = polyacos-180;
+			else
+				acos_check = polyacos;
+		
+	        // reset the datapacket
+			datapacket = undefined;
+		
+	        // docollide: only one type of box collision always collides, otherwise its semisolid
+			docollide = ((object_index == oPolyCollider) ? true : ((nrm.Y > 0) ? ((abs(radtodeg(nrm.X)) div 1) < 54) : false ));
+		
+	        // clipcheck: check if we've clipped into a tile
+			clipcheck = false;
+		
+			if (docollide)
 			{
-				
-				if (!((abs((clipcheck[2] * 100) div 1)))) && (ynormal == polycos) // ...and our normals and cosine match up...
+				clipcheck = move_obj_by_poly(obj, vector_mul(vector_mul(nrm, -1), dpt/2), true, oCollider);
+
+	            if (clipcheck[0]) // if we're clipping...
 				{
-					// ...check just how severe the clipping is
-                    clipdiff = (this.x - x) div 1;
+				
+					if (!((abs((clipcheck[2] * 100) div 1)))) && (ynormal == polycos) // ...and our normals and cosine match up...
+					{
+						// ...check just how severe the clipping is
+	                    clipdiff = (obj.x - x) div 1;
 					
-					if (abs(clipdiff) <= 4)
-					{
-						// damage threshold, do damage stuff
+						if (abs(clipdiff) <= 4)
+						{
+							// damage threshold, do damage stuff
+						}
+						else
+						{
+							// push the object out of the clip area
+	                        clipsave = ((obj.x div 1) & -16) + 16 * sign(clipdiff);
+							obj.x = clipsave + (sprite_xoffset div 1);
+						}
 					}
-					else
+					else if ((abs((clipcheck[2] * 100) div 1)))
 					{
-						// push the object out of the clip area
-                        clipsave = ((this.x div 1) & -16) + 16 * sign(clipdiff);
-						this.x = clipsave + (sprite_xoffset div 1);
+						// do damage stuff (crushing)
+						//show_debug_message("[oPlayer] vertical clip");
 					}
 				}
-				else if ((abs((clipcheck[2] * 100) div 1)))
+				
+				// even if we're clipping or not, set subpixel values if we have them
+				if (obj.x_frac != undefined)
 				{
-					// do damage stuff (crushing)
-					//show_debug_message("[oPlayer] vertical clip");
+					obj.x_frac = intlib_make_fixedpoint(obj.x) >> 8;	
 				}
-			}
+				
+				if (obj.y_frac != undefined)
+				{
+					obj.y_frac = intlib_make_fixedpoint(obj.y) >> 8;	
+				}
 			
-			//show_debug_message(this.canjump);
+				//show_debug_message(this.canjump);
 
-            // polygon collisions
-            if (nrm.Y > 0) // floor
-			{
-				// we hit the floor
+	            // polygon collisions
+	            if (nrm.Y > 0) // floor
+				{
+					// we hit the floor
 				
-				if (this.vsp > 0)
-					this.vsp = 0; // switch this out with whatever vertical speed value you're using
+					if (obj.vsp > 0)
+						obj.vsp = 0; // switch this out with whatever vertical speed value you're using
 				
-				this.grounded = true;
-				// use radtodeg(nrm.X) to get the angle of the floor!
-			}
-			else if (nrm.Y > 0.2)
-			{
-				if (this.speedy >= 0)
-					this.speedy = (((16 * cos(nrm.Y)) * 2) div 3) / 16; //32 - (abs(nrm.Y * FRACUNIT) div 1);
-				
-				this.cspeedx = (rotdiff * 4) div 1;
-				
-				this.polycheck = min(4, this.polycheck + 2);
-			}
-            else if (abs(acos_check) == abs(polyangle)) // wall
-			{
-				// treat it like a wall
-				if (sign(this.hsp) == sign(nrm.X*10))
-					this.hsp = (sin(degtorad(polyacos))); // rebound!!
-			}
-			else
-				this.vsp = (abs(nrm.Y));
-        }
-	}
-}
-
-// chearii: standard collision stuff below
-// nekonesse: rewrite this i beg of you this sucks ass to manage but i dont know a better way
-// me when the code order issue hits - chopp
-
-coll = instance_place(x + hsp, y, oCollider);
-if ((coll) && (!coll.no_collide)){
-		
-		if(x >= coll.x + ((coll.bbox_right - coll.bbox_left) / 2))
-		{
-			while collider_metting(x + hsp, y){
-				x++
-			}
-		}else{
-			while collider_metting(x + hsp, y){
-				x--
-			}
-		}
-}
-
-//not sure whats happening with the flip platforms tbh
-
-var _Platform = instance_place(x, y + vsp, oSemilider);
-if (_Platform && bbox_bottom <= _Platform.bbox_top)
-{
-    if (vsp > 0)
-    {
-        while (!place_meeting(x, y + sign(vsp), _Platform))
-        {
-            y += sign(vsp);
-        }
-        vsp = 0;
-    }
-}
-
-var speedhtotal, isFlipBlock;
-
-speedhtotal = ((chsp + hsp) * 16) div 1;
-
-//y += sign(((cvsp + vsp) * 16) div 1)/16;
-
-// chearii: ME WHEN GAMEMAKER COLLISION
-// heads up: this means there's currently TWO wall collision routines
-// this just iterates through all potential movements until a collision happens ("future sense")
-var wall, walls, wnum, no_walls, hsign;
-
-no_walls = true;
-
-repeat(abs(speedhtotal))
-{
-	hsign = (sign(speedhtotal)/16);
-	
-	walls = ds_list_create();
-	wnum  = instance_place_list(x + hsign,y,oCollider,walls,false);
-	
-	if (wnum > 0)
-	{
-	    for (var i = 0; i < wnum; ++i;)
-	    {
-	        wall = (walls[| i]);
-			
-			if (wall.no_collide)
-				continue;
-				
-			no_walls = false;
-			break;
+					obj.grounded = true;
+					// use radtodeg(nrm.X) to get the angle of the floor!
+				}
+				else if (nrm.Y > 0.2)
+				{
+					if (obj.vsp >= 0)
+						obj.vsp = (((16 * cos(nrm.Y)) * 2) div 3) / 16; //32 - (abs(nrm.Y * FRACUNIT) div 1);
+				}
+	            else if (abs(acos_check) == abs(polyangle)) // wall
+				{
+					// treat it like a wall
+					if (sign(obj.hsp) == sign(nrm.X*10))
+						obj.hsp = (sin(degtorad(polyacos))); // rebound!!
+				}
+				else
+					obj.vsp = (abs(nrm.Y));
+	        }
 		}
 	}
-	
-	// avoid memleaks
-	ds_list_destroy(walls);
-	
-	if (no_walls)
-		x += sign(speedhtotal)/16;
-	else	
-		hsp = 0;
 }
 
-wall = instance_place(x, y, oCollider);
-
-// chearii: unoptimized shitty loop to force the player out of a platform
-// time complexity is O(n)
-if ((wall))
+function collision_routine_do_xcoll(obj = self)
 {
-	isFlipBlock = false;
+	// 3 sensors for less chances of it fucking up
+	var hsensor_A, hsensor_B, hsensor_C, xdiff, hface;
+	var hitme, hit_dist;
 	
-	if ((wall.object_index == oFlipblock) || (wall.object_index == oFlipblockLong))
-		isFlipBlock = true;
-		
-	if (!((isFlipBlock) && abs(wall.hit)))
+	// sensor distances stored into one value
+	// 0x00CCBBAA
+	var hsensor_dist = 0;
+	var bttm = obj.bbox_bottom - 2;
+	var top = obj.bbox_top + 2;
+	
+	hsensor_A = (intlib_make_fixedpoint(top) >> FRACBITS);
+	hsensor_B = (intlib_make_fixedpoint(bttm - ((bttm - obj.bbox_top) / 2)) >> FRACBITS);
+	hsensor_C = (intlib_make_fixedpoint(bttm) >> FRACBITS);
+	
+	xdiff = ((obj.hsp < 0) ? ((obj.bbox_left) - obj.x) : ((obj.bbox_right) - obj.x)) div 1;
+	hface = ((obj.hsp < 0) ? 0 : 1);
+	
+	var hitx;
+	
+	// chearii: this is horribly messy and I'm really sorry
+	// sensor A
+	hitme = instance_valid_at_position(obj.x + xdiff, hsensor_A >> FRACBITS, oCollider, obj);
+	
+	if (hitme)
 	{
-		if(x >= wall.x + ((wall.bbox_right - wall.bbox_left) / 2))
+		hitx = (hface ? (hitme.bbox_left) : (hitme.bbox_right));
+		
+		if (hface)
+			hsensor_dist |= intlib_make_u8((obj.x + xdiff) - hitx);
+		else
+			hsensor_dist |= intlib_make_u8(hitx - (obj.x + xdiff));
+	}
+		
+	// sensor B
+	hitme = instance_valid_at_position(obj.x + xdiff, hsensor_B >> FRACBITS, oCollider, obj);
+	
+	if (hitme)
+	{
+		hitx = (hface ? (hitme.bbox_left) : (hitme.bbox_right));
+		
+		if (hface)
+			hsensor_dist |= (intlib_make_u8((obj.x + xdiff) - hitx) << 8);
+		else
+			hsensor_dist |= (intlib_make_u8(hitx - (obj.x + xdiff)) << 8);
+	}
+		
+	// sensor C
+	hitme = instance_valid_at_position(obj.x + xdiff, hsensor_C >> FRACBITS, oCollider, obj);
+	
+	if (hitme)
+	{
+		hitx = (hface ? (hitme.bbox_left) : (hitme.bbox_right));
+		
+		if (hface)
+			hsensor_dist |= (intlib_make_u8((obj.x + xdiff) - hitx) << 16);
+		else
+			hsensor_dist |= (intlib_make_u8(hitx - (obj.x + xdiff)) << 16);
+	}
+		
+	if (hsensor_dist != 0) // if this has any value, we've collided with something
+	{
+		var sa, sb, sc;
+		
+		sa = (hsensor_dist & 0xFF);
+		sb = (hsensor_dist >> 8) & 0xFF;
+		sc = (hsensor_dist >> 16);
+		
+		// uncomment for debug
+		//show_debug_message("x sensors: " + string(sa) + ", " + string(sb) + ", " + string(sc));
+		
+		if ((sa > sb) && (sa > sc))
+			obj.x -= sa * (hface ? 1 : -1);
+		else if (sb > sc)
+			obj.x -= sb * (hface ? 1 : -1);
+		else
+			obj.x -= sc * (hface ? 1 : -1);
+			
+		obj.x_frac = intlib_make_fixedpoint(obj.x) >> FRACBITS;
+		
+		return ((hface) ? WALL_RIGHT : WALL_LEFT);
+	}
+	return 0;
+}
+
+function collision_routine_do_ycoll(obj = self)
+{
+	// 3 sensors for less chances of it fucking up
+	var vsensor_A, vsensor_B, vsensor_C, ydiff, vface;
+	var hitme, hit_dist;
+	
+	var collhit = 0;
+	
+	// sensor distances stored into one value
+	// 0x00CCBBAA
+	var vsensor_dist = 0;
+	
+	var l = obj.bbox_left + 3;
+	var r = obj.bbox_right - 3;
+	
+	vsensor_A = (intlib_make_fixedpoint(l) >> FRACBITS);
+	vsensor_B = (intlib_make_fixedpoint(r - ((r - l) / 2)) >> FRACBITS);
+	vsensor_C = (intlib_make_fixedpoint(r) >> FRACBITS);
+	
+	ydiff = ((obj.vsp < 0) ? ((obj.bbox_top) - obj.y) : ((obj.bbox_bottom) - obj.y)) div 1;
+	vface = ((obj.vsp < 0) ? 0 : 1);
+	
+	var hity;
+	
+	// chearii: this is horribly messy and I'm really sorry
+	// sensor A
+	hitme = instance_valid_at_position(vsensor_A >> FRACBITS, obj.y + ydiff, oCollider, obj);
+	
+	if (hitme)
+	{
+		hity = (vface ? hitme.bbox_top : hitme.bbox_bottom);
+		
+		collhit = ((vface) ? WALL_FLOOR : WALL_CEIL);
+		
+		if (vface)
+			vsensor_dist |= intlib_make_u8((obj.y + ydiff) - hity);
+		else
+			vsensor_dist |= intlib_make_u8(hity - (obj.y + ydiff));
+	}
+		
+	// sensor B
+	hitme = instance_valid_at_position(vsensor_B >> FRACBITS, obj.y + ydiff, oCollider, obj);
+	
+	if (hitme)
+	{
+		hity = (vface ? hitme.bbox_top : hitme.bbox_bottom);
+		
+		collhit = ((vface) ? WALL_FLOOR : WALL_CEIL);
+		
+		if (vface)
+			vsensor_dist |= (intlib_make_u8((obj.y + ydiff) - hity) << 8);
+		else
+			vsensor_dist |= (intlib_make_u8(hity - (obj.y + ydiff)) << 8);
+	}
+		
+	// sensor C
+	hitme = instance_valid_at_position(vsensor_C >> FRACBITS, obj.y + ydiff, oCollider, obj);
+	
+	if (hitme)
+	{
+		hity = (vface ? hitme.bbox_top : hitme.bbox_bottom);
+		
+		collhit = ((vface) ? WALL_FLOOR : WALL_CEIL);
+		
+		if (vface)
+			vsensor_dist |= (intlib_make_u8((obj.y + ydiff) - hity) << 16);
+		else
+			vsensor_dist |= (intlib_make_u8(hity - (obj.y + ydiff)) << 16);
+	}
+		
+	if (vsensor_dist != 0) // if this has any value, we've collided with something
+	{
+		var sa, sb, sc;
+		
+		sa = max(0, (vsensor_dist & 0xFF) - vface);
+		sb = max(0, ((vsensor_dist >> 8) & 0xFF) - vface);
+		sc = max(0, ((vsensor_dist >> 16)) - vface);
+		
+		// uncomment for debug
+		//show_debug_message("y sensors: " + string(sa) + ", " + string(sb) + ", " + string(sc));
+		
+		if (sa >= sb)
 		{
-			while(wall)
-			{
-				x += 1;
-				wall = place_meeting(x, y, oCollider);
+			if (sa >= sc)
+            {
+                obj.y -= sa * (vface ? 1 : -1);
 			}
+            else
+            {
+				obj.y -= sc * (vface ? 1 : -1);
+			}
+		}
+		else if (sb >= sc)
+		{
+			obj.y -= sb * (vface ? 1 : -1);
 		}
 		else
 		{
-			while(wall)
-			{
-				x -= 1;
-				wall = place_meeting(x, y, oCollider);
-			}
+			obj.y -= sc * (vface ? 1 : -1);
 		}
-	}
+			
+		obj.y_frac = intlib_make_fixedpoint(obj.y) >> FRACBITS;
+	}	
+	
+	return collhit;
 }
 
-var collhit, vsptotal, semicoll, vsign;
-
-semicoll = false;
-
-vsptotal = ((cvsp + vsp) * 16) div 1;
-
-// vertical collision overhaul with BLEHHHHH nested loops...
-// time complexity is O(n^2) (can be VERY slow given circumstances)
-no_walls = true;
-
-repeat(abs(vsptotal)) 
+function my_collision(obj = self) 
 {
+	// chearii: damn, I messed up, we gotta go bald
+	// chearii: am I NOW just realizing semis are gonna need future sense :fuckedupmiyamoto:
+	
+	obj.collflags = 0;
+	
+	// handle polygons first
+	collision_handle_polygon(obj);
+
+	// okay time for subpixel bullshit
+	
+	var frachsp, fracvsp;
+	
+	// first, make subpixel versions of hsp and vsp
+	frachsp = intlib_make_fixedpoint(obj.hsp) >> FRACBITS;
+	fracvsp = intlib_make_fixedpoint(obj.vsp) >> FRACBITS;
+	
+	// now, add the speeds to the SUBPIXEL VERSIONS of our coordinates
+	obj.x_frac += frachsp;
+	obj.y_frac += fracvsp;
+	
+	obj.x = obj.x_frac >> FRACBITS;
+	obj.y = obj.y_frac >> FRACBITS;
+	
+	// sonic-style "sensor" collision
+	// https://info.sonicretro.org/SPG:Solid_Tiles#Sensors
+	
+	obj.collflags |= collision_routine_do_ycoll(obj);
+	obj.collflags |= collision_routine_do_xcoll(obj);
+	
+	if (obj.collflags & WALL_VERTI)
+	{
+		obj.vsp = 0;	
 		
-	collhit = undefined;
-	
-	//collhit = instance_place(x, y + (sign(vsptotal)/16), oCollider);
-	
-	vsign = (sign(vsptotal)/16);
-	
-	collhit = obj_get_coll(self,x,y + vsign);
-	
-	// no collision, let's try a semisolid
-	if (!collhit) && ((vsp * 16) >= 0)
-	{
-		collhit = instance_place(x, y + (sign(vsptotal)/16), oSemilider);
-			
-		if (collhit) 
-		{
-			if ( ((bbox_bottom - collhit.bbox_top) div 1) > 1)
-				collhit = noone;
-			else
-			{
-				y = (collhit.bbox_top) div 1;
-				semicoll = true;
-			}
-		}
+		if (obj.collflags & WALL_FLOOR)
+			obj.grounded = true;
+		
 	}
 	
-	if (!collhit)
-	{
-		y += sign(vsptotal)/16; 
-	}
-	else 
-	{	
-		var dist = 0;
-			
-		if (collhit)
-			dist = ((y div 1) - ((collhit.y + 8) div 1));
-			
-		vsptotal = 0;
-			
-		vsp = ((dist <= -4) ? (2/16) : 0);
-	    break;
-	}
-}
-
-collhit = obj_get_coll(self,x,y + 1);
-
-if ((collhit)||(semicoll))
-{
-	fr = 0;
-    grounded = true;
+	if (obj.collflags & WALL_HORIZ)
+		obj.hsp = 0;
 	
-	chsp = 0;
-}
-
-
-// making collision a "litle worse" here to make sure it actually works -chopp
-// btw this one done before you pointed out the issue you did so umm
-// oops ig this was a litle overkill lol
-// still theres something up with the collision loop because the moving platforms should NOT be doing that
-
-
-//x += hsp/steps;
-
-/*coll = instance_place(x, y + vsp, oCollider);
-if ((coll) && (!coll.no_collide)){
-    while(!place_meeting(x,round(y+sign(vsp)),oCollider)){
-        y += sign(vsp);
-    }
-    vsp = 0;
-	grounded=true
-}
-y += vsp/steps;*/
-
-
 }
 
 function collider_metting(_x,_y){

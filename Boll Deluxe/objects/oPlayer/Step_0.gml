@@ -1,8 +1,11 @@
 // this just makes sure that vsp and hsp actually work while in a pipe lol
 if (piped)
 {
-    y += vsp;
-    x += hsp;
+    y_frac += intlib_make_fixedpoint(vsp) >> FRACBITS;
+    x_frac += intlib_make_fixedpoint(hsp) >> FRACBITS;
+	
+	x = x_frac >> FRACBITS;
+	y = y_frac >> FRACBITS;
     exit
 }
 
@@ -39,6 +42,8 @@ move = (right - left);
 
 maxspd = 2;
 
+show_debug_message(grounded);
+
 if (move != 0)
 {
     image_speed = 1;
@@ -51,7 +56,7 @@ else
 {
     image_speed = 0;
     image_index = 0;
-    hsp = lerp(hsp, 0, fric);
+	hsp = lerp(hsp, 0, fric);
 }
 
 // Fall off platform
@@ -75,6 +80,10 @@ else
 }
 
 grounded = false;
+groundtime = max(0, groundtime - 1);
+
+if (groundtime)
+	grounded = true;
 
 
 // polygons!!!!!
@@ -87,11 +96,7 @@ if (sprindex_prev != sprite_index)
 	sprindex_prev = sprite_index;
 }
 
-steps = 1 + abs(floor(hsp/16)) + abs(floor(vsp/16));
-repeat(steps)
-{
-	my_collision();
-}
+my_collision();
 
 if (grounded)
     jump = 0;
@@ -109,7 +114,7 @@ if (grounded && down && place_meeting(x, y + 4, oPipeUp))
                 piped = 1;
                 vsp = 1.5;
                 hsp = 0;
-                x = (other.x + (other.sprite_width / 2));
+                x_frac = intlib_make_fixedpoint((other.x + (other.sprite_width / 2))) >> FRACBITS;
             }
             // sorry about the global variables here but the player object isnt
             // persistent so im overpreparing for room reloads lol
@@ -135,6 +140,7 @@ if ((canjump > 0 && (apress))
 	jump = 1;
     fr = 1;
     bufferjump = 0;
+	groundtime = 0;
     vsp = -6;
     canjump = 0;
     canstopjump = 1;

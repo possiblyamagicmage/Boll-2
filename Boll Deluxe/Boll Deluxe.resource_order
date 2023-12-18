@@ -166,6 +166,7 @@
     {"name":"spr_largesambalookl","order":1,"path":"sprites/spr_largesambalookl/spr_largesambalookl.yy",},
     {"name":"VinylStackPush","order":4,"path":"scripts/VinylStackPush/VinylStackPush.yy",},
     {"name":"draw_image_tiled","order":7,"path":"scripts/draw_image_tiled/draw_image_tiled.yy",},
+    {"name":"scr_integer","order":21,"path":"scripts/scr_integer/scr_integer.yy",},
     {"name":"VinylBPMPulseGet","order":2,"path":"scripts/VinylBPMPulseGet/VinylBPMPulseGet.yy",},
     {"name":"scribble_super_glyph_copy","order":2,"path":"scripts/scribble_super_glyph_copy/scribble_super_glyph_copy.yy",},
     {"name":"scr_modulo","order":14,"path":"scripts/scr_modulo/scr_modulo.yy",},

@@ -35,6 +35,7 @@ Catspeak.interface.exposeAssetByTag("Catspeak");
 			"collision_circle_list", collision_circle_list,
 			"collision_ellipse", collision_ellipse,
 			"collision_ellipse_list", collision_ellipse_list,
+			"collision_handle_polygon", collision_handle_polygon,
 			"collision_line", collision_line,
 			"collision_line_list", collision_line_list,
 			"collision_point", collision_point,
