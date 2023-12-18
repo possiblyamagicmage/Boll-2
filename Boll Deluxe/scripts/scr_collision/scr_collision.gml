@@ -1,6 +1,9 @@
 /// \file  scr_collision.gml
 /// \brief Setup and handling of collision with colloders.
 
+// TODO: use the SMW system for moving platforms, god knows they need a redo too
+// also slopes eventually
+
 // chearii: 256 subpixels, like the sonic hedgehogeghe
 #macro FRACBITS 8
 #macro FRACUNIT 256
@@ -334,24 +337,71 @@ function collision_routine_do_ycoll(obj = self)
 	return collhit;
 }
 
+// yspeed should be in subpixels!!!
+function collision_routine_do_semisolid(obj = self, yspeed = 0)
+{
+	var y_future = obj.y_frac;
+	var y_future_pixel = 0;
+	var diff_to_bbottom = (obj.bbox_bottom - obj.y) div 1;
+	var semihit;
+
+	if (abs(yspeed) && (obj.vsp >= 0))
+	{
+		for (var i = 0; i < max(1, abs(yspeed) >> (FRACBITS / 2)); i++)
+		{
+			y_future += (FRACUNIT >> (FRACBITS / 2));
+
+			y_future_pixel = (y_future >> FRACBITS);
+
+			semihit = instance_place(obj.x,y_future_pixel + 1,oSemilider);
+
+			if (semihit)
+			{
+				show_debug_message("hit semi");
+
+				var pixeldist = intlib_make_s32(obj.bbox_bottom - semihit.bbox_top);
+
+				show_debug_message(pixeldist);
+
+				if (pixeldist <= 5)
+				{
+					obj.y = (semihit.bbox_top + 1) - diff_to_bbottom;
+
+					obj.y_frac = intlib_make_fixedpoint(obj.y) >> FRACBITS;
+
+					obj.vsp = 0;
+
+					obj.collflags |= WALL_FLOOR;
+					obj.grounded = true;
+
+					break;
+				}
+			}
+		}
+	}
+}
+
 function my_collision(obj = self) 
 {
 	// chearii: damn, I messed up, we gotta go bald
-	// chearii: am I NOW just realizing semis are gonna need future sense :fuckedupmiyamoto:
 	
+	// reset collision flags
 	obj.collflags = 0;
-	
+
 	// handle polygons first
 	collision_handle_polygon(obj);
 
 	// okay time for subpixel bullshit
-	
 	var frachsp, fracvsp;
 	
 	// first, make subpixel versions of hsp and vsp
 	frachsp = intlib_make_fixedpoint(obj.hsp) >> FRACBITS;
 	fracvsp = intlib_make_fixedpoint(obj.vsp) >> FRACBITS;
 	
+	// before we do anything, do future sense for the y coordinate so that we can check if we 
+	// hit a semisolid
+	collision_routine_do_semisolid(obj, fracvsp);
+
 	// now, add the speeds to the SUBPIXEL VERSIONS of our coordinates
 	obj.x_frac += frachsp;
 	obj.y_frac += fracvsp;
