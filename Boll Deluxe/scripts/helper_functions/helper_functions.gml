@@ -1,5 +1,18 @@
 /// global helper functions
 
+function check_signs_matching(a, b)
+{
+    var fa = intlib_make_fixedpoint(a);
+    var fb = intlib_make_fixedpoint(b);
+
+    var asign, bsign;
+
+    asign = ((fa >= 0) ? 1 : 0);
+    bsign = ((fb >= 0) ? 1 : 0);
+
+    return (asign == bsign);
+}
+
 function obj_place_meeting(src,x,y,obj)
 {
 	var meet = false;

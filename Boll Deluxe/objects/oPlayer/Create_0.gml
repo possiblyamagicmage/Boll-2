@@ -12,8 +12,11 @@ chsp = 0;
 cvsp = 0;
 
 maxspd = 0; //gets overridden in step event
-accel = 0.5; //how fast you gain speed
-fric = 0.4; //slipperiness
+
+// chearii: accel and friction were 0.5 and 0.4, respectively. I'm just changing them to their SMW values
+accel = 0.09375; //how fast you gain speed
+fastaccel = 0.3125; // accel during a turnaround
+fric = 0.0625; //slipperiness
 move=0
 
 xsc=1

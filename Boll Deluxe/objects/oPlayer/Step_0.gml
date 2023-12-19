@@ -46,7 +46,10 @@ if (move != 0)
 {
     image_speed = 1;
 
-    hsp += (move * accel);
+    var signmatch = check_signs_matching(hsp, move);
+    var accel_real = ((signmatch) ? accel : fastaccel);
+
+    hsp += (move * accel_real);
 
     hsp = clamp(hsp, -maxspd, maxspd);
 }
