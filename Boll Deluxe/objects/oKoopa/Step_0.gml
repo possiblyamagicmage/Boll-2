@@ -5,13 +5,16 @@ if (in_shell) && (hsp=0) in_shell--; //Decreases the time for the koopa to get u
 event_inherited();
 
 enemy=instance_place(x,y,oEnemy)
-if (in_shell) && (abs(hsp)) {
-	if !(enemy.unshellable) {
-		enemy.killtype="shell";
-		enemy.killdir = sign(hsp);
-		instance_destroy(enemy);
-	} else {
-		instance_destroy();
+
+if (enemy != noone) { //make sure shell is actually colliding with an enemy before trying to kill the enemy it collided with???
+	if (in_shell) && (abs(hsp)) {
+		if !(enemy.unshellable) {
+			enemy.killtype="shell";
+			enemy.killdir = sign(hsp);
+			instance_destroy(enemy);
+		} else {
+			instance_destroy();
+		}
 	}
 }
 
