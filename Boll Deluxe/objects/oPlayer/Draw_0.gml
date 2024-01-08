@@ -24,7 +24,13 @@ draw_set_color(c_red);
 draw_box_poly();
 draw_set_color(_drawcolor);*/
 
-/*draw_set_alpha(0.5)
+draw_set_alpha(0.5)
 draw_rectangle_color(bbox_left,bbox_top,bbox_right,bbox_bottom,c_red,c_red,c_red,c_red,false)
 draw_set_alpha(1)
-*/
+
+draw_line(x div 1,bbox_bottom div 1, (x div 1) + 1, bbox_bottom div 1);
+draw_line(bbox_right div 1,bbox_bottom div 1, (bbox_right div 1) + 1, bbox_bottom div 1);
+
+var bboxvsheight = abs(sprite_height - (abs(bbox_bottom - bbox_top) div 1));
+
+draw_line_color(x div 1, (y - sprite_yoffset) div 1, x div 1, ((y - sprite_yoffset) div 1) + bboxvsheight, c_red, c_red);
