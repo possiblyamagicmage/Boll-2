@@ -203,6 +203,7 @@
     {"name":"input_cursor_elastic_remove","order":1,"path":"scripts/input_cursor_elastic_remove/input_cursor_elastic_remove.yy",},
     {"name":"scr_chance","order":9,"path":"scripts/scr_chance/scr_chance.yy",},
     {"name":"input_player_get_gamepad_type","order":7,"path":"scripts/input_player_get_gamepad_type/input_player_get_gamepad_type.yy",},
+    {"name":"scr_animdat","order":23,"path":"scripts/scr_animdat/scr_animdat.yy",},
     {"name":"__input_ensure_unique_verb_name","order":12,"path":"scripts/__input_ensure_unique_verb_name/__input_ensure_unique_verb_name.yy",},
     {"name":"__CollageImageUVsClass","order":2,"path":"scripts/__CollageImageUVsClass/__CollageImageUVsClass.yy",},
     {"name":"scribble_super_glyph_copy_all","order":3,"path":"scripts/scribble_super_glyph_copy_all/scribble_super_glyph_copy_all.yy",},

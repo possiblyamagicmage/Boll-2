@@ -286,6 +286,7 @@
     {"id":{"name":"input_cursor_elastic_remove","path":"scripts/input_cursor_elastic_remove/input_cursor_elastic_remove.yy",},},
     {"id":{"name":"scr_chance","path":"scripts/scr_chance/scr_chance.yy",},},
     {"id":{"name":"input_player_get_gamepad_type","path":"scripts/input_player_get_gamepad_type/input_player_get_gamepad_type.yy",},},
+    {"id":{"name":"scr_animdat","path":"scripts/scr_animdat/scr_animdat.yy",},},
     {"id":{"name":"__input_ensure_unique_verb_name","path":"scripts/__input_ensure_unique_verb_name/__input_ensure_unique_verb_name.yy",},},
     {"id":{"name":"__CollageImageUVsClass","path":"scripts/__CollageImageUVsClass/__CollageImageUVsClass.yy",},},
     {"id":{"name":"scribble_super_glyph_copy_all","path":"scripts/scribble_super_glyph_copy_all/scribble_super_glyph_copy_all.yy",},},

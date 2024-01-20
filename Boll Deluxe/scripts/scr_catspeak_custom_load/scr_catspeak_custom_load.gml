@@ -68,6 +68,9 @@ Catspeak.interface.exposeAssetByTag("Catspeak");
 			"modulo", modulo,
 			"draw_text_outline", draw_text_outline,
 			"obj_get_coll", obj_get_coll,
-			"obj_place_meeting", obj_place_meeting
+			"obj_place_meeting", obj_place_meeting,
+			"inview", inview,
+			"esign", esign,
+			
 	    );
 	});
