@@ -31,7 +31,11 @@ function check_collision_dot(x1, y1, type = 0, object = oCollider){
 				//awesome
 			break;
 			case COL_BOTTOM:
-				//awesome
+				if found.slope { 
+					colslope = found.slope_factor * (-1 + (found.hflip* 2))
+				}else{
+					colslope = 0
+				}
 			break;
 			case COL_WALL:
 				if found.semi { found = noone}

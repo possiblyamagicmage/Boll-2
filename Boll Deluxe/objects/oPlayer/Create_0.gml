@@ -41,7 +41,7 @@ sprindex_prev = sprite_index;
 canstopjump=1;
 jump=0;
 steps = 0
-
+colslope = 0
 hurt=0;
 size=0;
 oldsize=0;

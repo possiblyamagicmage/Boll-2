@@ -47,6 +47,10 @@ function player_movement(){
 		if (grounded)
 			hsp = lerp(hsp, 0, fric);
 	}
+	
+	if (grounded) {
+		hsp += 0.1 * colslope
+	}
 
 	// Fall off platform
 	if (!grounded)
