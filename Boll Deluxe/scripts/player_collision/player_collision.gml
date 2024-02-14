@@ -5,7 +5,6 @@
 
 function player_collision(){
 	
-
 	for (var i = 0; i < 16; ++i) {
 		//left wall
 	    if check_collision_dot(bbox_left, y, COL_WALL){
@@ -65,26 +64,28 @@ function player_collision(){
 			}
 		
 		
-		//move up
-		for (var i = 0; i < 16; ++i) {
-		    if (check_collision_dot(bbox_right,bbox_bottom, COL_BOTTOM)
-				or check_collision_dot(bbox_left,bbox_bottom, COL_BOTTOM)) {
-				y--
-			}else{
-				break;
-			}
-		}
-		
 		//move down
 		for (var i = 0; i < 16; ++i) {
 		    if (!check_collision_dot(bbox_right,bbox_bottom, COL_BOTTOM)
-				and !check_collision_dot(bbox_left,bbox_bottom, COL_BOTTOM)) {
+				&& !check_collision_dot(bbox_left,bbox_bottom, COL_BOTTOM)) {
 				y++
 			}else{
-				break;
+				break;	
+			}
+		}
+		
+		//move up
+		for (var i = 0; i < 16; ++i) {
+		    if (check_collision_dot(bbox_right,bbox_bottom, COL_BOTTOM)
+				|| check_collision_dot(bbox_left,bbox_bottom, COL_BOTTOM)) {
+				y--
+			}else{
+				break;	
 			}
 		}
 		
 	}
+	
+	//ds_list_destroy(mycollisions)
 	
 }

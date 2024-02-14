@@ -11,6 +11,9 @@
 
 function check_collision_dot(x1, y1, type = 0, object = oCollider){
 	
+	x1 = round(x1)
+	y1 = round(y1)
+	
 	var found = noone
 	found =	collision_point(x1 ,y1,object,true,true)	
 	
@@ -43,6 +46,11 @@ function check_collision_dot(x1, y1, type = 0, object = oCollider){
 }
 
 function check_collision_line(x1, y1, x2, y2, type = 0, object = oCollider){
+	
+	x1 = round(x1)
+	x2 = round(x2)
+	y1 = round(y1)
+	y2 = round(y2)
 	
 	var found = noone
 	found =	collision_line(x1,y1,x2,y2,object,true,true)	

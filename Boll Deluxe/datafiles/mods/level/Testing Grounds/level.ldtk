@@ -2913,6 +2913,54 @@
 							"fieldInstances": [],
 							"__worldX": 480,
 							"__worldY": 336
+						},
+						{
+							"__identifier": "Collider",
+							"__grid": [36,16],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 15, "x": 64, "y": 0, "w": 16, "h": 16 },
+							"__smartColor": "#BE4A2F",
+							"iid": "938dae70-b0a0-11ee-a104-4317b802c549",
+							"width": 16,
+							"height": 16,
+							"defUid": 1,
+							"px": [576,256],
+							"fieldInstances": [],
+							"__worldX": 576,
+							"__worldY": 256
+						},
+						{
+							"__identifier": "Collider",
+							"__grid": [22,24],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 15, "x": 64, "y": 0, "w": 16, "h": 16 },
+							"__smartColor": "#BE4A2F",
+							"iid": "95033770-b0a0-11ee-a104-cf3cfc73cb8c",
+							"width": 16,
+							"height": 16,
+							"defUid": 1,
+							"px": [352,384],
+							"fieldInstances": [],
+							"__worldX": 352,
+							"__worldY": 384
+						},
+						{
+							"__identifier": "Collider",
+							"__grid": [4,24],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 15, "x": 64, "y": 0, "w": 16, "h": 16 },
+							"__smartColor": "#BE4A2F",
+							"iid": "95bcea80-b0a0-11ee-a104-e1cbb7f08f5b",
+							"width": 16,
+							"height": 16,
+							"defUid": 1,
+							"px": [64,384],
+							"fieldInstances": [],
+							"__worldX": 64,
+							"__worldY": 384
 						}
 					]
 				}
