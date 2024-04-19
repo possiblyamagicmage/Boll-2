@@ -815,6 +815,7 @@
     {"name":"scribble_font_add_from_sprite","order":2,"path":"scripts/scribble_font_add_from_sprite/scribble_font_add_from_sprite.yy",},
     {"name":"spr_goombratwalkshell","order":1,"path":"sprites/spr_goombratwalkshell/spr_goombratwalkshell.yy",},
     {"name":"input_binding_scan_params_set","order":4,"path":"scripts/input_binding_scan_params_set/input_binding_scan_params_set.yy",},
+    {"name":"oBackgroundManager","order":7,"path":"objects/oBackgroundManager/oBackgroundManager.yy",},
     {"name":"CollageImageAsync","order":5,"path":"scripts/CollageImageAsync/CollageImageAsync.yy",},
     {"name":"VinylPanSet","order":13,"path":"scripts/VinylPanSet/VinylPanSet.yy",},
     {"name":"spr_longflipblock","order":1,"path":"sprites/spr_longflipblock/spr_longflipblock.yy",},

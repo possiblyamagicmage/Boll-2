@@ -990,6 +990,7 @@
     {"id":{"name":"scribble_font_add_from_sprite","path":"scripts/scribble_font_add_from_sprite/scribble_font_add_from_sprite.yy",},},
     {"id":{"name":"spr_goombratwalkshell","path":"sprites/spr_goombratwalkshell/spr_goombratwalkshell.yy",},},
     {"id":{"name":"input_binding_scan_params_set","path":"scripts/input_binding_scan_params_set/input_binding_scan_params_set.yy",},},
+    {"id":{"name":"oBackgroundManager","path":"objects/oBackgroundManager/oBackgroundManager.yy",},},
     {"id":{"name":"CollageImageAsync","path":"scripts/CollageImageAsync/CollageImageAsync.yy",},},
     {"id":{"name":"VinylPanSet","path":"scripts/VinylPanSet/VinylPanSet.yy",},},
     {"id":{"name":"spr_longflipblock","path":"sprites/spr_longflipblock/spr_longflipblock.yy",},},
