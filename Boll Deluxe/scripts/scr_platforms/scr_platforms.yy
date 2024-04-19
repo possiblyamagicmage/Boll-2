@@ -1,9 +1,9 @@
 {
   "$GMScript":"",
-  "%Name":"scr_collision",
+  "%Name":"scr_platforms",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_collision",
+  "name":"scr_platforms",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",

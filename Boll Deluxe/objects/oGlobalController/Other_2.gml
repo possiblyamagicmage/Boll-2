@@ -5,3 +5,4 @@ if file_exists("keybinds.ini")
 		else SaveStringToFile("keybinds.ini",input_player_export())
 }
 global.roomTimer=0
+global.freezeframe = false;

@@ -894,7 +894,7 @@
     {"id":{"name":"draw_image_stretched_ext","path":"scripts/draw_image_stretched_ext/draw_image_stretched_ext.yy",},},
     {"id":{"name":"__input_gamepad_stop_trigger_effects","path":"scripts/__input_gamepad_stop_trigger_effects/__input_gamepad_stop_trigger_effects.yy",},},
     {"id":{"name":"__input_class_trigger_effect_off","path":"scripts/__input_class_trigger_effect_off/__input_class_trigger_effect_off.yy",},},
-    {"id":{"name":"scr_collision","path":"scripts/scr_collision/scr_collision.yy",},},
+    {"id":{"name":"scr_platforms","path":"scripts/scr_platforms/scr_platforms.yy",},},
     {"id":{"name":"input_binding_get_source_type","path":"scripts/input_binding_get_source_type/input_binding_get_source_type.yy",},},
     {"id":{"name":"input_check_long","path":"scripts/input_check_long/input_check_long.yy",},},
     {"id":{"name":"shd_pal_swapper","path":"shaders/shd_pal_swapper/shd_pal_swapper.yy",},},
