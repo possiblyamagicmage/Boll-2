@@ -24,6 +24,14 @@ function intlib_test()
 	show_debug_message(intlib_make_fixedpoint(0.5));
 }
 
+// make_s32
+// simulates a 32 bit signed integer
+function make_s32(num)
+{
+	var _num = num & 0xFFFFFFFF;
+	return (_num >= (1 << 31) ? (_num - (1<<32)) : _num);	
+}
+
 show_debug_message(intlib_initmsg);
 if (INTLIB_RUNTEST)
 	intlib_test();
