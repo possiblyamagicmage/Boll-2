@@ -15,7 +15,7 @@ function P_BrownSpinningPlatform(obj)
 {
     var sVar1; // short/int16
     var cVar1;
-	var addr;
+	var sin_prev, sin_new;
 
     if (global.freezeframe) 
     {
@@ -52,7 +52,6 @@ function P_BrownSpinningPlatform(obj)
     obj.sinedata = cVar1; // sine data
 	
 	// momentum to pass to the player
-    // subpixels don't exist in boll!!!
 	obj.var6 = ((intlib_make_s16(obj.sinedata) * (16 * 103)) / 100) / 16;
 	
 	
