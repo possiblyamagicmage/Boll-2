@@ -71,21 +71,24 @@ drawStar=false
 
 ///// EVENT SETUP /////
 _loopThrough = function(_lookfor) { //Function to go through and collect string from specific parts of the GML file
-	var _code	=file_text_open_read($"{working_directory}\\_vanilla\\character\\{charmName}\\{charmName}.gml");
-	var _str	="",
-		_cur	=file_text_read_string(_code);
+	var _code		=file_text_open_read($"{working_directory}\\_vanilla\\character\\{charmName}\\{charmName}.gml");
+	var _str		="",
+		_cur		=file_text_read_string(_code),
+		_NLstr		="",
+		_fileSTR	="";
 	
 	//Looking for our section
 	while (_cur!=$"#define {_lookfor}") {
 		file_text_readln(_code);
 		_cur	=file_text_read_string(_code);
-		show_debug_message(_cur);
 	}
 	//Getting the code from our section
-	while (!file_text_eof(_code) and !string_starts_with(_str,"#define")) {
+	while (!file_text_eof(_code) and !string_starts_with(_NLstr,"#define")) {
 	    file_text_readln(_code);
-	    _str += file_text_read_string(_code);
-		show_debug_message(_str);
+		_fileSTR	=file_text_read_string(_code);
+		_NLstr		=_fileSTR;
+		if (!string_starts_with(_NLstr,"#define"))
+			_str +=$"{_fileSTR}\n";
 	}
 	file_text_close(_code);
 	
@@ -95,11 +98,11 @@ _loopThrough = function(_lookfor) { //Function to go through and collect string 
 
 _createEvent = txr_compile(_loopThrough("create"));
 if (_createEvent == undefined) {
-    show_debug_message(txr_error);
+    show_message(txr_error);
 } 
 txr_exec(_createEvent);
 
 _stepEvent = txr_compile(_loopThrough("step"));
 if (_stepEvent == undefined) {
-    show_debug_message(txr_error);
+    show_message(txr_error);
 } 

@@ -3,9 +3,10 @@ test = 0;
 
 #define step
 player_movement();
+player_collision();
 
 // polygons!!!!!
-//nekonesse: i beg of you turn this into a basic script/function for charm users....
+// nekonesse: i beg of you turn this into a basic script/function for charm users....
 
 // check to see if we need to update the polybox
 if (sprindex_prev != sprite_index) {
@@ -13,30 +14,29 @@ if (sprindex_prev != sprite_index) {
 	sprindex_prev = sprite_index;
 }
 
-player_collision();
-
-if (grounded)
-    jump = 0;
+// if (grounded) {
+    // jump = 0;
+// }
 
 // Pipes ??? (works now)
-if (grounded && down && place_meeting(x, y + 4, oPipeUp)) {  
-    with instance_place(x, y + 4, oPipeUp) {
-        if (canenter) {
-            with other {  
-                alarm[3] = 80;
-                piped = 1;
-                vsp = 1.5;
-                hsp = 0;
-                //x_frac = intlib_make_fixedpoint((other.x + (other.sprite_width / 2))) >> FRACBITS;
-            }
-            // sorry about the global variables here but the player object isnt
-            // persistent so im overpreparing for room reloads lol
-            global.exitlocation = target;  
+// if (grounded && down && place_meeting(x, y + 4, oPipeUp)) {  
+    // with instance_place(x, y + 4, oPipeUp) {
+        // if (canenter) {
+            // with other {  
+                // alarm[3] = 80;
+                // piped = 1;
+                // vsp = 1.5;
+                // hsp = 0;
+                // //x_frac = intlib_make_fixedpoint((other.x + (other.sprite_width / 2))) >> FRACBITS;
+            // }
+            // // sorry about the global variables here but the player object isnt
+            // // persistent so im overpreparing for room reloads lol
+            // global.exitlocation = target;  
             
-            global.exittype = warptypes.pipe;  
-        }
-    }
-}
+            // global.exittype = warptypes.pipe;  
+        // }
+    // }
+// }
 
 coll = instance_place(x, y, oMushroom);
 
@@ -46,7 +46,7 @@ if (coll) {
     if (size < 1)
         size = 1;
 
-    alarm[11] = 60;
+    //alarm[11] = 60;
     instance_destroy(coll);
 }
 
@@ -55,8 +55,8 @@ switch (size) {
 	default:
 	case 0:
 		sprite_index = spr_player;
-		break;
+	break;
 	case 1:
 		sprite_index = spr_playerbig;
-		break;
+	break;
 }

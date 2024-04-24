@@ -208,6 +208,9 @@ function txr_parse(argument0) {
 	                switch (name) {
 	                    case "true": ds_list_add(out, [txr_token.number, inf,true]); break;
 	                    case "false": ds_list_add(out, [txr_token.number, inf,false]); break;
+						
+						case "oPipeUp": ds_list_add(out, [txr_token.number, inf,oPipeUp]); break;
+						
 	                    case "mod": ds_list_add(out, [txr_token.op, inf, txr_op.fmod]); break;
 	                    case "div": ds_list_add(out, [txr_token.op, inf, txr_op.idiv]); break;
 	                    case "if": ds_list_add(out, [txr_token._if, inf]); break;
