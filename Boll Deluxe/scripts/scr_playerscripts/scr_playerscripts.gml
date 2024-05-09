@@ -27,6 +27,7 @@ function skin_getarray(_sett) {
 		file_text_close(File);
 		return split_string(_string,",");
 	}
+	file_text_close(File);
 }
 
 function get_spriteindex() { //returns the array index of the player's current sprite
@@ -39,7 +40,7 @@ function get_spriteindex() { //returns the array index of the player's current s
 }
 
 function skin_animationdata(slot,name,list,size) {
-	var i,j,p,t,spr,tokens2,c2,sizename;
+	var i,j,p,t,spr,tokens2,sizename;
 
 	switch (size){
 	    case 0: sizename="basic" break;
@@ -52,7 +53,6 @@ function skin_animationdata(slot,name,list,size) {
 
 	for (i=0;i<array_length(list);i+=1) {
 	    //k=16+128*i //1d array :P
-
 	    /*
 	        k value table
 	        k+0 animation name
