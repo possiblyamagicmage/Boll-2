@@ -5,10 +5,14 @@ array_push(sprite_list,"stand","wait","lookup","pose","crouch","hurt","dead","wa
 #define create
 jump = 0;
 
+
 #define step
 player_movement();
 player_collision();
 //show_debug_message(test[3]);
+
+
+
 
 // polygons!!!!!
 // nekonesse: i beg of you turn this into a basic script/function for charm users....
@@ -57,3 +61,10 @@ if (vsp>0) sprite="fall"
 else if (jump) sprite="jump"
 else if (left || right) sprite="walk"
 else sprite="stand"
+
+//chopp: to handle any signals, make sure you define the code here with the same name 
+
+#define jumped
+
+show_debug_message("Situation becomes worse....");
+

@@ -209,7 +209,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.2.0.132",
+    "IDEVersion":"2024.4.0.137",
   },
   "name":"Boll Deluxe",
   "resources":[
@@ -223,7 +223,6 @@
     {"id":{"name":"INTLIB_README","path":"notes/INTLIB_README/INTLIB_README.yy",},},
     {"id":{"name":"input_controller_object","path":"objects/input_controller_object/input_controller_object.yy",},},
     {"id":{"name":"oBackgroundManager","path":"objects/oBackgroundManager/oBackgroundManager.yy",},},
-    {"id":{"name":"oGameManager","path":"objects/oGameManager/oGameManager.yy",},},
     {"id":{"name":"oChainsaw","path":"objects/oChainsaw/oChainsaw.yy",},},
     {"id":{"name":"oCollider","path":"objects/oCollider/oCollider.yy",},},
     {"id":{"name":"oDirectionChanger","path":"objects/oDirectionChanger/oDirectionChanger.yy",},},
@@ -231,6 +230,7 @@
     {"id":{"name":"oEnemy","path":"objects/oEnemy/oEnemy.yy",},},
     {"id":{"name":"oFlipblock","path":"objects/oFlipblock/oFlipblock.yy",},},
     {"id":{"name":"oFlipblockLong","path":"objects/oFlipblockLong/oFlipblockLong.yy",},},
+    {"id":{"name":"oGameManager","path":"objects/oGameManager/oGameManager.yy",},},
     {"id":{"name":"oGlobals","path":"objects/oGlobals/oGlobals.yy",},},
     {"id":{"name":"oGoomba","path":"objects/oGoomba/oGoomba.yy",},},
     {"id":{"name":"oGoombrat","path":"objects/oGoombrat/oGoombrat.yy",},},
@@ -790,6 +790,7 @@
     {"id":{"name":"scr_playerscripts","path":"scripts/scr_playerscripts/scr_playerscripts.yy",},},
     {"id":{"name":"scr_retro_pal_swapper_utilities","path":"scripts/scr_retro_pal_swapper_utilities/scr_retro_pal_swapper_utilities.yy",},},
     {"id":{"name":"scr_retro_pal_swapper","path":"scripts/scr_retro_pal_swapper/scr_retro_pal_swapper.yy",},},
+    {"id":{"name":"scr_signals","path":"scripts/scr_signals/scr_signals.yy",},},
     {"id":{"name":"scr_slope","path":"scripts/scr_slope/scr_slope.yy",},},
     {"id":{"name":"scr_text_outline","path":"scripts/scr_text_outline/scr_text_outline.yy",},},
     {"id":{"name":"scr_waveval","path":"scripts/scr_waveval/scr_waveval.yy",},},

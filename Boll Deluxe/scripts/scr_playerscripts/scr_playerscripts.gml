@@ -77,11 +77,41 @@ function skin_animationdata(slot,name,list,size) {
 	    //read animation loop
 	    loops_list[i]=max(1,nozerounreal(skin_setting(sizename+" "+string(spr)+" loop"),skin_setting(string(spr)+" loop")))
       
+
 		//read frametimes
 		if is_array(skin_getarray(string(spr)+" frametimes"))
 		times_list[i]=skin_getarray(string(spr)+" frametimes")
 		else
 		times_list[i]=array_create(frames_list[i])
+
+		//show_message(times_list)
+    
+    
+	    /*list=string(skin_setting(sizename+" "+string(spr)+" frametimes"))
+	    if list="" || list="0"  list=string(skin_setting(string(spr)+" frametimes"))
+
+	    c2=0
+	    do {
+	        p=string_pos(",",list)
+	        if (p=0) {if (list!="") tokens2[c2]=list c2+=1}
+	        else {
+	            tokens2[c2]=string_copy(list,1,p-1) c2+=1
+				show_message(tokens2[c2])
+	            list=string_delete(list,1,p)
+	        }
+	    } until (p=0)
+		
+		var spri=get_spriteindex() //sprite list index
+	    if (list="" || list="0") {
+	        for (j=0;j<frames_list[i];j+=1) {
+	            times_list[spri,j]=1 //if frame time is not found, set to default
+	        }
+	    } else {
+	        for (j=0;j<frames_list[i];j+=1) {
+	            times_list[spri,j]=max(1,unreal(tokens2[j],1)) //else if found, set frametime array map of sprite index to frame time value
+	        }
+	    }*/
+
 	}
 	box_width=max(2,nozerounreal(skin_setting(sizename+" box width"),skin_setting("box width")))-1
 	box_height=max(2,nozerounreal(skin_setting(sizename+" box height"),skin_setting("box height")))-1
@@ -99,7 +129,7 @@ function init_player() { //make this load animation data later
 	times_list[0]=1;
 	speed_list=[1];
 	fr=0;
-	sprite="stand";
+	sprite="idle";
 	xsc=1;
 	ysc=1;
 	sprite_angle=0;
@@ -165,3 +195,4 @@ function animate_player() {
 	//below is the code that deals with taking damage, as well as growing, commented out just in case rn
 	//if (!super) if (((hurt || fall=6) && hk<4) || (grow && gk mod 6<3)) size=mem
 }
+

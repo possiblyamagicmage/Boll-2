@@ -1,3 +1,19 @@
+//PLAYER SIGNALS
+sig = new Signal();
+
+sig.Connect( self, function(str_var) {
+    
+	//show_debug_message("Situation becomes worse....");
+	
+	var Event = txr_compile(_loopThrough(str_var));
+	if (Event == undefined) {
+	  show_message(txr_error);
+	} 
+	txr_exec(Event);
+	
+    //return true;
+});
+
 // Palette
 pal_swap_init_system(shd_pal_swapper);
 palette=0
@@ -14,6 +30,7 @@ grav=0.25; //we're having an actual grav var now because changing gravity should
 defaultgrav = grav; //for resetting gravity back to default
 vsp=0;
 hsp=0;
+
 
 // chearii: we SRB2 in this house (conveyor speeds for moving platforms)
 chsp = 0;

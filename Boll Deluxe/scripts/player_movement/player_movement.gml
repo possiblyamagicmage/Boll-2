@@ -45,8 +45,17 @@ function player_movement(){
 
 		// chearii: mhomentunmnm
 		if (grounded)
-			hsp = lerp(hsp, 0, fric);
+		
+		if (sign(hsp) = -1){
+			hsp = min(0, hsp + fric)
+		}else{
+			hsp = max(0, hsp - fric)
+		}
+			
+
+			
 	}
+	
 	
 	if (grounded) && (down || steep_slope) {
 		hsp += 0.1 * colslope
@@ -93,6 +102,7 @@ function player_movement(){
 	    vsp = -6;
 	    canjump = 0;
 	    canstopjump = 1;
+		sig.Emit("jumped")
 	}
 	
 

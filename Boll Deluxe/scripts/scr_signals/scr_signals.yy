@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scr_signals",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_signals",
+  "parent":{
+    "name":"Player",
+    "path":"folders/Scripts/Player.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

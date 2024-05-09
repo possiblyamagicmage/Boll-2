@@ -553,6 +553,12 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 		txr_function_add("instance_id_get", instance_id_get, -1);
 		txr_function_add("object_get_name", object_get_name, -1);
 	#endregion
+	
+	#region Signals
+		txr_function_add("SigConnector", SigConnector, -1);
+		txr_function_add("SigDisconnect", SigDisconnect, -1);
+		txr_function_add("Signal", Signal, -1);
+	#endregion
 
 #endregion
 
