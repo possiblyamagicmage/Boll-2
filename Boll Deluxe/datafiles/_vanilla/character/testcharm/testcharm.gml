@@ -60,7 +60,10 @@ if (coll) {
 if (vsp>0) sprite="fall"
 else if (jump) sprite="jump"
 else if (left || right) sprite="walk"
-else sprite="stand"
+else {
+	frspd=abs(hsp)/4
+	sprite="stand"
+}
 
 //chopp: to handle any signals, make sure you define the code here with the same name 
 

@@ -164,11 +164,6 @@ function animate_player() {
 	///draw_player(step)
 	//sprite/animation manager specifically for player characters, if you want one for enemies make a different script.
 	//if step is true, animation is executed, otherwise it just draws
-	
-	oldspr=sprite
-	//This makes the spr manager not run under certain circumstances.
-	// if (!piped && !codeblock_stopsprmanager)
-	txr_exec(_spriteManagerEvent);
 
 	//this one handles drawing order inside multiplayer, or rather, the way it switches so that both are flashing when on top of one another.
 	//if ((depth=0 || depth=1) && pNum=gamemanager.plrsort) depth=!depth
@@ -189,7 +184,7 @@ function animate_player() {
 	//if (water && !cantslowanim) frs*=wf                       
 	if (piped!=2) frame+=frs
 	if (frame<0) frame+=frn
-	if (frame>=frn) {frame=frame-frn if (frl<frn) frame+=frl}
+	if (frame>=frn) {frame=frame-frn if (frl<frn) frame=frl}
 	frame=modulo(frame,0,frn)  
 
 	//below is the code that deals with taking damage, as well as growing, commented out just in case rn

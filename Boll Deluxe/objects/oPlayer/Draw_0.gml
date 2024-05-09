@@ -23,6 +23,12 @@ pal_swap_reset();
 draw_set_color(c_red);
 draw_box_poly();
 draw_set_color(_drawcolor);*/
+frspd=1
+
+oldspr=sprite
+//This makes the spr manager not run under certain circumstances.
+// if (!piped && !codeblock_stopsprmanager)
+txr_exec(_spriteManagerEvent);
 animate_player();
 draw_player();
 
