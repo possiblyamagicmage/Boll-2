@@ -5,7 +5,6 @@ function player_movement(){
 	x += hsp
 	y += vsp
 	
-	
 	if ((apress) && (grounded == false))
 	{
 	    alarm[1] = 10;  // ammount of frames for jump buffering
@@ -29,14 +28,14 @@ function player_movement(){
 
 	if (move != 0)
 	{
-	    image_speed = 1;
+		image_speed = 1;
 
 	    var signmatch = check_signs_matching(hsp, move);
 	    var accel_real = ((signmatch) ? accel : fastaccel);
 
 	    hsp += (move * accel_real);
 
-	    hsp = clamp(hsp, -maxspd, maxspd);
+	    if (abs(hsp) > maxspd) hsp=approach_val(hsp,maxspd,0.5)
 	}
 	else
 	{
@@ -51,9 +50,6 @@ function player_movement(){
 		}else{
 			hsp = max(0, hsp - fric)
 		}
-			
-
-			
 	}
 	
 	

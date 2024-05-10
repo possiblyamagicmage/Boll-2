@@ -181,3 +181,162 @@ function split_string(str, divider){
 	else
 	return arr;
 }
+
+function modulo(value,lower,upper){
+	///modulo(value,lower,upper):value
+	//keeps a value within supplied range warping in both ways (lower incl, upper excl)
+	var o,d,w;
+
+	o=lower
+	d=value-o
+	w=upper-o
+
+	if (w=0) return o
+	return d-floor(d/w)*w+o
+}
+
+//legacy support
+function instance_create(_x,_y,obj){
+	instance_create_depth(_x,_y,0,obj)
+}
+
+function draw_text_outline(_x,_y,str,outwidth,outcol,outfidelity,xscale,yscale,angle){
+	//x,y: Coordinates to draw
+	//str: String to draw
+	//outwidth: height of outline in pixels
+	//outcol: Colour of outline (main text draws with regular set colour)
+	//outfidelity: Fidelity of outline (recommended: 4 for small, 8 for medium, 16 for larger. Watch your performance!)
+	//separation, for the draw_text_EXT command.
+	//height for the draw_text_EXT command.
+
+
+	//2,c_dkgray,4,20,500 <Personal favorite preset. (For fnt_3)
+	var dto_dcol=draw_get_color();
+
+	draw_set_color(outcol);
+
+	for(var dto_i=45; dto_i<405; dto_i+=360/outfidelity)
+	{
+	  //draw_text_ext(_x+lengthdir_x(outwidth,dto_i),_y+lengthdir_y(outwidth,dto_i),str,width,height);
+	  draw_text_transformed(_x+round(lengthdir_x(outwidth,dto_i)),_y+round(lengthdir_y(outwidth,dto_i)),str,xscale,yscale,angle);
+	}
+
+	draw_set_color(dto_dcol);
+
+	draw_text_transformed(_x,_y,str,xscale,yscale,angle);
+}
+
+function nearestplayer(){
+	//returns nearest player instance
+	var ret,xp;
+	xp=x
+	x=-999999999
+	ret=instance_nearest(xp,y,oPlayer)
+	x=xp
+	return ret;
+}
+
+function LoadJSONFromFile(_fileName) {
+    //@desc load json from file
+
+    var buffer = buffer_load( _fileName );
+    var _string = buffer_read(buffer,buffer_string);
+    buffer_delete(buffer);
+
+    var _json = json_parse(_string);
+    return _json;
+
+}
+
+function SaveStringToFile(_fileName, _string) {
+    //@description save string to file of choice
+    
+    var _buffer = buffer_create( string_byte_length(_string)+1, buffer_fixed, 1);
+    buffer_write(_buffer,buffer_string,_string)
+    buffer_save(_buffer,_fileName)
+    buffer_delete(_buffer)
+}
+
+function esign(val,_default){
+	if (val==0) return _default
+	return sign(val)
+}
+
+function inview(obj = id){
+	return 1
+}
+
+function chance(percent){
+	// Returns true or false depending on RNG
+	//Chance(0.7);    -> Returns true 70% of the time
+	return percent > irandom(1);
+}
+
+function jump_in_direction(_spd, _direction){
+	x += lengthdir_x(_spd,_direction)
+	y += lengthdir_y(_spd,_direction)
+}
+
+function approach_val(a, b, amount) {
+	// Moves "a" towards "b" by "amount" and returns the result
+	// Nice bcause it will not overshoot "b", and works in both directions
+	// Example:
+	//      x = Approach(x, target_x, move_speed);
+	//      y = Approach(y, target_y, move_speed);
+ 
+	if (a < b)
+	{
+	    a += amount;
+	    if (a > b)
+	        return b;
+	}
+	else
+	{
+	    a -= amount;
+	    if (a < b)
+	        return b;
+	}
+	return a;
+}
+
+function wrap_val(value, _min, _max) {
+	// Returns the value wrapped, values over or under will be wrapped around
+ 
+	if (value mod 1 == 0)
+	{
+	    while (value > _max || value < _min)
+	    {
+	        if (value > _max)
+	            value += _min - _max - 1;
+	        else if (value < _min)
+	            value += _max - _min + 1;
+	    }
+	    return(value);
+	}
+	else
+	{
+	    var vOld = value + 1;
+	    while (value != vOld)
+	    {
+	        vOld = value;
+	        if (value < _min)
+	            value = _max - (_min - value);
+	        else if (value > _max)
+	            value = _min + (value - _max);
+	    }
+	    return(value);
+	}
+}
+
+function wave_val(from, to, duration, offset=0) {
+	// Returns a value that will wave back and forth between [from-to] over [duration] seconds
+	// Example
+	//      image_angle = Wave(-45,45,1,0)  -> rock back and forth 90 degrees in a second
+ 
+	var a4 = (to - from) * 0.5;
+	return from + a4 + sin((((current_time * 0.001) + duration * offset) / duration) * (pi*2)) * a4;
+}
+
+function ternary(statement,true_val,false_val) {
+	return ((statement) ? true_val : false_val)
+}

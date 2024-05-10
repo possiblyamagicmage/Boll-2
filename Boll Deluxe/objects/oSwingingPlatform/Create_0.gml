@@ -1,7 +1,7 @@
 // chearii: previous x and y positions for movement
 event_inherited()
 
-//cflags = CF_SOLID;
+semi=true
 
 x_diff = 0;
 y_diff = 0;

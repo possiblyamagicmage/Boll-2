@@ -1,7 +1,8 @@
 // chearii: previous x and y positions for movement
-event_inherited()
+event_inherited();
 
-//cflags = CF_SOLID;
+// set collision flag to floor only
+semi = true
 
 x_diff = 0;
 y_diff = 0;

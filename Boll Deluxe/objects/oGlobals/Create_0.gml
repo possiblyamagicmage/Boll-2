@@ -446,12 +446,26 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 		txr_function_add("show_message", show_message, -1);
 		txr_function_add("wave_val", wave_val, -1);
 		txr_function_add("approach_val", approach_val, -1);
+		txr_function_add("chance", chance, -1);
+		txr_function_add("jump_in_direction", jump_in_direction, -1);
 		txr_function_add("camera_get_view_x", camera_get_view_x, -1);
 		txr_function_add("camera_get_view_y", camera_get_view_y, -1);
 		txr_function_add("camera_set_view_pos", camera_set_view_pos, -1);
 		txr_function_add("event_inherited", event_inherited, -1);
 		txr_function_add("room_get_width", function() { return room_width; }, -1);
 		txr_function_add("room_get_height", function() { return room_height; }, -1);
+		txr_function_add("check_signs_matching", check_signs_matching, -1);
+		txr_function_add("esign", esign, -1);
+		txr_function_add("unreal", unreal, -1);
+		txr_function_add("nozerounreal", nozerounreal, -1);
+		txr_function_add("instance_valid_at_place", instance_valid_at_place, -1);
+		txr_function_add("instance_valid_at_position", instance_valid_at_position, -1);
+		txr_function_add("obj_get_coll", obj_get_coll, -1);
+		txr_function_add("obj_place_meeting", obj_place_meeting, -1);
+		txr_function_add("modulo", modulo, -1);
+		txr_function_add("nearestplayer", nearestplayer, -1);
+		txr_function_add("split_string", split_string, -1);
+		txr_function_add("ternary", ternary, -1);
 	#endregion
 	
 	#region Player Functions
@@ -537,6 +551,7 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 
 	#region Instances
 		txr_function_add("instance_create_depth", instance_create_depth, -1);
+		txr_function_add("instance_create", instance_create, -1);
 		txr_function_add("instance_destroy", instance_destroy, -1);
 		txr_function_add("instance_exists", instance_exists, -1);
 		txr_function_add("instance_change", instance_change, -1);

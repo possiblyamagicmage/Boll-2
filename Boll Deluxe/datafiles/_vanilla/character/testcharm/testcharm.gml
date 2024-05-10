@@ -57,12 +57,13 @@ if (coll) {
 
 #define sprmanager
 
+frspd=1
 if (vsp>0) sprite="fall"
 else if (jump) sprite="jump"
-else if (left || right) sprite="walk"
+else if !(round(abs(hsp))) sprite="stand"
 else {
 	frspd=abs(hsp)/4
-	sprite="stand"
+	sprite="walk"
 }
 
 //chopp: to handle any signals, make sure you define the code here with the same name 

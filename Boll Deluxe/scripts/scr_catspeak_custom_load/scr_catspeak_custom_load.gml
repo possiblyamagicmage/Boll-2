@@ -1,4 +1,4 @@
-catspeak_force_init();
+/*catspeak_force_init();
 
 Catspeak.interface.exposeAssetByTag("Catspeak");
 

@@ -83,35 +83,6 @@ function skin_animationdata(slot,name,list,size) {
 		times_list[i]=skin_getarray(string(spr)+" frametimes")
 		else
 		times_list[i]=array_create(frames_list[i])
-
-		//show_message(times_list)
-    
-    
-	    /*list=string(skin_setting(sizename+" "+string(spr)+" frametimes"))
-	    if list="" || list="0"  list=string(skin_setting(string(spr)+" frametimes"))
-
-	    c2=0
-	    do {
-	        p=string_pos(",",list)
-	        if (p=0) {if (list!="") tokens2[c2]=list c2+=1}
-	        else {
-	            tokens2[c2]=string_copy(list,1,p-1) c2+=1
-				show_message(tokens2[c2])
-	            list=string_delete(list,1,p)
-	        }
-	    } until (p=0)
-		
-		var spri=get_spriteindex() //sprite list index
-	    if (list="" || list="0") {
-	        for (j=0;j<frames_list[i];j+=1) {
-	            times_list[spri,j]=1 //if frame time is not found, set to default
-	        }
-	    } else {
-	        for (j=0;j<frames_list[i];j+=1) {
-	            times_list[spri,j]=max(1,unreal(tokens2[j],1)) //else if found, set frametime array map of sprite index to frame time value
-	        }
-	    }*/
-
 	}
 	box_width=max(2,nozerounreal(skin_setting(sizename+" box width"),skin_setting("box width")))-1
 	box_height=max(2,nozerounreal(skin_setting(sizename+" box height"),skin_setting("box height")))-1
@@ -161,10 +132,13 @@ function draw_player() {
 }
 
 function animate_player() {
-	///draw_player(step)
-	//sprite/animation manager specifically for player characters, if you want one for enemies make a different script.
-	//if step is true, animation is executed, otherwise it just draws
-
+	//animation manager specifically for player characters, if you want one for enemies make a different script.
+	
+	oldspr=sprite
+	//This makes the spr manager not run under certain circumstances.
+	// if (!piped && !codeblock_stopsprmanager)
+	txr_exec(_spriteManagerEvent);
+	
 	//this one handles drawing order inside multiplayer, or rather, the way it switches so that both are flashing when on top of one another.
 	//if ((depth=0 || depth=1) && pNum=gamemanager.plrsort) depth=!depth
 	 
@@ -177,7 +151,6 @@ function animate_player() {
 	if (sprite!=oldspr) frame=0
 	
 	var spri=get_spriteindex()
-	//This is mostly the same as the original boll's, except the global variable now has size as one of the dimensions.
 	frn=frames_list[spri] //frame number
 	frs=(frspd*animf*speed_list[spri])/max(1,times_list[spri,floor(frame)]) //(game speed * percent * sprite speed) / frame time
 	frl=loops_list[spri]-1 //loop point  
