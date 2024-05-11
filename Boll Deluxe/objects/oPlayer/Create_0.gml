@@ -69,9 +69,10 @@ sprindex_prev = sprite_index;
 
 canstopjump=1;
 jump=0;
-steps = 0
-colslope = 0
-steep_slope = 0
+steps = 0;
+colslope = 0;
+steep_slope = 0;
+slopesliding = 0;
 hurt=0;
 image_speed=0
 global.paused=0

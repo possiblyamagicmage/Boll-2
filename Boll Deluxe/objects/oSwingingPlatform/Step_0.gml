@@ -1,13 +1,23 @@
-orbit_angle = -(wave_val(0,180,orbit_speed));
+var dir = reverse ? 1 : -1
 
+if !(continuous) {
+	orbit_angle = -wave_val(start_angle,end_angle,swing_speed * dir);
+}
+else {
+	//continuous movement, no swinging
+	orbit_angle += (swing_speed/2) * dir;
+	orbit_angle = wrap_val(orbit_angle,0,359);
+}
+
+orbit_length = (chain_length*16)
 
 var oldx, oldy
 
 oldx = floor(newx)
 oldy = floor(newy)
 
-newx = (targetx) + (orbit_length * dcos(orbit_angle));
-newy = (targety)- (orbit_length * dsin(orbit_angle));
+newx = (targetx) + (orbit_length * dcos(orbit_angle+offset_angle));
+newy = (targety)- (orbit_length * dsin(orbit_angle+offset_angle));
 
 x = floor(newx)
 y = floor(newy)
@@ -25,11 +35,3 @@ ydir=-1;
 
 x_diff = (x - oldx);
 y_diff = (y - oldy);
-
-if (place_meeting(x, y-4, oEnemy))
-{
-	var object = instance_place(x, y-4, oEnemy)
-	object.x += x_diff;
-	object.y += y_diff;
-	
-}
