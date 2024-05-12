@@ -1,7 +1,7 @@
-player=instance_place(x,y+1,oPlayer)
-if player && ((!player.grounded && player.vsp > 0) || (player.jump))  { //temp state check
+player=instance_place(x,y+2,oPlayer)
+if player && ((!player.grounded && player.vsp < 0) || (player.jump))  { //temp state check
 	event_user(0);
-	oPlayer.vsp = 2;
+	player.vsp = 2;
 	going = true;
 }
 

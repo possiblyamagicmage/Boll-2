@@ -1,9 +1,6 @@
-// THIS JUST DOESNT WORK HALF THE TIME GRR!!
-player = instance_place(x, y + 1, oPlayer);
-
-// temp state check
-if ((hit == 0) && (player) && ((!player.grounded && player.vsp > 0) || (player.jump))){
-    event_user(0);
+player=instance_place(x,y+2,oPlayer)
+if (hit==0) && (player) && ((!player.grounded && player.vsp < 0) || (player.jump))  { //temp state check
+	event_user(0);
     flip_time = 300;
     player.vsp = 2;
 	going = true

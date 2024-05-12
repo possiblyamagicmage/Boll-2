@@ -1,11 +1,11 @@
-player=instance_place(x,y+1,oPlayer)
+player=instance_place(x,y+2,oPlayer)
 if player && ((!player.grounded && player.vsp > 0) || (player.jump)) { //temp state check
 	if !(hitted) {
 		event_user(0)
+		hitted = 1
+		going = true;
 	}
 	oPlayer.vsp = 2
-	hitted = 1
-	going = true;
 }
 
 if (hitted)

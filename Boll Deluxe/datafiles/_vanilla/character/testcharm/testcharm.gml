@@ -83,9 +83,6 @@ if ((canjump > 0) && (apress))
 
 player_movement();	
 player_collision();
-show_debug_message(slopesliding);
-
-
 
 
 // polygons!!!!!
