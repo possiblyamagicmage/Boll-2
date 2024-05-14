@@ -27,7 +27,7 @@ if (hit != 0)
 			blockFinished.Emit()
 			dy = 0;
 			hit = 0;
-			image_index = 1;
+			//image_index = 1;
 			hitNegative = false;
 			dummyTimer = dummyTimerReset;
 		}
