@@ -1,8 +1,11 @@
 ///@description very important priorities
 
+player=noone;
 turn_angle=0;
 lookdir=0;
 start_going=0;
+gfx_y = 0
+angle_buffer = 0
 
 xx=0
 yy=0
