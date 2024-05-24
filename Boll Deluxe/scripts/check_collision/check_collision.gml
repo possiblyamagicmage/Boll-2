@@ -15,50 +15,72 @@ function check_collision_dot(x1, y1, type = 0, object = oCollider){
 	y1 = round(y1)
 	
 	var found = noone
-	found =	collision_point(x1 ,y1,object,true,true)	
+	var found_list = ds_list_create()
 	
-	//the nefarious
-	if found != noone{
+	//holy shit this sucks but it must be done
+	
+	if collision_point_list(x1 ,y1,object,true,true, found_list, true)	{
+	
+	var found_length = ds_list_size(found_list)
+	
+	for (var i = 0; found_length; ++i) {
+		    // code here
+		found = found_list[| i]
+		//the nefarious
+		
+		//if (!instance_exists(found)) {
+		//	break;
+		//}
+		
+		
 		if found.no_collide { 
-			found = noone
-			return false
+			break;
+				//break;
 		}
 		
-		//if found.semi && !found.slope {
-		//	if found.bbox_top + 2 < y1 {
-		//		found = noone
-		//		return false
-		//	}
-		//}
-	}
 	
-	if found != noone{
-		switch type {
-			case 0:
-				//awesome
-			break;
-			case COL_BOTTOM:
-				if found.slope { 
-					colslope = found.slope_factor * (-1 + (found.hflip* 2))
-					//show_debug_message(found.angle)
-					colangle = found.angle
-					steep_slope = abs(found.image_yscale) > abs(found.image_xscale) //probably replace this with a factor check?
-				}else{
-					colslope = 0
-					steep_slope = 0
-					colangle = 0
-				}
-			break;
-			case COL_WALL:
-				if found.semi { found = noone}
-			break;
-			case COL_TOP:
-				if found.semi { found = noone}
-			break;
+		//if found != noone{
+			switch type {
+				case 0:
+					//awesome
+				break;
+				case COL_BOTTOM:
+					if found.slope { 
+						colslope = found.slope_factor * (-1 + (found.hflip* 2))
+						//show_debug_message(found.angle)
+						colangle = found.angle
+						steep_slope = abs(found.image_yscale) > abs(found.image_xscale) //probably replace this with a factor check?
+					}else{
+						colslope = 0
+						steep_slope = 0
+						colangle = 0
+					}
+					ds_list_destroy(found_list)
+					return found;	
+				break;
+				case COL_WALL:
+					if !found.semi {
+						ds_list_destroy(found_list)
+						return found;
+					}
+				break;
+				case COL_TOP:
+					if !found.semi {
+						ds_list_destroy(found_list)
+						return found;
+					}
+				break;
+			}
+		//}
+		
+		//if found != noone {
+			
+		//}
+		//exit found;
+		break;
 		}
 	}
-	
-	return found
+	return false;
 }
 
 function check_collision_line(x1, y1, x2, y2, type = 0, object = oCollider){
@@ -69,32 +91,69 @@ function check_collision_line(x1, y1, x2, y2, type = 0, object = oCollider){
 	y2 = round(y2)
 	
 	var found = noone
-	found =	collision_line(x1,y1,x2,y2,object,true,true)	
+	var found_list = ds_list_create()
 	
-	//the nefarious
-	if found != noone{
-		if found.no_collide { 
-			found = noone
-			return false
+	if collision_line_list(x1 ,y1,x2, y2, object,true,true, found_list, true)	{
+	
+	var found_length = ds_list_size(found_list)
+	
+	for (var i = 0; found_length; ++i) {
+		    // code here
+		found = found_list[| i]
+		//the nefarious
+		
+		//if !instance_exists(found) {
+		//	break;
+		//}
+		
+		
+			if found.no_collide { 
+				
+				break;
+			}
+		
+	
+		//if found != noone{
+			switch type {
+				case 0:
+					//awesome
+				break;
+				case COL_BOTTOM:
+					if found.slope { 
+						colslope = found.slope_factor * (-1 + (found.hflip* 2))
+						//show_debug_message(found.angle)
+						colangle = found.angle
+						steep_slope = abs(found.image_yscale) > abs(found.image_xscale) //probably replace this with a factor check?
+					}else{
+						colslope = 0
+						steep_slope = 0
+						colangle = 0
+					}
+					ds_list_destroy(found_list)
+					return found;
+				break;
+				case COL_WALL:
+					if !found.semi {
+						ds_list_destroy(found_list)
+						return found;
+					}
+				break;
+				case COL_TOP:
+					if !found.semi {
+						ds_list_destroy(found_list)
+						return found;
+					}
+				break;
+			}
+		//}
+		
+		//if found != noone {
+		//	ds_list_destroy(found_list)
+		//	return found;	
+		//}
+		//exit found;
+		break;
 		}
 	}
-	
-	if found != noone{
-		switch type {
-			case 0:
-				//awesome
-			break;
-			case COL_BOTTOM:
-				//awesome
-			break;
-			case COL_WALL:
-				if found.semi { found = noone}
-			break;
-			case COL_TOP:
-				if found.semi { found = noone}
-			break;
-		}
-	}
-	
-	return found
+	return false;
 }

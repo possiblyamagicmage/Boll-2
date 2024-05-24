@@ -7,6 +7,8 @@ function player_movement(){
 	
 	if (!no_move) {
 		move = (right - left);
+	} else {
+		move = 0
 	}
 	
 	if (move != 0) 

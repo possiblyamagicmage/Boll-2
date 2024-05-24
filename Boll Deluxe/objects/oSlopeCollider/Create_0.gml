@@ -6,7 +6,8 @@ event_inherited()
 // currently is ONLY semisolid and I can only see full-solid slopes being polygons
 
 hflip = false;
-slope = true
+slope = true;
+influence = true;
 LDtkReloadFields();
 
 if hflip = true {

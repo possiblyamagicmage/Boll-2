@@ -21,8 +21,7 @@ function player_collision(){
 	
 	//landing on solid ground
 	if !grounded && vsp >= 0 {
-		if (check_collision_dot(bbox_right, bbox_bottom, COL_BOTTOM) 
-			or check_collision_dot(bbox_left, bbox_bottom, COL_BOTTOM) ){
+		if check_collision_line(bbox_left,bbox_bottom,bbox_right,bbox_bottom, COL_BOTTOM){
 			grounded = true
 			vsp = 0
 		}
@@ -48,26 +47,37 @@ function player_collision(){
 	//normal ground loop (for a variety of slopes
 	if grounded {
 		
+		var offsetx, offsety;
+		
+		offsetx = xprevious - x
+		offsety = yprevious - y
+		
 		//fall
-		if (!check_collision_line(bbox_left,bbox_bottom,bbox_left,bbox_bottom + 16, COL_BOTTOM) 
-			and !check_collision_line(bbox_right,bbox_bottom,bbox_right,bbox_bottom + 16, COL_BOTTOM) ){
+		if (!check_collision_line(bbox_left,bbox_bottom,bbox_left,bbox_bottom + 12 + offsety, COL_BOTTOM) 
+			and !check_collision_line(bbox_right,bbox_bottom,bbox_right,bbox_bottom + 12 + offsety, COL_BOTTOM) ){
+				vsp = hsp * -dsin(colangle)
+				hsp = hsp * dcos(colangle)
 				grounded = false
 				return;
 			}
+			
+	}
 		
 		
+	if grounded {
 		//move down
 		
-		    while (!check_collision_dot(bbox_right,bbox_bottom, COL_BOTTOM)
-				&& !check_collision_dot(bbox_left,bbox_bottom, COL_BOTTOM)) {
+		    while (!check_collision_line(bbox_left,bbox_bottom,bbox_right,bbox_bottom, COL_BOTTOM)){
+				//&& !check_collision_dot(bbox_left,bbox_bottom, COL_BOTTOM)) 
+				
 				y++
 			}
 		
 		
 		//move up
 	
-		    while (check_collision_dot(bbox_right,bbox_bottom, COL_BOTTOM)
-				|| check_collision_dot(bbox_left,bbox_bottom, COL_BOTTOM)) {
+		    while (check_collision_line(bbox_left,bbox_bottom,bbox_right,bbox_bottom, COL_BOTTOM)){
+				//|| check_collision_dot(bbox_left,bbox_bottom, COL_BOTTOM)) 
 				y--
 			}
 		
