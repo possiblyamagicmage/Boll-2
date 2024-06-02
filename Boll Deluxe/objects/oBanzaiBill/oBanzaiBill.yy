@@ -1,0 +1,48 @@
+{
+  "$GMObject":"",
+  "%Name":"oBanzaiBill",
+  "eventList":[
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":2,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":40,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
+  "managed":true,
+  "name":"oBanzaiBill",
+  "overriddenProperties":[
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oEnemy","path":"objects/oEnemy/oEnemy.yy",},"propertyId":{"name":"defaultgrav","path":"objects/oEnemy/oEnemy.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"0",},
+  ],
+  "parent":{
+    "name":"Bullet Bills",
+    "path":"folders/Objects/Enemies/Bullet Bills.yy",
+  },
+  "parentObjectId":{
+    "name":"oEnemy",
+    "path":"objects/oEnemy/oEnemy.yy",
+  },
+  "persistent":false,
+  "physicsAngularDamping":0.1,
+  "physicsDensity":0.5,
+  "physicsFriction":0.2,
+  "physicsGroup":1,
+  "physicsKinematic":false,
+  "physicsLinearDamping":0.1,
+  "physicsObject":false,
+  "physicsRestitution":0.1,
+  "physicsSensor":false,
+  "physicsShape":1,
+  "physicsShapePoints":[],
+  "physicsStartAwake":true,
+  "properties":[],
+  "resourceType":"GMObject",
+  "resourceVersion":"2.0",
+  "solid":false,
+  "spriteId":{
+    "name":"spr_banzaibill",
+    "path":"sprites/spr_banzaibill/spr_banzaibill.yy",
+  },
+  "spriteMaskId":{
+    "name":"spr_banzaimask",
+    "path":"sprites/spr_banzaimask/spr_banzaimask.yy",
+  },
+  "visible":true,
+}

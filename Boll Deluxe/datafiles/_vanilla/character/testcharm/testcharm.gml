@@ -6,10 +6,15 @@ jump = 0;
 slopesliding = 0;
 no_move = 0;
 fric = 0.0625;
+runvar = 0;
+runjump = 0;
+skidding=0;
+skiddir=0;
 
 #define step
 
-maxspd = 2;
+if (braking) xsc=brakedir
+maxspd = 2+runvar;
 no_move = 0;
 //add more checks here
 
@@ -50,10 +55,22 @@ else
 {
 	canjump = 5;  // Coyote frames
 	jump = 0;
+	runjump = 0;
 	
 	//maximum speed when sliding, infulence when sliding, influence on steep slopes, add steep influence while sliding?
 	player_slide(5.5, 0.225, 0.32, false);
 	
+	//temp skidding
+	if (sign(hsp)!=esign(move,xsc)) {
+		if (abs(hsp)>2 && !carry && !skidding) {
+			skidding=1
+			//playsfx(name+"skid",1)
+			skiddir=esign(move,xsc)
+		}
+	} else {
+		skidding=0
+	}
+
 }
 
 //End slope sliding (THIS CANNOT BE IN THE PLAYER_SLIDE FUNCTION WITHOUT REWORKING IT !!!!)
@@ -71,15 +88,23 @@ if (!akey)
 	}
 }
 
+if (bkey) {
+	run=1.5;
+} else {
+	run = 0;
+}
+
 if ((canjump > 0) && (apress))
 {
 	jump = 1;
 	bufferjump = 0;
 	groundtime = 0;
 	grounded = false
-	vsp = -6;
+	vsp = -(6+min(1,abs(hsp)/10));
 	canjump = 0;
 	canstopjump = 1;
+	//check for if pmeter is maxed out when thats implemented 
+	if (run && abs(hsp)>3) {runjump=1} 
 }
 
 if (colangle != 0 && slopesliding) {
@@ -127,13 +152,20 @@ if (sprindex_prev != sprite_index) {
 if (left || right) && !(slopesliding)
 xsc = esign(move, 1)
 
+runvar = approach_val(runvar,run,0.05)
+
 #define sprmanager
 
 frspd=1
-if (vsp>0 && !grounded) sprite="fall"
-else if (jump && !grounded) sprite="jump"
-else if (slopesliding) {sprite="slide"}
-else if (crouch) {sprite="crouch"}
+if (slopesliding) sprite="slide"
+else if (vsp>0 && !grounded && !runjump) sprite="fall"
+else if (jump && !grounded) if (runjump) sprite="runjump" else sprite="jump"
+else if (crouch) sprite="crouch"
+else if (skidding) {
+	sprite="brake" 
+	xsc = -(skiddir)
+}
+else if (ceil(abs(hsp))>3) sprite="run"
 else if !(abs(hsp)) sprite="stand"
 else {
 	frspd=abs(hsp)/4

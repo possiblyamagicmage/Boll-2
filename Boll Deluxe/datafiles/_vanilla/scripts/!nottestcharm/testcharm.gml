@@ -63,6 +63,11 @@ if (!akey)
 	}
 }
 
+//Running 
+if (bkey) {
+	run=1.5
+}
+
 if ((canjump > 0) && (apress))
 {
 	jump = 1;

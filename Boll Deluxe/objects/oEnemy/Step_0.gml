@@ -1,4 +1,4 @@
-if global.paused || inactive exit
+if global.paused || inactive && (object_index!=oBulletBill && object_index!=oBanzaiBill) exit
 
 grounded=false
 	
