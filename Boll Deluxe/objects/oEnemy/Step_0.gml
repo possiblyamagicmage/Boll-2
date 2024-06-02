@@ -36,7 +36,7 @@ if (_Platform && bbox_bottom <= _Platform.bbox_top) {
 }
 
 coll = instance_place(x + hsp, y, oCollider);
-if (coll!=noone && coll) { //make sure theres a collision before checking variables with the collision...
+if (coll!=noone && coll && coll != spawn_object) { //make sure theres a collision before checking variables with the collision...
 	if (!coll.no_collide)
 	{
 	    yPlus = 0;

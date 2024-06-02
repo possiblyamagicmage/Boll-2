@@ -197,7 +197,7 @@ function modulo(value,lower,upper){
 
 //legacy support
 function instance_create(_x,_y,obj){
-	instance_create_depth(_x,_y,0,obj)
+	return instance_create_depth(_x,_y,0,obj)
 }
 
 function draw_text_outline(_x,_y,str,outwidth,outcol,outfidelity,xscale,yscale,angle){
