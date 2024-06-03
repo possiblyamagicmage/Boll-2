@@ -158,8 +158,11 @@ runvar = approach_val(runvar,run,0.05)
 
 frspd=1
 if (slopesliding) sprite="slide"
-else if (vsp>0 && !grounded && !runjump) sprite="fall"
-else if (jump && !grounded) if (runjump) sprite="runjump" else sprite="jump"
+else if (!grounded) {
+	if (bonk) sprite="bonk"
+	else if (vsp>0 && !runjump) sprite="fall"
+	else if (jump) if (runjump) sprite="runjump" else sprite="jump"
+}
 else if (crouch) sprite="crouch"
 else if (skidding) {
 	sprite="brake" 

@@ -26,26 +26,30 @@ function player_collision(){
 		if check_collision_line(bbox_left,bbox_bottom,bbox_right,bbox_bottom, COL_BOTTOM){
 			grounded = true
 			gsp = hsp
+			bonk = 0
 			//vsp = 0
 		}
-
 	}
 	
 	//hitting the ceiling
 	if !grounded && vsp < 0 {
 		if (check_collision_dot(bbox_right, bbox_top, COL_TOP)
 			or check_collision_dot(bbox_left, bbox_top, COL_TOP)){
-				//push out
+			//push out
 				
-			    while (check_collision_dot(bbox_right, bbox_top, COL_TOP) 
-					or check_collision_dot(bbox_left, bbox_top, COL_TOP)) {
-					y++
-					//updateBox.Emit()
-				}
-				
-				vsp = 0
+			while (check_collision_dot(bbox_right, bbox_top, COL_TOP) 
+				or check_collision_dot(bbox_left, bbox_top, COL_TOP)) {
+				y++
+				//updateBox.Emit()
 			}
+				
+			vsp = 2
+			
+			//bonking
+			bonk=12
+			//play sound here later
 		}
+	}
 	
 	
 	//normal ground loop (for a variety of slopes
@@ -90,5 +94,5 @@ function player_collision(){
 	}
 	
 	//ds_list_destroy(mycollisions)
-	
+	bonk=max(bonk,bonk-1)
 }

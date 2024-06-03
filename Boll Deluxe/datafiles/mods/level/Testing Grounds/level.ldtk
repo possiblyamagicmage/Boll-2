@@ -11,7 +11,7 @@
 	"iid": "89e20cd0-6280-11ee-9ff1-11df5747d5f3",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 63,
+	"nextUid": 64,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -1606,6 +1606,41 @@
 			"pivotX": 0,
 			"pivotY": 0,
 			"fieldDefs": []
+		},
+		{
+			"identifier": "Pylom",
+			"uid": 63,
+			"tags": [],
+			"exportToToc": false,
+			"allowOutOfBounds": false,
+			"doc": null,
+			"width": 16,
+			"height": 16,
+			"resizableX": false,
+			"resizableY": false,
+			"minWidth": null,
+			"maxWidth": null,
+			"minHeight": null,
+			"maxHeight": null,
+			"keepAspectRatio": false,
+			"tileOpacity": 1,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#B86F50",
+			"renderMode": "Rectangle",
+			"showName": true,
+			"tilesetId": null,
+			"tileRenderMode": "FitInside",
+			"tileRect": null,
+			"uiTileRect": null,
+			"nineSliceBorders": [],
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0.5,
+			"pivotY": 0.5,
+			"fieldDefs": []
 		}
 	], "tilesets": [
 		{
@@ -2807,7 +2842,7 @@
 						},
 						{
 							"__identifier": "SwingingPlatform",
-							"__grid": [83,16],
+							"__grid": [83,12],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": { "tilesetUid": 15, "x": 0, "y": 144, "w": 48, "h": 16 },
@@ -2816,7 +2851,7 @@
 							"width": 48,
 							"height": 16,
 							"defUid": 44,
-							"px": [1336,264],
+							"px": [1336,200],
 							"fieldInstances": [
 								{ "__identifier": "chain_length", "__type": "Int", "__value": 4, "__tile": null, "defUid": 51, "realEditorValues": [] },
 								{ "__identifier": "start_angle", "__type": "Int", "__value": 90, "__tile": null, "defUid": 52, "realEditorValues": [{ "id": "V_Int", "params": [90] }] },
@@ -2830,7 +2865,7 @@
 								{ "__identifier": "continuous", "__type": "Bool", "__value": false, "__tile": null, "defUid": 57, "realEditorValues": [] }
 							],
 							"__worldX": 1336,
-							"__worldY": 264
+							"__worldY": 200
 						},
 						{
 							"__identifier": "BillBlaster",
@@ -3204,6 +3239,22 @@
 							"fieldInstances": [],
 							"__worldX": 496,
 							"__worldY": 128
+						},
+						{
+							"__identifier": "Pylom",
+							"__grid": [103,19],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#B86F50",
+							"iid": "e6927770-fec0-11ee-832d-41b561ecf02b",
+							"width": 16,
+							"height": 16,
+							"defUid": 63,
+							"px": [1656,312],
+							"fieldInstances": [],
+							"__worldX": 1656,
+							"__worldY": 312
 						}
 					]
 				},
