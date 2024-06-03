@@ -766,7 +766,6 @@
     {"name":"VinylStop","order":11,"path":"scripts/VinylStop/VinylStop.yy",},
     {"name":"VinylStopAll","order":12,"path":"scripts/VinylStopAll/VinylStopAll.yy",},
     {"name":"VinylWillStop","order":13,"path":"scripts/VinylWillStop/VinylWillStop.yy",},
-    {"name":"ItemBoxMovement","order":1,"path":"sequences/ItemBoxMovement/ItemBoxMovement.yy",},
     {"name":"__shd_scribble_bake_outline_4dir","order":1,"path":"shaders/__shd_scribble_bake_outline_4dir/__shd_scribble_bake_outline_4dir.yy",},
     {"name":"__shd_scribble_bake_outline_8dir_2px","order":3,"path":"shaders/__shd_scribble_bake_outline_8dir_2px/__shd_scribble_bake_outline_8dir_2px.yy",},
     {"name":"__shd_scribble_bake_outline_8dir","order":2,"path":"shaders/__shd_scribble_bake_outline_8dir/__shd_scribble_bake_outline_8dir.yy",},

@@ -215,7 +215,6 @@
   },
   "name":"Boll Deluxe",
   "resources":[
-    {"id":{"name":"LargeSambaRotate","path":"animcurves/LargeSambaRotate/LargeSambaRotate.yy",},},
     {"id":{"name":"intlib","path":"extensions/intlib/intlib.yy",},},
     {"id":{"name":"basicPlaceholderF","path":"fonts/basicPlaceholderF/basicPlaceholderF.yy",},},
     {"id":{"name":"scribble_fallback_font","path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},},
@@ -941,8 +940,6 @@
     {"id":{"name":"VinylStop","path":"scripts/VinylStop/VinylStop.yy",},},
     {"id":{"name":"VinylStopAll","path":"scripts/VinylStopAll/VinylStopAll.yy",},},
     {"id":{"name":"VinylWillStop","path":"scripts/VinylWillStop/VinylWillStop.yy",},},
-    {"id":{"name":"ItemBoxMovement","path":"sequences/ItemBoxMovement/ItemBoxMovement.yy",},},
-    {"id":{"name":"LargeSambaMovement","path":"sequences/LargeSambaMovement/LargeSambaMovement.yy",},},
     {"id":{"name":"__shd_scribble_bake_outline_4dir","path":"shaders/__shd_scribble_bake_outline_4dir/__shd_scribble_bake_outline_4dir.yy",},},
     {"id":{"name":"__shd_scribble_bake_outline_8dir_2px","path":"shaders/__shd_scribble_bake_outline_8dir_2px/__shd_scribble_bake_outline_8dir_2px.yy",},},
     {"id":{"name":"__shd_scribble_bake_outline_8dir","path":"shaders/__shd_scribble_bake_outline_8dir/__shd_scribble_bake_outline_8dir.yy",},},
