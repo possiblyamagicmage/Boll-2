@@ -1,6 +1,6 @@
 {
   "$GMSound":"",
-  "%Name":"snd_enemycannon",
+  "%Name":"snd_enemycannonfast",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -9,8 +9,8 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":1.176,
-  "name":"snd_enemycannon",
+  "duration":0.803991,
+  "name":"snd_enemycannonfast",
   "parent":{
     "name":"Hazards",
     "path":"folders/Sounds/Hazards.yy",
@@ -19,7 +19,7 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_enemycannon.wav",
+  "soundFile":"snd_enemycannonfast.wav",
   "type":0,
   "volume":1.0,
 }

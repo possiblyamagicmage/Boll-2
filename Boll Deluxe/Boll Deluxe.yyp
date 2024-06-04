@@ -955,6 +955,7 @@
     {"id":{"name":"snd_blockbump","path":"sounds/snd_blockbump/snd_blockbump.yy",},},
     {"id":{"name":"snd_enemybigexplode","path":"sounds/snd_enemybigexplode/snd_enemybigexplode.yy",},},
     {"id":{"name":"snd_enemycannon","path":"sounds/snd_enemycannon/snd_enemycannon.yy",},},
+    {"id":{"name":"snd_enemycannonfast","path":"sounds/snd_enemycannonfast/snd_enemycannonfast.yy",},},
     {"id":{"name":"snd_enemyexplode","path":"sounds/snd_enemyexplode/snd_enemyexplode.yy",},},
     {"id":{"name":"snd_itemappear","path":"sounds/snd_itemappear/snd_itemappear.yy",},},
     {"id":{"name":"VinylFallbackSound","path":"sounds/VinylFallbackSound/VinylFallbackSound.yy",},},

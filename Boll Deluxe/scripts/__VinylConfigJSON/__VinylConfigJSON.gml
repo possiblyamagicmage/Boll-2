@@ -148,6 +148,11 @@ global.VinylConfigSON = [
 				sound: snd_enemycannon,
 				gain: 0.3
 			},
+			snd_enemycannonfast,
+			{
+				sound: snd_enemycannonfast,
+				gain: 0.3
+			},
 			snd_enemyexplode,
 			{
 				sound: snd_enemyexplode,

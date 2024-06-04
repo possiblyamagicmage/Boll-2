@@ -1,3 +1,4 @@
+///@description Shoot
 if inview() {
 	var dir=sign(nearestplayer().x-x)
 	if !position_meeting(x+8+(16*dir),y+8,oCollider) || instance_position(x+8+(16*dir),y+8,oCollider).no_collide || instance_position(x+8+(16*dir),y+8,oCollider).semi {
@@ -6,7 +7,7 @@ if inview() {
 		i.spawn_object=id
 		xscale=1.33;
 		yscale=1.33;
-		VinylPlay(snd_enemycannon)
+		VinylPlay(snd_enemycannonfast)
 	}
 }
 alarm[0]=120;
