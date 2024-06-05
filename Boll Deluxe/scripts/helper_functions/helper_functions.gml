@@ -268,7 +268,7 @@ function inview() {
 	var y1 = camera_get_view_y(cam);
 	var x2 = x1 + camera_get_view_width(cam);
 	var y2 = y1 + camera_get_view_height(cam);
-	if(point_in_rectangle(x,y, x1-64, y1-64, x2+48, y2+48)) {
+	if(point_in_rectangle(x,y, x1-32, y1-32, x2+32, y2+32)) {
 		return true
 	}
 	return false

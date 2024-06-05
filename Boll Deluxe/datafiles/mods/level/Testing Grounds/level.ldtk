@@ -2444,22 +2444,6 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Collider",
-							"__grid": [7,2],
-							"__pivot": [0,0],
-							"__tags": [],
-							"__tile": { "tilesetUid": 15, "x": 64, "y": 0, "w": 16, "h": 16 },
-							"__smartColor": "#BE4A2F",
-							"iid": "56fe5680-6280-11ee-82be-c56e1afefd55",
-							"width": 48,
-							"height": 112,
-							"defUid": 1,
-							"px": [112,32],
-							"fieldInstances": [],
-							"__worldX": 112,
-							"__worldY": 32
-						},
-						{
 							"__identifier": "DirectionChanger",
 							"__grid": [5,22],
 							"__pivot": [0.5,0.5],
@@ -2788,22 +2772,6 @@
 							"__worldY": 256
 						},
 						{
-							"__identifier": "Collider",
-							"__grid": [127,15],
-							"__pivot": [0,0],
-							"__tags": [],
-							"__tile": { "tilesetUid": 15, "x": 64, "y": 0, "w": 16, "h": 16 },
-							"__smartColor": "#BE4A2F",
-							"iid": "17b91800-fec0-11ee-a1e6-4b4df6b99aab",
-							"width": 16,
-							"height": 80,
-							"defUid": 1,
-							"px": [2032,240],
-							"fieldInstances": [],
-							"__worldX": 2032,
-							"__worldY": 240
-						},
-						{
 							"__identifier": "HardBlock",
 							"__grid": [128,15],
 							"__pivot": [0,0],
@@ -2961,22 +2929,6 @@
 							"px": [2064,240],
 							"fieldInstances": [],
 							"__worldX": 2064,
-							"__worldY": 240
-						},
-						{
-							"__identifier": "Collider",
-							"__grid": [113,15],
-							"__pivot": [0,0],
-							"__tags": [],
-							"__tile": { "tilesetUid": 15, "x": 64, "y": 0, "w": 16, "h": 16 },
-							"__smartColor": "#BE4A2F",
-							"iid": "37b14c40-fec0-11ee-a1e6-377a38567e6c",
-							"width": 16,
-							"height": 80,
-							"defUid": 1,
-							"px": [1808,240],
-							"fieldInstances": [],
-							"__worldX": 1808,
 							"__worldY": 240
 						},
 						{
@@ -4094,6 +4046,54 @@
 							"fieldInstances": [],
 							"__worldX": 944,
 							"__worldY": 320
+						},
+						{
+							"__identifier": "Collider",
+							"__grid": [7,2],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 15, "x": 64, "y": 0, "w": 16, "h": 16 },
+							"__smartColor": "#BE4A2F",
+							"iid": "de6e8b60-fec0-11ee-a1d3-1f762bf27fc4",
+							"width": 48,
+							"height": 112,
+							"defUid": 1,
+							"px": [112,32],
+							"fieldInstances": [],
+							"__worldX": 112,
+							"__worldY": 32
+						},
+						{
+							"__identifier": "Collider",
+							"__grid": [127,15],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 15, "x": 64, "y": 0, "w": 16, "h": 16 },
+							"__smartColor": "#BE4A2F",
+							"iid": "e1108670-fec0-11ee-a1d3-cf9c58c0af3f",
+							"width": 16,
+							"height": 80,
+							"defUid": 1,
+							"px": [2032,240],
+							"fieldInstances": [],
+							"__worldX": 2032,
+							"__worldY": 240
+						},
+						{
+							"__identifier": "Collider",
+							"__grid": [113,15],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 15, "x": 64, "y": 0, "w": 16, "h": 16 },
+							"__smartColor": "#BE4A2F",
+							"iid": "e2538dc0-fec0-11ee-a1d3-ad7f7943c697",
+							"width": 16,
+							"height": 80,
+							"defUid": 1,
+							"px": [1808,240],
+							"fieldInstances": [],
+							"__worldX": 1808,
+							"__worldY": 240
 						}
 					]
 				}

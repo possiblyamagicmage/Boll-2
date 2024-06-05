@@ -7,9 +7,10 @@ hit=0;
 going=false;
 dummyTimerReset = 6; //time (in frames) to hold on final "up" pos
 dummyTimer = dummyTimerReset;
-bumpMax = 6; //highest "up" pos for bumping
+bumpMax = 10; //highest "up" pos for bumping
 hitNegative = false; //used for the bumping "overshoot" anim end-bounce
 no_hit = false;
+default_depth = 0;
 
 image_normal = sprite_index
 image_hit = sprite_index
@@ -27,5 +28,4 @@ blockHit.Connect( self, function(hit_p, obj) {
 	going = true;
 	
 	sprite_index = image_hit
-
 });

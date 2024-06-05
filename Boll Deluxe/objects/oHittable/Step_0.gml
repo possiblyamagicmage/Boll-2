@@ -17,6 +17,7 @@ if (hit != 0)
 				}
 			}
 		}
+		depth=default_depth-10;
 	} else {
 		if !hitNegative {
 			dy = approach_val(dy, -1 * -hit, 2);
@@ -31,5 +32,6 @@ if (hit != 0)
 			hitNegative = false;
 			dummyTimer = dummyTimerReset;
 		}
+		depth=default_depth;
 	}
 }

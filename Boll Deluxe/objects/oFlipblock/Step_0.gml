@@ -17,5 +17,6 @@ if (flip_time > 50)
 	image_index = 0
 }
 
+if !(going)
 image_speed = (abs(flip_time/300)*1.5);
 //prevent overshooting

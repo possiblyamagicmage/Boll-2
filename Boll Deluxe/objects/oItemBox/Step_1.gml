@@ -1,6 +1,6 @@
 event_inherited();
 
-if (sprite_index == image_exausted) {
+if (going) {
 	flash=max(flash-1,0)
 	image_index=sign(flash)
 }
