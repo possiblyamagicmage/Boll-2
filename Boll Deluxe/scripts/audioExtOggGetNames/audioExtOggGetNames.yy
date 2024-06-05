@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"audioExtOggGetNames",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"audioExtOggGetNames",
+  "parent":{
+    "name":"Ogg",
+    "path":"folders/audioExt/Ogg.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

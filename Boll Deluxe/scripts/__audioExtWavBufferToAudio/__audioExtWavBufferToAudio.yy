@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"__audioExtWavBufferToAudio",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__audioExtWavBufferToAudio",
+  "parent":{
+    "name":"System",
+    "path":"folders/audioExt/System.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

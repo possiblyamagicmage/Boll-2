@@ -10,9 +10,9 @@ flash=0
 blockFinished.Connect( self, function() {
 	event_user(1);
 	image_speed=0;
-	sprite_index = image_exausted
+	sprite_index = image_exausted;
 	flash=5;
-	no_hit = true
+	no_hit=true;
 	if content != Contents.Coin && content != Contents.MultiCoins {
 		VinylPlay(snd_itemappear);
 	}

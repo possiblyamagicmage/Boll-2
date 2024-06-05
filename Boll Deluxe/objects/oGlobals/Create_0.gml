@@ -490,6 +490,8 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 		txr_function_add("audio_sound_loop_start", audio_sound_loop_start, -1);
 		txr_function_add("audio_sound_loop_end", audio_sound_loop_end, -1);
 		txr_function_add("time_bpm_to_seconds", time_bpm_to_seconds, -1);
+		txr_function_add("playsfx", playsfx, -1);
+		txr_function_add("stopsfx", stopsfx, -1);
 	#endregion
 	
 	#region Input
@@ -605,4 +607,5 @@ show_debug_message($"The {_charmList}: WE AGREE!");
 
 //// Level Loading ////
 global.levellist=0;
+global.sounds=ds_map_create();
 load_levels();

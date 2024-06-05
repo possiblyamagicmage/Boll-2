@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"__audioExtGetNameFromFilePath",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__audioExtGetNameFromFilePath",
+  "parent":{
+    "name":"System",
+    "path":"folders/audioExt/System.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

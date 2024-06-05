@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"__audioExtInit",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__audioExtInit",
+  "parent":{
+    "name":"System",
+    "path":"folders/audioExt/System.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

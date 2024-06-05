@@ -27,7 +27,7 @@ palette_index=0
 
 ///// GENERAL /////
 pNum = 0; //player number (P1, P2, etc.)
-charmName = "testcharm"; //what charm this player character is using
+charmName = "mario"; //what charm this player character is using
 size=0;
 oldsize=0;
 
@@ -107,52 +107,8 @@ drawStar=false
 var dir=$"{working_directory}\\_vanilla\\character\\{charmName}\\{charmName}";
 sheet=sprite_add($"{dir}-basic.png",0,1,0,0,0);
 
-
-
-//mycollisions = ds_list_create()
-//feel free to delete this along with it's mentions and uses in the draw event
-//instance_change(oPlayerTest,true)
-
-// fracval setup
-//setup_frac(self);
-
-// boxpoly setup
-//setup_box_poly(self);
-
-// slope setup
-//instance_make_slopevars(self);
-
 ///// EVENT SETUP /////
 
-
-//for(i = 0; i < array_length(sig_names); ++i) {
-//    Event[i] = txr_compile(global._loopThrough(sig_names[i]));
-//	if (Event[i] == undefined) {
-//	  show_message("INSIDE " + sig_names[i] + ": " + txr_error);
-//	} 
-//  }
-
-
-//_createEvent = txr_compile(global._loopThrough("create"));
-//if (_createEvent == undefined) {
-//    show_message("INSIDE create event: " + txr_error);
-//} 
 txr_exec(global.scripts[? $"{charmName}_create"]);
-
-//_stepEvent = txr_compile(global._loopThrough("step"));
-//if (_stepEvent == undefined) {
-//    show_message("INSIDE step event: " + txr_error);
-//}
-
-//_spriteManagerEvent = txr_compile(global._loopThrough("sprmanager"));
-//if (_spriteManagerEvent == undefined) {
-//    show_message("INSIDE sprite manager: " +  txr_error);
-//}
-
-//_spriteListEvent = txr_compile(global._loopThrough("spritelist"));
-//if (_spriteListEvent == undefined) {
-//    show_message("INSIDE sprite list: " + txr_error);
-//}
-txr_exec(global.scripts[? $"{charmName}_spritelist"]);
 
 init_player();

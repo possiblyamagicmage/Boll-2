@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"audioExtSoundUnload",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"audioExtSoundUnload",
+  "parent":{
+    "name":"General",
+    "path":"folders/audioExt/General.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

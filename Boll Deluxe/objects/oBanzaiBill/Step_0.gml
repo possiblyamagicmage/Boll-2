@@ -12,7 +12,7 @@ if coll > 0
 			var j=instance_create(x+4,y+4,pDestruction) with(j){image_index=4 hspeed=-1 vspeed=-4} //top left
 			var j=instance_create(x+12,y+4,pDestruction) with(j){image_index=4 hspeed=1 vspeed=-4} //top right
 		}
-		VinylPlay(snd_blockbreak);
+		VinylPlay(snd_hardblockbreak);
 	}
 }
 

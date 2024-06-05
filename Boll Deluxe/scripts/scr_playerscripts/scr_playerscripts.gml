@@ -92,8 +92,34 @@ function skin_animationdata(slot,name,list,size) {
 	poleoffx=nozerounreal(skin_setting(sizename+" pole center offset"),skin_setting("pole center offset"))
 }
 
+function init_sounds() {
+	var dir=$"{working_directory}\\_vanilla\\character\\{charmName}\\sfx\\"
+	audioExtWavScan(dir)
+	/*for (var i=0; i < array_length(sound_list); ++i;) {
+		if file_exists(dir+$"{charmName}{sound_list[i]}.wav") {
+			var snd=audioExtSoundGet($"{charmName}{sound_list[i]}")
+			VinylSetupSound(audioExtSoundGetSoundID(snd))
+			show_debug_message($"Loaded sound ID: {charmName}{sound_list[i]}")
+		} else {
+			show_debug_message($"Failed to load sound ID: {charmName}{sound_list[i]}, is your file missing?")
+		}
+	}*/
+}
+
+function playsfx(sound,pitch=1,loop=0,gain=1) {
+	var snd=audioExtSoundGet(sound)
+	audio_play_sound(audioExtSoundGetSoundID(snd),0,loop,gain,0,pitch)
+}
+
+function stopsfx(sound) {
+	var snd=audioExtSoundGet(sound)
+	audio_stop_sound(audioExtSoundGetSoundID(snd))
+}
+
 function init_player() { //make this load animation data later
-	txr_exec(global.scripts[? $"{charmName}_spritelist"]); //sprite list
+	sprite_list=["stand"];
+	sound_list=[]; //failsafe
+	txr_exec(global.scripts[? $"{charmName}_datalist"]); //sprite list
 	frames_list=[1];
 	loops_list=[1];
 	times_list[0]=1;
@@ -109,6 +135,7 @@ function init_player() { //make this load animation data later
 	dy=0;
 	
 	skin_animationdata(pNum,charmName,sprite_list,0);
+	init_sounds();
 }
 
 function draw_player() {

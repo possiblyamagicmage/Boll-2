@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"audioExtWavRemove",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"audioExtWavRemove",
+  "parent":{
+    "name":"Wav",
+    "path":"folders/audioExt/Wav.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":0.16381,
+  "duration":0.113197,
   "name":"snd_blockbump",
   "parent":{
     "name":"Objects",

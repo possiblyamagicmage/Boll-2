@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"audioExtWavGetNames",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"audioExtWavGetNames",
+  "parent":{
+    "name":"Wav",
+    "path":"folders/audioExt/Wav.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
