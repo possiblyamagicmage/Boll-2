@@ -24,4 +24,9 @@ bpress = input_check_pressed("b");
 ckey = input_check("c");
 cpress = input_check_pressed("c");
 
+steep_slope = false
+if abs(colangle) > 60 and abs(colangle) < 300 {
+	steep_slope = true	
+}
+
 txr_exec(global.scripts[? $"{charmName}_step"]);

@@ -7,38 +7,40 @@ function player_collision(){
 	
 	
 		//left wall
-		if sign(hsp) = -1 {
-		    while check_collision_dot(bbox_left, y, COL_WALL){
+		while check_collision_dot(x-hit_sizex, y, COL_WALL){
 				x++
 				//updateBox.Emit()
 			}
-		} else {
+		
 		//right wall
-			while check_collision_dot(bbox_right, y, COL_WALL){
+		while check_collision_dot(x+hit_sizex, y, COL_WALL){
 				x--
 				//updateBox.Emit()
 			}
-		}
+		
 	
 	
 	//landing on solid ground
 	if !grounded && vsp >= 0 {
-		if check_collision_line(bbox_left,bbox_bottom,bbox_right,bbox_bottom, COL_BOTTOM){
+		if check_collision_line(x-hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey, COL_BOTTOM){
 			grounded = true
 			gsp = hsp
-			bonk = 0
+			vsp = 0
+			if self = oPlayer {
+				bonk = 0
+			}
 			//vsp = 0
 		}
 	}
 	
 	//hitting the ceiling
 	if !grounded && vsp < 0 {
-		if (check_collision_dot(bbox_right, bbox_top, COL_TOP)
-			or check_collision_dot(bbox_left, bbox_top, COL_TOP)){
+		if (check_collision_dot(x+hit_sizex, y-hit_sizey, COL_TOP)
+			or check_collision_dot(x-hit_sizex, y-hit_sizey, COL_TOP)){
 			//push out
 				
-			while (check_collision_dot(bbox_right, bbox_top, COL_TOP) 
-				or check_collision_dot(bbox_left, bbox_top, COL_TOP)) {
+			while (check_collision_dot(x+hit_sizex, y-hit_sizey, COL_TOP) 
+				or check_collision_dot(x-hit_sizex, y-hit_sizey, COL_TOP)) {
 				y++
 				//updateBox.Emit()
 			}
@@ -46,7 +48,9 @@ function player_collision(){
 			vsp = 2
 			
 			//bonking
-			bonk=12
+			if self = oPlayer {
+				bonk=12
+			}
 			VinylPlay(snd_blockbump)
 		}
 	}
@@ -61,8 +65,8 @@ function player_collision(){
 		offsety = yprevious - y
 		
 		//fall
-		if (!check_collision_line(bbox_left,bbox_bottom,bbox_left,bbox_bottom + 16 , COL_BOTTOM) 
-			and !check_collision_line(bbox_right,bbox_bottom,bbox_right,bbox_bottom + 16, COL_BOTTOM) ){
+		if (!check_collision_line(x-hit_sizex,y+hit_sizey,x-hit_sizey,y +hit_sizey + 16 , COL_BOTTOM) 
+			and !check_collision_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey + 16, COL_BOTTOM) ){
 				vsp = gsp * -dsin(colangle)
 				hsp = gsp * dcos(colangle)
 				grounded = false
@@ -73,26 +77,33 @@ function player_collision(){
 		
 		
 	if grounded {
-		//move down
 		
-		    while (!check_collision_line(bbox_left,bbox_bottom,bbox_right,bbox_bottom, COL_BOTTOM)){
-				//&& !check_collision_dot(bbox_left,bbox_bottom, COL_BOTTOM)) 
+		//gets angle so it doesnt jitter
+		get_angle_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 3)
+		get_angle_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y +hit_sizey + 3)
+		
+		//move down
+		if (check_collision_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 16 , COL_BOTTOM) 
+			and check_collision_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey + 16, COL_BOTTOM) ){
+			    while (!check_collision_dot(x+hit_sizex,y+hit_sizey, COL_BOTTOM)
+				    and !check_collision_dot(x-hit_sizex,y+hit_sizey, COL_BOTTOM)) {
+					y ++  
+					//updateBox.Emit()
+				}
 				
-				y++
-				//updateBox.Emit()
 			}
 		
-		
 		//move up
-	
-		    while (check_collision_line(bbox_left,bbox_bottom,bbox_right,bbox_bottom, COL_BOTTOM)){
-				//|| check_collision_dot(bbox_left,bbox_bottom, COL_BOTTOM)) 
-				y--
+		    while (check_collision_dot(x+hit_sizex,y+hit_sizey, COL_BOTTOM, oCollider)
+				or check_collision_dot(x-hit_sizex,y+hit_sizey, COL_BOTTOM, oCollider)) {
+				y -- 
 				//updateBox.Emit()
 			}
 		
 	}
 	
 	//ds_list_destroy(mycollisions)
-	bonk=max(bonk,bonk-1)
+	if self = oPlayer {
+		bonk=max(bonk,bonk-1)
+	}
 }

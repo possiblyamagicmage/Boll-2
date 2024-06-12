@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"post_wall",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"post_wall",
+  "parent":{
+    "name":"Player",
+    "path":"folders/Scripts/Player.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

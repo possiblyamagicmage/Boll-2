@@ -3,10 +3,9 @@
 function player_slide(max_speed, slide_influence, steep_influence, do_steep_while_slide) {
 	
 	if (steep_slope) {
-		if (!do_steep_while_slide && slopesliding) {
-			//dont do it lol
-		} else if (do_steep_while_slide && slopesliding) || !slopesliding {
-			gsp -= (slide_influence * dsin(colangle))
+		if !slopesliding {
+			gsp -= (steep_influence * dsin(colangle))
+			no_move = 1
 		}
 		//slopesliding = 1;
 	} else if (down && ceil(abs(colslope))) {

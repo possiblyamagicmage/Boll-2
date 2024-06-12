@@ -109,15 +109,20 @@ if ((canjump > 0) && (apress))
 	playsfx("mariojump")
 }
 
-if (colangle != 0 && slopesliding) {
+if (colangle != 0 && slopesliding){
 	fric = 0.048; //limit friction for more slideee
 	// weeeeee
+} else if (!slopesliding && steep_slope) {
+	fric = 0.048;
 } else {
 	fric = 0.0625;
 }
 
+
+	
 player_movement();
-player_collision();	
+player_collision();
+post_wall();
 
 
 // polygons!!!!!

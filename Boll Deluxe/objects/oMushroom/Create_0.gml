@@ -7,6 +7,9 @@ xsc=1
 ysc=1
 grounded = false
 
+hit_sizex = 6
+hit_sizey = 8
+
 depth=2
 
 going=0;

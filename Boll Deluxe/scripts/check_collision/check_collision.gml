@@ -11,14 +11,11 @@
 
 function check_collision_dot(x1, y1, type = 0, object = oCollider){
     
-    x1 = round(x1)
-    y1 = round(y1)
-    
     var found = noone
     
-    if collision_point(x1 ,y1,object,true,true)    {
+    if collision_point(floor(x1),floor(y1),object,true,true)    {
 	    var found_list = ds_list_create()
-	    var found_size = collision_point_list(x1 ,y1,object,true,true, found_list, true)
+	    var found_size = collision_point_list(floor(x1),floor(y1),object,true,true, found_list, true)
     
 	    for (var i = 0; i < found_size; ++i) {    
 	        found = found_list[| i];
@@ -31,12 +28,12 @@ function check_collision_dot(x1, y1, type = 0, object = oCollider){
 	                    if found.slope { 
 	                        colslope = found.slope_factor * (-1 + (found.hflip* 2))
 	                        //show_debug_message(found.angle)
-	                        colangle = found.angle
-	                        steep_slope = abs(found.image_yscale) > abs(found.image_xscale) //probably replace this with a factor check?
+							//colangle = found.angle
+	                       // steep_slope = abs(found.image_yscale) > abs(found.image_xscale) //probably replace this with a factor check?
 	                    }else{
 	                        colslope = 0
-	                        steep_slope = 0
-	                        colangle = 0
+	                        //steep_slope = 0
+	                        //colangle = 0
 	                    }
 	                    ds_list_destroy(found_list)
 	                    return found;    
@@ -65,16 +62,11 @@ function check_collision_dot(x1, y1, type = 0, object = oCollider){
 
 function check_collision_line(x1, y1, x2, y2, type = 0, object = oCollider){
 	
-	x1 = round(x1)
-	x2 = round(x2)
-	y1 = round(y1)
-	y2 = round(y2)
-	
 	var found = noone
 	
-	if collision_line(x1 ,y1,x2, y2, object,true,true)    {
+	if collision_line(floor(x1) ,floor(y1),floor(x2), floor(y2), object,true,true)    {
 	    var found_list = ds_list_create()
-	    var found_size = collision_line_list(x1 ,y1,x2, y2, object,true,true, found_list, true)
+	    var found_size = collision_line_list(floor(x1) ,floor(y1),floor(x2), floor(y2), object,true,true, found_list, true)
     
 	    for (var i = 0; i < found_size; ++i) {    
 	        found = found_list[| i];
@@ -87,12 +79,12 @@ function check_collision_line(x1, y1, x2, y2, type = 0, object = oCollider){
 	                    if found.slope { 
 	                        colslope = found.slope_factor * (-1 + (found.hflip* 2))
 	                        //show_debug_message(found.angle)
-	                        colangle = found.angle
-	                        steep_slope = abs(found.image_yscale) > abs(found.image_xscale) //probably replace this with a factor check?
+	                       // colangle = found.angle
+	                        //steep_slope = abs(found.image_yscale) > abs(found.image_xscale) //probably replace this with a factor check?
 	                    }else{
 	                        colslope = 0
-	                        steep_slope = 0
-	                        colangle = 0
+	                       //steep_slope = 0
+	                        //colangle = 0
 	                    }
 	                    ds_list_destroy(found_list)
 	                    return found;    
@@ -110,6 +102,35 @@ function check_collision_line(x1, y1, x2, y2, type = 0, object = oCollider){
 	                    }
 	                break;
 	            }
+
+	        }
+        
+	    }
+        ds_list_destroy(found_list)
+    }
+
+}
+
+function get_angle_line(x1, y1, x2, y2){
+	
+	var found = noone
+	
+	var object = oCollider
+	
+	if collision_line(floor(x1) ,floor(y1),floor(x2), floor(y2), object,true,true)    {
+	    var found_list = ds_list_create()
+	    var found_size = collision_line_list(floor(x1) ,floor(y1),floor(x2), floor(y2), object,true,true, found_list, true)
+    
+	    for (var i = 0; i < found_size; ++i) {    
+	        found = found_list[| i];
+	        if (instance_exists(found)) && (!found.no_collide) { 
+	                    if found.slope { 
+	                        colangle = found.angle
+	                    }else{
+	                        colangle = 0
+	                    }
+	                    ds_list_destroy(found_list)
+	                    return found;    
 
 	        }
         

@@ -25,6 +25,7 @@ draw_box_poly();
 draw_set_color(_drawcolor);*/
 animate_player();
 draw_player();
+//draw_sprite(sprite_index,image_index,floor(x),floor(y))
 
 if (global.debug) {
 	draw_set_font(smallF)
@@ -34,6 +35,11 @@ if (global.debug) {
 
 	draw_text(x,y,sprite)
 }
+
+draw_text(x,y-32,hsp)
+draw_text(x,y-16,vsp)
+draw_text(x,y-48,gsp)
+draw_text(x,y-64,colangle)
 
 //draw_text(x,y,string(fr)+"\n"+string(frame))
 

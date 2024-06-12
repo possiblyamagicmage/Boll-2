@@ -11,15 +11,6 @@ sig.Connect( self, function(str_var) {
 
 });
 
-updateBox.Connect( self, function() {
-    
-	p_bbox_left = x - hit_sizex
-	p_bbox_right = x + hit_sizex
-	p_bbox_top = y - hit_sizey
-	p_bbox_bottom = y + hit_sizey
-
-});
-
 // Palette
 pal_swap_init_system(shd_pal_swapper);
 palette=0
@@ -30,18 +21,10 @@ pNum = 0; //player number (P1, P2, etc.)
 charmName = "mario"; //what charm this player character is using
 size=0;
 oldsize=0;
+colangle = 0;
 
 hit_sizex = 6
 hit_sizey = 6
-
-updateBox.Connect( self, function() {
-    
-	p_bbox_left = x - hit_sizex
-	p_bbox_right = x + hit_sizex
-	p_bbox_top = y - hit_sizey
-	p_bbox_bottom = y + hit_sizey
-
-});
 
 
 ///// PHYSICS /////
@@ -57,6 +40,7 @@ chsp = 0;
 cvsp = 0;
 
 maxspd = 0; //gets overridden in step event
+steep_slope = false
 
 // chearii: accel and friction were 0.5 and 0.4, respectively. I'm just changing them to their SMW values
 accel = 0.09375; //how fast you gain speed
@@ -102,6 +86,8 @@ hurt=0;
 image_speed=0
 global.paused=0
 depth=0;
+image_xscale = 1
+image_yscale = 1
 drawStar=false 
 
 var dir=$"{working_directory}\\_vanilla\\character\\{charmName}\\{charmName}";
