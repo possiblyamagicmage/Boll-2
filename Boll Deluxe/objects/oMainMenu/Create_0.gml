@@ -1,8 +1,8 @@
 option=0;
-optMAX=2;
+optMAX=3;
 crMenu="mainmenu";
 subopt=0;
-suboptMAX=2;
+suboptMAX=3;
 optionLock=0;
 
 window_set_size(480*3,270*3);

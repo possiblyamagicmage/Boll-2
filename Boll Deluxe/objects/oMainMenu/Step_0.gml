@@ -15,7 +15,8 @@ switch (crMenu) {
 			switch option {
 				case 0: crMenu="levelselectm" option=0 break;
 				case 1: crMenu="keybindsm" option=0 break;
-				case 2: game_end(); break;
+				case 2: room_goto(rEditor) option=0 break;
+				case 3: game_end(); break;
 			}
 		}
 	break

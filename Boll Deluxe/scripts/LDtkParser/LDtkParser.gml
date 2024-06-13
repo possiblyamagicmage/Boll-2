@@ -209,8 +209,8 @@ function LDtkLoad(level_name) {
 	var level_w = level.pxWid
 	var level_h = level.pxHei
 	
-	room_set_width(room, level_w)
-	room_set_height(room, level_h)
+	room_set_width(rLDTKload, level_w)
+	room_set_height(rLDTKload, level_h)
 	
 	// for each layer in the level
 	for(var i = 0; i < array_length(level.layerInstances); i++) {
