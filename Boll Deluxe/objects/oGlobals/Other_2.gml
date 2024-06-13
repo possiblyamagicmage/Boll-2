@@ -69,3 +69,5 @@ global._loopThrough = function(_lookfor, _filedir) { //Function to go through an
 }
 
 global.scripts = scr_compile()
+
+room_goto(rMainMenu)
