@@ -40,8 +40,8 @@ toolbar[2][3]=PICKER_TOOL
 toolbar[2][4]=ROTATE_TOOL
 toolbar[2][5]=MIRROR_TOOL
 toolbar[2][6]=FLIP_TOOL
-toolbar[2][8]=COLOR_TOOL
-toolbar[2][9]=REFERENCE_TOOL
+toolbar[2][7]=COLOR_TOOL
+toolbar[2][8]=REFERENCE_TOOL
 //Background
 toolbar[3][0]=SELECT_TOOL
 toolbar[3][1]=BRUSH_TOOL
@@ -70,6 +70,13 @@ curs_y=mouse_y
 function mouse_in_setting_slot(numb) {
 	var guiw=display_get_gui_width();
 	return point_in_rectangle(curs_x,curs_y,(guiw-28)-(32*numb),4,(guiw-28)-(32*numb)+24,28)
+}
+
+function mouse_in_toolbar_slot(numb) {
+	var guiw=display_get_gui_width();
+	if toolbar[selected_mode][numb] != EMPTY_SLOT
+	return point_in_rectangle(curs_x,curs_y,(guiw-12)-(32*14)+(32*numb),4,(guiw-12)-(32*14)+(32*numb)+32,28)
+	else return 0
 }
 
 function mouse_in_mode_slot(numb) {
