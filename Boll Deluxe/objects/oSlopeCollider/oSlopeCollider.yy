@@ -38,5 +38,8 @@
     "path":"sprites/spr_slopesolid/spr_slopesolid.yy",
   },
   "spriteMaskId":null,
+  "tags":[
+    "blocks",
+  ],
   "visible":true,
 }

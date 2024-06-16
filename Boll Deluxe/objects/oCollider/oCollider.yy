@@ -36,6 +36,7 @@
   "spriteMaskId":null,
   "tags":[
     "Catspeak",
+    "blocks",
   ],
   "visible":true,
 }

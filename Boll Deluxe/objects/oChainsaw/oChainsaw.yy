@@ -35,5 +35,8 @@
     "path":"sprites/spr_chainsaw/spr_chainsaw.yy",
   },
   "spriteMaskId":null,
+  "tags":[
+    "blocks",
+  ],
   "visible":true,
 }

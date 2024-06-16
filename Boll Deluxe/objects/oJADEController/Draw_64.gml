@@ -56,3 +56,32 @@ for (var i = 0; i < tb_length; ++i) //draw Editor icons
 	}
 }
 #endregion
+
+#region Object List
+	if selected_mode = OBJECT_MODE {
+		draw_set_font(smallF)
+		draw_set_halign(fa_right)
+		var _str = "swag"
+		//first 4 objects before selected 
+		for (var i = 1; i < 4; ++i) {
+			_str = ds_list_find_value(obj_name, current_obj_id - i)
+			if _str == undefined{
+				break;	
+			}
+		    draw_text(guiw - 16, (guih/ 2) - (8* (i)), _str)	
+		}
+		//your object
+		_str = ds_list_find_value(obj_name, current_obj_id)
+		draw_text_color(guiw - 16, (guih/ 2), _str, c_yellow, c_yellow, c_yellow, c_yellow, 1)
+		//next 4 objects
+		for (var i = 1; i < 4; ++i) {
+			_str = ds_list_find_value(obj_name, current_obj_id + i)
+			if _str == undefined {
+				break;	
+			}
+		    draw_text(guiw - 16, (guih/ 2) + (8* (i)), _str)	
+		}
+		draw_set_halign(fa_left)
+	
+	}
+	

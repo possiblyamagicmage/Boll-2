@@ -39,5 +39,8 @@
     "path":"sprites/spr_itembox/spr_itembox.yy",
   },
   "spriteMaskId":null,
+  "tags":[
+    "blocks",
+  ],
   "visible":true,
 }

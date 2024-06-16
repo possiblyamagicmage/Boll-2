@@ -39,5 +39,8 @@
     "path":"sprites/spr_shootblock/spr_shootblock.yy",
   },
   "spriteMaskId":null,
+  "tags":[
+    "blocks",
+  ],
   "visible":true,
 }

@@ -60,17 +60,34 @@ toolbar[4][4]=REFERENCE_TOOL
 
 JADE_intializeobj();
 
+tile_layer = layer_create(0, "tilemap")
+//tileset = tTilesetMain
+tilemap = layer_tilemap_create(tile_layer, 0, 0, tTilesetMain, 25, 25)
+object_layer_map = ds_list_create()
+
+not_on_gui = false
+
+//tile_layer_array[0,0]= 0
+
 selected_mode=0;
 selected_toolbar=0;
 selected_tool=SELECT_TOOL
-selected_obj="collider";
+selected_obj=ds_list_find_value(obj_name, 0)
+selected_tile = 0
 temp_mode=0;
 temp_toolbar=0;
+
+current_obj_id = 0
+current_tile_id = 0
 
 curs_x=mouse_x
 curs_y=mouse_y
 
 total_objects=0;
+
+object_list= ds_list_create()
+
+//get_par
 
 function mouse_in_setting_slot(numb) {
 	var guiw=display_get_gui_width();

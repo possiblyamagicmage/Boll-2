@@ -23,3 +23,5 @@ killtype="";
 
 image_xscale=1;
 image_yscale=1;
+
+//asset_add_tags(object_index, "enemy", asset_object); 

@@ -40,5 +40,8 @@
     "path":"sprites/spr_movingplatform/spr_movingplatform.yy",
   },
   "spriteMaskId":null,
+  "tags":[
+    "blocks",
+  ],
   "visible":true,
 }

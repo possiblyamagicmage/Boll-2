@@ -2,11 +2,32 @@
 if (not_on_gui) {
 	switch (selected_tool) {
 		case BRUSH_TOOL:
-		is_string(selected_obj) {
-			var arr=ds_map_find_value(obj_data,selected_obj)
-			var xoff=arr[2]
-			var yoff=arr[3]
-			draw_sprite_ext(arr[0],0,gridx*16-xoff,gridy*16-yoff,1,1,0,c_white,0.25)
+		switch (selected_mode) {
+			case OBJECT_MODE:
+			is_string(selected_obj) {
+				var arr=ds_map_find_value(obj_data,selected_obj)
+				var xoff=arr[2]
+				var yoff=arr[3]
+				draw_sprite_ext(arr[0],0,gridx*16-xoff,gridy*16-yoff,1,1,0,c_white,0.25)
+			}
+			break;
+			case TILE_MODE:
+				var _tile = tilemap_get_tileset(tilemap)
+				var _data = tilemap_get(tilemap, 0,0)
+				_data = tile_set_index(_data, current_tile_id)
+				draw_set_alpha(0.25)
+				draw_tile(_tile, _data, 0, gridx*16, gridy*16)
+				draw_set_alpha(1)
+				//draw_set_colour(c_white);
+				//var _tex = tileset_get_texture(_tile)
+				//draw_primitive_begin_texture(pr_trianglestrip, _tex);
+				//draw_vertex_texture(0, 0, 0, 0);
+				//draw_vertex_texture(640, 0, 1, 0);
+				//draw_vertex_texture(0, 480, 0, 1);
+				//draw_vertex_texture(640, 480, 1, 1);
+				//draw_primitive_end();
+				//draw_sprite(spr_Samba, 0, mouse_x, mouse_y)
+			break;
 		}
 		break;
 		case ERASE_TOOL:

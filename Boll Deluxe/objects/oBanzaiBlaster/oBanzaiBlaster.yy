@@ -43,5 +43,8 @@
     "path":"sprites/spr_banzaiblasterbase/spr_banzaiblasterbase.yy",
   },
   "spriteMaskId":null,
+  "tags":[
+    "blocks",
+  ],
   "visible":true,
 }

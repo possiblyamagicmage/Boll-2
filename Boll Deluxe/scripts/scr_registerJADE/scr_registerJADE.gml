@@ -4,8 +4,11 @@
 #macro BACKGROUND_MODE 3
 #macro NODE_MODE 4
 
+
+
 function JADE_intializeobj(){	
 	obj_data=ds_map_create();
+	obj_name = ds_list_create()	
 	/*
 		hey so let me explain how this works:
 		uuid is the 'id' for an object, its used for accessing everything. preferrably a string. 
@@ -27,13 +30,22 @@ function JADE_intializeobj(){
 	//10. what editor mode object list to appear in
 	show_debug_message("Registering JADE object list...")
 	
-	registerobj("collider", spr_collider, 0, 0, 0, 1, 1, true, true, OBJECT_MODE)
+	var obj_list1 = tag_get_asset_ids("blocks", asset_object);
+	
+	for (var i = 0; i < array_length(obj_list1); ++i) {
+		var _name = object_get_name(obj_list1[i])
+		var _sprite = object_get_sprite(obj_list1[i])
+	    registerobj(_name, _sprite, 0, -sprite_get_xoffset(_sprite), -sprite_get_yoffset(_sprite), 1, 1, true, true, OBJECT_MODE)
+	}
+	//registerobj("collider", spr_collider, 0, 0, 0, 1, 1, true, true, OBJECT_MODE)
 }
 
 function registerobj(uuid,sprite,index,xoff,yoff,xscale,yscale,can_xscale,can_yscale,mode) {
+	
+	
 	if !ds_map_exists(obj_data,uuid) {
 		ds_map_add(obj_data,uuid,[sprite,index,xoff,yoff,xscale,yscale,can_xscale,can_yscale,mode])
-		
+		ds_list_add(obj_name,uuid)
 		show_debug_message($"Successfully registered object id: {uuid} in JADE")
 	} else {
 		show_debug_message($"Object ID: {uuid} is already registered in JADE! ignoring..")

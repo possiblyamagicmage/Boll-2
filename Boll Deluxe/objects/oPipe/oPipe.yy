@@ -38,5 +38,8 @@
     "path":"sprites/spr_pipe/spr_pipe.yy",
   },
   "spriteMaskId":null,
+  "tags":[
+    "blocks",
+  ],
   "visible":true,
 }
