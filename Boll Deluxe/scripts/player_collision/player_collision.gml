@@ -5,18 +5,15 @@
 
 function player_collision(){
 	
-	
-		//left wall
-		while check_collision_dot(x-hit_sizex, y, COL_WALL){
-				x++
-				
-			}
+	//left wall
+	while check_collision_dot(x-hit_sizex, y, COL_WALL){
+		x++		
+	}
 		
-		//right wall
-		while check_collision_dot(x+hit_sizex, y, COL_WALL){
-				x--
-				
-			}
+	//right wall
+	while check_collision_dot(x+hit_sizex, y, COL_WALL){
+		x--
+	}
 		
 	
 	
@@ -48,6 +45,12 @@ function player_collision(){
 			
 			//bonking
 			if self.object_index = oPlayer{
+				//Hitting / Bumping blocks
+				var coll=instance_place(x,y-1,oHittable) 
+				if (coll) {
+					with(coll) if !(no_hit) blockHit.Emit(-1, other.id)
+				}
+				
 				sig.Emit("ceil_bonk")
 			}
 			VinylPlay(snd_blockbump)

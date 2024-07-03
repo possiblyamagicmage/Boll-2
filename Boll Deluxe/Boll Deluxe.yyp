@@ -159,6 +159,8 @@
     {"$GMFolder":"","%Name":"Runtime Setup","folderPath":"folders/Vinyl/Runtime Setup.yy","name":"Runtime Setup","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
+    {"$GMIncludedFile":"","%Name":"mario.gml.backup0","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario/#backups","name":"mario.gml.backup0","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"mario.gml.backup1","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario/#backups","name":"mario.gml.backup1","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"config.ini","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"config.ini","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"mario-basic.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"mario-basic.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"mario.gml","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"mario.gml","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
