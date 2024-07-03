@@ -46,9 +46,12 @@ function player_collision(){
 			//bonking
 			if self.object_index = oPlayer{
 				//Hitting / Bumping blocks
-				var coll=instance_place(x,y-1,oHittable) 
-				if (coll) {
-					with(coll) if !(no_hit) blockHit.Emit(-1, other.id)
+				var _list = ds_list_create();
+				var _num = instance_place_list(x, y-1, oHittable, _list, false);
+				if (_num > 0) {
+					for (var i = 0; i < _num; ++i;) {
+						with(_list[| i]) if !(no_hit) blockHit.Emit(-1, other.id)
+					}
 				}
 				
 				sig.Emit("ceil_bonk")
