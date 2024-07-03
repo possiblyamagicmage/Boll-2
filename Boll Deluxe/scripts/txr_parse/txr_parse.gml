@@ -58,7 +58,14 @@ function txr_parse(str) {
 					pos += 1;
 					ds_list_add(out, [txr_token.set, inf, txr_op.mul]);
 				} else ds_list_add(out, [txr_token.op, inf, txr_op.mul]);
-				break;
+				break; 
+			case ord("#"): //comment regions
+				while (pos <= len) {
+					char = string_ord_at(str, pos);
+					if (char == ord("\r") || char == ord("\n")) break;
+					pos += 1;
+				}
+			break;
 			case ord("/"):
 				switch (string_ord_at(str, pos)) {
 					case ord("="): // /=

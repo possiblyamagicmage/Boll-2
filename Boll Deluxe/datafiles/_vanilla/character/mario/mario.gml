@@ -13,6 +13,7 @@ skidding = 0;
 skiddir = 0;
 pound_timer = 0;
 pound = 0;
+storedxsc = 1;
 
 #define step
 
@@ -54,11 +55,14 @@ if (!grounded)
 		chsp = 0;
 	}
 	
+	#region Groundpound
 	if (downpress) && !(pound_timer) && !(pound) {
+		storedxsc=xsc;
 		pound_timer=10;
 		hsp=0;
 		grav=0;
 		move=0;
+		xsc=storedxsc;
 		playsfx(charmName+"pound")
 	}
 	
@@ -75,7 +79,9 @@ if (!grounded)
 	if (pound) {
 		vsp = 7;
 		hsp = 0;
+		xsc=storedxsc;
 	}
+	#endregion
 }
 else
 {

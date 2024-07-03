@@ -1,3 +1,0 @@
-if place_meeting(self.x,self.y+1,oCollider) {
-	self.y=self.y-16
-}
