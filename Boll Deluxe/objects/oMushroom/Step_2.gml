@@ -1,11 +1,4 @@
-/// @description Insert description here
-// You can write your code in this editor
-if check_collision_dot(bbox_left - 1,y,COL_WALL) and hsp < 0{
-		hsp = abs(hsp)
-	}
-	
-//right wall stop
-if check_collision_dot(bbox_right + 1,y,COL_WALL) and hsp > 0{
-		hsp = -abs(hsp)
-	}
-
+if check_collision_line(x+(10*hsp)+hsp,y-6,x+(10*hsp)+hsp,y+6,COL_WALL) {
+	hsp=-hsp
+}
+//wall flip

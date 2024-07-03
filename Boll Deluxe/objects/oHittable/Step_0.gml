@@ -1,4 +1,4 @@
-player=instance_place(x,y+2,oPlayer)
+player=collision_rectangle(bbox_left+2,bbox_bottom-1,bbox_right-2,bbox_bottom+2,oPlayer,false,true)
 if player && ((!player.grounded && player.vsp < 0) || (player.jump)) && !no_hit { //temp state check
 	blockHit.Emit(-1, player)
 }

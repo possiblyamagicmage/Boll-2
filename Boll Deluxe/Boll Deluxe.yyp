@@ -159,6 +159,7 @@
     {"$GMFolder":"","%Name":"Runtime Setup","folderPath":"folders/Vinyl/Runtime Setup.yy","name":"Runtime Setup","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
+    {"$GMIncludedFile":"","%Name":"config.ini","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"config.ini","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"mario-basic.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"mario-basic.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"mario.gml","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"mario.gml","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"player.txt","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"player.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
