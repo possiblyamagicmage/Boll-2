@@ -4,14 +4,24 @@
 global.debug=0
 global.netgame = false; // top 10 boll deluxe things that will never happen:
 
-//scr = NaN
-
-
-if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
+if !(instance_exists(input_controller_object)) instance_create_depth(0,0,16001,input_controller_object)
 
 //// TXR SETUP!!! ////
 #region TXR
 	txr_init(); //TXR starting
+	
+	#region Constants
+		txr_constant_add("COL_WALL",COL_WALL)
+		txr_constant_add("COL_BOTTOM",COL_BOTTOM)
+		txr_constant_add("COL_TOP",COL_TOP)
+		txr_constant_add("COL_LINE",COL_LINE)
+		txr_constant_add("COL_DOT",COL_DOT)
+		//Objects
+		txr_constant_add("oCollider",oCollider)
+		txr_constant_add("oSemilider",oSemilider)
+		txr_constant_add("oPipe",oPipe)
+		txr_constant_add("oMushroom",oMushroom)
+	#endregion
 	
 	#region Type
 	    txr_function_add("is_string", is_string, -1);
@@ -137,7 +147,7 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 		txr_function_add("string_height_scribble", string_height_scribble, -1);
 		txr_function_add("scribble_typist", scribble_typist, -1);
 	#endregion
-	
+
 	#region Math
 	    txr_function_add("round", round, -1);
 	    txr_function_add("frac", frac, -1);
@@ -181,6 +191,7 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 	    txr_function_add("distance_to_point", distance_to_point, -1);
 	    txr_function_add("dot_product", dot_product, -1);
 	    txr_function_add("dot_product_normalised", dot_product_normalised, -1);
+		txr_function_add("dot_product_normalized", dot_product_normalized, -1);
 	    txr_function_add("angle_difference", angle_difference, -1);
 	    txr_function_add("lengthdir_x", lengthdir_x, -1);
 	    txr_function_add("lengthdir_y", lengthdir_y, -1);
@@ -192,6 +203,7 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 	    txr_function_add("point_distance_3d", point_distance_3d, -1);
 	    txr_function_add("dot_product_3d", dot_product_3d, -1);
 	    txr_function_add("dot_product_3d_normalised", dot_product_3d_normalised, -1);
+		txr_function_add("dot_product_3d_normalized", dot_product_3d_normalized, -1);
 	    txr_function_add("matrix_build", matrix_build, -1);
 	    txr_function_add("matrix_multiply", matrix_multiply, -1);
 	    txr_function_add("matrix_build_identity", matrix_build_identity, -1);
@@ -202,7 +214,7 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 	    txr_function_add("matrix_transform_vertex", matrix_transform_vertex, -1);
 	#endregion
 	
-	#region Colour
+	#region Color
 	    txr_function_add("colour_get_blue", colour_get_blue, -1);
 	    txr_function_add("colour_get_green", colour_get_green, -1);
 	    txr_function_add("colour_get_red", colour_get_red, -1);
@@ -212,7 +224,15 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 	    txr_function_add("make_colour_rgb", make_colour_rgb, -1);
 	    txr_function_add("make_colour_hsv", make_colour_hsv, -1);
 	    txr_function_add("merge_colour", merge_colour, -1);
-		
+		txr_function_add("color_get_blue", color_get_blue, -1);
+	    txr_function_add("color_get_green", color_get_green, -1);
+	    txr_function_add("color_get_red", color_get_red, -1);
+	    txr_function_add("color_get_hue", color_get_hue, -1);
+	    txr_function_add("color_get_saturation", color_get_saturation, -1);
+	    txr_function_add("color_get_value", color_get_value, -1);
+	    txr_function_add("make_color_rgb", make_color_rgb, -1);
+	    txr_function_add("make_color_hsv", make_color_hsv, -1);
+	    txr_function_add("merge_color", merge_color, -1);
 	
 		// CONSTANT
 		txr_constant_add("c_aqua", c_aqua);
@@ -343,7 +363,6 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 	    txr_function_add("draw_surface_tiled_ext", draw_surface_tiled_ext, -1);
 	    txr_function_add("draw_surface_part_ext", draw_surface_part_ext, -1);
 	    txr_function_add("draw_surface_general", draw_surface_general, -1);
-	    txr_function_add("draw_highscore", draw_highscore, -1);
 	    txr_function_add("draw_enable_drawevent", draw_enable_drawevent, -1);
 	    txr_function_add("draw_enable_swf_aa", draw_enable_swf_aa, -1);
 	    txr_function_add("draw_set_swf_aa_level", draw_set_swf_aa_level, -1);
@@ -360,6 +379,7 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 	    txr_function_add("draw_get_lighting", draw_get_lighting, -1);
 	    txr_function_add("draw_tilemap", draw_tilemap, -1);
 	    txr_function_add("draw_tile", draw_tile, -1);
+		txr_function_add("draw_rect", draw_rect, -1);
 	#endregion
 	
 	#region Vertex Buffers
@@ -372,7 +392,6 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 	    txr_function_add("vertex_format_add_color", vertex_format_add_color, -1);
 	    txr_function_add("vertex_format_add_normal", vertex_format_add_normal, -1);
 	    txr_function_add("vertex_format_add_texcoord", vertex_format_add_texcoord, -1);
-	    txr_function_add("vertex_format_add_textcoord", vertex_format_add_texcoord, -1);
 	    txr_function_add("vertex_format_add_custom", vertex_format_add_custom, -1);
 	    txr_function_add("vertex_create_buffer", vertex_create_buffer, -1);
 	    txr_function_add("vertex_create_buffer_ext", vertex_create_buffer_ext, -1);
@@ -395,29 +414,27 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 	    txr_function_add("vertex_freeze", vertex_freeze, -1);
 	    txr_function_add("vertex_get_number", vertex_get_number, -1);
 	    txr_function_add("vertex_get_buffer_size", vertex_get_buffer_size, -1);
-
-		// CONSTANT ADD!!
-	    //"vertex_usage_position", vertex_usage_position,
-	    //"vertex_usage_colour", vertex_usage_colour,
-	    //"vertex_usage_color", vertex_usage_color,
-	    //"vertex_usage_normal", vertex_usage_normal,
-	    //"vertex_usage_texcoord", vertex_usage_texcoord,
-	    //"vertex_usage_textcoord", vertex_usage_texcoord,
-	    //"vertex_usage_blendweight", vertex_usage_blendweight,
-	    //"vertex_usage_blendindices", vertex_usage_blendindices,
-	    //"vertex_usage_psize", vertex_usage_psize,
-	    //"vertex_usage_tangent", vertex_usage_tangent,
-	    //"vertex_usage_binormal", vertex_usage_binormal,
-	    //"vertex_usage_fog", vertex_usage_fog,
-	    //"vertex_usage_depth", vertex_usage_depth,
-	    //"vertex_usage_sample", vertex_usage_sample,
-	    //"vertex_type_float1", vertex_type_float1,
-	    //"vertex_type_float2", vertex_type_float2,
-	    //"vertex_type_float3", vertex_type_float3,
-	    //"vertex_type_float4", vertex_type_float4,
-	    //"vertex_type_colour", vertex_type_colour,
-	    //"vertex_type_color", vertex_type_color,
-	    //"vertex_type_ubyte4", vertex_type_ubyte4,
+		
+		txr_constant_add("vertex_usage_position", vertex_usage_position)
+		txr_constant_add("vertex_usage_colour", vertex_usage_colour)
+		txr_constant_add("vertex_usage_color", vertex_usage_color)
+		txr_constant_add("vertex_usage_normal", vertex_usage_normal)
+		txr_constant_add("vertex_usage_texcoord", vertex_usage_texcoord)
+		txr_constant_add("vertex_usage_blendweight", vertex_usage_blendweight)
+		txr_constant_add("vertex_usage_blendindices", vertex_usage_blendindices)
+		txr_constant_add("vertex_usage_psize", vertex_usage_psize)
+		txr_constant_add("vertex_usage_tangent", vertex_usage_tangent)
+		txr_constant_add("vertex_usage_binormal", vertex_usage_binormal)
+		txr_constant_add("vertex_usage_fog", vertex_usage_fog)
+		txr_constant_add("vertex_usage_depth", vertex_usage_depth)
+		txr_constant_add("vertex_usage_sample", vertex_usage_sample)
+		txr_constant_add("vertex_type_float1", vertex_type_float1)
+		txr_constant_add("vertex_type_float2", vertex_type_float2)
+		txr_constant_add("vertex_type_float3", vertex_type_float3)
+		txr_constant_add("vertex_type_float4", vertex_type_float4)
+		txr_constant_add("vertex_type_colour", vertex_type_colour)
+		txr_constant_add("vertex_type_color", vertex_type_color)
+		txr_constant_add("vertex_type_ubyte4", vertex_type_ubyte4)
 	#endregion
 	
 	#region Random
@@ -430,7 +447,7 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 	    txr_function_add("irandom_range", irandom_range, -1);
 	#endregion
 	
-	#region Unsafe (nekonesse: these are actually pretty good to have tbh)
+	#region Assets
 		txr_function_add("asset_get_index", asset_get_index, -1);
 		txr_function_add("asset_get_type", asset_get_type, -1);
 		txr_function_add("tag_get_asset_ids", tag_get_asset_ids, -1);
@@ -457,8 +474,8 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 		txr_function_add("chance", chance, -1);
 		txr_function_add("jump_in_direction", jump_in_direction, -1);
 		txr_function_add("event_inherited", event_inherited, -1);
-		txr_function_add("room_get_width", function() { return room_width; }, -1);
-		txr_function_add("room_get_height", function() { return room_height; }, -1);
+		txr_function_add("room_get_width", function() { return room_width; }, 0);
+		txr_function_add("room_get_height", function() { return room_height; }, 0);
 		txr_function_add("check_signs_matching", check_signs_matching, -1);
 		txr_function_add("esign", esign, -1);
 		txr_function_add("unreal", unreal, -1);
@@ -473,6 +490,10 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 		txr_function_add("ternary", ternary, -1);
 		txr_function_add("alarm_get", alarm_get, -1);
 		txr_function_add("alarm_set", alarm_set, -1);
+		txr_function_add("get_delta_time", function() { return delta_time; }, 0);
+		txr_function_add("get_fps", function() { return fps; }, 0);
+		txr_function_add("get_fps_real", function() { return fps_real; }, 0);
+		txr_function_add("get_timer", get_timer, -1);
 	#endregion
 	
 	#region Player Functions
@@ -485,19 +506,137 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 	
 	#region Audio
 		txr_function_add("audio_play_sound", audio_play_sound, -1);
+		txr_function_add("audio_play_sound_ext", audio_play_sound_ext, -1);
+		txr_function_add("audio_play_sound_at", audio_play_sound_at, -1);
 		txr_function_add("audio_stop_all", audio_stop_all, -1);
 		txr_function_add("audio_stop_sound", audio_stop_sound, -1);
 		txr_function_add("audio_is_playing", audio_is_playing, -1);
 		txr_function_add("audio_is_paused", audio_is_paused, -1);
 		txr_function_add("audio_pause_all", audio_pause_all, -1);
 		txr_function_add("audio_pause_sound", audio_pause_sound, -1);
+		txr_function_add("audio_resume_all", audio_resume_all, -1);
+		txr_function_add("audio_resume_sound", audio_resume_sound, -1);
 		txr_function_add("audio_sound_loop_start", audio_sound_loop_start, -1);
 		txr_function_add("audio_sound_loop_end", audio_sound_loop_end, -1);
+		txr_function_add("audio_sound_loop", audio_sound_loop, -1);
+		txr_function_add("audio_sound_get_loop", audio_sound_get_loop, -1);
+		txr_function_add("audio_sound_get_loop_start", audio_sound_get_loop_start, -1);
+		txr_function_add("audio_sound_get_loop_end", audio_sound_get_loop_end, -1);
+		txr_function_add("audio_sound_gain", audio_sound_gain, -1);
+		txr_function_add("audio_sound_get_gain", audio_sound_get_gain, -1);
+		txr_function_add("audio_sound_pitch", audio_sound_pitch, -1);
+		txr_function_add("audio_sound_get_pitch", audio_sound_get_pitch, -1);
+		txr_function_add("audio_sound_set_track_position", audio_sound_set_track_position, -1);
+		txr_function_add("audio_sound_get_track_position", audio_sound_get_track_position, -1);
+		txr_function_add("audio_sound_set_listener_mask", audio_sound_set_listener_mask, -1);
+		txr_function_add("audio_sound_get_listener_mask", audio_sound_get_listener_mask, -1);
+		txr_function_add("audio_master_gain", audio_master_gain, -1);
+		txr_function_add("audio_set_master_gain", audio_set_master_gain, -1);
+		txr_function_add("audio_get_master_gain", audio_get_master_gain, -1);
+		txr_function_add("audio_channel_num", audio_channel_num, -1);
+		txr_function_add("audio_falloff_set_model", audio_falloff_set_model, -1);
+		txr_function_add("audio_system_is_available", audio_system_is_available, -1);
+		txr_function_add("audio_system_is_initialised", audio_system_is_initialised, -1);
+		txr_function_add("lin_to_db", lin_to_db, -1);
+		txr_function_add("db_to_lin", db_to_lin, -1);
+		txr_function_add("audio_create_stream", audio_create_stream, -1);
+		txr_function_add("audio_destroy_stream", audio_destroy_stream, -1);
+		txr_function_add("audio_emitter_create", audio_emitter_create, -1);
+		txr_function_add("audio_emitter_exists", audio_emitter_exists, -1);
+		txr_function_add("audio_emitter_position", audio_emitter_position, -1);
+		txr_function_add("audio_emitter_velocity", audio_emitter_velocity, -1);
+		txr_function_add("audio_emitter_falloff", audio_emitter_falloff, -1);
+		txr_function_add("audio_emitter_gain", audio_emitter_gain, -1);
+		txr_function_add("audio_emitter_pitch", audio_emitter_pitch, -1);
+		txr_function_add("audio_emitter_set_listener_mask", audio_emitter_set_listener_mask, -1);
+		txr_function_add("audio_emitter_free", audio_emitter_free, -1);
+		txr_function_add("audio_play_sound_on", audio_play_sound_on, -1);
+		txr_function_add("audio_emitter_get_gain", audio_emitter_get_gain, -1);
+		txr_function_add("audio_emitter_get_pitch", audio_emitter_get_pitch, -1);
+		txr_function_add("audio_emitter_get_x", audio_emitter_get_x, -1);
+		txr_function_add("audio_emitter_get_y", audio_emitter_get_y, -1);
+		txr_function_add("audio_emitter_get_z", audio_emitter_get_z, -1);
+		txr_function_add("audio_emitter_get_vx", audio_emitter_get_vx, -1);
+		txr_function_add("audio_emitter_get_vy", audio_emitter_get_vy, -1);
+		txr_function_add("audio_emitter_get_vz", audio_emitter_get_vz, -1);
+		txr_function_add("audio_emitter_get_listener_mask", audio_emitter_get_listener_mask, -1);
+		txr_function_add("audio_emitter_bus", audio_emitter_bus, -1);
+		txr_function_add("audio_emitter_get_bus", audio_emitter_get_bus, -1);
+		txr_function_add("audio_exists", audio_exists, -1);
+		txr_function_add("audio_listener_position", audio_listener_position, -1);
+		txr_function_add("audio_listener_velocity", audio_listener_velocity, -1);
+		txr_function_add("audio_listener_orientation", audio_listener_orientation, -1);
+		txr_function_add("audio_listener_get_data", audio_listener_get_data, -1);
+		txr_function_add("audio_listener_set_position", audio_listener_set_position, -1);
+		txr_function_add("audio_listener_set_velocity", audio_listener_set_velocity, -1);
+		txr_function_add("audio_listener_set_orientation", audio_listener_set_orientation, -1);
+		txr_function_add("audio_get_listener_count", audio_get_listener_count, -1);
+		txr_function_add("audio_get_listener_info", audio_get_listener_info, -1);
+		txr_function_add("audio_bus_create", audio_bus_create, -1);
+		txr_function_add("audio_effect_create", audio_effect_create, -1);
+		txr_function_add("audio_emitter_bus", audio_emitter_bus, -1);
+		txr_function_add("audio_emitter_get_bus", audio_emitter_get_bus, -1);
+		txr_function_add("audio_bus_get_emitters", audio_bus_get_emitters, -1);
+		txr_function_add("audio_bus_clear_emitters", audio_bus_clear_emitters, -1);
+		txr_function_add("audio_group_name", audio_group_name, -1);
+		txr_function_add("audio_group_get_assets", audio_group_get_assets, -1);
+		txr_function_add("audio_sound_get_audio_group", audio_sound_get_audio_group, -1);
+		txr_function_add("audio_group_load", audio_group_load, -1);
+		txr_function_add("audio_group_unload", audio_group_unload, -1);
+		txr_function_add("audio_group_is_loaded", audio_group_is_loaded, -1);
+		txr_function_add("audio_group_load_progress", audio_group_load_progress, -1);
+		txr_function_add("audio_group_stop_all", audio_group_stop_all, -1);
+		txr_function_add("audio_group_set_gain", audio_group_set_gain, -1);
+		txr_function_add("audio_group_get_gain", audio_group_get_gain, -1);
+		txr_function_add("audio_get_name", audio_get_name, -1);
+		txr_function_add("audio_get_type", audio_get_type, -1);
+		txr_function_add("audio_sound_get_asset", audio_sound_get_asset, -1);
+		txr_function_add("audio_sound_length", audio_sound_length, -1);
+		txr_function_add("audio_sound_is_playable", audio_sound_is_playable, -1);
+		txr_function_add("audio_create_buffer_sound", audio_create_buffer_sound, -1);
+		txr_function_add("audio_free_buffer_sound", audio_free_buffer_sound, -1);
+		txr_function_add("audio_create_play_queue", audio_create_play_queue, -1);
+		txr_function_add("audio_free_play_queue", audio_free_play_queue, -1);
+		txr_function_add("audio_queue_sound", audio_queue_sound, -1);
+		txr_function_add("audio_start_recording", audio_start_recording, -1);
+		txr_function_add("audio_stop_recording", audio_stop_recording, -1);
+		txr_function_add("audio_get_recorder_info", audio_get_recorder_info, -1);
+		txr_function_add("audio_get_recorder_count", audio_get_recorder_count, -1);
+		txr_function_add("audio_create_sync_group", audio_create_sync_group, -1);
+		txr_function_add("audio_play_in_sync_group", audio_play_in_sync_group, -1);
+		txr_function_add("audio_start_sync_group", audio_start_sync_group, -1);
+		txr_function_add("audio_stop_sync_group", audio_stop_sync_group, -1);
+		txr_function_add("audio_pause_sync_group", audio_pause_sync_group, -1);
+		txr_function_add("audio_resume_sync_group", audio_resume_sync_group, -1);
+		txr_function_add("audio_sync_group_get_track_pos", audio_sync_group_get_track_pos, -1);
+		txr_function_add("audio_destroy_sync_group", audio_destroy_sync_group, -1);
+		txr_function_add("audio_sync_group_is_playing", audio_sync_group_is_playing, -1);
+		txr_function_add("audio_sync_group_is_paused", audio_sync_group_is_paused, -1);
 		txr_function_add("time_bpm_to_seconds", time_bpm_to_seconds, -1);
+		txr_function_add("time_seconds_to_bpm", time_seconds_to_bpm, -1);
 		txr_function_add("playsfx", playsfx, -1);
 		txr_function_add("stopsfx", stopsfx, -1);
+		
+		txr_constant_add("audiogroup_default", audiogroup_default);
+		txr_constant_add("AudioEffectTypeBitcrusher", AudioEffectType.Bitcrusher);
+		txr_constant_add("AudioEffectTypeDelay", AudioEffectType.Delay);
+		txr_constant_add("AudioEffectTypeDelay", AudioEffectType.Gain);
+		txr_constant_add("AudioEffectTypeHPF2", AudioEffectType.HPF2);
+		txr_constant_add("AudioEffectTypeLPF2", AudioEffectType.LPF2);
+		txr_constant_add("AudioEffectTypeReverb1", AudioEffectType.Reverb1);
+		txr_constant_add("AudioEffectTypeTremolo", AudioEffectType.Tremolo);
+		txr_constant_add("AudioEffectTypeEQ", AudioEffectType.EQ);
+		txr_constant_add("AudioEffectTypePeakEQ", AudioEffectType.PeakEQ);
+		txr_constant_add("AudioEffectTypeHiShelf", AudioEffectType.HiShelf);
+		txr_constant_add("AudioEffectTypeLoShelf", AudioEffectType.LoShelf);
+		txr_constant_add("AudioEffectTypeCompressor", AudioEffectType.Compressor);
+		txr_constant_add("AudioLFOTypeSine", AudioLFOType.Sine);
+		txr_constant_add("AudioLFOTypeSquare", AudioLFOType.Square);
+		txr_constant_add("AudioLFOTypeTriangle", AudioLFOType.Triangle);
+		txr_constant_add("AudioLFOTypeSawtooth", AudioLFOType.Sawtooth);
+		txr_constant_add("AudioLFOTypeInvSawtooth", AudioLFOType.InvSawtooth);
 	#endregion
-	
+
 	#region Input
 		txr_function_add("input_check_pressed", input_check_pressed, -1);
 		txr_function_add("input_check", input_check, -1);
@@ -530,10 +669,12 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 		
 		txr_function_add("point_in_rectangle", point_in_rectangle, -1);
 		txr_function_add("point_in_triangle", point_in_triangle, -1);
-		txr_function_add("point_in_circle", point_in_circle, -1);
+		txr_function_add("point_in_circle", point_in_circle, -1)
 		txr_function_add("rectangle_in_rectangle", rectangle_in_rectangle, -1);
 		txr_function_add("rectangle_in_triangle", rectangle_in_triangle, -1);
 		txr_function_add("rectangle_in_circle", rectangle_in_circle, -1);
+		txr_function_add("check_collision_dot", check_collision_dot, -1);
+		txr_function_add("check_collision_line", check_collision_line, -1);
 	#endregion
 	 
 	#region DS Lists
@@ -559,6 +700,214 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 		txr_function_add("ds_list_mark_as_map", ds_list_mark_as_map, -1);
 		txr_function_add("ds_list_is_list", ds_list_is_list, -1);
 		txr_function_add("ds_list_is_map", ds_list_is_map, -1);
+		txr_function_add("ds_exists", ds_exists, -1);
+		
+		txr_constant_add("ds_type_map", ds_type_map)
+		txr_constant_add("ds_type_list", ds_type_list)
+		txr_constant_add("ds_type_stack", ds_type_stack)
+		txr_constant_add("ds_type_grid", ds_type_grid)
+		txr_constant_add("ds_type_priority", ds_type_priority)
+		txr_constant_add("ds_type_queue", ds_type_queue)
+	#endregion
+	
+	#region DS Grids
+		txr_function_add("ds_grid_create", ds_grid_create, -1);
+		txr_function_add("ds_grid_destroy", ds_grid_destroy, -1);
+		txr_function_add("ds_grid_width", ds_grid_width, -1);
+		txr_function_add("ds_grid_height", ds_grid_height, -1);
+		txr_function_add("ds_grid_resize", ds_grid_resize, -1);
+		txr_function_add("ds_grid_clear", ds_grid_clear, -1);
+		txr_function_add("ds_grid_set", ds_grid_set, -1);
+		txr_function_add("ds_grid_set_disk", ds_grid_set_disk, -1);
+		txr_function_add("ds_grid_set_grid_region", ds_grid_set_grid_region, -1);
+		txr_function_add("ds_grid_set_region", ds_grid_set_region, -1);
+		txr_function_add("ds_grid_shuffle", ds_grid_shuffle, -1);
+		txr_function_add("ds_grid_sort", ds_grid_sort, -1);
+		txr_function_add("ds_grid_get", ds_grid_get, -1);
+		txr_function_add("ds_grid_get_max", ds_grid_get_max, -1);
+		txr_function_add("ds_grid_get_mean", ds_grid_get_mean, -1);
+		txr_function_add("ds_grid_get_min", ds_grid_get_min, -1);
+		txr_function_add("ds_grid_get_sum", ds_grid_get_sum, -1);
+		txr_function_add("ds_grid_get_disk_max", ds_grid_get_disk_max, -1);
+		txr_function_add("ds_grid_get_disk_mean", ds_grid_get_disk_mean, -1);
+		txr_function_add("ds_grid_get_disk_min", ds_grid_get_disk_min, -1);
+		txr_function_add("ds_grid_get_disk_sum", ds_grid_get_disk_sum, -1);
+		txr_function_add("ds_grid_add", ds_grid_add, -1);
+		txr_function_add("ds_grid_add_region", ds_grid_add_region, -1);
+		txr_function_add("ds_grid_add_disk", ds_grid_add_disk, -1);
+		txr_function_add("ds_grid_add_grid_region", ds_grid_add_grid_region, -1);
+		txr_function_add("ds_grid_multiply", ds_grid_multiply, -1);
+		txr_function_add("ds_grid_multiply_disk", ds_grid_multiply_disk, -1);
+		txr_function_add("ds_grid_multiply_region", ds_grid_multiply_region, -1);
+		txr_function_add("ds_grid_multiply_grid_region", ds_grid_multiply_grid_region, -1);
+		txr_function_add("ds_grid_value_exists", ds_grid_value_exists, -1);
+		txr_function_add("ds_grid_value_disk_exists", ds_grid_value_disk_exists, -1);
+		txr_function_add("ds_grid_value_x", ds_grid_value_x, -1);
+		txr_function_add("ds_grid_value_y", ds_grid_value_y, -1);
+		txr_function_add("ds_grid_value_disk_x", ds_grid_value_disk_x, -1);
+		txr_function_add("ds_grid_value_disk_y", ds_grid_value_disk_y, -1);
+		txr_function_add("ds_grid_copy", ds_grid_copy, -1);
+		txr_function_add("ds_grid_read", ds_grid_read, -1);
+		txr_function_add("ds_grid_write", ds_grid_write, -1);
+	#endregion
+	
+	#region DS Maps
+		txr_function_add("ds_map_exists", ds_map_exists, -1);
+		txr_function_add("ds_map_create", ds_map_create, -1);
+		txr_function_add("ds_map_destroy", ds_map_destroy, -1);
+		txr_function_add("ds_map_add", ds_map_add, -1);
+		txr_function_add("ds_map_clear", ds_map_clear, -1);
+		txr_function_add("ds_map_copy", ds_map_copy, -1);
+		txr_function_add("ds_map_replace", ds_map_replace, -1);
+		txr_function_add("ds_map_delete", ds_map_delete, -1);
+		txr_function_add("ds_map_empty", ds_map_empty, -1);
+		txr_function_add("ds_map_size", ds_map_size, -1);
+		txr_function_add("ds_map_find_first", ds_map_find_first, -1);
+		txr_function_add("ds_map_find_last", ds_map_find_last, -1);
+		txr_function_add("ds_map_find_next", ds_map_find_next, -1);
+		txr_function_add("ds_map_find_previous", ds_map_find_previous, -1);
+		txr_function_add("ds_map_find_value", ds_map_find_value, -1);
+		txr_function_add("ds_map_keys_to_array", ds_map_keys_to_array, -1);
+		txr_function_add("ds_map_values_to_array", ds_map_values_to_array, -1);
+		txr_function_add("ds_map_set", ds_map_set, -1);
+		txr_function_add("ds_map_read", ds_map_read, -1);
+		txr_function_add("ds_map_write", ds_map_write, -1);
+		txr_function_add("ds_map_secure_save", ds_map_secure_save, -1);
+		txr_function_add("ds_map_secure_save_buffer", ds_map_secure_save_buffer, -1);
+		txr_function_add("ds_map_secure_load", ds_map_secure_load, -1);
+		txr_function_add("ds_map_secure_load_buffer", ds_map_secure_load_buffer, -1);
+		txr_function_add("ds_map_add_list", ds_map_add_list, -1);
+		txr_function_add("ds_map_add_map", ds_map_add_map, -1);
+		txr_function_add("ds_map_replace_list", ds_map_replace_list, -1);
+		txr_function_add("ds_map_replace_map", ds_map_replace_map, -1);
+		txr_function_add("ds_map_is_list", ds_map_is_list, -1);
+		txr_function_add("ds_map_is_map", ds_map_is_map, -1);
+	#endregion
+	
+	#region DS Priority Queues
+		txr_function_add("ds_priority_create", ds_priority_create, -1);
+		txr_function_add("ds_priority_destroy", ds_priority_destroy, -1);
+		txr_function_add("ds_priority_clear", ds_priority_clear, -1);
+		txr_function_add("ds_priority_empty", ds_priority_empty, -1);
+		txr_function_add("ds_priority_size", ds_priority_size, -1);
+		txr_function_add("ds_priority_add", ds_priority_add, -1);
+		txr_function_add("ds_priority_change_priority", ds_priority_change_priority, -1);
+		txr_function_add("ds_priority_delete_max", ds_priority_delete_max, -1);
+		txr_function_add("ds_priority_delete_min", ds_priority_delete_min, -1);
+		txr_function_add("ds_priority_delete_value", ds_priority_delete_value, -1);
+		txr_function_add("ds_priority_find_max", ds_priority_find_max, -1);
+		txr_function_add("ds_priority_find_min", ds_priority_find_min, -1);
+		txr_function_add("ds_priority_find_priority", ds_priority_find_priority, -1);
+		txr_function_add("ds_priority_copy", ds_priority_copy, -1);
+		txr_function_add("ds_priority_read", ds_priority_read, -1);
+		txr_function_add("ds_priority_write", ds_priority_write, -1);
+	#endregion
+	
+	#region DS Queues
+		txr_function_add("ds_queue_create", ds_queue_create, -1);
+		txr_function_add("ds_queue_destroy", ds_queue_destroy, -1);
+		txr_function_add("ds_queue_clear", ds_queue_clear, -1);
+		txr_function_add("ds_queue_empty", ds_queue_empty, -1);
+		txr_function_add("ds_queue_size", ds_queue_size, -1);
+		txr_function_add("ds_queue_dequeue", ds_queue_dequeue, -1);
+		txr_function_add("ds_queue_enqueue", ds_queue_enqueue, -1);
+		txr_function_add("ds_queue_head", ds_queue_head, -1);
+		txr_function_add("ds_queue_tail", ds_queue_tail, -1);
+		txr_function_add("ds_queue_copy", ds_queue_copy, -1);
+		txr_function_add("ds_queue_read", ds_queue_read, -1);
+		txr_function_add("ds_queue_write", ds_queue_write, -1);
+	#endregion
+	
+	#region DS Stacks
+		txr_function_add("ds_stack_create", ds_stack_create, -1);
+		txr_function_add("ds_stack_destroy", ds_stack_destroy, -1);
+		txr_function_add("ds_stack_clear", ds_stack_clear, -1);
+		txr_function_add("ds_stack_empty", ds_stack_empty, -1);
+		txr_function_add("ds_stack_size", ds_stack_size, -1);
+		txr_function_add("ds_stack_copy", ds_stack_copy, -1);
+		txr_function_add("ds_stack_top", ds_stack_top, -1);
+		txr_function_add("ds_stack_pop", ds_stack_pop, -1);
+		txr_function_add("ds_stack_push", ds_stack_push, -1);
+		txr_function_add("ds_stack_read", ds_stack_read, -1);
+		txr_function_add("ds_stack_write", ds_stack_write, -1);
+	#endregion
+	
+	#region Sprites
+		txr_function_add("sprite_exists", sprite_exists, -1);
+		txr_function_add("sprite_get_name", sprite_get_name, -1);
+		txr_function_add("sprite_get_number", sprite_get_number, -1);
+		txr_function_add("sprite_get_speed", sprite_get_speed, -1);
+		txr_function_add("sprite_get_speed_type", sprite_get_speed_type, -1);
+		txr_function_add("sprite_get_width", sprite_get_width, -1);
+		txr_function_add("sprite_get_height", sprite_get_height, -1);
+		txr_function_add("sprite_get_xoffset", sprite_get_xoffset, -1);
+		txr_function_add("sprite_get_yoffset", sprite_get_yoffset, -1);
+		txr_function_add("sprite_get_bbox_bottom", sprite_get_bbox_bottom, -1);
+		txr_function_add("sprite_get_bbox_left", sprite_get_bbox_left, -1);
+		txr_function_add("sprite_get_bbox_right", sprite_get_bbox_right, -1);
+		txr_function_add("sprite_get_bbox_top", sprite_get_bbox_top, -1);
+		txr_function_add("sprite_get_bbox_mode", sprite_get_bbox_mode, -1);
+		txr_function_add("sprite_get_nineslice", sprite_get_nineslice, -1);
+		txr_function_add("sprite_get_tpe", sprite_get_tpe, -1);
+		txr_function_add("sprite_get_texture", sprite_get_texture, -1);
+		txr_function_add("sprite_get_uvs", sprite_get_uvs, -1);
+		txr_function_add("sprite_get_info", sprite_get_info, -1);
+		txr_function_add("sprite_collision_mask", sprite_collision_mask, -1);
+		txr_function_add("sprite_set_offset", sprite_set_offset, -1);
+		txr_function_add("sprite_set_bbox_mode", sprite_set_bbox_mode, -1);
+		txr_function_add("sprite_set_bbox", sprite_set_bbox, -1);
+		txr_function_add("sprite_set_speed", sprite_set_speed, -1);
+		txr_function_add("sprite_set_nineslice", sprite_set_nineslice, -1);
+		txr_function_add("sprite_add", sprite_add, -1);
+		txr_function_add("sprite_add_ext", sprite_add_ext, -1);
+		txr_function_add("sprite_delete", sprite_delete, -1);
+		txr_function_add("sprite_replace", sprite_replace, -1);
+		txr_function_add("sprite_assign", sprite_assign, -1);
+		txr_function_add("sprite_merge", sprite_merge, -1);
+		txr_function_add("sprite_set_alpha_from_sprite", sprite_set_alpha_from_sprite, -1);
+		txr_function_add("sprite_nineslice_create", sprite_nineslice_create, -1);
+		txr_function_add("sprite_create_from_surface", sprite_create_from_surface, -1);
+		txr_function_add("sprite_add_from_surface", sprite_add_from_surface, -1);
+		txr_function_add("sprite_save", sprite_save, -1);
+		txr_function_add("sprite_save_strip", sprite_save_strip, -1);
+		
+		txr_constant_add("spritespeed_framespersecond", spritespeed_framespersecond)
+		txr_constant_add("spritespeed_framespergameframe", spritespeed_framespergameframe)
+	#endregion
+	
+	#region Date and Time
+		txr_function_add("date_set_timezone", date_set_timezone, -1);
+	#endregion
+	
+	#region Time Sources
+		txr_function_add("time_source_create", time_source_create, -1);
+		txr_function_add("time_source_destroy", time_source_destroy, -1);
+		txr_function_add("time_source_start", time_source_start, -1);
+		txr_function_add("time_source_stop", time_source_stop, -1);
+		txr_function_add("time_source_pause", time_source_pause, -1);
+		txr_function_add("time_source_resume", time_source_resume, -1);
+		txr_function_add("time_source_reconfigure", time_source_reconfigure, -1);
+		txr_function_add("time_source_reset", time_source_reset, -1);
+		txr_function_add("time_source_get_children", time_source_get_children, -1);
+		txr_function_add("time_source_get_parent", time_source_get_parent, -1);
+		txr_function_add("time_source_get_period", time_source_get_period, -1);
+		txr_function_add("time_source_get_reps_completed", time_source_get_reps_completed, -1);
+		txr_function_add("time_source_get_reps_remaining", time_source_get_reps_remaining, -1);
+		txr_function_add("time_source_get_state", time_source_get_state, -1);
+		txr_function_add("time_source_get_time_remaining", time_source_get_time_remaining, -1);
+		txr_function_add("time_source_get_units", time_source_get_units, -1);
+		txr_function_add("time_source_exists", time_source_exists, -1);
+		
+		txr_constant_add("time_source_global", time_source_global)
+		txr_constant_add("time_source_game", time_source_game)
+		txr_constant_add("time_source_units_seconds", time_source_units_seconds)
+		txr_constant_add("time_source_units_frames", time_source_units_frames)
+		txr_constant_add("time_source_expire_nearest", time_source_expire_nearest)
+		txr_constant_add("time_source_expire_after", time_source_expire_after)
+		txr_constant_add("time_source_state_initial", time_source_state_initial)
+		txr_constant_add("time_source_state_active", time_source_state_active)
+		txr_constant_add("time_source_state_paused", time_source_state_paused)
+		txr_constant_add("time_source_state_stopped", time_source_state_stopped)
 	#endregion
 
 	#region Instances
@@ -582,16 +931,15 @@ if !(instance_exists) instance_create_depth(0,0,16001,input_controller_object)
 	#endregion
 	
 	#region Signals
-		txr_function_add("SigConnector", SigConnector, -1);
-		txr_function_add("SigDisconnect", SigDisconnect, -1);
-		txr_function_add("Signal", Signal, -1);
+		txr_function_add("signal_emit", function(signal, type) { signal.Emit(type) }, -1);
+		txr_function_add("signal_create", signal_create, -1);
 	#endregion
 
 #endregion
 
 //// Charm Loading ////
 #region Charm Loading
-	_charmList = []; //Names of all charms
+	_charmList = []; //Names of all charmsa
 	var _chCharm = file_find_first($"{working_directory}\\_vanilla\\character\\*", fa_directory);
 	var _chIndex = 0;
 

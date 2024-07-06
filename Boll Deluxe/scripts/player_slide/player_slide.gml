@@ -18,5 +18,4 @@ function player_slide(max_speed, slide_influence, steep_influence, do_steep_whil
 		no_move = 1;
 		maxspd = max_speed;
 	}
-	
 }

@@ -217,8 +217,14 @@ function txr_parse(str) {
 					}
 					var name = string_copy(str, start, pos - start);
 					switch (name) {
-						case "oPipeUp": ds_list_add(out, [txr_token.number, inf,oPipeUp]); break;
+						/*case "oCollider": ds_list_add(out, [txr_token.number, inf,oCollider]); break;
+						case "oPipe": ds_list_add(out, [txr_token.number, inf,oPipe]); break;
 						case "oMushroom": ds_list_add(out, [txr_token.number, inf,oMushroom]); break;
+						case "COL_DOT": ds_list_add(out, [txr_token.number, inf,COL_DOT]); break;
+						case "COL_LINE": ds_list_add(out, [txr_token.number, inf,COL_LINE]); break;
+						case "COL_TOP": ds_list_add(out, [txr_token.number, inf,COL_TOP]); break;
+						case "COL_BOTTOM": ds_list_add(out, [txr_token.number, inf,COL_BOTTOM]); break;
+						case "COL_WALL": ds_list_add(out, [txr_token.number, inf,COL_WALL]); break;*/
 						
 						case "true": ds_list_add(out, [txr_token.number, inf,true]); break;
 						case "false": ds_list_add(out, [txr_token.number, inf,false]); break;

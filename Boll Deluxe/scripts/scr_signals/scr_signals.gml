@@ -103,3 +103,11 @@ function Signal() constructor{
         for(var i=0; i<len; ++i ){ remove[i].Remove(); delete remove[i]; }
     }
 }
+
+function signal_create(variable, code_id, obj=id) {
+	var test_signal = new Signal();
+	test_signal.Connect( self, function(str_var) {
+		txr_exec(global.scripts[? $"{code_id}_{str_var}"]);
+	});
+	variable_instance_set(obj, variable, variable_clone(test_signal))
+}

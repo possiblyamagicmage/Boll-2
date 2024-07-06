@@ -42,6 +42,6 @@ if (sheet != -1) {
 if (global.debug) {
 	draw_set_font(smallF)
 	draw_set_alpha(0.5)
-	draw_rectangle_color(bbox_left,bbox_top,bbox_right-1,bbox_bottom-1,c_red,c_red,c_red,c_red,false)
+	draw_rectangle_color(floor(x)-hit_sizex,floor(y)-hit_sizey,floor(x)+hit_sizex,floor(y)+hit_sizey,c_red,c_red,c_red,c_red,false)
 	draw_set_alpha(1)
 }

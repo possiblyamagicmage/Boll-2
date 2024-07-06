@@ -14,35 +14,31 @@ skiddir = 0;
 pound_timer = 0;
 pound = 0;
 storedxsc = 1;
+wallsliding = false;
+signal_create("custom_signal", charmName, id)
 
 #define step
 
 if (braking) xsc=brakedir
 maxspd = 2+runvar;
-no_move = (pound || pound_timer);
+no_move = !(!pound && !pound_timer);
 //add more checks here
 
-if ((apress) && !(grounded))
-{
-	
+if ((apress) && !(grounded)) {
 	alarm_set(0,5);  // ammount of frames for jump buffering
 	alarm_set(1,3);  // Walljump buffering
-}
-else if (grounded)
-{
+} else if (grounded) {
 	alarm_set(1,0)
 	wallbuffer = 0;
 }
 
-if ((alarm_get(0) > 0) && (grounded))
-{
+if ((alarm_get(0) > 0) && (grounded)) {
 	bufferjump = 1;
 	alarm_set(0,0)
 }
 
 // Fall off platform
-if (!grounded)
-{
+if (!grounded) {
 	vsp = min(4, vsp + grav);
 	canjump -= 1;
 	
@@ -57,11 +53,9 @@ if (!grounded)
 	
 	#region Groundpound
 	if (downpress) && !(pound_timer) && !(pound) {
-		storedxsc=xsc;
 		pound_timer=10;
 		hsp=0;
 		grav=0;
-		move=storedxsc;
 		playsfx(charmName+"pound")
 	}
 	
@@ -78,12 +72,9 @@ if (!grounded)
 	if (pound) {
 		vsp = 7;
 		hsp = 0;
-		move=storedxsc;
 	}
 	#endregion
-}
-else
-{
+} else {
 	canjump = 5;  // Coyote frames
 	jump = 0;
 	runjump = 0;
@@ -110,8 +101,8 @@ if ((!abs(sign(colslope)) && (abs(hsp) < 0.25)) || jump) {
 	crouch = 0
 }
 	
-// Jumping
-if (!akey)
+#region Jumping
+if (!akey) //Make player jump lower when jump is released
 {
 	if ((canstopjump == 1) && (vsp < -2))
 	{
@@ -119,12 +110,7 @@ if (!akey)
 	}
 }
 
-if (bkey) {
-	run=1.5;
-} else {
-	run = 0;
-}
-
+//Actual Jump
 if ((canjump > 0) && (apress))
 {
 	jump = 1;
@@ -134,10 +120,43 @@ if ((canjump > 0) && (apress))
 	vsp = -(6+min(1,abs(hsp)/10)); //jump power
 	canjump = 0;
 	canstopjump = 1;
+	steep_slope = false;
+	no_move = false;
 	//check if speed is high enough for visual run jump
 	if (run && abs(hsp)>3) {runjump=1} 
 	playsfx(charmName+"jump")
 }
+
+if (jump && (!pound && !pound_timer)) {
+	steep_slope = false;
+	no_move = false;
+}
+
+#region Walljump/slide
+if (move != 0) {
+	//wall sliding
+	var coll=check_collision_line(x+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc),x+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc),COL_WALL)
+	if (!grounded) && (coll) && (vsp > 0) && !(move_lock) {
+		vsp=min(vsp,0.75);
+		wallsliding=true;
+	} else {
+		if (wallsliding) xsc=-xsc;
+		wallsliding=false;
+	}
+} else {
+	wallsliding=false;
+}
+#endregion
+
+#endregion
+
+#region Running
+if (bkey) {
+	run=1.5;
+} else {
+	run = 0;
+}
+#endregion
 
 if (colangle != 0 && slopesliding){
 	fric = 0.048; //limit friction for more slideee
@@ -147,16 +166,10 @@ if (colangle != 0 && slopesliding){
 } else {
 	fric = 0.0625;
 }
-
-
 	
 player_movement();
 player_collision();
 post_wall();
-
-
-// polygons!!!!!
-// nekonesse: i beg of you turn this into a basic script/function for charm users....
 
 // check to see if we need to update the polybox
 if (sprindex_prev != sprite_index) {
@@ -164,41 +177,26 @@ if (sprindex_prev != sprite_index) {
 	sprindex_prev = sprite_index;
 }
 
-// Pipes ??? (works now)
-// if (grounded && down && place_meeting(x, y + 4, oPipeUp)) {  
-    // with instance_place(x, y + 4, oPipeUp) {
-        // if (canenter) {
-            // with other {  
-                // alarm[3] = 80;
-                // piped = 1;
-                // vsp = 1.5;
-                // hsp = 0;
-                // //x_frac = intlib_make_fixedpoint((other.x + (other.sprite_width / 2))) >> FRACBITS;
-            // }
-            // // sorry about the global variables here but the player object isnt
-            // // persistent so im overpreparing for room reloads lol
-            // global.exitlocation = target;  
-            
-            // global.exittype = warptypes.pipe;  
-        // }
-    // }
-// }
-
 // Switch direction
 //add more checks here to prevent left/right changing direction
-if (left || right) && !(slopesliding)
+if (left || right) && !(slopesliding) && !(pound_timer || pound)
 xsc = esign(move, 1)
 
 bonk=max(bonk,bonk-1)
 
 runvar = approach_val(runvar,run,0.05)
 
+if (up) {
+	signal_emit(custom_signal, "do_shit")
+}
+
 #define sprmanager
 
 frspd=1
 if (slopesliding) sprite="slide"
 else if (!grounded) {
-	if (pound_timer) sprite="groundpound"
+	if (wallsliding) sprite="wallslide"
+	else if (pound_timer) sprite="groundpound"
 	else if (pound) sprite="poundfall"
 	else if (bonk) sprite="bonk"
 	else if (vsp>0 && !runjump) sprite="fall"
@@ -239,4 +237,7 @@ if (pound) {
 bonk = 0;
 pound = 0;
 pound_timer = 0;
+
+#define do_shit
+show_debug_message("YIPEEE!!");
 

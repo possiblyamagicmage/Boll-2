@@ -1,5 +1,5 @@
 function skin_setting(_sett) {
-		var File =file_text_open_read($"{working_directory}/_vanilla/character/{charmName}/player.txt");
+		var File =file_text_open_read($"{working_directory}/_vanilla/character/{charmName}/config.ini");
 		
 		var Line =file_text_read_string(File);
 		while (!string_starts_with(Line, _sett+"=")) && (!file_text_eof(File)) {
@@ -15,7 +15,7 @@ function skin_setting(_sett) {
 }
 
 function skin_getarray(_sett) {
-	var File =file_text_open_read($"{working_directory}/_vanilla/character/{charmName}/player.txt");
+	var File =file_text_open_read($"{working_directory}/_vanilla/character/{charmName}/config.ini");
 	var Line =file_text_read_string(File);
 	while (!string_starts_with(Line, _sett+"=")) && (!file_text_eof(File)) {
 		file_text_readln(File);
@@ -40,7 +40,7 @@ function get_spriteindex() { //returns the array index of the player's current s
 }
 
 function skin_animationdata(slot,name,list,size) {
-	var i,j,p,t,spr,tokens2,sizename;
+	var i,j,p,t,spr,sizename;
 
 	switch (size){
 	    case 0: sizename="basic" break;

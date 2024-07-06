@@ -2,13 +2,10 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function player_movement(){
 	
-	if (!no_move) {
-		move = (right - left);
-	} else {
-		move = 0
-	}
+	if !(no_move)
+	move = (right - left);
 	
-	if (move != 0) 
+	if (move != 0) && !(steep_slope || no_move || move_lock)
 	{	
 		//dont walk up a slope if its too steep to walk on!
 		
