@@ -106,10 +106,34 @@ if (mbleftpress) {
 			switch(selected_mode) {
 				case OBJECT_MODE:
 					if is_string(selected_obj) {
-						var obj = ds_list_find_value(object_layer_map, i)
 						//var arr =ds_map_find_value(obj_data,selected_obj)
 						show_debug_message("created object: {0}", selected_obj)
-						ds_list_add(object_layer_map, [selected_obj, gridx, gridy, 1, 1, 0]) //add object to list at place
+						ds_list_add(object_layer_map, [selected_obj, gridx, gridy, 1, 1, 0])//add object to list at place
+						var obj = ds_list_find_value(object_layer_map, ds_list_size(object_layer_map)-1)
+						var sprite = ds_map_find_value(obj_data,obj[0])
+						if !is_undefined(obj) {
+							obj[6] = sprite[4]	
+							obj[7] = sprite[5]	
+							obj[8] = 0
+							obj[9] = 0	
+						}
+						
+						/*OBJECT STAT LIST
+						 0: name
+						 1: grid x
+						 2: grid y
+						 3: scale x
+						 4: scale y
+						 5: selected
+						 6: box x
+						 7: box y
+						 8: offset x
+						 9: offset y
+						*/
+						
+						/*SPRITE STAT LIST
+						 just look in JADE_intializeobj() lol
+						*/
 					}
 				break;
 			}
@@ -118,35 +142,147 @@ if (mbleftpress) {
 }
 
 if (selected_tool == SELECT_TOOL && not_on_gui) {
+	
 	var size = ds_list_size(object_layer_map)
+	var overlap = 0
 	for (var i = 0; i < size; ++i) {
 		//is place matching cursor?
 		var obj = ds_list_find_value(object_layer_map, i)
 		var sprite = ds_map_find_value(obj_data,obj[0])
+		var red_box = point_in_rectangle(mouse_x, mouse_y, (obj[1]*16) + obj[6] -2, (obj[2]*16) + obj[7] -2,(obj[1]*16) + obj[6] +2, (obj[2]*16) + obj[7] +2)
+		var white_box = point_in_rectangle(mouse_x, mouse_y, (obj[1]*16) - 4, (obj[2]*16) - 4,(obj[1]*16) + obj[6] + 4, (obj[2]*16) + obj[7] + 4 )
+		
+		if red_box or white_box {
+			overlap++	
+		}
+	}
+	
+	
+	for (var i = 0; i < size; ++i) {
+		//is place matching cursor?
+		var obj = ds_list_find_value(object_layer_map, i)
+		var sprite = ds_map_find_value(obj_data,obj[0])
+		var red_box = point_in_rectangle(mouse_x, mouse_y, (obj[1]*16) + obj[6] -2, (obj[2]*16) + obj[7] -2,(obj[1]*16) + obj[6] +2, (obj[2]*16) + obj[7] +2)
+		var white_box = point_in_rectangle(mouse_x, mouse_y, (obj[1]*16) - 4, (obj[2]*16) - 4,(obj[1]*16) + obj[6] + 4, (obj[2]*16) + obj[7] + 4 )
 		if !is_undefined(obj) {
-			if point_in_rectangle(curs_x, curs_y, obj[1]*16, obj[2]*16, obj[1]*16 + sprite[4], obj[2]*16 + sprite[5] ) {
-				obj[5] = 1
-				//ds_list_delete(object_layer_map, i)
-				break;
-			} else {
-				obj[5] = 0
+			if !red_box { 
+				//if not selecting red box
+				if (mbleftpress) {
+					if white_box{ 
+						//selecting white area (kinda)
+						obj[5] = 1 
+					} else {
+						if !keyboard_check(vk_shift) {
+							obj[5] = 0 //set all others unselected when not holding shift
+						}
+					}
+				}
 			}
+			
+			if selection_box {
+				if rectangle_in_rectangle((obj[1]*16) , (obj[2]*16) ,(obj[1]*16) + obj[6] , (obj[2]*16) + obj[7], selection_box_x, selection_box_y, selection_box_x + (mouse_x - selection_box_x), selection_box_y + (mouse_y - selection_box_y)) {
+					obj[5] = 1 
+				} else {
+					if !keyboard_check(vk_shift) {
+							obj[5] = 0 //set all others unselected when not holding shift
+					}
+				}
+			}
+			
+		
 		}
+	}
+	
+	for (var i = 0; i < size; ++i) {
+		var obj = ds_list_find_value(object_layer_map, i)
+		var sprite = ds_map_find_value(obj_data,obj[0])
+		var red_box = point_in_rectangle(mouse_x, mouse_y, (obj[1]*16) + obj[6] -2, (obj[2]*16) + obj[7] -2,(obj[1]*16) + obj[6] +2, (obj[2]*16) + obj[7] +2)
+		var white_box = point_in_rectangle(mouse_x, mouse_y, (obj[1]*16) - 4, (obj[2]*16) - 4,(obj[1]*16) + obj[6] + 4, (obj[2]*16) + obj[7] + 4 )
+		//is object selected?
+		if obj[5] = 1 {
+			#region move
+			if !red_box	{
+				if white_box && mbleftpress && selection = 0 && !selection_box{ 
+					selection = 2
+					selection_id = i
+					break;
+				}
+			}
+			
+			if selection = 2 {
+				selection_x[i] = mouse_x - (obj[1]*16)
+				selection_y[i] = mouse_y - (obj[2]*16)
+			}
+			
+			if selection = 3 {
+				obj[1] = round((mouse_x - selection_x[i]) / 16) 
+				obj[2] = round((mouse_y - selection_y[i]) / 16) 
+			}
+			
+			#endregion
+			#region resize
+				if red_box && mbleftpress && selection = 0 && !selection_box{ //red box selected
+						selection = 1
+						selection_id = i //boxed up
+				}
+			
+			
+				if selection = 1 && i = selection_id {
+						obj[6] = abs(mouse_x - (obj[1]*16) ) //box movement
+						obj[7] = abs(mouse_y - (obj[2]*16) )
+
+				}
+				if selection = 1 && mbleftrel {
 				
+					obj = ds_list_find_value(object_layer_map, selection_id) //object you resized
+					var obj_other = ds_list_find_value(object_layer_map, i) //every other object selected
+					
+					obj[6] = round(obj[6] /16) * 16 //rounding box to grid
+					obj[7] = round(obj[7] /16) * 16
+				
+
+					obj_other[3] = obj[6] / sprite[4] //setting scale
+					obj_other[4] = obj[7] / sprite[5]
+					obj_other[6] = obj[6] 
+					obj_other[7] = obj[7]	
+					obj_other[8] = (sprite[2] = 0) ? 0 : sprite[2] + (sprite[4]/2) * obj_other[3] //setting offset
+					obj_other[9] = (sprite[3] = 0) ? 0 : sprite[3] + (sprite[5]/2) * obj_other[4]
+					
+				
+				}
+			#endregion
+			
+		} 
+
+			if (i = size - 1) && selection > 0 {
+				switch selection {
+					case 2:
+						selection = 3
+					break;
+					default:
+						if mbleftrel {
+							selection = 0
+							selection_id = NaN
+						}
+					break;
+				}
+			}
+			
+			if mbleftrel && selection_box && (i = size - 1) {
+					selection_box = false	
+			}
 	}
-	/*
-	if point_in_rectangle(xxxx) { //grab the corners, maybe put this in a for loop or something
-		if (mbleftpress) {
-			grab specific corner
-		}
+		
+	if overlap = 0 && mbleftpress && !selection_box && selection = 0 {
+		selection_box = true
+		selection_box_x = mouse_x
+		selection_box_y = mouse_y
 	}
-	if (grabbed_corner_or_something_lol) { (this should probably be ran even if the mouse is over the gui)
-		//do scaling here
-		if (mbleftrel) {
-			grabbed_corner_or_something_lol=0
-		}
-	}
-	*/
+				
+	
+	
+	
+	
 }
 
 if (mbleft && not_on_gui) {

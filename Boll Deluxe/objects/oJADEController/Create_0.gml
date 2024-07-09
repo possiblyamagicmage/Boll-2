@@ -74,6 +74,13 @@ selected_toolbar=0;
 selected_tool=SELECT_TOOL
 selected_obj=ds_list_find_value(obj_name, 0)
 selected_tile = 0
+selection = false
+selection_id = NaN
+selection_x = [0]
+selection_y = [0]
+selection_box = false
+selection_box_x = 0
+selection_box_y = 0
 temp_mode=0;
 temp_toolbar=0;
 
