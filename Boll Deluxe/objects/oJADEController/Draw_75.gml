@@ -23,15 +23,14 @@ if (not_on_gui) {
 		break;
 		case ERASE_TOOL:
 		case PICKER_TOOL:
-			draw_sprite(spr_JADEerase_overlay,0,gridx*16,gridy*16)
+			draw_sprite(spr_JADEerase_overlay,0,gridx*16-camera_get_view_x(view_camera[0]),gridy*16-camera_get_view_y(view_camera[0]))
 		break;
 	}
 }
 
 if global.debug {
 	draw_set_font(smallF)
-	draw_text(curs_x,curs_y+16,$"{gridx} {gridy}\n\n{view_grab}\n\n{camera_get_view_x(view_camera[0])} {camera_get_view_y(view_camera[0])}")
-	draw_rectangle_color(gridx*16,gridy*16,gridx*16+15,gridy*16+15,c_red,c_red,c_red,c_red,true)
+	draw_text(curs_x,curs_y+16,$"{gridx} {gridy}\n\n{view_grab}\n\n{camera_get_view_x(view_camera[0])} {camera_get_view_y(view_camera[0])}\n\n{selection_box}")
 }
 
 draw_sprite(spr_JADEcursor,0,curs_x,curs_y)

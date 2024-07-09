@@ -1,25 +1,22 @@
 //draw awesome objects!!! yay!!!!!
 
+if !surface_exists(editor_surface)
+exit
+
+surface_set_target(editor_surface);
+camera_apply(view_camera[0])
+draw_clear_alpha(c_black, 0);
 for (var i = 0; i < ds_list_size(object_layer_map); ++i) {
 	var obj = ds_list_find_value(object_layer_map, i)
-	//show_debug_message(obj)
+	
 	var sprite = ds_map_find_value(obj_data,obj[0])
-	//show_debug_message(sprite)
+	
+	//for some reason applying camera x and camera y to the second rectangle just doesnt work for some reason 
+	
+	if !rectangle_in_rectangle(obj[1]*16, obj[2]*16, (obj[1]*16)+(sprite[4]*obj[3])-camera_get_view_x(view_camera[0]),(obj[2]*16)+(sprite[5]*obj[4])-camera_get_view_y(view_camera[0]), 0, 0, camera_get_view_x(view_camera[0])+camera_get_view_width(view_camera[0]), camera_get_view_y(view_camera[0])+camera_get_view_height(view_camera[0]))
+	continue;
+	
     draw_sprite_ext(sprite[0], 0, (obj[1]*16)- sprite[2] + obj[8] , (obj[2]*16)- sprite[3] + obj[9], obj[3], obj[4], 0, c_white, 1)
-	if (obj[5]) && selected_tool == SELECT_TOOL {
-		
-		draw_rect((obj[1]*16), (obj[2]*16), obj[6], obj[7], c_white, 0.5)
-		draw_rect((obj[1]*16) + obj[6] - 2, (obj[2]*16) + obj[7] - 2, 4, 4, c_red, 0.5)
-		
-	}
-	
-	if selected_tool == SELECT_TOOL && selection_box {
-		draw_set_alpha(0.5)
-		draw_rectangle_color(selection_box_x, selection_box_y, selection_box_x + (mouse_x - selection_box_x),selection_box_y +(mouse_y - selection_box_y), c_green, c_white, c_white, c_green, true)
-		
-	}
-	
-	draw_set_alpha(1)
 	
 	if selected_tool == ERASE_TOOL {
 		var pos = 0
@@ -29,3 +26,4 @@ for (var i = 0; i < ds_list_size(object_layer_map); ++i) {
 	}
 	if global.debug draw_text((obj[1]*16), (obj[2]*16), $"{obj[1]} {obj[2]}")
 }
+surface_reset_target()

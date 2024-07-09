@@ -11,7 +11,6 @@ var guih=display_get_gui_height()
 var tb_length = array_length(toolbar[selected_mode])
 not_on_gui=!point_in_rectangle(curs_x,curs_y,(guiw-16)-(32*14),0,(guiw-16)-(32*14)+(32*tb_length)+4,34)&&!point_in_rectangle(curs_x,curs_y,(guiw)-(32*5),0,(guiw)-(32*5)+(32*5)+4,34)&&!point_in_rectangle(curs_x,curs_y,0,(guih/4)-10,32,(guih/4)-10+(32*5)+4)
 
-
 #region Camera Panning
 if (not_on_gui) && (mbmiddle) {
 	if !(view_grab) { //check position
@@ -268,21 +267,20 @@ if (selected_tool == SELECT_TOOL && not_on_gui) {
 				}
 			}
 			
-			if mbleftrel && selection_box && (i = size - 1) {
+			if mbleftrel && selection_box && (i == size - 1) {
 					selection_box = false	
 			}
 	}
 		
-	if overlap = 0 && mbleftpress && !selection_box && selection = 0 {
+	if (!overlap) && mbleftpress && !selection_box && (!selection) {
 		selection_box = true
 		selection_box_x = mouse_x
 		selection_box_y = mouse_y
 	}
-				
 	
-	
-	
-	
+	if mbleftrel && selection_box {
+		selection_box = false
+	}
 }
 
 if (mbleft && not_on_gui) {

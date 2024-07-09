@@ -114,6 +114,8 @@ list_scroll_pos = 0
 list_scroll_scale = max(0, list_area_height)
 #endregion
 
+editor_surface = surface_create(camera_get_view_width(view_camera[0]),camera_get_view_height(view_camera[0]))
+
 function mouse_in_setting_slot(numb) {
 	var guiw=display_get_gui_width();
 	return point_in_rectangle(curs_x,curs_y,(guiw-28)-(32*numb),4,(guiw-28)-(32*numb)+24,28)
@@ -130,3 +132,5 @@ function mouse_in_mode_slot(numb) {
 	var guih=display_get_gui_height();
 	return point_in_rectangle(curs_x,curs_y,4,((guih/4)-4)+32*numb,28,(((guih/4)-4)+32*numb)+24)
 }
+
+selection_box_fr=0
