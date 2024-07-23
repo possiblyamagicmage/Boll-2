@@ -21,13 +21,14 @@ if (!optionLock) {
 
 	switch (crMenu) {
 		case "mainmenu":
-			optMAX = 3;
+			optMAX = 4;
 			if (akey) {
 				switch option {
 					case 0: crMenu="levelselectm" option=0 break;
 					case 1: crMenu="keybindsm" option=0 break;
 					case 2: room_goto(rEditor) option=0 break;
-					case 3: game_end(); break;
+					case 3: room_goto(rIntro) option=0 break;
+					case 4: game_end(); break;
 				}
 			}
 		break

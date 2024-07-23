@@ -1,4 +1,29 @@
-if !(global.roomTimer & 1) {frame += 1}
-if (frame >= 1000 || keyboard_check_pressed(vk_anykey)) {
+if (egg == "3") {
+	if !(global.roomTimer & 1) {frame += 1}
+	if (frame >= hsp) {
+		game_set_speed(60,gamespeed_fps)
+		frame = 1
+		egg = ""
+		bollStruct.x = 240
+		bollStruct.y = 135
+		bollStruct.z = 40
+	}
+} else {
+	if !frame {
+		bollStruct.x += (240 - bollStruct.x) / 10
+		bollStruct.y += (135 - bollStruct.y) / 10
+		bollStruct.z = sin(global.roomTimer * 0.01) * 40
+	
+		if (bollStruct.z > bollStruct.biggestZ) {
+			bollStruct.biggestZ = bollStruct.z
+		} else {
+			bollStruct.z = bollStruct.biggestZ
+			frame = 1
+		}
+	}
+}
+
+if (keyboard_check_pressed(vk_anykey)) {
+	game_set_speed(60,gamespeed_fps)
 	room_goto(rMainMenu)
 }

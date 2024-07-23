@@ -7,7 +7,7 @@ var _startStr = "[basicPlaceholderF][fa_center][fa_middle]",
 
 switch (crMenu) {
 	case "mainmenu":
-		_displayOPS = ["level selector", "keybinds", "editor", "exit game"];
+		_displayOPS = ["level selector", "keybinds", "editor", "title screen", "exit game"];
 		var _yPos = (_rmHei/2)-(32*(array_length(_displayOPS)-1)/2);
 		for (var i=0; i<array_length(_displayOPS); i++;) { // Looping through options to draw them on screen
 			if (option=i)
