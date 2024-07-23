@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_drawSpriteCircle",
+  "%Name":"scr_draw_scripts",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_drawSpriteCircle",
+  "name":"scr_draw_scripts",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",
