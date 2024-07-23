@@ -1,14 +1,14 @@
 function makeboll(color1 = c_fuchsia,color2 = c_blue,color3 = c_white) {
 	
-	var vtf;
 	vertex_format_begin();
-	    vertex_format_add_position_3d();
-	    vertex_format_add_normal();
-	    vertex_format_add_color();
-	    vertex_format_add_texcoord();
-	vtf = vertex_format_end();
+	vertex_format_add_position_3d();
+	vertex_format_add_normal();
+	vertex_format_add_color();
+	vertex_format_add_texcoord();
+	var vtf = vertex_format_end();
 
-	var b = buffer_load(working_directory+"datafiles/_vanilla/media/boll.buf"), model = vertex_create_buffer_from_buffer(b, vtf);
+	var b = buffer_load($"{working_directory}\\_vanilla\\media\\boll.buf")
+	var model = vertex_create_buffer_from_buffer(b, vtf);
 	buffer_delete(b);
 	
 	return model
