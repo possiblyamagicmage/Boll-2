@@ -1,10 +1,15 @@
+var cam_x = camera_get_view_x(view_camera[0])
+var cam_y = camera_get_view_y(view_camera[0])
+var cam_w = camera_get_view_width(view_camera[0])
+var cam_h = camera_get_view_height(view_camera[0])
+
 mbleftpress=mouse_check_button_pressed(mb_left)
 mbleftrel=mouse_check_button_released(mb_left)
 mbleft=mouse_check_button(mb_left)
 mbmiddle=mouse_check_button(mb_middle)
 
-curs_x=mouse_x-camera_get_view_x(view_camera[0])
-curs_y=mouse_y-camera_get_view_y(view_camera[0])
+curs_x=mouse_x-cam_x
+curs_y=mouse_y-cam_y
 
 var guiw=display_get_gui_width()
 var guih=display_get_gui_height()
@@ -17,17 +22,32 @@ if (not_on_gui) && (mbmiddle) {
 		view_grab=1 
 		view_grabx=curs_x
 		view_graby=curs_y
-		initial_viewx = camera_get_view_x(view_camera[0])
-		initial_viewy = camera_get_view_y(view_camera[0])
+		initial_viewx = cam_x
+		initial_viewy = cam_y
 	}
 } else {
 	view_grab=0
 }
 
 if (view_grab) { //update camera position
-    camera_set_view_pos(view_camera[0],initial_viewx+(view_grabx-curs_x),initial_viewy+(view_graby-curs_y))
+    camera_set_view_pos(view_camera[0],floor(initial_viewx+(view_grabx-curs_x)),floor(initial_viewy+(view_graby-curs_y)))
 	//divide by zoom later
 }
+#endregion
+
+#region Camera Zooming
+//THIS SHIT KILLS MY COMBO!!!!!!
+/*var mwheel = mouse_wheel_down() - mouse_wheel_up();
+
+if (mwheel != 0) {
+	zoom_level += 0.125*mwheel
+	
+	cam_x -= floor(cam_w/2);
+	cam_y -= floor(cam_h/2);
+}
+zoom_level=clamp(zoom_level,0.125, 5)
+
+camera_set_view_size(view_camera[0], floor(480*zoom_level), floor(270*zoom_level))*/
 #endregion
 
 gridx = floor(mouse_x/16)
@@ -92,6 +112,12 @@ if (mbleftpress) {
 	if mouse_in_setting_slot(0) { //exit button
 		room_goto(rMainMenu)
 	}
+	if mouse_in_setting_slot(3) { //saving
+		JADE_save()
+	}
+	if mouse_in_setting_slot(2) { //loading
+		JADE_load()
+	}
 	if (not_on_gui) {
 		if (selected_tool == PICKER_TOOL) {
 			switch(selected_mode) {
@@ -144,25 +170,18 @@ if (selected_tool == SELECT_TOOL && not_on_gui) {
 	
 	var size = ds_list_size(object_layer_map)
 	var overlap = 0
+	var 
+	
+	
+	
 	for (var i = 0; i < size; ++i) {
 		//is place matching cursor?
 		var obj = ds_list_find_value(object_layer_map, i)
 		var sprite = ds_map_find_value(obj_data,obj[0])
 		var red_box = point_in_rectangle(mouse_x, mouse_y, (obj[1]*16) + obj[6] -2, (obj[2]*16) + obj[7] -2,(obj[1]*16) + obj[6] +2, (obj[2]*16) + obj[7] +2)
 		var white_box = point_in_rectangle(mouse_x, mouse_y, (obj[1]*16) - 4, (obj[2]*16) - 4,(obj[1]*16) + obj[6] + 4, (obj[2]*16) + obj[7] + 4 )
+		overlap=red_box+white_box
 		
-		if red_box or white_box {
-			overlap++	
-		}
-	}
-	
-	
-	for (var i = 0; i < size; ++i) {
-		//is place matching cursor?
-		var obj = ds_list_find_value(object_layer_map, i)
-		var sprite = ds_map_find_value(obj_data,obj[0])
-		var red_box = point_in_rectangle(mouse_x, mouse_y, (obj[1]*16) + obj[6] -2, (obj[2]*16) + obj[7] -2,(obj[1]*16) + obj[6] +2, (obj[2]*16) + obj[7] +2)
-		var white_box = point_in_rectangle(mouse_x, mouse_y, (obj[1]*16) - 4, (obj[2]*16) - 4,(obj[1]*16) + obj[6] + 4, (obj[2]*16) + obj[7] + 4 )
 		if !is_undefined(obj) {
 			if !red_box { 
 				//if not selecting red box
@@ -224,11 +243,13 @@ if (selected_tool == SELECT_TOOL && not_on_gui) {
 						selection = 1
 						selection_id = i //boxed up
 				}
-			
+
 			
 				if selection = 1 && i = selection_id {
-						obj[6] = abs(mouse_x - (obj[1]*16) ) //box movement
-						obj[7] = abs(mouse_y - (obj[2]*16) )
+						var grabx = mouse_x - (obj[1]*16)
+						var graby = mouse_y - (obj[2]*16)
+						obj[6] = abs(grabx) + min(grabx, 0)//box movement
+						obj[7] = abs(graby) + min(graby, 0)
 
 				}
 				if selection = 1 && mbleftrel {
@@ -291,9 +312,13 @@ if (mbleft && not_on_gui) {
 				case OBJECT_MODE:
 				break;
 				case TILE_MODE:
-					var data = tilemap_get_at_pixel(tilemap, mouse_x, mouse_y); //set tile at place
-					data = tile_set_index(data, current_tile_id)
-					tilemap_set(tilemap, data, gridx, gridy);
+					var data = tilemap_get_at_pixel(tilemap, gridx, gridy); //set tile at place
+					if tile_get_index(data) != current_tile_id { //prevent tile overlapping (mainly a problem with the list)
+						show_debug_message($"Placed tile of index {current_tile_id} at {mouse_x} {mouse_y}")
+						ds_list_add(tile_layer_map, [current_tile_id, gridx, gridy])//add tile  to list at place
+						data = tile_set_index(data, current_tile_id)
+						tilemap_set(tilemap, data, gridx, gridy);
+					}
 				break;
 			}
 		break;

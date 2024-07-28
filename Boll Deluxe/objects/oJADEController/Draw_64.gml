@@ -1,9 +1,6 @@
 var guiw=display_get_gui_width()
 var guih=display_get_gui_height()
 
-if surface_exists(editor_surface)
-draw_surface(editor_surface,0,0)
-
 //i am so sorry for this random math its just trial and error honestly
 #region Mode Icons
 draw_sprite_stretched(spr_JADEtab_left,0,0,(guih/4)-10,32,(32*5)+4)

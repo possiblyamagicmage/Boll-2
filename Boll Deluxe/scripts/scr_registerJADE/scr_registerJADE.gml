@@ -4,8 +4,6 @@
 #macro BACKGROUND_MODE 3
 #macro NODE_MODE 4
 
-
-
 function JADE_intializeobj(){	
 	obj_data=ds_map_create();
 	obj_name = ds_list_create()	
@@ -48,4 +46,61 @@ function registerobj(uuid,sprite,index,xoff,yoff,xscale,yscale,can_xscale,can_ys
 	} else {
 		show_debug_message($"Object ID: {uuid} is already registered in JADE! ignoring..")
 	}
+}
+
+function JADE_save() {
+	var file = working_directory+"\save.jade"
+	file_delete(file)
+	var save_file = file_text_open_write(file)
+	show_debug_message($"Saving JADE file to: {file}")
+	var size = ds_list_size(object_layer_map)
+	var tilesize = ds_list_size(tile_layer_map)
+	file_text_write_string(save_file, size) //amount of objects
+	file_text_writeln(save_file)
+	file_text_write_string(save_file, tilesize) //amounts of tiles
+	file_text_writeln(save_file)
+	for (var i = 0; i < size; ++i) { //object saving
+		var obj = ds_list_find_value(object_layer_map, i)
+		var _json_string = json_stringify(obj)
+		show_debug_message(obj)
+		file_text_write_string(save_file, _json_string)
+		file_text_writeln(save_file)
+	}
+	for (var i = 0; i < tilesize; ++i) { //tilemap saving
+		var tile = ds_list_find_value(tile_layer_map, i)
+		var _json_string = json_stringify(tile)
+		show_debug_message(tile)
+		file_text_write_string(save_file, _json_string)
+		file_text_writeln(save_file)
+	}
+	file_text_close(save_file);
+	show_debug_message($"Successfully saved JADE file to: {file}!")
+}
+
+function JADE_load() {
+	var file = working_directory+"\save.jade"
+	if !file_exists(file) exit;
+	var save_file = file_text_open_read(file)
+	show_debug_message($"Loading JADE file from: {file}")
+	var size = unreal(file_text_read_string(save_file), 0) //read amount of objects
+	file_text_readln(save_file)
+	var tilesize = unreal(file_text_read_string(save_file), 0) //read amount of tiles
+	file_text_readln(save_file)
+	ds_list_clear(object_layer_map) //erase object map beforehand
+	for (var i = 0; i < size; ++i) { //load objects
+        var data = json_parse(file_text_read_string(save_file));
+		ds_list_add(object_layer_map,data)
+        file_text_readln(save_file);
+	}
+	tilemap_clear(tilemap, 0) //erase tilemap beforehand
+    for (var i = 0; i < tilesize; ++i) { //loading tiles
+		var data = json_parse(file_text_read_string(save_file));
+		var tiledata = tilemap_get_at_pixel(tilemap, data[1], data[2]); //set tile at place
+		ds_list_add(tile_layer_map, [data[0], data[1], data[2]]) //add tile to list at place
+		tiledata = tile_set_index(tiledata, data[0])
+		tilemap_set(tilemap, tiledata, data[1], data[2]);
+		file_text_readln(save_file);
+	}
+	file_text_close(save_file);
+	show_debug_message($"Successfully loaded JADE file from: {file}!")
 }

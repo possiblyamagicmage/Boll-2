@@ -64,6 +64,7 @@ tile_layer = layer_create(0, "tilemap")
 //tileset = tTilesetMain
 tilemap = layer_tilemap_create(tile_layer, 0, 0, tTilesetMain, 1000, 1000)
 object_layer_map = ds_list_create()
+tile_layer_map = ds_list_create()
 
 not_on_gui = false
 
@@ -96,9 +97,11 @@ view_graby=0
 initial_viewx=0;
 initial_viewy=0;
 
+zoom_level = 1;
+
 total_objects=0;
 
-object_list= ds_list_create()
+object_list = ds_list_create();
 
 #region object list variables
 list_area_width = 64
@@ -113,8 +116,6 @@ list_text_color = make_color_hsv(0, 0, 40)
 list_scroll_pos = 0
 list_scroll_scale = max(0, list_area_height)
 #endregion
-
-editor_surface = surface_create(camera_get_view_width(view_camera[0]),camera_get_view_height(view_camera[0]))
 
 function mouse_in_setting_slot(numb) {
 	var guiw=display_get_gui_width();
