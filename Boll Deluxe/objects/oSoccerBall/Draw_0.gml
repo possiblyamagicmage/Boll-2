@@ -2,6 +2,8 @@ draw_self()
 if global.debug {
 	draw_set_color(c_lime)
 	draw_line(x-hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey)	
+	draw_line(x,y,x+lengthdir_x(16,colangle+90),y+lengthdir_y(16,colangle+90))
+	
 	draw_set_font(smallF)
 	var coll=check_collision_line(x-hit_sizex,y+hit_sizey+2,x+hit_sizex,y+hit_sizey+2,COL_BOTTOM)
 		
@@ -11,5 +13,6 @@ if global.debug {
 	draw_text_outline(x-4,y,right,1,c_black,4,1,1,0)
 	draw_text_outline(x+4,y,left,1,c_black,4,1,1,0)
 	draw_text_outline(x,y-8,bool(coll),1,c_black,4,1,1,0)
+	draw_text_outline(x,y-16,grounded,1,c_black,4,1,1,0)
 	draw_set_color(c_white)
 }

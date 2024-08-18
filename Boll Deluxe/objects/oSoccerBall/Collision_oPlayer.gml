@@ -1,6 +1,6 @@
 if (other.up) {
-	hsp=2*other.xsc
-	vsp=-3
+	hsp=3*other.xsc
+	vsp=-5
 } else if (other.down) {
 	hsp=3*other.xsc
 	vsp=-1
