@@ -110,20 +110,22 @@ if (!akey) //Make player jump lower when jump is released
 }
 
 //Actual Jump
-if ((canjump > 0) && (apress))
+if ((canjump > 0 || wallsliding) && (apress))
 {
 	jump = 1;
 	bufferjump = 0;
 	groundtime = 0;
 	grounded = false
-	vsp = -(6+min(1,abs(hsp)/10)); //jump power
+	if (wallsliding) {xsc=-xsc hsp=(4*xsc)}
+	vsp = -(6+min(1,abs(hsp)/10)-(wallsliding*2)); //jump power
 	canjump = 0;
 	canstopjump = 1;
 	steep_slope = false;
 	no_move = false;
 	//check if speed is high enough for visual run jump
-	if (run && abs(hsp)>3) {runjump=1} 
+	if ((run && abs(hsp)>3) || wallsliding) {runjump=1} 
 	playsfx(charmName+"jump")
+	wallsliding = false;
 }
 
 if (jump && (!pound && !pound_timer)) {
