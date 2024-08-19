@@ -4,4 +4,4 @@ player_collision();
 
 xsc=esign(hsp,xsc)
 
-image_angle-=hsp+gsp
+image_angle-=(hsp+gsp)*2
