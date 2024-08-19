@@ -95,7 +95,7 @@ function skin_animationdata(slot,name,list,size) {
 function init_sounds() {
 	var dir=$"{working_directory}\\_vanilla\\character\\{charmName}\\sfx\\"
 	audioExtWavScan(dir)
-	/*for (var i=0; i < array_length(sound_list); ++i;) {
+	for (var i=0; i < array_length(sound_list); ++i;) {
 		if file_exists(dir+$"{charmName}{sound_list[i]}.wav") {
 			var snd=audioExtSoundGet($"{charmName}{sound_list[i]}")
 			VinylSetupSound(audioExtSoundGetSoundID(snd))
@@ -103,17 +103,17 @@ function init_sounds() {
 		} else {
 			show_debug_message($"Failed to load sound ID: {charmName}{sound_list[i]}, is your file missing?")
 		}
-	}*/
+	}
 }
 
 function playsfx(sound,pitch=1,loop=0,gain=1) {
 	var snd=audioExtSoundGet(sound)
-	audio_play_sound(audioExtSoundGetSoundID(snd),0,loop,gain,0,pitch)
+	VinylPlay(audioExtSoundGetSoundID(snd),loop,gain,pitch)
 }
 
 function stopsfx(sound) {
 	var snd=audioExtSoundGet(sound)
-	audio_stop_sound(audioExtSoundGetSoundID(snd))
+	VinylStop(audioExtSoundGetSoundID(snd))
 }
 
 function init_player() { //make this load animation data later

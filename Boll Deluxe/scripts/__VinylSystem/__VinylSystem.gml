@@ -1,7 +1,7 @@
 // Feather disable all
 
-#macro __VINYL_VERSION  "6.0.7 (beta)"
-#macro __VINYL_DATE     "2024-06-01"
+#macro __VINYL_VERSION  "6.0.9"
+#macro __VINYL_DATE     "2024-07-22"
 
 #macro __VINYL_RUNNING_FROM_IDE  (GM_build_type == "run")
 
@@ -65,9 +65,6 @@ function __VinylSystem()
         __voiceToStructMap = ds_map_create();
         __voiceToStructLastKey = undefined;
         
-        __voiceToSoundMap = ds_map_create();
-        __voiceToSoundLastKey = undefined;
-        
         //Contains structs that describe callbacks to be executed when a voice stops playing.
         __callbackArray = [];
         
@@ -102,14 +99,11 @@ function __VinylSystem()
         VinylMasterSetGain(1);
         
         //Build sound patterns for every single sound in the project. This saves extra work later.
-        var _defaultMix = (VINYL_DEFAULT_MIX == VINYL_NO_MIX)? undefined : VINYL_DEFAULT_MIX;
-        var _soundDict = __soundDict;
         var _assetArray = asset_get_ids(asset_sound);
         var _i = 0;
         repeat(array_length(_assetArray))
         {
-            var _sound = _assetArray[_i];
-            struct_set_from_hash(_soundDict, int64(_sound), new __VinylClassPatternSound(_sound, 1, 1, undefined, _defaultMix));
+            __VinylEnsurePatternSound(_assetArray[_i]);
             ++_i;
         }
         
@@ -120,7 +114,6 @@ function __VinylSystem()
         //Set up an update function that executes one every frame forever.
         time_source_start(time_source_create(time_source_global, 1, time_source_units_frames, function()
         {
-            static _voiceToSoundMap  = __voiceToSoundMap;
             static _voiceToStructMap = __voiceToStructMap;
             static _callbackArray    = __callbackArray;
             static _bootSetupTimer   = 0;
@@ -226,17 +219,9 @@ function __VinylSystem()
                 ++_i;
             }
             
-            //Clean up ds_maps
-            var _voice = (__voiceToStructLastKey == undefined)? ds_map_find_first(_voiceToSoundMap) : ds_map_find_next(_voiceToSoundMap, __voiceToStructLastKey);
+            //Clean up voice-to-struct ds_map
+            var _voice = (__voiceToStructLastKey == undefined)? ds_map_find_first(_voiceToStructMap) : ds_map_find_next(_voiceToStructMap, __voiceToStructLastKey);
             __voiceToStructLastKey = _voice;
-            
-            if ((_voice != undefined) && (not audio_is_playing(_voice)))
-            {
-                ds_map_delete(_voiceToSoundMap, _voice);
-            }
-            
-            var _voice = (__voiceToSoundLastKey == undefined)? ds_map_find_first(_voiceToStructMap) : ds_map_find_next(_voiceToStructMap, __voiceToSoundLastKey);
-            __voiceToSoundLastKey = _voice;
             
             var _voice = ds_map_find_first(_voiceToStructMap);
             if ((_voice != undefined) && (not _voiceToStructMap[? _voice].__IsPlaying()))
@@ -248,13 +233,17 @@ function __VinylSystem()
             var _i = 0;
             repeat(array_length(_callbackArray))
             {
-                if (not _callbackArray[_i].__IsPlaying())
+                if (not _callbackArray[_i].__voiceStruct.__IsPlaying())
                 {
                     var _callbackData = _callbackArray[_i];
+                    array_delete(_callbackArray, _i, 1);
+                    
                     _callbackData.__method(_callbackData.__metadata);
                 }
-                
-                ++_i;
+                else
+                {
+                    ++_i;
+                }
             }
         }, [], -1));
     }

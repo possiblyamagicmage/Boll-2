@@ -94,7 +94,7 @@ function __VinylClassVoiceQueue(_behaviour, _loopQueue, _gainLocal, _emitter) co
         if (__gainLocal != __gainLocalTarget)
         {
             _changed = true;
-            __gainLocal += _delta*clamp(__gainLocalTarget - __gainLocal, -__gainLocalSpeed, __gainLocalSpeed);
+            __gainLocal += clamp(__gainLocalTarget - __gainLocal, -_delta*__gainLocalSpeed, _delta*__gainLocalSpeed);
         }
         
         if (VinylWillStop(__voiceCurrent))
@@ -120,7 +120,7 @@ function __VinylClassVoiceQueue(_behaviour, _loopQueue, _gainLocal, _emitter) co
                 
                 if (__loopQueue && (__soundCurrent != undefined)) array_push(__soundArray, __soundCurrent);
                 
-                var _pattern = struct_get_from_hash(_soundDict, int64(_sound));
+                var _pattern = __VinylEnsurePatternSound(_sound);
                 var _mixStruct = __VinylVoiceMoveMix(__voiceReference, _pattern.__mixName);
                 
                 //Remove this voice from the old ducker
@@ -284,8 +284,7 @@ function __VinylClassVoiceQueue(_behaviour, _loopQueue, _gainLocal, _emitter) co
     {
         if (__soundCurrent == undefined) return;
         
-        var _pattern = struct_get_from_hash(_soundDict, int64(__soundCurrent));
-        
+        var _pattern = __VinylEnsurePatternSound(__soundCurrent);
         __gainSound  = _pattern.__gain;
         __pitchSound = _pattern.__pitch;
         

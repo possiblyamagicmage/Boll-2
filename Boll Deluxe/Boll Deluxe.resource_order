@@ -373,6 +373,7 @@
     {"name":"__VinylClassVoiceSound","order":4,"path":"scripts/__VinylClassVoiceSound/__VinylClassVoiceSound.yy",},
     {"name":"__VinylCompiledSoundArrayEnsure","order":5,"path":"scripts/__VinylCompiledSoundArrayEnsure/__VinylCompiledSoundArrayEnsure.yy",},
     {"name":"__VinylConfigMacros","order":1,"path":"scripts/__VinylConfigMacros/__VinylConfigMacros.yy",},
+    {"name":"__VinylEnsurePatternSound","order":4,"path":"scripts/__VinylEnsurePatternSound/__VinylEnsurePatternSound.yy",},
     {"name":"__VinylEnsureSoundVoice","order":5,"path":"scripts/__VinylEnsureSoundVoice/__VinylEnsureSoundVoice.yy",},
     {"name":"__VinylError","order":6,"path":"scripts/__VinylError/__VinylError.yy",},
     {"name":"__VinylFindMatchingAudioAssets","order":7,"path":"scripts/__VinylFindMatchingAudioAssets/__VinylFindMatchingAudioAssets.yy",},

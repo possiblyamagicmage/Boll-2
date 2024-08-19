@@ -5,7 +5,6 @@
 function __VinylEnsureSoundVoice(_voice)
 {
     static _voiceToStructMap = __VinylSystem().__voiceToStructMap;
-    static _voiceToSoundMap  = __VinylSystem().__voiceToSoundMap;
     static _soundDict        = __VinylSystem().__soundDict;
     static _mixDict          = __VinylSystem().__mixDict;
     static _nullVoice        = __VinylSystem().__nullVoice;
@@ -18,14 +17,14 @@ function __VinylEnsureSoundVoice(_voice)
             return _nullVoice;
         }
         
-        var _sound = _voiceToSoundMap[? _voice];
-        if (_sound == undefined)
+        var _sound = audio_sound_get_asset(_voice);
+        if (not audio_exists(_sound))
         {
             __VinylError("Could not find sound for ", _voice, "\nPlease report this error");
             return;
         }
         
-        var _pattern = struct_get_from_hash(_soundDict, _sound);
+        var _pattern = __VinylEnsurePatternSound(_sound);
         var _mixStruct = _mixDict[$ _pattern.__mixName];
         
         var _gainSound = _pattern.__gain;
