@@ -4,18 +4,19 @@ if global.paused || inactive && (object_index!=oBulletBill && object_index!=oBan
 	
 if !(in_shell) && (edgeturn) 
 {
-	if !collision_line(x + (xsc * hit_sizex),y,x + (xsc * hit_sizex),y+hit_sizey+16,collision_array, true, true){
+	if !collision_line(x + (-xsc * (hit_sizex-4)),y,x + (-xsc * (hit_sizex-4)),y+hit_sizey+16,collision_array, false, true){
 		if !(turned) {
 			turned=1
 			hsp=-hsp
 		}
+	} else {
+		turned=0
 	}
 } else {
-	turned=0
 }
 
 
-if check_collision_line(x+(hit_sizex+1)*xsc, y+hit_sizey-4,x+(hit_sizex+1)*-xsc, y-hit_sizey+4, COL_WALL, oCollider) {
+if check_collision_line(x+(hit_sizex+1)*xsc, y+hit_sizey-4,x+(hit_sizex+1)*-xsc, y-hit_sizey+4, COL_WALL) {
 	hsp=-hsp
 }
 
