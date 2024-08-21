@@ -119,11 +119,12 @@ if (state == "jump") {
 if (state == "" || state == "roll") && (apress) && (canjump > 0) {
 	state = "jump"
 	grounded = false
-	show_debug_message(colangle);
+	colangle = colangle * 0.9
 	vsp -= (6) * dcos(colangle);
 	hsp -= (6) * dsin(colangle);
 	playsfx(charmName+"jump",1,0,1)
 	canjump = 0;
+	control_lock = 0;
 }
 
 #endregion
@@ -131,7 +132,10 @@ if (state == "" || state == "roll") && (apress) && (canjump > 0) {
 #region Rolling
 if (state != "roll") {
 	accel = 0.046875
-	if (!grounded) accel = 0.09375
+	if (!grounded) {
+		accel = 0.09375
+		fastaccel = 0.09375
+	}
 	fastaccel = 0.5 //deaccel
 	fric = 0.046875
 	//taken from the sonic physics guide
