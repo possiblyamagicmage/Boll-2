@@ -2,33 +2,62 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function player_movement_sonic(){
 	
-	x += hsp
-	y += vsp
+	player_warping();
 	
-	if !(no_move)
+	if (piped) exit
+	
+	if !(no_move) 
 	move = (right - left);
 	
-	if (move != 0) && !(steep_slope || no_move || move_lock)
+	if (move != 0) && !(no_move || move_lock)
 	{	
-		if !(steep_slope || no_move || move_lock) { //dont walk up a slope if its too steep to walk on!
+		//dont walk up a slope if its too steep to walk on!
+		
+		if grounded {
+			var signmatch = check_signs_matching(gsp, move);
+			//var accel_real = ((signmatch) ? accel : fastaccel);
+			if signmatch {
+				if (abs(gsp) < topspd) {
+					gsp += (move * accel);
+				}
+			} else {
+				gsp += (move * fastaccel);
+			}
+		}else {
 			var signmatch = check_signs_matching(hsp, move);
-			var accel_real = ((signmatch) ? accel : fastaccel);
-
-			hsp += (move * accel_real);
+			//var accel_real = ((signmatch) ? accel : fastaccel);
+			if signmatch {
+				if (abs(hsp) < topspd) {
+					hsp += (move * accel);
+				}
+			} else {
+				hsp += (move * fastaccel);
+			}
 		}
+		
 	}
 	else
 	{
 		move=0 //just in case
 		// chearii: mhomentunmnm
-		if (grounded)
+		if (grounded) {
 		
-		if (sign(hsp) = -1){
-			hsp = min(0, hsp + fric)
-		}else{
-			hsp = max(0, hsp - fric)
+			if (sign(gsp) = -1){
+				gsp = min(0, gsp + fric)
+			}else{
+				gsp = max(0, gsp - fric)
+			}
 		}
 	}
 	
-	if (abs(hsp) > maxspd) hsp=approach_val(hsp,maxspd,0.5)
+	if (abs(gsp) > maxspd) && (grounded) gsp=approach_val(gsp,maxspd,0.5) 
+	if (abs(hsp) > maxspd) && (!grounded) hsp=approach_val(hsp,maxspd,0.5)
+	
+	if grounded {
+		vsp = gsp * -dsin(colangle)
+		hsp = gsp * dcos(colangle)
+	}
+	
+	x += hsp 
+	y += vsp
 }

@@ -6,6 +6,7 @@
 function player_collision(){
 	if (piped) exit
 	
+	
 	//left wall
 	while check_collision_dot(x-hit_sizex, y-max(vsp, 0), COL_WALL){
 		x++		
@@ -20,10 +21,14 @@ function player_collision(){
 	if !grounded && vsp >= 0 {
 		if check_collision_line(x-hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey, COL_BOTTOM){
 			grounded = true
-			gsp = hsp
-			vsp = 0
+			get_angle_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 3)
+			get_angle_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y +hit_sizey + 3)
+			
 			if self.object_index = oPlayer{
 				sig.Emit("floor_land")
+			} else {
+				gsp = hsp
+				vsp = 0	
 			}
 		}
 	}
@@ -62,6 +67,10 @@ function player_collision(){
 	
 	//normal ground loop (for a variety of slopes
 	if grounded {
+		//gets angle so it doesnt jitter
+		get_angle_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 3)
+		get_angle_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y +hit_sizey + 3)
+		
 		
 		var offsetx, offsety;
 		
@@ -69,12 +78,13 @@ function player_collision(){
 		offsety = yprevious - y
 		
 		//fall
-		if (!check_collision_line(x-hit_sizex,y+hit_sizey,x-hit_sizey,y +hit_sizey + 16 , COL_BOTTOM) 
-			&& !check_collision_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey + 16, COL_BOTTOM) ){
+		if (!check_collision_line(x-hit_sizex,y+hit_sizey,x-hit_sizey,y +hit_sizey + 16 , COL_BOTTOM) && !check_collision_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey + 16, COL_BOTTOM) ){
 				vsp = gsp * -dsin(colangle)
 				hsp = gsp * dcos(colangle)
 				grounded = false
-				return;
+				colangle = 0
+				colslope = 0
+				exit;
 			}
 			
 	}
@@ -82,29 +92,18 @@ function player_collision(){
 		
 	if grounded {
 		
-		//gets angle so it doesnt jitter
-		get_angle_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 3)
-		get_angle_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y +hit_sizey + 3)
-		
 		//move down
-		if (check_collision_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 16 , COL_BOTTOM) 
-			or check_collision_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey + 16, COL_BOTTOM) ){
-			    //while (!check_collision_dot(x+hit_sizex,y+hit_sizey, COL_BOTTOM)
-				//    and !check_collision_dot(x-hit_sizex,y+hit_sizey, COL_BOTTOM)) {
-				while !check_collision_line(x-hit_sizex,y+hit_sizey, x+hit_sizex, y+hit_sizey, COL_BOTTOM){
-					y ++  
-					
-				}
+		if (check_collision_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 16 , COL_BOTTOM) || check_collision_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey + 16, COL_BOTTOM) ){   
+			while !check_collision_line(x-hit_sizex,y+hit_sizey, x+hit_sizex, y+hit_sizey, COL_BOTTOM){
+				y ++ 
 				
 			}
+		}
 		
 		//move up
-		    //while (check_collision_dot(x+hit_sizex,y+hit_sizey, COL_BOTTOM, oCollider)
-			//	or check_collision_dot(x-hit_sizex,y+hit_sizey, COL_BOTTOM, oCollider)) {
-			while check_collision_line(x-hit_sizex,y+hit_sizey, x+hit_sizex, y+hit_sizey, COL_BOTTOM) {
-				y -- 
-				
-			}
+		while check_collision_line(x-hit_sizex,y+hit_sizey, x+hit_sizex, y+hit_sizey, COL_BOTTOM) {
+			y -- 	
+		}
 		
 	}
 

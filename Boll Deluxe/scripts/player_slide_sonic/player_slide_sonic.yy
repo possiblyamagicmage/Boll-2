@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"player_slide_sonic",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"player_slide_sonic",
+  "parent":{
+    "name":"Player",
+    "path":"folders/Scripts/Player.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -676,6 +676,7 @@
     {"name":"player_interactions","order":6,"path":"scripts/player_interactions/player_interactions.yy",},
     {"name":"player_movement_sonic","order":5,"path":"scripts/player_movement_sonic/player_movement_sonic.yy",},
     {"name":"player_movement","order":1,"path":"scripts/player_movement/player_movement.yy",},
+    {"name":"player_slide_sonic","order":10,"path":"scripts/player_slide_sonic/player_slide_sonic.yy",},
     {"name":"player_slide","order":4,"path":"scripts/player_slide/player_slide.yy",},
     {"name":"player_warping","order":3,"path":"scripts/player_warping/player_warping.yy",},
     {"name":"post_wall","order":8,"path":"scripts/post_wall/post_wall.yy",},

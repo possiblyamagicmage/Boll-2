@@ -74,7 +74,7 @@ if (state == "" || state == "jump") {
 		runjump = 0;
 	
 		//maximum speed when sliding, infulence when sliding, influence on steep slopes, add steep influence while sliding?
-		player_slide(5.5, 0.225, 0.32, false);
+		player_slide(12.5, 0.225, 0.32, false);
 		
 		//temp skidding
 		if (sign(hsp)!=esign(move,xsc)) {
@@ -156,7 +156,7 @@ if (state == "" && apress && canjump > 0) {
 	state = "jump"
 	grounded = false
 	vsp = -(6+min(1,abs(hsp)/10)+(bool(poundjump)+0.5));
-	playsfx(charmName+"jump",0,1)
+	playsfx(charmName+"jump",1+(bool(poundjump)/4),0,1)
 	if ((run && abs(hsp)>3) && !wallsliding) {runjump=1} 
 	if (poundjump) {
  		var i=instance_create_depth(x-10,y-8,0,pSmoke);
@@ -212,7 +212,7 @@ if (sprindex_prev != sprite_index) {
 
 // Switch direction
 //add more checks here to prevent left/right changing direction
-if (left || right) && (state == "" || state == "jump") {
+if (left || right) && (state == "" || state == "jump") && !slopesliding {
 	xsc = esign(move, xsc)
 }
 
@@ -274,8 +274,14 @@ show_debug_message("eatted it :)");
 bonk = 12
 
 #define floor_land
+gsp = hsp
 if (state == "pound") {
 	poundjump = 16;
+	show_debug_message(colslope);
+	if colslope != 0 {
+		slopesliding = 1
+		gsp = (7 * colslope) 
+	}
 	playsfx(charmName+"stomp");
 	//create pound smoke
 	var i=instance_create_depth(x-2,y,0,pSmoke);
@@ -287,6 +293,7 @@ if (state == "pound") {
 }
 canstopjump = false
 state = ""
+vsp = 0	
 
 
 #define sprung

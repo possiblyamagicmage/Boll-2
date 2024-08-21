@@ -6,132 +6,149 @@ sound_list=split_string("select,damage,die,jump,win,step,bonk,release,skid,spin,
 jump = 0;
 slopesliding = 0;
 no_move = 0;
-fric = 0.0625;
+//accel = 0.046875
+//fastaccel = 0.5 //deaccel
+//fric = 0.046875
 skidding = 0;
 skiddir = 0;
 storedxsc = 1;
-spindashActive = 0;
+//spindash = 0;
 spindashTotal = 0;
+topspd = 3.5;
+state = "";
+control_lock = 0;
 
 #define step
 
 if (braking) xsc=brakedir
-maxspd = 3.5;
+topspd = 3.5
+maxspd = 12.5;
 no_move = false
 //add more checks here
+var rolling = false
+if (state == "roll") {
+	rolling = true
+}
+
+if (control_lock > 0) no_move = true
+
 
 // Fall off platform
 if (!grounded) {
-	// vsp = min(7, vsp + grav);
-	// canjump -= 1;
+	vsp = min(7, vsp + grav);
+	canjump -= 1;
 	
-	// // chearii: coneyor speed management
-	// if (abs(chsp * 100))
-	// {
-	// 	chsp *= 0.95;
+	// chearii: coneyor speed management
+	if (abs(chsp * 100))
+	{
+		chsp *= 0.95;
 		
-	// 	if (((chsp * 100) / 1) == 0)
-	// 	chsp = 0;
-	// }
+		if (((chsp * 100) / 1) == 0)
+		chsp = 0;
+	}
+	// Switch direction
+	//add more checks here to prevent left/right changing direction
+	if (left || right) xsc = esign(move, 1)
+	
 } else {
 	canjump = 5;  // Coyote frames
+	canstopjump = false
 	
+	if (left || right) && !(state == "spindash") xsc = esign(gsp, 1)
 	
-	#region // Crouch, Spindash
-	// if (down) && (hsp==0) && (grounded) {
-	// 	crouch=1;
-	// }
-	// else if (down) && (hsp!=0) {
-	// 	if (!spin) playsfx(charmName+"spin")
-	// 	stopsfx(charmName+"spindash")
-	// 	stopsfx(charmName+"release")
-	// 	spin=1;
-	// }
-	// else if (hsp!=0) {
-	// 	crouch=0;
-	// 	spindashActive = 0;
-	// }
+	#region Crouch, Spindash
+	if (state == "") && (down) && (abs(gsp) <= 0.5) {
+		state = "crouch"
+	}
 	
-	// if (crouch) && (apress) && (hsp==0) && (!slopesliding) {
-	// 	spindashActive = 1;
-	// 	spindashTotal += 1;
-	// 	hsp=0;
-	// 	stopsfx(charmName+"spindash")
-	// 	playsfx(charmName+"spindash",1+((spindashTotal-1)/10))
-	// }
+	if (state == "crouch") {
+		no_move = true
+		if (!down) state = ""
+		
+		if (apress || bpress || cpress) && (abs(gsp) <= 0.5) {
+			state = "spindash"
+			spindashTotal = 0
+			playsfx(charmName+"spindash",1+(spindashTotal/10))
+		}
+	}
 	
-	// if (spindashTotal>6) spindashTotal = 6;
-	// else if (spindashTotal>1) spindashTotal -= 1/60;
-	
-	// if (!crouch) && (spindashTotal>0) {
-	// 	hsp = (2+(spindashTotal/3))*xsc;
-	// 	spindashTotal = 0;
-	// 	spindashActive = 0;
-	// 	crouch = 0;
-	// 	stopsfx(charmName+"spindash")
-	// 	playsfx(charmName+"release")
-	// }
+	if (state == "spindash") {
+		no_move = true
+		spindashTotal -= spindashTotal / 32
+		if (apress || bpress || cpress) {
+			frame = 0
+			spindashTotal = min(spindashTotal + 2, 8)
+			show_debug_message(spindashTotal)
+			stopsfx(charmName+"spindash")
+			playsfx(charmName+"spindash",1+(spindashTotal/10))
+		}
+		
+		if (!down || !(abs(gsp) <= 0.5)) {
+			state = "roll"
+			gsp = (5.71 + (floor(spindashTotal) / 2.5)) * xsc
+			//these numbers are based off the physics guide but scaled down
+			//arround the regular max speed
+			//so its not like super busted
+			stopsfx(charmName+"spindash")
+			playsfx(charmName+"release")
+		}
+	}
+
 	#endregion
+	control_lock= max(0,control_lock - 1)
+	//handles slope influence  
+	player_slide_sonic(0.105, rolling, 0.078125, 0.3125);
 	
-	//maximum speed when sliding, infulence when sliding, influence on steep slopes, add steep influence while sliding?
-	// player_slide(5.5, 0.225, 0.32, false);
-
 }
-
-//End slope sliding (THIS CANNOT BE IN THE PLAYER_SLIDE FUNCTION WITHOUT REWORKING IT !!!!)
-// if ((!abs(sign(colslope)) && (abs(hsp) < 0.25)) || jump) {
-// 	slopesliding = 0;
-// 	spin = 0;
-// 	crouch = 0;
-// }
 	
 #region Jumping
-// if (!akey) //Make player jump lower when jump is released
-// {
-// 	if ((canstopjump == 1) && (vsp < -2))
-// 	{
-// 	    vsp *= 0.6;
-// 	}
-// }
-
-// //Actual Jump
-// if ((canjump > 0) && (apress) && (!spindashActive)) {
-// 	jump = 1;
-// 	bufferjump = 0;
-// 	groundtime = 0;
-// 	grounded = false
-// 	vsp = -(5.6+min(1,abs(hsp)/10)); //jump power
-// 	canjump = 0;
-// 	canstopjump = 1;
-// 	spin = 0;
-// 	steep_slope = false;
-// 	no_move = false;
-// 	playsfx(charmName+"jump")
-// }
-
-// if (jump) {
-// 	steep_slope = false;
-// 	no_move = false;
-// }
-
-#endregion
-
-#region Running
-	// if (bkey) {
-	// 	run=1.5;
-	// } else {
-	// 	run = 0;
-	// }
-#endregion
-
-if (colangle != 0 && slopesliding){
-	fric = 0.048; //limit friction for more slideee
-	// weeeeee
-} else if (!slopesliding && steep_slope) {
-	fric = 0.048;
-} else {
-	fric = 0.0625;
+if (state == "jump") {
+	slopesliding = 0
+	if (!akey && vsp < -2 && !canstopjump) //Make player jump lower when jump is released
+	{
+		vsp = -2
+	}
+	
 }
+
+if (state == "" || state == "roll") && (apress || bpress || cpress) && (canjump > 0) {
+	state = "jump"
+	grounded = false
+	show_debug_message(colangle);
+	vsp -= (6) * dcos(colangle);
+	hsp -= (6) * dsin(colangle);
+	playsfx(charmName+"jump",1,0,1)
+	canjump = 0;
+}
+
+#endregion
+
+#region Rolling
+if (state == "") {
+	accel = 0.046875
+	fastaccel = 0.5 //deaccel
+	fric = 0.046875
+	//taken from the sonic physics guide
+}
+
+
+if (state == "" || state == "crouch" || state == "spindash") && (grounded && down && abs(gsp) > 1 ) {
+	stopsfx(charmName+"spin")
+	playsfx(charmName+"spin")
+	state = "roll"
+}
+
+if (state == "roll") {
+	accel = 0
+	fastaccel = 0.125
+	fric = 0.0234375
+	//taken from the sonic physics guide
+	if abs(gsp) < 0.5 {
+		state = ""
+	}
+}
+#endregion
+
 	
 player_movement_sonic();
 player_interactions();
@@ -144,40 +161,39 @@ if (sprindex_prev != sprite_index) {
 	sprindex_prev = sprite_index;
 }
 
-// Switch direction
-//add more checks here to prevent left/right changing direction
-if (left || right) && !(slopesliding) && !(pound_timer || pound) && !(spindashActive)
-xsc = esign(move, 1)
-
 bonk=max(bonk,bonk-1)
 
 
 #define sprmanager
 
 frspd=1
-sprite="stand" 
 
-// if (spin) sprite="ball"
-// else if (!grounded) {
-// 	if (bonk) sprite="bonk"
-// 	else if (vsp>0 && !jump) sprite="springfall"
-// 	else if (jump) sprite="jump"
-// }
-// else if (spindashActive) {
-// 	frspd=1+(spindashTotal/10)
-// 	sprite="spindash"
-// }
-// else if (crouch) sprite="crouch"
-// else if (skidding) {
-// 	sprite="stand" 
-// 	xsc = -(skiddir)
-// }
-// else if (ceil(abs(hsp))>3) sprite="run"
-// else if !(abs(hsp)) sprite="stand"
-// else {
-// 	frspd=abs(hsp)/4
-// 	sprite="walk"
-// }
+if (state == "") {
+	if (ceil(abs(gsp))>3) {
+		frspd=abs(gsp)/4
+		sprite="run"
+	}
+	else if !(abs(gsp)){ 
+		sprite="stand"
+	}
+	else {
+		frspd=abs(gsp)/4
+		sprite="walk"
+	}
+}
+
+if (state == "roll" || state == "jump") {
+	frspd=0.2+abs(gsp)/3
+	sprite="ball"
+	if (bonk) {
+		frspd=1
+		sprite="bonk"
+	}
+}
+
+if (state == "spindash") {
+	sprite="spindash"
+}
 
 //chopp: to handle any signals, make sure you define the code here with the same name 
 
@@ -194,17 +210,46 @@ show_debug_message("Heh, eatted it!");
 bonk = 12
 
 #define floor_land
+canstopjump = false;
+state = "";
+bonk = 0;
+gsp = hsp
+//landing speed lol
+if (colangle < 0) colangle += 360
+show_debug_message(colangle)
 
-// if (pound) {
-// 	playsfx(charmName+"stomp")
-// }
+if(colangle >= 24 && colangle <= 90)
+	{
+    if (colangle >= 45)
+	{
+		if (abs(hsp) <= abs(vsp)) {
+			gsp = vsp * -sign(dsin(colangle))
+		}
+		
+	}else{
+		if (abs(hsp) <= abs(vsp/2)) {
+			gsp = vsp * 0.5 * -sign(dsin(colangle))
+		}
+	}
+}
 
-// bonk = 0;
-// pound = 0;
-// pound_timer = 0;
+if(colangle <= 336 && colangle >= 270)
+{
+	if (colangle <= 315)
+	{
+		if (abs(hsp) <= abs(vsp)) {
+			gsp = vsp * -sign(dsin(colangle))
+		}
+	}else{
+		if (abs(hsp) <= abs(vsp/2)) {
+			gsp = vsp * 0.5 * -sign(dsin(colangle))
+		}
+	}
+}
+	
+vsp = 0	
+
 
 #define sprung
-// canstopjump=0;
-// bonk = 0;
-// pound = 0;
-// pound_timer = 0;
+canstopjump = true;
+state = "spring";
