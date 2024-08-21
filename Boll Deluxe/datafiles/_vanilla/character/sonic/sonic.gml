@@ -38,6 +38,9 @@ if (!grounded) {
 	vsp = min(7, vsp + grav);
 	canjump -= 1;
 	
+	if (vsp < 0 && vsp > -2 ) {
+		hsp -= hsp / 32
+	}
 	// chearii: coneyor speed management
 	if (abs(chsp * 100))
 	{
@@ -97,7 +100,7 @@ if (!grounded) {
 	#endregion
 	control_lock= max(0,control_lock - 1)
 	//handles slope influence  
-	player_slide_sonic(0.105, rolling, 0.078125, 0.3125);
+	player_slide_sonic(0.125, rolling, 0.078125, 0.3125);
 	
 }
 	
@@ -124,8 +127,9 @@ if (state == "" || state == "roll") && (apress || bpress || cpress) && (canjump 
 #endregion
 
 #region Rolling
-if (state == "") {
+if (state != "roll") {
 	accel = 0.046875
+	if (!grounded) accel = 0.09375
 	fastaccel = 0.5 //deaccel
 	fric = 0.046875
 	//taken from the sonic physics guide

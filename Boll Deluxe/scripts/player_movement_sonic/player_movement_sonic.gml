@@ -17,7 +17,7 @@ function player_movement_sonic(){
 			var signmatch = check_signs_matching(gsp, move);
 			//var accel_real = ((signmatch) ? accel : fastaccel);
 			if signmatch {
-				if (abs(gsp) < topspd) {
+				if (abs(gsp) < topspd) && accel != 0 {
 					gsp += (move * accel);
 				}
 			} else {
@@ -27,7 +27,7 @@ function player_movement_sonic(){
 			var signmatch = check_signs_matching(hsp, move);
 			//var accel_real = ((signmatch) ? accel : fastaccel);
 			if signmatch {
-				if (abs(hsp) < topspd) {
+				if (abs(hsp) < topspd) && accel != 0 {
 					hsp += (move * accel);
 				}
 			} else {
