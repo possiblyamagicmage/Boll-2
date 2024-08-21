@@ -89,7 +89,7 @@ if (state == "" || state == "jump") {
 	}
 }
 if (state == "") {
-	
+	canstopjump = false
 	if (!abs(sign(colslope)) && (abs(hsp) < 0.25)){
 		slopesliding = 0
 		crouch = 0
@@ -126,7 +126,7 @@ if (state == "pound") {
 if (state == "jump") {
 	slopesliding = 0
 	crouch = 0
-	if (!akey && vsp < -2) //Make player jump lower when jump is released
+	if (!akey && vsp < -2 && !canstopjump) //Make player jump lower when jump is released
 	{
 		vsp *= 0.6;
 	}
@@ -285,9 +285,10 @@ if (state == "pound") {
 	i.hspeed=-1.5;
 	i.vspeed=-1;
 }
-
+canstopjump = false
 state = ""
 
 
 #define sprung
 state = "jump";
+canstopjump = true
