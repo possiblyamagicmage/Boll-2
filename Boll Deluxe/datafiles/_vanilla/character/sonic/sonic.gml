@@ -184,7 +184,6 @@ bonk=max(bonk,bonk-1)
 #define sprmanager
 
 frspd=1
-draw_text(x,y,accel)
 
 if (state == "") {
 	if (ceil(abs(gsp))>3) {
