@@ -137,7 +137,7 @@ if (state == "" || state == "roll") && (apress) && (canjump > 0) {
 #endregion
 
 #region Rolling
-if (state != "roll") {
+if (state != "roll" || !grounded) {
 	accel = 0.046875
 	if (!grounded) {
 		accel = 0.09375
@@ -155,7 +155,7 @@ if (state == "" || state == "crouch" || state == "spindash") && (grounded && dow
 	state = "roll"
 }
 
-if (state == "roll") {
+if (state == "roll" && grounded) {
 	accel = 0
 	fastaccel = 0.125
 	fric = 0.0234375
@@ -184,6 +184,7 @@ bonk=max(bonk,bonk-1)
 #define sprmanager
 
 frspd=1
+draw_text(x,y,accel)
 
 if (state == "") {
 	if (ceil(abs(gsp))>3) {

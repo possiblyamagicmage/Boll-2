@@ -123,7 +123,7 @@ if (state == "pound") {
 #endregion
 
 #region Jumping
-if (state == "jump") {
+if (state == "jump" || state == "") && !(grounded) {
 	slopesliding = 0
 	crouch = 0
 	if (!akey && vsp < -2 && !canstopjump) //Make player jump lower when jump is released
