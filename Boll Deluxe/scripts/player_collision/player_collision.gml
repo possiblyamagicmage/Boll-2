@@ -8,12 +8,12 @@ function player_collision(){
 	
 	
 	//left wall
-	while check_collision_dot(x-hit_sizex, y-clamp(vsp,-2,2), COL_WALL){
+	while check_collision_dot(x-hit_sizex, y-sign(vsp), COL_WALL){
 		x++		
 	}
 		
 	//right wall
-	while check_collision_dot(x+hit_sizex, y-clamp(vsp,-2,2), COL_WALL){
+	while check_collision_dot(x+hit_sizex, y-sign(vsp), COL_WALL){
 		x--
 	}
 	
