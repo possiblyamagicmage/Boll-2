@@ -67,11 +67,11 @@ if keyboard_check_pressed(vk_escape) room_goto(rMainMenu)
 switch(selected_mode) {
 	case TILE_MODE:
 	if selected_tool = BRUSH_TOOL {
-		if mouse_wheel_down() {
+		if (mouse_wheel_down() || keyboard_check_pressed(vk_pagedown)) {
 			current_tile_id ++	
 		}
 
-		if mouse_wheel_up() {
+		if (mouse_wheel_up() || keyboard_check_pressed(vk_pageup)) {
 			current_tile_id --
 		}
 	
@@ -88,11 +88,11 @@ switch(selected_mode) {
 	break;
 	
 	case OBJECT_MODE:
-	if mouse_wheel_down() {
+	if (mouse_wheel_down() || keyboard_check_pressed(vk_pagedown)) {
 		current_obj_id ++	
 	}
 
-	if mouse_wheel_up() {
+	if (mouse_wheel_up() || keyboard_check_pressed(vk_pageup)) {
 		current_obj_id --
 	}
 
