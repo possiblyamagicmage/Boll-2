@@ -355,8 +355,8 @@ if show_tileset && mbleft {
 		var t_width = sprite_get_width(spr_TilesetMain)
 		var t_height  = sprite_get_height(spr_TilesetMain)
 		var t_size = 16 * 0.33
-		var sel_x = max(device_mouse_x_to_gui(0) - 50, 0)
-		var sel_y = max(device_mouse_y_to_gui(0) - 50, 0)
+		var sel_x = clamp(device_mouse_x_to_gui(0) - 50, 0, t_width)
+		var sel_y = clamp(device_mouse_y_to_gui(0) - 50, 0, t_height)
 		//show_debug_message(string(floor(mouse_x / t_size)) + " : "+ string(tilelapmap.width/ 16))
 		current_tile_id = clamp(floor(sel_x / t_size), 0, t_width/ 16) + (clamp(floor(sel_y / t_size), 0, t_height/ 16) * (t_width/16))
 		
@@ -377,7 +377,8 @@ if (mbleft && not_on_gui) {
 						exit;	
 					}
 					
-					var data = tilemap_get_at_pixel(tilemap, gridx, gridy); //set tile at place
+					var data = tilemap_get_at_pixel(tilemap, mouse_x, mouse_y); //set tile at place
+					
 					if tile_get_index(data) != current_tile_id { //prevent tile overlapping (mainly a problem with the list)
 						show_debug_message($"Placed tile of index {current_tile_id} at {mouse_x} {mouse_y}")
 						ds_list_add(tile_layer_map, [current_tile_id, gridx, gridy])//add tile  to list at place
@@ -406,8 +407,21 @@ if (mbleft && not_on_gui) {
 				break;
 				case TILE_MODE:
 					var data = tilemap_get_at_pixel(tilemap, mouse_x, mouse_y);
-					data = tile_set_empty(data)
-					tilemap_set(tilemap, data, gridx, gridy); //delete tile at place lol
+					
+					if tile_get_index(data)!= 0 {
+						show_debug_message($"Deleted tile of index {tile_get_index(data)} at {mouse_x} {mouse_y}")
+						var array = [tile_get_index(data), gridx, gridy]
+						for (var i=0; i<ds_list_size(tile_layer_map); i++;) {
+							if array_equals(ds_list_find_value(tile_layer_map,i),array) {
+								show_debug_message(ds_list_find_value(tile_layer_map,i))
+								ds_list_delete(tile_layer_map, i) //delete from tile map
+								show_debug_message(tile_layer_map)
+								break;
+							}
+						}
+						data = tile_set_empty(data)
+						tilemap_set(tilemap, data, gridx, gridy); //delete tile at place lol
+					}
 				break;
 			}
 		break;

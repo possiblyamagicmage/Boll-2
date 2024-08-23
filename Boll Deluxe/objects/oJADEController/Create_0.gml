@@ -99,7 +99,10 @@ initial_viewy=0;
 
 zoom_level = 1;
 
+//tileset picker
 show_tileset = false
+tileset_picker_x=100;
+tileset_picker_y=100;
 
 total_objects=0;
 
