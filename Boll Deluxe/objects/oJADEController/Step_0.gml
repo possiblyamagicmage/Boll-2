@@ -6,7 +6,7 @@ var cam_h = camera_get_view_height(view_camera[0])
 mbleftpress=mouse_check_button_pressed(mb_left)
 mbleftrel=mouse_check_button_released(mb_left)
 mbleft=mouse_check_button(mb_left)
-mbmiddle=mouse_check_button(mb_middle)
+mbmiddle = (mouse_check_button(mb_middle) || keyboard_check(vk_space)) //this scroll wheel is Pissing me off... i'm the original        keywalker
 
 curs_x=mouse_x-cam_x
 curs_y=mouse_y-cam_y

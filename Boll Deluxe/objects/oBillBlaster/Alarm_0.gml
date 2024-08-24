@@ -1,6 +1,9 @@
 ///@description Shoot
 if inview() {
-	var dir=sign(nearestplayer().x-x)
+	var dir = 1
+	if (instance_exists(oPlayer)) {
+		dir = sign(nearestplayer().x-x)
+	}
 	if !position_meeting(x+8+(16*dir),y+8,oCollider) || instance_position(x+8+(16*dir),y+8,oCollider).no_collide || instance_position(x+8+(16*dir),y+8,oCollider).semi {
 		var i=instance_create_depth(x+8,y+8,depth+2,oBulletBill);
 		i.hsp=dir*2

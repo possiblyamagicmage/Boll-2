@@ -1,5 +1,8 @@
-if inview() {
-	var dir=sign(nearestplayer().x-x)
+if (inview() && instance_exists(oPlayer)) {
+	var dir = 1
+	if (instance_exists(oPlayer)) {
+		dir = sign(nearestplayer().x-x)
+	}
 	var coll = collision_rectangle(x+32-(48*dir),y,x+32-(32*dir),y+64,oCollider,false,true)
 	if !coll || (coll && coll.no_collide) || (coll && coll.semi) {
 		var i=instance_create_depth(x+32,y+32,depth+2,oBanzaiBill);
