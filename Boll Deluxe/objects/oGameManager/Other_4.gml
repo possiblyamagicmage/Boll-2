@@ -1,3 +1,4 @@
+if room!=rLDTKload
 parse_level(global.nextlevel)
 
 global.warptimer=0;
