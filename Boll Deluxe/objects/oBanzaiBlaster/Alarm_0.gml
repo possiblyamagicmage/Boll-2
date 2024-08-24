@@ -1,4 +1,4 @@
-if (inview() && instance_exists(oPlayer)) {
+if inview() {
 	var dir = 1
 	if (instance_exists(oPlayer)) {
 		dir = sign(nearestplayer().x-x)
