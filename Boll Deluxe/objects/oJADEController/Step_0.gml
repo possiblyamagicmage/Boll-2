@@ -14,15 +14,13 @@ curs_y=mouse_y-cam_y
 var guiw=display_get_gui_width()
 var guih=display_get_gui_height()
 var tb_length = array_length(toolbar[selected_mode])
+on_object_list=point_in_rectangle(curs_x,curs_y,object_list_area_x-2,object_list_area_y-6,object_list_area_x+object_list_area_width,object_list_area_y+object_list_area_height)
+
 not_on_gui= !point_in_rectangle(curs_x,curs_y,(guiw-16)-(32*14),0,(guiw-16)-(32*14)+(32*tb_length)+4,34)
 &&!point_in_rectangle(curs_x,curs_y,(guiw)-(32*5),0,(guiw)-(32*5)+(32*5)+4,34)
 &&!point_in_rectangle(curs_x,curs_y,0,(guih/4)-10,32,(guih/4)-10+(32*5)+4)
-	
-if (show_tileset) {
-	not_on_gui = false	
-}
-
-
+&&!on_object_list
+&&!show_tileset
 
 #region Camera Panning
 if (not_on_gui) && (mbmiddle) {
@@ -43,10 +41,19 @@ if (view_grab) { //update camera position
 }
 #endregion
 
+var mwheel = mouse_wheel_down() - mouse_wheel_up();
+#region Object List Scrolling
+if (mwheel != 0) {
+	object_list_scroll_pos+=16*mwheel
+	show_debug_message(object_list_scroll_pos)
+}
+
+object_list_scroll_pos = clamp(object_list_scroll_pos, -((ds_list_size(obj_name)-3)*8), 0)
+#endregion
+
 #region Camera Zooming
 //THIS SHIT KILLS MY COMBO!!!!!!
-/*var mwheel = mouse_wheel_down() - mouse_wheel_up();
-
+/*
 if (mwheel != 0) {
 	zoom_level += 0.125*mwheel
 	
@@ -94,11 +101,11 @@ switch(selected_mode) {
 	break;
 	
 	case OBJECT_MODE:
-		if (mouse_wheel_down() || keyboard_check_pressed(vk_pagedown)) {
+		if (keyboard_check_pressed(vk_pagedown)) {
 			current_obj_id ++	
 		}
 
-		if (mouse_wheel_up() || keyboard_check_pressed(vk_pageup)) {
+		if (keyboard_check_pressed(vk_pageup)) {
 			current_obj_id --
 		}
 
@@ -486,7 +493,7 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 }
 
 
-if keyboard_check_pressed(vk_f1) {
+if keyboard_check_pressed(vk_enter) {
 	global.nextlevel=working_directory+"\save.jade" //the level the game will load
 	room_goto(rGame)
 }

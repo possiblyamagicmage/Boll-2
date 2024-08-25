@@ -147,9 +147,9 @@ if !(instance_exists(input_controller_object)) instance_create_depth(0,0,16001,i
 	    txr_function_add("string_height", string_height, -1);
 	    txr_function_add("string_height_ext", string_height_ext, -1);
 	    txr_function_add("string_foreach", string_foreach, -1);
-		txr_function_add("string_width_scribble", string_width_scribble, -1);
-		txr_function_add("string_height_scribble", string_height_scribble, -1);
-		txr_function_add("scribble_typist", scribble_typist, -1);
+		//txr_function_add("string_width_scribble", string_width_scribble, -1);
+		//txr_function_add("string_height_scribble", string_height_scribble, -1);
+		//txr_function_add("scribble_typist", scribble_typist, -1);
 	#endregion
 
 	#region Math
@@ -318,7 +318,7 @@ if !(instance_exists(input_controller_object)) instance_create_depth(0,0,16001,i
 	    txr_function_add("draw_get_halign", draw_get_halign, -1);
 	    txr_function_add("draw_set_valign", draw_set_valign, -1);
 	    txr_function_add("draw_get_valign", draw_get_valign, -1);
-		txr_function_add("draw_text_scribble", draw_text_scribble, -1);
+		//txr_function_add("draw_text_scribble", draw_text_scribble, -1);
 	    txr_function_add("draw_text", draw_text, -1);
 	    txr_function_add("draw_text_ext", draw_text_ext, -1);
 	    txr_function_add("draw_text_transformed", draw_text_transformed, -1);

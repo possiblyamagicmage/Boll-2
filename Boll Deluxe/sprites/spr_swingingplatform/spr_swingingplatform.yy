@@ -16,7 +16,7 @@
   ],
   "gridX":0,
   "gridY":0,
-  "height":16,
+  "height":12,
   "HTile":false,
   "layers":[
     {"$GMImageLayer":"","%Name":"01d2ed95-3013-48d9-94e2-3d29af66214c","blendMode":0,"displayName":"default","isLocked":false,"name":"01d2ed95-3013-48d9-94e2-3d29af66214c","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
@@ -24,7 +24,7 @@
   "name":"spr_swingingplatform",
   "nineSlice":{
     "$GMNineSliceData":"",
-    "bottom":0,
+    "bottom":3,
     "enabled":true,
     "guideColour":[4294902015,4294902015,4294902015,4294902015,],
     "highlightColour":1728023040,
@@ -42,7 +42,7 @@
     ],
     "top":0,
   },
-  "origin":4,
+  "origin":9,
   "parent":{
     "name":"Objects",
     "path":"folders/Sprites/Objects.yy",
