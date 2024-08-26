@@ -88,29 +88,25 @@ else
 x_final = x + xnudge[0];
 y_final = y + ynudge[0];
 
-// literally just for testing
-var testnudge = global.debug;
+// nudge collision
+var camnudge;
 
-if (testnudge)
+with(target)
 {
-	if (x > 400)
-	{
-		xnudge[1] = 128;
-	}
-	else
-	{
-		xnudge[1] = 0;
-	}
-	
-	if (x > 600)
-	{
-		ynudge[1] = -32;
-	}
-	else
-	{
-		ynudge[1] = 0;
-	}
+	camnudge = instance_place(x,y,oCameraNudge);	
 }
+
+if (camnudge)
+{
+	xnudge[1] = camnudge.nudge_x div 1;
+	ynudge[1] = camnudge.nudge_y div 1;
+}
+else
+{
+	xnudge[1] = 0;
+	ynudge[1] = 0;
+}
+
 var xwidth, ywidth;
 
 xwidth = camera_get_view_width(view_camera[0]);
