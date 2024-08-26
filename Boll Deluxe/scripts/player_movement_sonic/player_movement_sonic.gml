@@ -19,6 +19,9 @@ function player_movement_sonic(){
 			if signmatch {
 				if (abs(gsp) < topspd) && accel != 0 {
 					gsp += (move * accel);
+					if (abs(gsp) > topspd) {
+						gsp = topspd * sign(gsp);
+					}
 				}
 			} else {
 				gsp += (move * fastaccel);
@@ -29,6 +32,9 @@ function player_movement_sonic(){
 			if signmatch {
 				if (abs(hsp) < topspd) && accel != 0 {
 					hsp += (move * accel);
+					if (abs(hsp) > topspd) {
+						hsp = topspd * sign(hsp);
+					}
 				}
 			} else {
 				hsp += (move * fastaccel);

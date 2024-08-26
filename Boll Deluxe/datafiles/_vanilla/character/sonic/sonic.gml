@@ -24,7 +24,7 @@ control_lock = 0;
 #define step
 
 if (braking) xsc=brakedir
-topspd = 4.5
+topspd = 4.5 + ((size != "basic") * 0.5);
 maxspd = 12.5;
 no_move = false
 //add more checks here

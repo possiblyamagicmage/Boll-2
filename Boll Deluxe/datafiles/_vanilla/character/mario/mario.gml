@@ -21,7 +21,7 @@ state = "";
 #define step
 
 if (braking) xsc=brakedir
-maxspd = 2+runvar;
+maxspd = 2 + runvar + ((size != "basic") * 0.5);
 
 #region PreventMovement
 no_move = 0;
