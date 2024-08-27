@@ -1,13 +1,21 @@
 /// global helper functions
 
+//
 // shove camera macros in here, I have no idea where else to put them
+//
 #macro CAM_SENSOR_WIDTH 64
 #macro CAM_SENSOR_HEIGHT 24
-
+//
 // the time it should take in total for the camera to zoom from 0 to 1
 // CAM_ZOOM_TIME being 80 means the camera zooms out from 0.5 to 1 in 40 frames
 #macro CAM_ZOOM_TIME 80
 #macro CAM_ZOOM_RATE (1/CAM_ZOOM_TIME)
+//
+// stall flags
+#macro STALL_X 1
+#macro STALL_Y 2
+#macro IN_LOCK 4
+
 
 function check_signs_matching(a, b)
 {

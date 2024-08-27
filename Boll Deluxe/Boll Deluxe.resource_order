@@ -169,6 +169,7 @@
     {"name":"oBossParent","order":2,"path":"objects/oBossParent/oBossParent.yy",},
     {"name":"oBrick","order":5,"path":"objects/oBrick/oBrick.yy",},
     {"name":"oCamera","order":4,"path":"objects/oCamera/oCamera.yy",},
+    {"name":"oCameraLock","order":8,"path":"objects/oCameraLock/oCameraLock.yy",},
     {"name":"oCameraNudge","order":5,"path":"objects/oCameraNudge/oCameraNudge.yy",},
     {"name":"oCameraZoom","order":6,"path":"objects/oCameraZoom/oCameraZoom.yy",},
     {"name":"oChainsaw","order":11,"path":"objects/oChainsaw/oChainsaw.yy",},
