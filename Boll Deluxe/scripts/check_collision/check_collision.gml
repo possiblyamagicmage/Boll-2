@@ -164,7 +164,9 @@ function poly_collide(obj = self, is_player = false)
     // get our polygon vertices
     var verticesA = GetTransformedVertices(obj,false,0,0);
 
-    var clipcheck, clipdiff, clipsave, ynormal, polycos, polyacos, acos_check, docollide;
+    var clipcheck, clipdiff, clipsave, ynormal, polycos, polyacos, acos_check, docollide, getslope;
+	
+	getslope = true;
 
     // polygon collision handle
     with(oPolyCollider)
@@ -242,8 +244,13 @@ function poly_collide(obj = self, is_player = false)
                     // use radtodeg(nrm.X) to get the angle of the floor!
                     // chearii: indeed I will
                     this.colangle = radtodeg(nrm.X);
+					
+					if ((this.object_index == oPlayer) && (this.slopesliding))
+					{
+						getslope = false;	
+					}
 
-                    if (!this.slopesliding)
+                    if (getslope)
                     {
                         this.colslope = sign(radtodeg(nrm.X));
                     }

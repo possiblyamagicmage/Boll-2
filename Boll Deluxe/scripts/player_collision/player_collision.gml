@@ -48,20 +48,12 @@ function player_collision(){
 		}
 	}
 	
-	var groundcheck = (polyfloor[1] > 0);
-	
-	// not on a polyfloor, use grounded
-	if (!groundcheck)
+	if (polyfloor[1] > 0)
 	{
-		groundcheck = grounded;	
-	}
-	else
-	{
+		grounded = true;
 		if (lastpolyfloor == 0)
 		{
 			// landed on a polygon, do the usual landing routine
-			grounded = true;
-			
 			if self.object_index = oPlayer{
 				sig.Emit("floor_land")
 			} else {
@@ -133,7 +125,7 @@ function player_collision(){
 	
 	
 	//normal ground loop (for a variety of slopes
-	if groundcheck {
+	if grounded {
 		//gets angle so it doesnt jitter
 		get_angle_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 3)
 		get_angle_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y +hit_sizey + 3)
@@ -160,7 +152,7 @@ function player_collision(){
 	}
 		
 		
-	if groundcheck {
+	if grounded {
 		
 		//move down
 		if (check_collision_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 16 , COL_BOTTOM) || check_collision_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey + 16, COL_BOTTOM) ){   
