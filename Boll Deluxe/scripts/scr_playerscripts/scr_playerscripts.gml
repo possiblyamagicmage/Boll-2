@@ -165,11 +165,11 @@ function draw_player() {
 	draw_sprite_general(
 		sheet,0,
 		8+floor(frame)*(box_width+1)+margin,
-		top_margin+8+fry*(box_height+1)+margin,
+		top_margin+8+fry*(box_height+1)+(margin*2),
 		box_width-margin*2,
 		box_height-margin*2, //might need to add some lengthdir bullshit to make it rotate on offset properly
 		floor(x)+lengthdir_x((margin)*xsc,sprite_angle)+lengthdir_x((margin+dy)*ysc,sprite_angle-90)-floor(offset_x)+(box_width/2)*-xsc,
-		floor(y)+lengthdir_y((margin)*xsc,sprite_angle)+lengthdir_y((margin+dy)*ysc,sprite_angle-90)-floor(offset_y)-(11)+(box_height/2)*-ysc,
+		floor(y)+lengthdir_y((margin*2)*xsc,sprite_angle)+lengthdir_y((margin+dy)*ysc,sprite_angle-90)-floor(offset_y)-(11)+(box_height/2)*-ysc,
 		xsc,ysc,
 		sprite_angle,
 		col,col,col,col,

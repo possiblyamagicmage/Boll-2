@@ -13,10 +13,12 @@ function parse_level(dir=working_directory+"\save.jade") {
         var data = json_parse(file_text_read_string(save_file));
 		show_debug_message($"Parsing JADE object with name: {data[0]}")
 		var obj = instance_create_depth((data[1]*16), (data[2]*16), 0, asset_get_index(data[0]))
-		obj.image_xscale=data[3]
-		obj.image_yscale=data[4]
-		obj.x+=sprite_get_xoffset(object_get_sprite(asset_get_index(data[0])));
-		obj.y+=sprite_get_yoffset(object_get_sprite(asset_get_index(data[0])));
+		if instance_exists(obj) {
+			obj.image_xscale=data[3]
+			obj.image_yscale=data[4]
+			obj.x+=sprite_get_xoffset(object_get_sprite(asset_get_index(data[0])));
+			obj.y+=sprite_get_yoffset(object_get_sprite(asset_get_index(data[0])));
+		}
         file_text_readln(save_file);
 		/*OBJECT STAT LIST
 		 0: name

@@ -62,7 +62,7 @@ if (!(ycorrect || (lockflags & STALL_Y)))
 	default:
 		if (y > targety) {
 			// move the camera if we're on the ground or out of screen bounds
-			var movecamy = ((target.grounded) || ((y div 1) > (targety + (ywidth div 2))));
+			var movecamy = (y div 1) > (targety + (ywidth div 4))
 			
 			if (movecamy)
 			{
