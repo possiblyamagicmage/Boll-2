@@ -36,36 +36,60 @@ if (stalled)
 xsensor = intlib_make_u32(CAM_SENSOR_WIDTH * zoom);
 ysensor = intlib_make_u32(CAM_SENSOR_HEIGHT * zoom);
 
+// get camera lengths
+xwidth = camera_get_view_width(view_camera[0]);
+ywidth = camera_get_view_height(view_camera[0]);
+
 //vertical sensors
 //TODO: make it not stutter when walking up slopes
 var signy = sign(y - round(target.y));
+
+// chearii: billions must truncate
+// is this prone to integer overflows at some point? yeah
+// but who the fuck's going to make a stage that's over 9 quintillion pixels tall
+// seriously, who
+var targety = intlib_make_s64(target.y);
+
 if (!(ycorrect || (lockflags & STALL_Y)))
 {
 	switch(state[1])
 	{
 	case 1:
 		// exiting course correct
-		y = approach_val(y,floor(target.y),4);
-		if (y == floor(target.y))
+		y = approach_val(y,targety,4);
+		if (y == targety)
 		{
 			state[1] = 0;
 		}	
 		break;
 	default:
-		if (y > target.y) {
-			if (ydist != 0) {
-				ydist = y - floor(target.y)
-				ydist -= sign(ydist) * 3 //this stutters it
+		if (y > targety) {
+			// move the camera if we're on the ground or out of screen bounds
+			var movecamy = ((target.grounded) || ((y div 1) > (targety + (ywidth div 2))));
+			
+			if (movecamy)
+			{
+				if (ydist != 0)
+				{
+					if (abs(ydist) == 1)
+					{
+						y = targety; // immediately snap to the target
+					}
+					else
+					{
+						y = approach_val(y,targety,3);
+				
+						if (y == targety)
+						{
+							ydist = 0;	
+						}
+					}
 		
-				//y = target.y + ydist; 
-				y -= sign(ydist) * 3 
-				if (floor(ydist) div 3 == 0 || signy != sign(y - floor(target.y))) {
-					ydist = 0
-					y = target.y
 				}
-		
-			} else if (target.grounded) {
-				ydist = y - floor(target.y) //get distance to travel
+				else
+				{
+					ydist = (y div 1) - targety; //get distance to travel
+				}
 			}
 		} else if (y < target.y - ysensor) {
 			y = floor(target.y - ysensor);
@@ -199,10 +223,6 @@ else
 {
 	target_zoom = 1;
 }
-
-// get camera lengths
-xwidth = camera_get_view_width(view_camera[0]);
-ywidth = camera_get_view_height(view_camera[0]);
 
 // do camera lock stuff
 var cantmovex = false;
