@@ -6,6 +6,16 @@
 function player_collision(){
 	if (piped) exit
 	
+	//left wall
+	while check_collision_dot(x-hit_sizex, y-sign(vsp), COL_WALL){
+		x++		
+	}
+		
+	//right wall
+	while check_collision_dot(x+hit_sizex, y-sign(vsp), COL_WALL){
+		x--
+	}
+	
 	// do polygon collisions first
 	var lastpolyfloor = polyfloor[1];
 	polyfloor[0] = false;
@@ -69,16 +79,6 @@ function player_collision(){
 				vsp = 0	
 			}
 		}
-	}
-	
-	//left wall
-	while check_collision_dot(x-hit_sizex, y-sign(vsp), COL_WALL){
-		x++		
-	}
-		
-	//right wall
-	while check_collision_dot(x+hit_sizex, y-sign(vsp), COL_WALL){
-		x--
 	}
 	
 	//landing on solid ground

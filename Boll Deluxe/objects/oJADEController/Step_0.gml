@@ -48,7 +48,7 @@ if (mwheel != 0) && (on_object_list) {
 	show_debug_message(object_list_scroll_pos)
 }
 
-object_list_scroll_pos = clamp(object_list_scroll_pos, -((ds_list_size(obj_name)-3)*8), 0)
+object_list_scroll_pos = clamp(object_list_scroll_pos, -(ds_list_size(obj_name)*32/3), 0)
 #endregion
 
 #region Camera Zooming
@@ -169,10 +169,16 @@ if (mbleftpress) {
 		room_goto(rMainMenu)
 	}
 	if mouse_in_setting_slot(3) { //saving
-		JADE_save()
+		var file = get_save_filename("JADE file|*.jade", "Unnamed.jade")
+		if (file != "") {
+			JADE_save(file)
+		}
 	}
 	if mouse_in_setting_slot(2) { //loading
-		JADE_load()
+		var file = get_open_filename("JADE file|*.jade", "Unnamed.jade")
+		if (file != "") {
+			JADE_load(file)
+		}
 	}
 	if (not_on_gui) {
 		if (selected_tool == PICKER_TOOL) {

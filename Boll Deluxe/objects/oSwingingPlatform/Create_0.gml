@@ -51,6 +51,8 @@ fr=0
 
 LDtkReloadFields()
 
+image_yscale=1;
+
 if (is_blue)
 {
 	// set ourselves to the correct spawn position

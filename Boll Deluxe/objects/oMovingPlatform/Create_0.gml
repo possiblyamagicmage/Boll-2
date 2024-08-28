@@ -18,3 +18,5 @@ depth=5;
 fr=0
 
 LDtkReloadFields()
+
+image_yscale=1;

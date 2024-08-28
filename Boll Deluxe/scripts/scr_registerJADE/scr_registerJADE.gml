@@ -35,6 +35,7 @@ function JADE_intializeobj(){
 		var _sprite = object_get_sprite(obj_list1[i])
 	    registerobj(_name, _sprite, 0, -sprite_get_xoffset(_sprite), -sprite_get_yoffset(_sprite), sprite_get_width(_sprite), sprite_get_height(_sprite), true, true, OBJECT_MODE)
 	}
+	registerobj(object_get_name(oPlayerSpawn), spr_spawner, 0, -sprite_get_xoffset(spr_spawner), -sprite_get_yoffset(spr_spawner), sprite_get_width(spr_spawner), sprite_get_height(spr_spawner), true, true, OBJECT_MODE)
 	//registerobj("collider", spr_collider, 0, 0, 0, 1, 1, true, true, OBJECT_MODE)
 }
 
@@ -48,8 +49,7 @@ function registerobj(uuid,sprite,index,xoff,yoff,xscale,yscale,can_xscale,can_ys
 	}
 }
 
-function JADE_save() {
-	var file = working_directory+"\save.jade"
+function JADE_save(file=working_directory+"\save.jade") {
 	file_delete(file)
 	var save_file = file_text_open_write(file)
 	show_debug_message($"Saving JADE file to: {file}")
@@ -76,8 +76,7 @@ function JADE_save() {
 	show_debug_message($"Successfully saved JADE file to: {file}!")
 }
 
-function JADE_load(dir=working_directory+"\save.jade") {
-	var file = dir
+function JADE_load(file=working_directory+"\save.jade") {
 	if !file_exists(file) exit;
 	var save_file = file_text_open_read(file)
 	show_debug_message($"Loading JADE file from: {file}")
