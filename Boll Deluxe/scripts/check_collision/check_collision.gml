@@ -242,6 +242,11 @@ function poly_collide(obj = self, is_player = false)
                     // use radtodeg(nrm.X) to get the angle of the floor!
                     // chearii: indeed I will
                     this.colangle = radtodeg(nrm.X);
+
+                    if (!this.slopesliding)
+                    {
+                        this.colslope = sign(radtodeg(nrm.X));
+                    }
                 }
                 else if (nrm.Y > 0.2)
                 {
