@@ -26,7 +26,7 @@
   ],
   "name":"spr_chainsaw",
   "nineSlice":null,
-  "origin":4,
+  "origin":9,
   "parent":{
     "name":"Objects",
     "path":"folders/Sprites/Objects.yy",
@@ -88,7 +88,7 @@
     "visibleRange":null,
     "volume":1.0,
     "xorigin":12,
-    "yorigin":24,
+    "yorigin":40,
   },
   "swatchColours":null,
   "swfPrecision":2.525,

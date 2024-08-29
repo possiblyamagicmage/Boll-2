@@ -25,8 +25,8 @@ if (stalled)
 	xwidth = camera_get_view_width(view_camera[0]);
 	ywidth = camera_get_view_height(view_camera[0]);
 
-	xx = min(xmax, max(0, x_final + (x - xprevious) - (xwidth div 2)));
-	yy = min(ymax, max(0, y_final + (y - yprevious) - (ywidth div 2)));
+	xx = min(xmax, max(0, x_final + (x - xprevious) - (xwidth/2)));
+	yy = min(ymax, max(0, y_final + (y - yprevious) - (ywidth/2)));
 
 	camera_set_view_pos(view_camera[0],xx,yy);
 	return;
@@ -62,11 +62,13 @@ if (!(ycorrect || (lockflags & STALL_Y)))
 	default:
 		if (y > targety) {
 			// move the camera if we're on the ground or out of screen bounds
-			var movecamy = (y div 1) > (targety + (ywidth div 4))
+			var movecamy = (y > ((targety+(target.yprevious-targety)) + ysensor*2))
 			
 			if (movecamy)
 			{
-				if (ydist != 0)
+				y = floor(target.y+ysensor*2);
+				ydist = 0
+				/*if (ydist != 0)
 				{
 					if (abs(ydist) == 1)
 					{
@@ -86,7 +88,7 @@ if (!(ycorrect || (lockflags & STALL_Y)))
 				else
 				{
 					ydist = (y div 1) - targety; //get distance to travel
-				}
+				}*/
 			}
 		} else if (y < target.y - ysensor) {
 			y = floor(target.y - ysensor);

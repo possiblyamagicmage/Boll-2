@@ -19,8 +19,8 @@ on_object_list=point_in_rectangle(curs_x,curs_y,object_list_area_x-2,object_list
 not_on_gui= !point_in_rectangle(curs_x,curs_y,(guiw-16)-(32*14),0,(guiw-16)-(32*14)+(32*tb_length)+4,34)
 &&!point_in_rectangle(curs_x,curs_y,(guiw)-(32*5),0,(guiw)-(32*5)+(32*5)+4,34)
 &&!point_in_rectangle(curs_x,curs_y,0,(guih/4)-10,32,(guih/4)-10+(32*5)+4)
-&&!(on_object_list && show_object_list)
-&&!show_tileset
+&&!(on_object_list && show_object_list && selected_mode==OBJECT_MODE)
+&&!(show_tileset && selected_mode==TILE_MODE)
 
 #region Camera Panning
 if (not_on_gui) && (mbmiddle) {
@@ -505,7 +505,6 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 		}
 	
 }
-
 
 if keyboard_check_pressed(vk_enter) {
 	JADE_save();

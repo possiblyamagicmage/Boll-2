@@ -24,7 +24,7 @@ control_lock = 0;
 #define step
 
 if (braking) xsc=brakedir
-topspd = 4.5 + ((size != "basic") * 0.5);
+topspd = 4.5 + ((size != "basic" || size != "mini") * 0.5);
 maxspd = 12.5;
 no_move = false
 //add more checks here
@@ -33,7 +33,7 @@ if (state == "roll") {
 	rolling = true
 }
 
-if (control_lock > 0) no_move = true
+if (control_lock > 0 && !hurt) no_move = true
 
 
 // Fall off platform
@@ -54,7 +54,7 @@ if (!grounded) {
 	}
 	// Switch direction
 	//add more checks here to prevent left/right changing direction
-	if (left || right) {
+	if (left || right) && !(piped) {
 		xsc = esign(move, xsc)
 	}
 } else {
@@ -66,11 +66,11 @@ if (!grounded) {
 	}
 	
 	#region Crouch, Spindash
-	if (state == "") && (down) && (abs(gsp) <= 0.5) {
+	if (state == "") && (down) && (abs(gsp) <= 0.5) && !(piped){
 		state = "crouch"
 	}
 	
-	if (state == "crouch") {
+	if (state == "crouch") && !(piped) {
 		no_move = true
 		if (!down) state = ""
 		
@@ -81,7 +81,7 @@ if (!grounded) {
 		}
 	}
 	
-	if (state == "spindash") {
+	if (state == "spindash") && !(piped) {
 		no_move = true
 		spindashTotal -= spindashTotal / 32
 		if (apress || bpress || cpress) {
@@ -104,7 +104,7 @@ if (!grounded) {
 	#endregion
 	control_lock= max(0,control_lock - 1)
 	//handles slope influence
-	if (state == "roll") {
+	if (state == "roll") && !(piped) {
 		player_slide_sonic(0.125, rolling, 0.078125, 0.3125);
 	}
 	
@@ -115,7 +115,7 @@ if (!grounded) {
 }
 	
 #region Jumping
-if (state == "jump") {
+if (state == "jump") && !(piped){
 	slopesliding = 0
 	if (!akey && vsp < -2 && !canstopjump) //Make player jump lower when jump is released
 	{
@@ -124,7 +124,7 @@ if (state == "jump") {
 	
 }
 
-if (state == "" || state == "roll") && (apress) && (canjump > 0) {
+if (state == "" || state == "roll") && (apress) && (canjump > 0) && !(piped){
 	state = "jump"
 	grounded = false
 	colangle = colangle * 0.9
@@ -138,7 +138,7 @@ if (state == "" || state == "roll") && (apress) && (canjump > 0) {
 #endregion
 
 #region Rolling
-if (state != "roll" || !grounded) {
+if (state != "roll" || !grounded) && !(piped) {
 	accel = 0.046875
 	if (!grounded) {
 		accel = 0.09375
@@ -150,13 +150,13 @@ if (state != "roll" || !grounded) {
 }
 
 
-if (state == "" || state == "crouch" || state == "spindash") && (grounded && down && abs(gsp) > 1 ) {
+if (state == "" || state == "crouch" || state == "spindash") && (grounded && down && abs(gsp) > 1 ) && !(piped) {
 	stopsfx(charmName+"spin")
 	playsfx(charmName+"spin")
 	state = "roll"
 }
 
-if (state == "roll" && grounded) {
+if (state == "roll" && grounded) && !(piped) {
 	accel = 0
 	fastaccel = 0.125
 	fric = 0.0234375
@@ -276,8 +276,7 @@ if (colangle <= 336 && colangle >= 270)
 	}
 }
 	
-vsp = 0	
-
+vsp = 0
 
 #define sprung
 canstopjump = true;
@@ -285,3 +284,9 @@ state = "spring";
 
 #define enemy_stomped
 vsp=-4-akey*1.5
+
+#define hurt_by_enemy
+hurt=1
+hsp=4*-xsc
+vsp=-4
+grounded=false

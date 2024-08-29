@@ -3,7 +3,7 @@
 //
 // shove camera macros in here, I have no idea where else to put them
 //
-#macro CAM_SENSOR_WIDTH 64
+#macro CAM_SENSOR_WIDTH 32
 #macro CAM_SENSOR_HEIGHT 24
 //
 // the time it should take in total for the camera to zoom from 0 to 1

@@ -35,8 +35,9 @@ if (alarm_get(2)){
 
 #endregion
 //add more checks here
+
 #region Normal
-if ((apress) && !(grounded)) {
+if ((apress) && !(grounded)) && !piped {
 	alarm_set(0,5);  // ammount of frames for jump buffering
 	alarm_set(1,3);  // Walljump buffering
 } else if (grounded) {
@@ -49,7 +50,7 @@ if ((alarm_get(0) > 0) && (grounded)) {
 	alarm_set(0,0)
 }
 
-if (state == "" || state == "jump") {
+if (state == "" || state == "jump") && !piped {
 	grav = defaultgrav;
 	
 	if (bkey) {
@@ -101,7 +102,7 @@ if (state == "") {
 #endregion
 
 #region Groundpound
-if (state == "pound") {
+if (state == "pound") && !piping {
 	slopesliding = 0
 	pound_timer = max(0,pound_timer-1);
 	
@@ -124,7 +125,7 @@ if (state == "pound") {
 #endregion
 
 #region Jumping
-if (state == "jump" || state == "") && !(grounded) {
+if (state == "jump" || state == "") && !(grounded) && !piped {
 	slopesliding = 0
 	crouch = 0
 	if (!akey && vsp < -2 && !canstopjump) //Make player jump lower when jump is released
@@ -153,7 +154,7 @@ if (state == "jump" || state == "") && !(grounded) {
 	}
 }
 
-if (state == "" && apress && canjump > 0) {
+if (state == "" && apress && canjump > 0) && !piped {
 	state = "jump"
 	grounded = false
 	vsp = -(5.25+min(1,abs(hsp)/10)+(bool(poundjump)+0.5));
@@ -170,7 +171,8 @@ if (state == "" && apress && canjump > 0) {
 #endregion
 
 #region Wallsliding
-if (state == "wallslide") {
+
+if (state == "wallslide") && !piped {
 	vsp=1;
 	var coll=check_collision_line(x+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc),x+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc),COL_WALL)
 	
@@ -190,7 +192,7 @@ if (state == "wallslide") {
 }
 #endregion
 
-if (colangle != 0 && slopesliding){
+if (colangle != 0 && slopesliding) {
 	fric = 0.048; //limit friction for more slideee
 	// weeeeee
 } else if (!slopesliding && steep_slope) {
@@ -212,7 +214,7 @@ if (sprindex_prev != sprite_index) {
 
 // Switch direction
 //add more checks here to prevent left/right changing direction
-if (left || right) && (state == "" || state == "jump") && !slopesliding {
+if (left || right) && (state == "" || state == "jump") && !slopesliding && !piped {
 	xsc = esign(move, xsc)
 }
 
