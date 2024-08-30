@@ -86,6 +86,7 @@ if (state == "" || state == "jump") && !piped {
 			chsp = 0;
 		}
 	} else {
+		hurt = false
 		canjump = 5;  // Coyote frames
 		runjump = 0;
 	
@@ -336,3 +337,25 @@ canstopjump = true
 if (state != "groundpound") {
 	vsp=-4-akey*1.5
 }
+
+#define hurt_by_enemy
+show_debug_message("hit")
+hurt=1
+hsp=3.5*-xsc
+vsp=-3
+state=""
+grounded=false
+oldsize = size;
+switch (size) {
+	case "basic":
+	case "mini":
+		show_debug_message("what if they added 'totem the undying' to undertale as an armor and like thats why asriel cant kill you")
+		break;
+	case "big":
+		size = "basic";
+		break;
+	default:
+		size = "big";
+		break;
+}
+grow = 60;

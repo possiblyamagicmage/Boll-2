@@ -311,5 +311,16 @@ vsp=-3
 state=""
 grounded=false
 oldsize = size;
-size = "basic";
+switch (size) {
+	case "basic":
+	case "mini":
+		show_debug_message("what if they added 'fish of undying' to minecraft and it was just undyne")
+		break;
+	case "big":
+		size = "basic";
+		break;
+	default:
+		size = "big";
+		break;
+}
 grow = 60;
