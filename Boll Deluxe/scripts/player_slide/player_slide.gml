@@ -1,7 +1,7 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function player_slide(max_speed, slide_influence, steep_influence, do_steep_while_slide) {
-	
+	static slope_timer = 0
 	if (steep_slope) {
 		if !slopesliding {
 			gsp -= (steep_influence * dsin(colangle))
@@ -17,5 +17,11 @@ function player_slide(max_speed, slide_influence, steep_influence, do_steep_whil
 		crouch=1
 		no_move = 1;
 		maxspd = max_speed;
+	}
+	
+	if slopesliding && (abs(gsp) < 0.05) {
+		slopesliding = 0;
+		crouch=0;
+		no_move = 0;
 	}
 }

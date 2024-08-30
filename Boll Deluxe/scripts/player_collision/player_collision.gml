@@ -69,22 +69,28 @@ function player_poly_collision()
 function player_collision(){
 	if (piped) exit
 	
+	var posx, posy
+	posx = x
+	posy = y
+	
 	//left wall
-	while check_collision_dot(x-hit_sizex, y-sign(vsp), COL_WALL){
-		x++		
+	while check_collision_dot(posx-hit_sizex, posy-sign(vsp), COL_WALL){
+		x++	
+		posx = x
 	}
 		
 	//right wall
-	while check_collision_dot(x+hit_sizex, y-sign(vsp), COL_WALL){
+	while check_collision_dot(posx+hit_sizex, posy-sign(vsp), COL_WALL){
 		x--
+		posx = x
 	}
 	
 	//landing on solid ground
 	if !grounded && vsp >= 0 {
-		if check_collision_line(x-hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey, COL_BOTTOM){
+		if check_collision_line(posx-hit_sizex,posy+hit_sizey,posx+hit_sizex,posy+hit_sizey, COL_BOTTOM){
 			grounded = true
-			get_angle_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 3)
-			get_angle_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y +hit_sizey + 3)
+			get_angle_line(posx-hit_sizex,posy+hit_sizey,posx-hit_sizex,posy +hit_sizey + 3)
+			get_angle_line(posx+hit_sizex,posy+hit_sizey,posx+hit_sizex,posy +hit_sizey + 3)
 			
 			if self.object_index = oPlayer{
 				sig.Emit("floor_land")
@@ -97,13 +103,14 @@ function player_collision(){
 	
 	//hitting the ceiling
 	if !grounded && vsp < 0 {
-		if (check_collision_dot(x+hit_sizex, y-hit_sizey, COL_TOP)
-			or check_collision_dot(x-hit_sizex, y-hit_sizey, COL_TOP)){
+		if (check_collision_dot(posx+hit_sizex, posy-hit_sizey, COL_TOP)
+			or check_collision_dot(posx-hit_sizex, posy-hit_sizey, COL_TOP)){
 			//push out
 				
-			while (check_collision_dot(x+hit_sizex, y-hit_sizey, COL_TOP) 
-				or check_collision_dot(x-hit_sizex, y-hit_sizey, COL_TOP)) {
+			while (check_collision_dot(posx+hit_sizex, posy-hit_sizey, COL_TOP) 
+				or check_collision_dot(posx-hit_sizex, posy-hit_sizey, COL_TOP)) {
 				y++
+				posy = y
 				
 			}
 				
@@ -113,7 +120,7 @@ function player_collision(){
 			if object_index == oPlayer{
 				//Hitting / Bumping blocks
 				var _list = ds_list_create();
-				var _num = instance_place_list(x, y-hit_sizey-1, oHittable, _list, false);
+				var _num = instance_place_list(posx, posy-hit_sizey-1, oHittable, _list, false);
 				if (_num > 0) {
 					for (var i = 0; i < _num; ++i;) {
 						with(_list[| i]) if !(no_hit) {
@@ -132,8 +139,8 @@ function player_collision(){
 	//normal ground loop (for a variety of slopes
 	if grounded {
 		//gets angle so it doesnt jitter
-		get_angle_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 3)
-		get_angle_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y +hit_sizey + 3)
+		get_angle_line(posx-hit_sizex,posy+hit_sizey,posx-hit_sizex,posy +hit_sizey + 3)
+		get_angle_line(posx+hit_sizex,posy+hit_sizey,posx+hit_sizex,posy +hit_sizey + 3)
 		
 		
 		var offsetx, offsety;
@@ -142,7 +149,7 @@ function player_collision(){
 		offsety = yprevious - y
 		
 		//fall
-		if (!check_collision_line(x-hit_sizex,y+hit_sizey,x-hit_sizey,y +hit_sizey + 16 , COL_BOTTOM) && !check_collision_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey + 16, COL_BOTTOM) ){
+		if (!check_collision_line(posx-hit_sizex,posy+hit_sizey,posx-hit_sizey,posy +hit_sizey + 15 , COL_BOTTOM) && !check_collision_line(posx+hit_sizex -1,posy+hit_sizey,posx+hit_sizex-1,posy+hit_sizey + 15, COL_BOTTOM) ){
 				if (!abs(polyfloor[1]))
 				{
 					vsp = gsp * -dsin(colangle)
@@ -160,16 +167,18 @@ function player_collision(){
 	if grounded {
 		
 		//move down
-		if (check_collision_line(x-hit_sizex,y+hit_sizey,x-hit_sizex,y +hit_sizey + 16 , COL_BOTTOM) || check_collision_line(x+hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey + 16, COL_BOTTOM) ){   
-			while !check_collision_line(x-hit_sizex,y+hit_sizey, x+hit_sizex, y+hit_sizey, COL_BOTTOM){
+		if (check_collision_line(posx-hit_sizex,posy+hit_sizey,posx-hit_sizex,posy +hit_sizey + 15 , COL_BOTTOM) || check_collision_line(posx+hit_sizex-1,posy+hit_sizey,posx+hit_sizex-1,posy+hit_sizey + 15, COL_BOTTOM) ){   
+			while !check_collision_line(posx-hit_sizex,posy+hit_sizey, posx+hit_sizex, posy+hit_sizey, COL_BOTTOM){
 				y ++ 
+				posy = y
 				
 			}
 		}
 		
 		//move up
-		while check_collision_line(x-hit_sizex,y+hit_sizey, x+hit_sizex, y+hit_sizey, COL_BOTTOM) {
-			y -- 	
+		while check_collision_line(posx-hit_sizex,posy+hit_sizey, posx+hit_sizex, posy+hit_sizey, COL_BOTTOM) {
+			y -- 
+			posy = y
 		}
 		
 	}

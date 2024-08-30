@@ -3344,6 +3344,104 @@
 							],
 							"__worldX": 832,
 							"__worldY": 0
+						},
+						{
+							"__identifier": "SlopeCollider",
+							"__grid": [33,14],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 15, "x": 64, "y": 16, "w": 16, "h": 16 },
+							"__smartColor": "#2CE8F5",
+							"iid": "06440bd0-4ce0-11ef-ad3a-f54099afd9f9",
+							"width": 16,
+							"height": 16,
+							"defUid": 48,
+							"px": [528,224],
+							"fieldInstances": [
+								{ "__identifier": "hflip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 50, "realEditorValues": [] },
+								{ "__identifier": "ramp", "__type": "Bool", "__value": false, "__tile": null, "defUid": 97, "realEditorValues": [] }
+							],
+							"__worldX": 528,
+							"__worldY": 224
+						},
+						{
+							"__identifier": "SlopeCollider",
+							"__grid": [34,14],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 15, "x": 64, "y": 16, "w": 16, "h": 16 },
+							"__smartColor": "#2CE8F5",
+							"iid": "070a4200-4ce0-11ef-ad3a-a921ef443469",
+							"width": 16,
+							"height": 16,
+							"defUid": 48,
+							"px": [544,224],
+							"fieldInstances": [
+								{ "__identifier": "hflip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 50, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] },
+								{ "__identifier": "ramp", "__type": "Bool", "__value": false, "__tile": null, "defUid": 97, "realEditorValues": [] }
+							],
+							"__worldX": 544,
+							"__worldY": 224
+						},
+						{
+							"__identifier": "SlopeCollider",
+							"__grid": [35,15],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 15, "x": 64, "y": 16, "w": 16, "h": 16 },
+							"__smartColor": "#2CE8F5",
+							"iid": "12c5a530-4ce0-11ef-ad3a-d79e98c12273",
+							"width": 32,
+							"height": 16,
+							"defUid": 48,
+							"px": [560,240],
+							"fieldInstances": [
+								{ "__identifier": "hflip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 50, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] },
+								{ "__identifier": "ramp", "__type": "Bool", "__value": false, "__tile": null, "defUid": 97, "realEditorValues": [] }
+							],
+							"__worldX": 560,
+							"__worldY": 240
+						},
+						{
+							"__identifier": "SlopeCollider",
+							"__grid": [31,15],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 15, "x": 64, "y": 16, "w": 16, "h": 16 },
+							"__smartColor": "#2CE8F5",
+							"iid": "155d6710-4ce0-11ef-ad3a-27cb67005ec1",
+							"width": 32,
+							"height": 16,
+							"defUid": 48,
+							"px": [496,240],
+							"fieldInstances": [
+								{ "__identifier": "hflip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 50, "realEditorValues": [] },
+								{ "__identifier": "ramp", "__type": "Bool", "__value": false, "__tile": null, "defUid": 97, "realEditorValues": [] }
+							],
+							"__worldX": 496,
+							"__worldY": 240
+						},
+						{
+							"__identifier": "Collider",
+							"__grid": [33,15],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 15, "x": 64, "y": 0, "w": 16, "h": 16 },
+							"__smartColor": "#BE4A2F",
+							"iid": "18e97400-4ce0-11ef-ad3a-95da3cc36c91",
+							"width": 32,
+							"height": 16,
+							"defUid": 1,
+							"px": [528,240],
+							"fieldInstances": [],
+							"__worldX": 528,
+							"__worldY": 240
 						}
 					]
 				},
