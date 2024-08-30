@@ -2,13 +2,12 @@
 // You can write your code in this editor
 
 
-coll=instance_place(x,y-2-abs(y_diff),oPlayer);
-
-if (coll) && (coll.grounded) {
-	coll.x += x_diff;
-	coll.y += y_diff;
+with(oPlayer) {
+	if (grounded) && collision_line(x-hit_sizex+other.x_diff,y+hit_sizex+2+abs(other.y_diff),x+hit_sizex+abs(other.x_diff),y+hit_sizex+2+other.y_diff,other,false,true) {
+		x += other.x_diff;
+		y += other.y_diff;
+	}
 }
-
 
 if (place_meeting(x, y-2-abs(y_diff), oEnemy))
 {
