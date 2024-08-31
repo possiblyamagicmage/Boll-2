@@ -40,7 +40,7 @@ function get_spriteindex() { //returns the array index of the player's current s
 }
 
 function skin_animationdata(slot,name,list,size) {
-	var i,j,t,spr,sizename;
+	var i,spr,sizename;
 
 	switch (size){
 	    case 0: sizename="basic" break;
@@ -59,10 +59,7 @@ function skin_animationdata(slot,name,list,size) {
 		frames_list[i]=nozerounreal(skin_setting(sizename+" "+string(spr)+" frames"),skin_setting(string(spr)+" frames"))
 	    
 		//read animation speed
-	    t=nozerounreal(skin_setting(sizename+" "+string(spr)+" speed"),skin_setting(string(spr)+" speed")) 
-	    if (t=0) t=1 
-	    
-		speed_list[i]=t
+		speed_list[i]=max(1,nozerounreal(skin_setting(sizename+" "+string(spr)+" speed"),skin_setting(string(spr)+" speed")))
 		
 	    //read animation loop
 	    loops_list[i]=max(1,nozerounreal(skin_setting(sizename+" "+string(spr)+" loop"),skin_setting(string(spr)+" loop")))
@@ -75,14 +72,12 @@ function skin_animationdata(slot,name,list,size) {
 		times_list[i]=array_create(frames_list[i])
 	}
 	
-	for (var sizeNum = 0; sizeNum < array_length(global.powerups); sizeNum += 1) { //temporary size count, could replace with better method later maybe? works for now though -moster
-		box_width_list[sizeNum]=max(2,nozerounreal(skin_setting(sizename+" box width"),skin_setting("box width")))-1
-		box_height_list[sizeNum]=max(2,nozerounreal(skin_setting(sizename+" box height"),skin_setting("box height")))-1
-		offset_x_list[sizeNum]=nozerounreal(skin_setting(sizename+" offset x"),skin_setting("offset x"))
-		offset_y_list[sizeNum]=nozerounreal(skin_setting(sizename+" offset y"),skin_setting("offset y"))
-		animspd_list[sizeNum]=median(0,nozerounreal(skin_setting(sizename+" animation speed"),skin_setting("animation speed")))
-		poleoffx[sizeNum]=nozerounreal(skin_setting(sizename+" pole center offset"),skin_setting("pole center offset"))
-	}
+	box_width_list[size]=max(2,nozerounreal(skin_setting(sizename+" box width"),skin_setting("box width")))-1
+	box_height_list[size]=max(2,nozerounreal(skin_setting(sizename+" box height"),skin_setting("box height")))-1
+	offset_x_list[size]=nozerounreal(skin_setting(sizename+" offset x"),skin_setting("offset x"))
+	offset_y_list[size]=nozerounreal(skin_setting(sizename+" offset y"),skin_setting("offset y"))
+	animspd_list[size]=median(0,nozerounreal(skin_setting(sizename+" animation speed"),skin_setting("animation speed")))
+	poleoffx[size]=nozerounreal(skin_setting(sizename+" pole center offset"),skin_setting("pole center offset"))
 }
 
 function init_sounds() {
