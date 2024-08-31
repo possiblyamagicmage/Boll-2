@@ -40,7 +40,7 @@ function get_spriteindex() { //returns the array index of the player's current s
 }
 
 function skin_animationdata(slot,name,list,size) {
-	var i,spr,sizename;
+	var i,t,spr,sizename;
 
 	switch (size){
 	    case 0: sizename="basic" break;
@@ -59,7 +59,10 @@ function skin_animationdata(slot,name,list,size) {
 		frames_list[i]=nozerounreal(skin_setting(sizename+" "+string(spr)+" frames"),skin_setting(string(spr)+" frames"))
 	    
 		//read animation speed
-		speed_list[i]=max(1,nozerounreal(skin_setting(sizename+" "+string(spr)+" speed"),skin_setting(string(spr)+" speed")))
+	    t=nozerounreal(skin_setting(sizename+" "+string(spr)+" speed"),skin_setting(string(spr)+" speed")) 
+	    if !(ceil(t)) t=1
+	    
+		speed_list[i]=t
 		
 	    //read animation loop
 	    loops_list[i]=max(1,nozerounreal(skin_setting(sizename+" "+string(spr)+" loop"),skin_setting(string(spr)+" loop")))
