@@ -34,7 +34,7 @@ switch (size) {
 		hit_sizey = 12
 	} break
 }
-if (state == "jump") && (size != "mini") {
+if (state == "jump" || state == "roll" || state == "spindash") && (size != "mini") {
 	hit_sizey = 6
 }
 
