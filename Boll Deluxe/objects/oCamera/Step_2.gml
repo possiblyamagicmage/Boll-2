@@ -9,12 +9,11 @@ if (target == noone)
 // get rid of lock-based camerastalls if we're not in a CameraLock
 if (lockflags)
 {
-	var this = self;
 	with(target)
 	{
 		if (!place_meeting(x,y,oCameraLock))
 		{
-			this.lockflags = this.lockflags & IN_LOCK;	
+			self.lockflags = self.lockflags & IN_LOCK;	
 		}
 	}
 }
@@ -47,7 +46,7 @@ ywidth = camera_get_view_height(view_camera[0]);
 // seriously, who
 var targety = intlib_make_s64(target.y);
 
-if (!(ycorrect || (lockflags & STALL_Y)))
+if (!(ycorrect || (lockflags & STALL_Y) || locked))
 {
 	switch(state[1])
 	{
@@ -73,7 +72,7 @@ if (!(ycorrect || (lockflags & STALL_Y)))
 }
 
 //horizontal sensors
-if (!(xcorrect || (lockflags & STALL_X)))
+if (!(xcorrect || (lockflags & STALL_X) || locked))
 {
 	switch state[0] {
 		case 0 : { //follow player

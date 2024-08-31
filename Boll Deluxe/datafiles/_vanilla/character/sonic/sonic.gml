@@ -242,9 +242,24 @@ if (hurt) {
 //chopp: to handle any signals, make sure you define the code here with the same name 
 
 #define on_kill
+playsfx(charmName+"die")
 dead=1
-vspeed=-3;
-gravity=0.075;
+deadtimer=240;
+vspeed=-5;
+gravity=0.15;
+
+#define death
+deadtimer=max(0,deadtimer-1);
+
+//so the camera doesnt move
+if (my_camera) {
+	my_camera.locked = true;
+}
+
+//complete the death animation and restart the level
+if !(deadtimer) {
+	finish_death();
+}
 
 #define mushroom
 show_debug_message("eatted it :)");

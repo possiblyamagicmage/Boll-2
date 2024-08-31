@@ -224,3 +224,6 @@ function animate_player() {
 	}
 }
 
+function finish_death() {
+	room_restart();
+}	

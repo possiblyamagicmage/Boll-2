@@ -578,7 +578,7 @@ if !(instance_exists(input_controller_object)) instance_create_depth(0,0,16001,i
 		txr_function_add("player_slide_sonic", player_slide_sonic, -1);
 		txr_function_add("player_interactions", player_interactions, -1);
 		txr_function_add("post_wall", post_wall, -1);
-		
+		txr_function_add("finish_death", finish_death, -1);
 	#endregion
 	
 	#region Audio

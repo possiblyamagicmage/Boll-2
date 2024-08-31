@@ -26,5 +26,5 @@ if !dead {
 	txr_exec(global.scripts[? $"{charmName}_step"]);
 }
 else {
-	txr_exec(global.scripts[? $"{charmName}_dead"]);
+	txr_exec(global.scripts[? $"{charmName}_death"]);
 }

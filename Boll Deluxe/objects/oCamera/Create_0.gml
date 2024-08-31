@@ -7,6 +7,7 @@ ydist = 0
 target = noone;
 stalled = false;
 lockflags = 0;
+locked = 0; //acts the exact same as the lockflags but easier for charm and objects to set it
 
 // camera zoom
 can_zoom = false; // can the camera zoom yet?
