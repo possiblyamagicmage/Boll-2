@@ -9,7 +9,7 @@ grounded = false
 piped = false
 
 hit_sizex = 6
-hit_sizey = 8
+hit_sizey = 6
 collision_array=[oCollider, oEnemyGround];
 
 depth=2

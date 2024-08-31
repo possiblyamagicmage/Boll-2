@@ -40,7 +40,7 @@ function get_spriteindex() { //returns the array index of the player's current s
 }
 
 function skin_animationdata(slot,name,list,size) {
-	var i,j,p,t,spr,sizename;
+	var i,j,t,spr,sizename;
 
 	switch (size){
 	    case 0: sizename="basic" break;
@@ -52,16 +52,6 @@ function skin_animationdata(slot,name,list,size) {
 	}
 
 	for (i=0;i<array_length(list);i+=1) {
-	    //k=16+128*i //1d array :P
-	    /*
-	        k value table
-	        k+0 animation name
-	        k+1 frames
-	        k+2 speed
-	        k+3 loop
-	        k+4... frame times
-	    */
-
 	    spr=list[i]
 	    //read frame count list
 	    //the below code was mega simplified since we don't have to deal with the commas for different sizes.
@@ -84,12 +74,15 @@ function skin_animationdata(slot,name,list,size) {
 		else
 		times_list[i]=array_create(frames_list[i])
 	}
-	box_width=max(2,nozerounreal(skin_setting(sizename+" box width"),skin_setting("box width")))-1
-	box_height=max(2,nozerounreal(skin_setting(sizename+" box height"),skin_setting("box height")))-1
-	offset_x=unreal(skin_setting(sizename+" offset x"),skin_setting("offset x"))
-	offset_y=unreal(skin_setting(sizename+" offset y"),skin_setting("offset y"))
-	animf=median(0,nozerounreal(skin_setting(sizename+" animation speed"),skin_setting("animation speed")))
-	poleoffx=nozerounreal(skin_setting(sizename+" pole center offset"),skin_setting("pole center offset"))
+	
+	for (var sizeNum = 0; sizeNum < array_length(global.powerups); sizeNum += 1) { //temporary size count, could replace with better method later maybe? works for now though -moster
+		box_width_list[sizeNum]=max(2,nozerounreal(skin_setting(sizename+" box width"),skin_setting("box width")))-1
+		box_height_list[sizeNum]=max(2,nozerounreal(skin_setting(sizename+" box height"),skin_setting("box height")))-1
+		offset_x_list[sizeNum]=nozerounreal(skin_setting(sizename+" offset x"),skin_setting("offset x"))
+		offset_y_list[sizeNum]=nozerounreal(skin_setting(sizename+" offset y"),skin_setting("offset y"))
+		animspd_list[sizeNum]=median(0,nozerounreal(skin_setting(sizename+" animation speed"),skin_setting("animation speed")))
+		poleoffx[sizeNum]=nozerounreal(skin_setting(sizename+" pole center offset"),skin_setting("pole center offset"))
+	}
 }
 
 function init_sounds() {
@@ -128,6 +121,16 @@ function init_player() { //make this load animation data later
 	loops_list=[1];
 	times_list[0]=1;
 	speed_list=[1];
+	offset_x_list[0]=0;
+	offset_y_list[0]=0;
+	animspd_list[0]=0;
+	box_width_list[0]=2;
+	box_height_list[0]=2;
+	animf=1;
+	offset_x=0;
+	offset_y=0;
+	box_width=2;
+	box_height=2;
 	fr=0;
 	sprite="idle";
 	xsc=1;
@@ -214,7 +217,17 @@ function animate_player() {
 	if (piped!=2) frame+=frs
 	if (frame<0) frame+=frn
 	if (frame>=frn) {frame=frame-frn if (frl<frn) frame=frl}
-	frame=modulo(frame,0,frn)  
+	frame=modulo(frame,0,frn)
+	for (var sizeNum = 0; sizeNum < array_length(global.powerups); sizeNum += 1) { //temporary size count, could replace with better method later maybe? works for now though -moster
+		if global.powerups[sizeNum]==size {
+			offset_x=offset_x_list[sizeNum]
+			offset_y=offset_y_list[sizeNum]
+			animf=animspd_list[sizeNum]
+			box_width=box_width_list[sizeNum]
+			box_height=box_height_list[0]
+			break
+		}
+	}
 
 	//below is the old code that deals with taking damage, as well as growing, commented out just in case rn
 	/*if (!super) if (((hurt || fall=6) && hk<4) || ((grow && gk mod 6<3)) size=mem*/ 
