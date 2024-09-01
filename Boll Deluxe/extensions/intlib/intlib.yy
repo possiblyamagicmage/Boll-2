@@ -42,6 +42,7 @@
         {"name":"intlib_make_fixedpoint_unsigned","path":"extensions/intlib/intlib.yy",},
       ],"origname":"","ProxyFiles":[
         {"$GMProxyFile":"","%Name":"intlib_x64.dll","name":"intlib_x64.dll","resourceType":"GMProxyFile","resourceVersion":"2.0","TargetMask":6,},
+        {"$GMProxyFile":"","%Name":"intlib_linux.so","name":"intlib_linux.so","resourceType":"GMProxyFile","resourceVersion":"2.0","TargetMask":7,},
       ],"resourceType":"GMExtensionFile","resourceVersion":"2.0","uncompress":false,"usesRunnerInterface":false,},
   ],
   "gradleinject":"",
