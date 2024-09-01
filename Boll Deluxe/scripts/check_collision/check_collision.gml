@@ -118,6 +118,31 @@ function get_angle_line(x1, y1, x2, y2){
 
 }
 
+
+function check_hitbox_on_hitbox(object1, object2){
+	//var found = noone
+	var x1, x2, y1, y2
+	x1 = floor(object1.x)
+	x2 = floor(object2.x)
+	y1 = floor(object1.y)
+	y2 = floor(object2.y)
+	
+	if collision_rectangle(x1 - hit_sizex,y1 - hit_sizey,x1 + hit_sizex,y1 + hit_sizey, object2,false,true)    {
+	    var found_list = ds_list_create()
+	    var found_size = collision_rectangle_list(x1 - hit_sizex,y1 - hit_sizey,x1 + hit_sizex,y1 + hit_sizey, object2,false,true, found_list, false)
+    
+	    for (var i = 0; i < found_size; ++i) {    
+	        var found = found_list[| i];
+	        if rectangle_in_rectangle(x1 - hit_sizex,y1 - hit_sizey,x1 + hit_sizex,y1 + hit_sizey, x2 - hit_sizex,y2 - hit_sizey,x2 + hit_sizex,y2 + hit_sizey) {
+				ds_list_destroy(found_list)
+	            return true;	
+			}
+	    }
+        ds_list_destroy(found_list)
+    }
+
+}
+
 // polygon collision
 
 function poly_collide(obj = self, is_player = false)
