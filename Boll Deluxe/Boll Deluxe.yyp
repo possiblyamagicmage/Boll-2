@@ -1229,6 +1229,7 @@
     {"id":{"name":"spr_pGlitter","path":"sprites/spr_pGlitter/spr_pGlitter.yy",},},
     {"id":{"name":"spr_pipe","path":"sprites/spr_pipe/spr_pipe.yy",},},
     {"id":{"name":"spr_piranhaplant","path":"sprites/spr_piranhaplant/spr_piranhaplant.yy",},},
+    {"id":{"name":"spr_placeholder_hitbox","path":"sprites/spr_placeholder_hitbox/spr_placeholder_hitbox.yy",},},
     {"id":{"name":"spr_player","path":"sprites/spr_player/spr_player.yy",},},
     {"id":{"name":"spr_playerbig","path":"sprites/spr_playerbig/spr_playerbig.yy",},},
     {"id":{"name":"spr_playermask","path":"sprites/spr_playermask/spr_playermask.yy",},},
