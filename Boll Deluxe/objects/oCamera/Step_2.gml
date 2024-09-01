@@ -9,11 +9,12 @@ if (target == noone)
 // get rid of lock-based camerastalls if we're not in a CameraLock
 if (lockflags)
 {
+	var this = self;
 	with(target)
 	{
 		if (!place_meeting(x,y,oCameraLock))
 		{
-			self.lockflags = self.lockflags & IN_LOCK;	
+			this.lockflags = this.lockflags & IN_LOCK;	
 		}
 	}
 }
