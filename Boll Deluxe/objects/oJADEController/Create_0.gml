@@ -86,7 +86,7 @@ selection_box_y = 0
 temp_mode=0;
 temp_toolbar=0;
 
-for (i = 0; i < array_length(jade_cats); i++) {
+for (var i = 0; i < array_length(jade_cats); i++) {
 	current_obj_id[i] = 0
 }
 current_tile_id = 0

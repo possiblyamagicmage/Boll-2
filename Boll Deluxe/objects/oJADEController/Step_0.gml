@@ -52,11 +52,10 @@ var dir = (keyboard_check_pressed(vk_right) || mouse_check_button_pressed(mb_sid
 
 #region Object List Scrolling
 if (mwheel != 0) && (on_object_list) {
-	object_list_scroll_pos[current_cat]+=16*-mwheel
-	show_debug_message(object_list_scroll_pos[current_cat])
+	object_list_scroll_pos[current_cat]+=16*mwheel
 }
 
-object_list_scroll_pos[current_cat] = clamp(object_list_scroll_pos[current_cat], -(ds_list_size(jade_cats[current_cat])*32/3), 0)
+object_list_scroll_pos[current_cat] = clamp(object_list_scroll_pos[current_cat], 0, (ds_list_size(jade_cats[current_cat])*32)-object_list_area_height)
 #endregion
 
 #region Category Switching

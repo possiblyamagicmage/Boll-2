@@ -12,10 +12,7 @@
     "name":"Springs",
     "path":"folders/Objects/Objects/Springs.yy",
   },
-  "parentObjectId":{
-    "name":"oCollider",
-    "path":"objects/oCollider/oCollider.yy",
-  },
+  "parentObjectId":null,
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
