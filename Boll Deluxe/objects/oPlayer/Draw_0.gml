@@ -1,5 +1,5 @@
 show_debug_message($"spr_{charmName}_{size}_stand")
-draw_image(oGlobals.PlayerColl.GetImageInfo($"spr_{charmName}_{size}_stand"), 0, x, y)
+draw_image(oGameManager.PlayerColl.GetImageInfo($"spr_{charmName}_{size}_stand"), 0, x, y)
 /*get_player_sheet();
 animate_player();
 if (sheet != -1) {
