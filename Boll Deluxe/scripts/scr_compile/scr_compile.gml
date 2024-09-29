@@ -107,8 +107,8 @@ function import_sheets() {
 					var org_y=unreal(config_setting(global.powerups[j]+" "+array[g]+" orgY", dir),config_setting(array[g]+" orgY", dir))
 					org_x=CollageOrigin.CENTER+org_x
 					org_y=CollageOrigin.CENTER+org_y
+					show_debug_message($"{array[g]} frames: {frames}")
 					oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\{global.powerups[j]}\\{array[g]}.png",$"spr_{_name}_{global.powerups[j]}_{array[g]}",frames,false,false,org_x,org_y)
-					show_debug_message($"spr_{_name}_{global.powerups[j]}_{array[g]}")
 				}
 			}
 		}

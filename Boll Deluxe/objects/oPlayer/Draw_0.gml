@@ -1,5 +1,5 @@
+animate_player();
 if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex()))) {
-	animate_player();
 	if (greenmode) {
 		shader_set(shd_flatcolor);
 		

@@ -242,7 +242,9 @@ frspd=1
 
 if (state == "") {
 	if (ceil(abs(hsp))>3) spriteEvent="run"
-	else if !(abs(hsp)) spriteEvent="idle"
+	else if !(abs(hsp)) {
+		spriteEvent="idle"
+	}
 	else {
 		frspd=abs(hsp)/4
 		spriteEvent="walk"
@@ -276,7 +278,7 @@ if (state == "wallSlide") {
 }
 
 if (slopesliding) {
-	spriteEvent="slide"
+	spriteEvent="slopeSlide"
 }
 
 if (hurt) {
@@ -289,7 +291,6 @@ if (hurt) {
 if (electrocuted) {
 	spriteEvent="hurt"
 }
-spriteEvent="idle"
 #endregion
 
 //chopp: to handle any signals, make sure you define the code here with the same name 

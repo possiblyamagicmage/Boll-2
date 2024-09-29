@@ -115,7 +115,7 @@ function skin_animationdata(slot,name,list) {
 
 	for (var j = 0; j < array_length(global.powerups); ++j) {
 		for (var g = 0; g < array_length(spriteEvents); ++g) {
-			var _getspr=skin_getstring($"{global.powerups[j]}{spriteEvents[g]}")
+			var _getspr=skin_getstring($"{global.powerups[j]} {spriteEvents[g]}")
 			if (_getspr=="") {
 				_getspr=string(skin_getstring($"{spriteEvents[g]}"))
 			}
@@ -267,13 +267,15 @@ function animate_player() {
 	if (grow && (global.roomTimer mod 6 < 3)) {
 		size = oldsize;
 	}
-
-	if (get_spriteindex()!=oldspr) frame=0
 	
-	show_debug_message(global.player_spritelists[pNum])
 	var spri=array_get_index(global.player_spritelists[pNum], ds_map_find_value(spriteMap,$"{size} {spriteEvent}"))
-	show_debug_message(ds_map_find_value(spriteMap,$"{size} {spriteEvent}"))
-	show_debug_message(spri)
+	
+	if (get_spriteindex()!=oldspr) {
+		frame=0
+		show_debug_message(ds_map_find_value(spriteMap,$"{size} {spriteEvent}"))
+		show_debug_message(spri)
+	}
+	
 	if spri!=-1 {
 		frn=frames_list[spri] //frame number
 		var times=times_list[spri]
