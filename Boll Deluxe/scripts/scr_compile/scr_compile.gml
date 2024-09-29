@@ -101,7 +101,12 @@ function import_sheets() {
 				global.player_spritelists[i][j]=config_getarray($"{global.powerups[j]}_sprites", dir)
 				var array=global.player_spritelists[i][j]
 				for (var g = 0; g < array_length(array); ++g) {
-					oGlobals.PlayerColl.AddFile($"{dir}\\sprites\\{global.powerups[j]}\\{array[g]}.png",$"spr_{_name}_{global.powerups[j]}_{array[g]}",3,false,false,0,0)
+					var frames=nozerounreal(config_setting(global.powerups[j]+" "+array[g]+" frames", dir),config_setting(array[g]+" frames", dir))
+					var org_x=unreal(config_setting(global.powerups[j]+" "+array[g]+" orgX", dir),config_setting(array[g]+" orgX", dir))
+					var org_y=unreal(config_setting(global.powerups[j]+" "+array[g]+" orgY", dir),config_setting(array[g]+" orgY", dir))
+					org_x=CollageOrigin.CENTER+org_x
+					org_y=CollageOrigin.CENTER+org_y
+					oGlobals.PlayerColl.AddFile($"{dir}\\sprites\\{global.powerups[j]}\\{array[g]}.png",$"spr_{_name}_{global.powerups[j]}_{array[g]}",frames,false,false,org_x,org_y)
 					show_debug_message($"spr_{_name}_{global.powerups[j]}_{array[g]}")
 				}
 			}

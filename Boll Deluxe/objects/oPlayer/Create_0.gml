@@ -17,7 +17,6 @@ palette_index=0
 greenmode=0
 
 ///// GENERAL /////
-sprite_list=[];
 sound_list=[];
 pNum = 0; //player number (P1, P2, etc.)
 charmName = global._playerChars[pNum]; //what charm this player character is using
@@ -115,6 +114,9 @@ if (!global.zoom_on_start)
 }
 
 //sheet=global.player_sheets[0][0]
+
+//Sprite Events
+spriteEvent=""
 
 ///// EVENT SETUP /////
 

@@ -72,18 +72,11 @@ function get_spriteindex() { //returns the array index of the player's current s
 }
 
 function skin_animationdata(slot,name,list,size) {
-	var i,t,spr,sizename;
+	var t,spr,sizename;
 
-	switch (size){
-	    case 0: sizename="basic" break;
-	    case 1: sizename="big" break;
-	    case 2: sizename="fire" break;
-	    case 3: sizename="feather" break;
-	    case 4: sizename="extra" break;
-	    default: sizename=string(size) break;
-	}
+	sizename=global.powerups[size]
 
-	for (i=0;i<array_length(list);i+=1) {
+	for (var i=0;i<array_length(list);i+=1) {
 	    spr=list[i]
 	    //read frame count list
 	    //the below code was mega simplified since we don't have to deal with the commas for different sizes.
@@ -107,8 +100,6 @@ function skin_animationdata(slot,name,list,size) {
 		times_list[i]=array_create(frames_list[i])
 	}
 	
-	box_width_list[size]=max(2,nozerounreal(skin_setting(sizename+" box width"),skin_setting("box width")))-1
-	box_height_list[size]=max(2,nozerounreal(skin_setting(sizename+" box height"),skin_setting("box height")))-1
 	offset_x_list[size]=nozerounreal(skin_setting(sizename+" offset x"),skin_setting("offset x"))
 	offset_y_list[size]=nozerounreal(skin_setting(sizename+" offset y"),skin_setting("offset y"))
 	animspd_list[size]=median(0,nozerounreal(skin_setting(sizename+" animation speed"),skin_setting("animation speed")))
