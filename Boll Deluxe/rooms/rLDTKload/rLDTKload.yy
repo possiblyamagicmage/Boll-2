@@ -6,8 +6,8 @@
   "inheritCreationOrder":false,
   "inheritLayers":false,
   "instanceCreationOrder":[
-    {"name":"inst_68147E79","path":"rooms/rLDTKload/rLDTKload.yy",},
     {"name":"inst_47055002","path":"rooms/rLDTKload/rLDTKload.yy",},
+    {"name":"inst_68147E79","path":"rooms/rLDTKload/rLDTKload.yy",},
   ],
   "isDnd":false,
   "layers":[

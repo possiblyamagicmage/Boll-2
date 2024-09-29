@@ -120,6 +120,7 @@ function skin_animationdata(slot,name,list) {
 				_getspr=string(skin_getstring($"{spriteEvents[g]}"))
 			}
 			if !(_getspr=="") {
+				show_debug_message(_getspr)
 				ds_map_add(spriteMap,$"{global.powerups[j]} {spriteEvents[g]}",_getspr)
 			}
 		}
@@ -144,7 +145,7 @@ function skin_animationdata(slot,name,list) {
 			if is_array(skin_getarray(string(spr)+" frametimes"))
 			times_list[i]=skin_getarray(string(spr)+" frametimes")
 			else
-			times_list[i]=array_create(frames_list[i], 1)
+			times_list[i]=array_create(frames_list[i],1)
 		}
 	
 		offset_x_list[j]=nozerounreal(skin_setting(global.powerups[j]+" offset x"),skin_setting("offset x"))
@@ -214,7 +215,7 @@ function init_player() { //make this load animation data later
 	top_margin=120;
 	dy=0;
 	
-	skin_animationdata(pNum,charmName,spriteEvents);
+	skin_animationdata(pNum,charmName,global.player_spritelists[pNum]);
 	init_sounds();
 }
 
@@ -224,7 +225,7 @@ function draw_player() {
 	if CollageImageExists(spr) {
 		CollageDrawImageExt(
 			spr, 
-			fr,
+			floor(frame),
 			floor(x) - (floor(offset_x)) * -xsc, 
 			floor(y) - (floor(offset_y) - (6) - (hit_sizey)) * -ysc,
 			xsc,
@@ -275,7 +276,8 @@ function animate_player() {
 	show_debug_message(spri)
 	if spri!=-1 {
 		frn=frames_list[spri] //frame number
-		frs=(frspd*animf*speed_list[spri])/max(1,times_list[spri,floor(frame)]) //(game speed * percent * sprite speed) / frame time
+		var times=times_list[spri]
+		frs=(frspd*animf*speed_list[spri])/max(1,times[floor(frame)]) //(game speed * percent * sprite speed) / frame time
 		frl=loops_list[spri]-1 //loop point  
 		//if (water && !cantslowanim) frs*=wf                       
 		if (piped!=2) frame+=frs

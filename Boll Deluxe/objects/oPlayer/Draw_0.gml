@@ -1,4 +1,3 @@
-show_debug_message(spriteEvent)
 if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex()))) {
 	animate_player();
 	if (greenmode) {
