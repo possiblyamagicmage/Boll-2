@@ -1,5 +1,5 @@
 #define datalist
-spriteEvents=split_string("idle,walk,run,wait,lookUp,crouch,victory,hurt,dead,brake,jump,fall,bonk,runJump,doubleJump,doubleJumpFall,doubleJumpBonk,wallSlide,wallJump,groundPound,groundPoundFall,slopeSlide,carryIdle,carryWalk,carryRun,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,roll,swim,swimPaddle,carrySwim,carryPaddle,spinJump,pushing,balancing,dive,bellySlide,fireToss,gateClimbing,flagPole,hang,monkeyBars,boarding,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
+spriteEvents=split_string("idle,walk,run,wait,lookUp,crouch,victory,hurt,dead,brake,jump,fall,bonk,runJump,runJumpFall,doubleJump,doubleJumpFall,doubleJumpBonk,wallSlide,wallJump,groundPound,groundPoundFall,slopeSlide,carryIdle,carryWalk,carryRun,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,roll,swim,swimPaddle,carrySwim,carryPaddle,spinJump,pushing,balancing,dive,bellySlide,fireToss,gateClimbing,flagPole,hang,monkeyBars,boarding,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
 sound_list=split_string("select,damage,die,jump,win,step,bonk",",");
 
 #define create
@@ -270,7 +270,7 @@ if (state == "jump") {
 }
 
 if (state == "pound") {
-	if (pound_timer > 0) spriteEvent="groundPound" else spriteEvent="poundFall"
+	if (pound_timer > 0) spriteEvent="groundPound" else spriteEvent="groundPoundFall"
 }
 
 if (state == "wallSlide") {
