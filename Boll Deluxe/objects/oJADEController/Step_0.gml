@@ -14,7 +14,7 @@ curs_y=mouse_y-cam_y
 var guiw=display_get_gui_width()
 var guih=display_get_gui_height()
 var tb_length = array_length(toolbar[selected_mode])
-on_object_list = (point_in_rectangle(curs_x,curs_y,object_list_area_x-2,object_list_area_y-24,object_list_area_x+object_list_area_width,object_list_area_y+object_list_area_height) && show_object_list && object_list_active)
+on_object_list = (point_in_rectangle(curs_x,curs_y,object_list_area_x-2,object_list_area_y-24,object_list_area_x+object_list_area_width/3,object_list_area_y+object_list_area_height/3) && show_object_list && object_list_active)
 if (!on_object_list && object_list_active && show_object_list) on_object_list = keyboard_check_direct(vk_alt)
 
 not_on_gui= !point_in_rectangle(curs_x,curs_y,(guiw-16)-(32*14),0,(guiw-16)-(32*14)+(32*tb_length)+4,34)
@@ -22,6 +22,7 @@ not_on_gui= !point_in_rectangle(curs_x,curs_y,(guiw-16)-(32*14),0,(guiw-16)-(32*
 &&!point_in_rectangle(curs_x,curs_y,0,(guih/4)-10,32,(guih/4)-10+(32*5)+4)
 &&!(on_object_list && show_object_list && selected_mode==OBJECT_MODE)
 &&!(show_tileset && selected_mode==TILE_MODE)
+&&!point_in_rectangle(curs_x,curs_y,object_list_area_x,object_list_area_y-20,object_list_area_x+object_list_area_width/3,object_list_area_y);
 
 #region Camera Panning
 if (not_on_gui) && (mbmiddle) {

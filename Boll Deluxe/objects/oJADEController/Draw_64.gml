@@ -74,7 +74,7 @@ if selected_mode = TILE_MODE {
 #region Object List
 if selected_mode == OBJECT_MODE {
 	
-	var over_tab=point_in_rectangle(curs_x,curs_y,object_list_area_x-1,object_list_area_y-24, object_list_area_x + ((object_list_area_width/3)/2),object_list_area_y-8)
+	var over_tab=point_in_rectangle(curs_x,curs_y,object_list_area_x-1,object_list_area_y-24, object_list_area_x + ((object_list_area_width/3)/2),object_list_area_y)
 		
 	if (over_tab && mbleftpress) {
 		object_list_active = 1
@@ -82,7 +82,7 @@ if selected_mode == OBJECT_MODE {
 		show_object_list = 1
 	}
 	
-	over_tab=point_in_rectangle(curs_x,curs_y,object_list_area_x + 1 + ((object_list_area_width/3)/2),object_list_area_y-24, object_list_area_x + (((object_list_area_width/3)/4)*3),object_list_area_y-8)
+	over_tab=point_in_rectangle(curs_x,curs_y,object_list_area_x + 1 + ((object_list_area_width/3)/2),object_list_area_y-24, object_list_area_x + (((object_list_area_width/3)/2)*3),object_list_area_y)
 		
 	if (over_tab && mbleftpress) {
 		object_list_active = 0
@@ -90,8 +90,8 @@ if selected_mode == OBJECT_MODE {
 		show_object_list = 1
 	}
 	
-	if show_object_list {
-		if object_list_active && surface_exists(object_list_area_surface) {
+	if show_object_list && surface_exists(object_list_area_surface) {
+		if object_list_active {
 		//window tab top buttons
 			//Object List Tab
 			draw_sprite_stretched(spr_JADEwindowtab,0,object_list_area_x-1,object_list_area_y-24, -1 + ((object_list_area_width/3)/2),18)
@@ -153,13 +153,12 @@ if selected_mode == OBJECT_MODE {
 				if sprite_get_height(sprite)*2 < 32
 				ysize=sprite_get_height(sprite)
 		
+				//draw object icon
 				draw_sprite_stretched(sprite,0,4,(32*i)-object_list_scroll_pos[current_cat],32,ysize)
 				draw_set_halign(fa_left)
 			}
 	
 			surface_reset_target();
-	
-			draw_surface_stretched(object_list_area_surface, object_list_area_x, object_list_area_y, object_list_area_width/3, object_list_area_height/3)
 		} else if properties_tab_active {
 			//Properties Tab
 			draw_sprite_stretched(spr_JADEwindowtab,0,(object_list_area_x + 1 + ((object_list_area_width/3)/2)),object_list_area_y-24, -1 + ((object_list_area_width/3)/2),18)
@@ -168,15 +167,16 @@ if selected_mode == OBJECT_MODE {
 		
 			//window
 			draw_sprite_stretched(spr_JADEwindow,0,object_list_area_x-2,object_list_area_y-6,(object_list_area_width/3)+2,(object_list_area_height/3)+8)
-			
-			//window text
-			draw_set_halign(fa_left)
-			draw_text_transformed(object_list_area_x+2,object_list_area_y-4,"properties - where fuck i am",0.66,0.66,0)
+			draw_set_font(smallF)
 		
 			//tab text
 			draw_set_halign(fa_center)
 			draw_text_transformed((object_list_area_x - 1 + (object_list_area_width/3)/4),object_list_area_y-14,"Object List",0.66,0.66,0)
 			draw_text_transformed((object_list_area_x + 1 + ((object_list_area_width/3)/4)*3),object_list_area_y-16,"Properties",0.66,0.66,0)
+			
+			surface_set_target(object_list_area_surface)
+			draw_clear_alpha(c_black, 0)
+			draw_set_halign(fa_left)
 			
 			var size = ds_list_size(object_layer_map)
 			var properties_group = [-4];
@@ -195,13 +195,40 @@ if selected_mode == OBJECT_MODE {
 				}
 			}
 			
+			var objname=""
 			if (properties_group[0] != -4) {
-				for (i = 0; i < array_length(properties_group); i++) {
-					draw_text_transformed(object_list_area_x + 4, object_list_area_y + 4 + (6 * i), properties_group[i], 0.66,0.66,0)
+				var proparr=properties_group[0]
+				objname=proparr[0]
+				
+				var arr=ds_map_find_value(obj_data,proparr[0])
+				var sprite=arr[0]
+				var ysize=64
+				if sprite_get_height(sprite)*4 < 64
+				ysize=sprite_get_height(sprite)
+				
+				//icon border
+				draw_rect(13,13,70,70,$65555c,1,true)
+				draw_rect(14,14,68,68,$65555c,1,true)
+				draw_rect(15,15,66,66,$65555c,1,true)
+				//draw object icon
+				draw_sprite_stretched(sprite,0,16,16,64,ysize)
+				//draw object name
+				ScribblejrFit(objname, fa_left, fa_middle, smallF, 3, object_list_area_width-104, 32).Draw(96,48)
+				//draw divider
+				draw_rect(12,96,object_list_area_width-24,3,$65555c,1,false)
+				for (var i = 0; i < array_length(proparr[10]); ++i) {
+				    ScribblejrFit($"{string(proparr[10][i][1])}:", fa_left, fa_middle, smallF, 3, 96, 32).Draw(16,112+32*i)
 				}
 			}
-			draw_set_halign(fa_left)
+			
+			surface_reset_target();
+			
+			//window text
+			draw_set_font(smallF)
+			draw_text_transformed(object_list_area_x+2,object_list_area_y-4,$"properties - {objname}",0.66,0.66,0)
 		}
+		
+		draw_surface_stretched(object_list_area_surface, object_list_area_x, object_list_area_y, object_list_area_width/3, object_list_area_height/3)
 	} else {
 		//Properties Tab
 		draw_sprite_stretched(spr_JADEwindowtab,1,(object_list_area_x + 1 + ((object_list_area_width/3)/2)),object_list_area_y-20, -1 + ((object_list_area_width/3)/2),14)
