@@ -439,7 +439,15 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 							obj[7] = sprite[5]	
 							obj[8] = 0
 							obj[9] = 0	
-							obj[10] = sprite[9]
+							obj[10] = []
+							for (var o = 0; o < array_length(sprite[9]); o++) { //god Damn.
+								obj[10][o] = array_create(1,0)
+								array_copy(obj[10][o],0,sprite[9][o],0,array_length(sprite[9][o]))
+								if is_array(sprite[9][o][4]) {
+									obj[10][o][4] = array_create(1,0)
+									array_copy(obj[10][o][4],0,sprite[9][o][4],0,array_length(sprite[9][o][4]))
+								}
+							}
 						}
 						
 						/*OBJECT STAT LIST

@@ -297,7 +297,6 @@
     {"$GMIncludedFile":"","%Name":"txr-doc.html","CopyToMask":-1,"filePath":"datafiles","name":"txr-doc.html","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"vinyl_license.txt","CopyToMask":-1,"filePath":"datafiles","name":"vinyl_license.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"vinyl.dat","CopyToMask":-1,"filePath":"datafiles","name":"vinyl.dat","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"winmenu.html","CopyToMask":0,"filePath":"datafiles","name":"winmenu.html","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"winmenu.html","CopyToMask":-1,"filePath":"datafiles","name":"winmenu.html","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
   ],
   "isEcma":false,

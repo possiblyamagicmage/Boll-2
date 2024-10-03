@@ -194,10 +194,12 @@ if selected_mode == OBJECT_MODE {
 					}
 				}
 			}
+			show_debug_message($"properties group is {properties_group}")
 			
 			var objname=""
 			if (properties_group[0] != -4) {
 				var proparr=properties_group[0]
+			    show_debug_message($"properties group real is {proparr}")
 				objname=proparr[0]
 				
 				var arr=ds_map_find_value(obj_data,proparr[0])
@@ -230,7 +232,9 @@ if selected_mode == OBJECT_MODE {
 								
 									if (incheck) && (mbleftpress) {
 										show_debug_message(proparr[10][i][2])
+										show_message(proparr)
 										proparr[10][i][2]=!bool(proparr[10][i][2])
+										show_message(proparr)
 									}
 								} else break
 								break

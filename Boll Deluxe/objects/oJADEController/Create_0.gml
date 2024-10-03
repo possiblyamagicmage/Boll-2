@@ -197,5 +197,11 @@ if !is_undefined(obj) {
 	obj[7] = sprite[5]*2
 	obj[8] = 0
 	obj[9] = 0	
-	obj[10] = sprite[9]
+	obj[10] = []
+	for (var o = 0; o < array_length(sprite[9]); o++) { //god Damn.
+		array_copy(obj[10][o],0,sprite[9][o],0,array_length(sprite[9][o]))
+		if is_array(obj[10][o][5]) {
+			array_copy(obj[10][o][5],0,sprite[9][o][5],0,array_length(sprite[9][o][5]))	
+		}
+	}
 }
