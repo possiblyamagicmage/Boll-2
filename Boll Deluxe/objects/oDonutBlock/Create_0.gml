@@ -1,0 +1,7 @@
+// Inherit the parent event
+event_inherited();
+
+semi=true;
+onTimer=0;
+fall=false;
+xoff=-1;

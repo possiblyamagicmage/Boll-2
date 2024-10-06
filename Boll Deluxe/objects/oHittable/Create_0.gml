@@ -25,8 +25,6 @@ blockHit.Connect( self, function(hit_p, obj) {
  
 	hit = hit_p;
 	dy = -1 * hit;
-	obj.bonk = 12;
-	obj.vsp = 2;
 	going = true;
 	
 	if (amount) {

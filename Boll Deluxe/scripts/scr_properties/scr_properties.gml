@@ -15,7 +15,6 @@ function object_get_properties(obj){
 			break;
 		default:
 			properties = [
-				[]
 			]
 			break;
 	}

@@ -444,9 +444,13 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 							obj[10] = []
 							if is_array(sprite[8]) && array_length(sprite[8]) {
 								for (var o = 0; o < array_length(sprite[8]); o++) { //god Damn.
-									array_copy(obj[10][o],0,sprite[8][o],0,array_length(sprite[8][o]))
-									if is_array(obj[10][o][5]) {
-										array_copy(obj[10][o][5],0,sprite[8][o][5],0,array_length(sprite[8][o][5]))	
+									if is_array(sprite[8][o]) {
+										obj[10][o] = array_create(1,0)
+										array_copy(obj[10][o],0,sprite[8][o],0,array_length(sprite[8][o]))
+										if is_array(sprite[8][o][4]) {
+											obj[10][o][4] = array_create(1,0)
+											array_copy(obj[10][o][4],0,sprite[8][o][4],0,array_length(sprite[8][o][4]))	
+										}
 									}
 								}
 							}

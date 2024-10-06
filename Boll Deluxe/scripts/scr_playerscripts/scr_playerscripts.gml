@@ -227,7 +227,7 @@ function draw_player() {
 			spr, 
 			floor(frame),
 			floor(x) - (floor(offset_x)) * -xsc, 
-			floor(y) - (floor(offset_y) - (6) - (hit_sizey)) * -ysc,
+			floor(y) - (floor(offset_y) - dy - (6) - (hit_sizey)) * -ysc,
 			xsc,
 			ysc,
 			sprite_angle*xsc,
