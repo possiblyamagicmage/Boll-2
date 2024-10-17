@@ -8,6 +8,7 @@ no_move = 0;
 fric = 0.0625;
 runvar = 0;
 runjump = 0;
+dusttimer = 1;
 skidding = 0;
 skiddir = 0;
 pound_timer = 0;
@@ -102,6 +103,7 @@ if (state == "" || state == "jump") && !piped && !electrocuted && !electrocution
 		}
 	}
 }
+
 if (state == "") && !(hurt) {
 	canstopjump = false
 	if (!abs(sign(colslope)) && (abs(hsp) < 0.25)){
@@ -109,7 +111,6 @@ if (state == "") && !(hurt) {
 		crouch = 0
 	}
 }
-
 
 #endregion
 
@@ -216,6 +217,19 @@ player_movement();
 player_interactions();
 player_collision();
 post_wall();
+
+if (ceil(abs(hsp))>3 && grounded && state == "") {
+	dusttimer = min(dusttimer + 1, (dusttimer + 1) mod 10);
+	if (dusttimer == 1) {
+		var i=instance_create_depth(x - (1 * xsc), y + hit_sizey, 0, pRunDust);
+		i.depth = (depth + 5);
+		i.image_xscale = xsc;
+		i.hspeed=2.25 * -xsc;
+		i.friction=0.2;
+		i.vspeed=-0.1;
+		i.gravity=-0.02;
+	}
+}
 
 // check to see if we need to update the polybox
 if (sprindex_prev != sprite_index) {
