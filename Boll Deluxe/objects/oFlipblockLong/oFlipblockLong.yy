@@ -35,8 +35,5 @@
     "path":"sprites/spr_longflipblock/spr_longflipblock.yy",
   },
   "spriteMaskId":null,
-  "tags":[
-    "blocks",
-  ],
   "visible":true,
 }

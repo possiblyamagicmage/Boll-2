@@ -37,8 +37,5 @@
     "path":"sprites/spr_cyanswitchblockoff/spr_cyanswitchblockoff.yy",
   },
   "spriteMaskId":null,
-  "tags":[
-    "blocks",
-  ],
   "visible":true,
 }

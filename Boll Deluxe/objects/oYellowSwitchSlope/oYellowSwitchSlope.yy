@@ -40,8 +40,5 @@
     "path":"sprites/spr_yellowswitchslope/spr_yellowswitchslope.yy",
   },
   "spriteMaskId":null,
-  "tags":[
-    "blocks",
-  ],
   "visible":true,
 }

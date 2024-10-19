@@ -40,8 +40,5 @@
     "path":"sprites/spr_cyanswitchslope/spr_cyanswitchslope.yy",
   },
   "spriteMaskId":null,
-  "tags":[
-    "blocks",
-  ],
   "visible":true,
 }

@@ -42,7 +42,7 @@
   },
   "spriteMaskId":null,
   "tags":[
-    "blocks",
+    "tech",
   ],
   "visible":true,
 }

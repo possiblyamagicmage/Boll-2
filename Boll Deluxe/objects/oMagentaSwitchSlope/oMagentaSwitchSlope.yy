@@ -40,8 +40,5 @@
     "path":"sprites/spr_magentaswitchslope/spr_magentaswitchslope.yy",
   },
   "spriteMaskId":null,
-  "tags":[
-    "blocks",
-  ],
   "visible":true,
 }

@@ -37,8 +37,5 @@
     "path":"sprites/spr_magentaswitch/spr_magentaswitch.yy",
   },
   "spriteMaskId":null,
-  "tags":[
-    "blocks",
-  ],
   "visible":true,
 }

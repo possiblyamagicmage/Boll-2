@@ -37,8 +37,5 @@
     "path":"sprites/spr_yellowswitchblockoff/spr_yellowswitchblockoff.yy",
   },
   "spriteMaskId":null,
-  "tags":[
-    "blocks",
-  ],
   "visible":true,
 }

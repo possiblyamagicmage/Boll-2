@@ -37,8 +37,5 @@
     "path":"sprites/spr_magentaswitchblockoff/spr_magentaswitchblockoff.yy",
   },
   "spriteMaskId":null,
-  "tags":[
-    "blocks",
-  ],
   "visible":true,
 }

@@ -35,7 +35,7 @@
   },
   "spriteMaskId":null,
   "tags":[
-    "blocks",
+    "enemies",
   ],
   "visible":true,
 }

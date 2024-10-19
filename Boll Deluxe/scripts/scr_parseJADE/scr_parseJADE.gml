@@ -16,8 +16,8 @@ function parse_level(dir=working_directory+"\save.jade") {
 		if instance_exists(obj) {
 			obj.image_xscale=data[3]
 			obj.image_yscale=data[4]
-			obj.x+=sprite_get_xoffset(object_get_sprite(asset_get_index(data[0])));
-			obj.y+=sprite_get_yoffset(object_get_sprite(asset_get_index(data[0])));
+			obj.x+=sprite_get_xoffset(object_get_sprite(asset_get_index(data[0])))*obj.image_xscale;
+			obj.y+=sprite_get_yoffset(object_get_sprite(asset_get_index(data[0])))*obj.image_yscale;
 			
 			for (var j = 0; j < array_length(data[10]); j++) {
 				if is_array(data[10][j]) {
