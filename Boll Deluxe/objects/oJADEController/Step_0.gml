@@ -208,7 +208,7 @@ if (mbleftpress) {
 		}
 	}
 	if mouse_in_setting_slot(2) { //loading
-		var file = get_save_filename_ext("JADE File|*.jade", "", working_directory, "Save level.");
+		var file = get_open_filename_ext("JADE File|*.jade", "", working_directory, "Load level.");
 		if (file != "") {
 			JADE_load(file)
 		}
@@ -414,8 +414,6 @@ if show_tileset && mbleft {
 	}
 }
 
-
-
 if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 	
 		switch(selected_tool) {
@@ -555,3 +553,103 @@ if keyboard_check_pressed(vk_enter) && !(is_typing) {
 	global.jade_testing = true;
 	room_goto(rGame)
 }
+
+#region Tool Shortcuts
+//probably replace these with keybindable ones later
+
+if keyboard_check_pressed(ord("1")) || keyboard_check_pressed(vk_numpad1)  {
+	selected_mode=0
+	selected_toolbar=0;
+}
+
+if keyboard_check_pressed(ord("2")) || keyboard_check_pressed(vk_numpad2)  {
+	selected_mode=1
+	selected_toolbar=0;
+}
+
+if keyboard_check_pressed(ord("3")) || keyboard_check_pressed(vk_numpad3)  {
+	selected_mode=2
+	selected_toolbar=0;
+}
+
+if keyboard_check_pressed(ord("4")) || keyboard_check_pressed(vk_numpad4)  {
+	selected_mode=3
+	selected_toolbar=0;
+}
+
+if keyboard_check_pressed(ord("5")) || keyboard_check_pressed(vk_numpad5)  {
+	selected_mode=4
+	selected_toolbar=0;
+}
+
+if keyboard_check_pressed(ord("B")) {
+	switch (selected_mode) {
+		case OBJECT_MODE:
+		case BACKGROUND_MODE:
+		case NODE_MODE: {
+			selected_toolbar=1;
+			break;
+		}
+		case TILE_MODE: {
+			selected_toolbar=0;
+			break;
+		}
+	}
+}
+
+if keyboard_check_pressed(ord("S")) {
+	switch (selected_mode) {
+		case NODE_MODE:
+		case BACKGROUND_MODE:
+		case REGION_MODE:
+		case OBJECT_MODE: {
+			selected_toolbar=0;
+			break;
+		}
+	}
+}
+
+if keyboard_check_pressed(ord("F")) {
+	switch (selected_mode) {
+		case OBJECT_MODE: {
+			selected_toolbar=2;
+			break;
+		}
+		case TILE_MODE: {
+			selected_toolbar=1;
+			break;
+		}
+	}
+}
+
+if keyboard_check_pressed(ord("E")) {
+	switch (selected_mode) {
+		case OBJECT_MODE:
+		case NODE_MODE: {
+			selected_toolbar=3;
+			break;
+		}
+		case BACKGROUND_MODE:
+		case TILE_MODE:
+		case REGION_MODE: {
+			selected_toolbar=2;
+			break;
+		}
+	}
+}
+
+if keyboard_check_pressed(ord("I")) {
+	switch (selected_mode) {
+		case TILE_MODE:
+		case BACKGROUND_MODE: {
+			selected_toolbar=3;
+			break;
+		}
+		case OBJECT_MODE: {
+			selected_toolbar=4;
+			break;
+		}
+	}
+}
+
+#endregion

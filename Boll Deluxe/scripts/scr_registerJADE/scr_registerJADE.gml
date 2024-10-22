@@ -55,6 +55,9 @@ function JADE_initializeobj() {
 	registerobj(object_get_name(oChainsaw), spr_chainsaw, -8, -8, 16, 16, false, false, OBJECT_MODE, 0, object_get_properties("oChainsaw"))
 	registerobj(object_get_name(oDirectionChanger), spr_directionchanger, -sprite_get_xoffset(spr_directionchanger), -sprite_get_yoffset(spr_directionchanger), sprite_get_width(spr_directionchanger), sprite_get_height(spr_directionchanger), false, false, OBJECT_MODE, 0, object_get_properties("oDirectionChanger"))
 	
+	registerobj(object_get_name(oTerrainSpreng), spr_yellowterrainspring, -sprite_get_xoffset(spr_yellowterrainspring), -sprite_get_yoffset(spr_yellowterrainspring), sprite_get_width(spr_yellowterrainspring), sprite_get_height(spr_yellowterrainspring), false, false, OBJECT_MODE, 3, object_get_properties("oTerrainSpreng"))
+	registerobj(object_get_name(oTerrainSpring), spr_redterrainspring, -8, -16, 16, 16, false, false, OBJECT_MODE, 3, object_get_properties("oTerrainSpring"))
+	registerobj(object_get_name(oTerrainSprong), spr_greenterrainspring, -8, -16, 16, 16, false, false, OBJECT_MODE, 3, object_get_properties("oTerrainSprong"))
 	registerobj(object_get_name(oYellowSwitch), spr_yellowswitch, -sprite_get_xoffset(spr_yellowswitch), -sprite_get_yoffset(spr_yellowswitch), sprite_get_width(spr_yellowswitch), sprite_get_height(spr_yellowswitch), false, false, OBJECT_MODE, 3, object_get_properties("oYellowSwitch"))
 	registerobj(object_get_name(oYellowSwitchBlock), spr_yellowswitchblock, -sprite_get_xoffset(spr_yellowswitchblock), -sprite_get_yoffset(spr_yellowswitchblock), sprite_get_width(spr_yellowswitchblock), sprite_get_height(spr_yellowswitchblock), false, false, OBJECT_MODE, 3, object_get_properties("oYellowSwitchBlock"))
 	registerobj(object_get_name(oYellowSwitchBlockOff), spr_yellowswitchblockoff, -sprite_get_xoffset(spr_yellowswitchblockoff), -sprite_get_yoffset(spr_yellowswitchblockoff), sprite_get_width(spr_yellowswitchblockoff), sprite_get_height(spr_yellowswitchblockoff), false, false, OBJECT_MODE, 3, object_get_properties("oYellowSwitchBlockOff"))
@@ -67,6 +70,12 @@ function JADE_initializeobj() {
 	registerobj(object_get_name(oMagentaSwitchBlock), spr_magentaswitchblock, -sprite_get_xoffset(spr_magentaswitchblock), -sprite_get_yoffset(spr_magentaswitchblock), sprite_get_width(spr_magentaswitchblock), sprite_get_height(spr_magentaswitchblock), false, false, OBJECT_MODE, 3, object_get_properties("oMagentaSwitchBlock"))
 	registerobj(object_get_name(oMagentaSwitchBlockOff), spr_magentaswitchblockoff, -sprite_get_xoffset(spr_magentaswitchblockoff), -sprite_get_yoffset(spr_magentaswitchblockoff), sprite_get_width(spr_magentaswitchblockoff), sprite_get_height(spr_magentaswitchblockoff), false, false, OBJECT_MODE, 3, object_get_properties("oMagentaSwitchBlockOff"))
 	registerobj(object_get_name(oMagentaSwitchSlope), spr_magentaswitchslope, -sprite_get_xoffset(spr_magentaswitchslope), -sprite_get_yoffset(spr_magentaswitchslope), sprite_get_width(spr_magentaswitchslope), sprite_get_height(spr_magentaswitchslope), false, false, OBJECT_MODE, 3, object_get_properties("oMagentaSwitchSlope"))
+	
+	registerobj(object_get_name(oGoomba), spr_goombawalk, -8, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oGoomba"))
+	registerobj(object_get_name(oGoombrat), spr_goombratwalk, -8, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oGoombrat"))
+	registerobj(object_get_name(oKoopa), spr_koopawalk_g, -8, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oKoopa"))
+	registerobj(object_get_name(oKoopaRed), spr_koopawalk_r, -8, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oKoopaRed"))
+	registerobj(object_get_name(oKoopaYellow), spr_koopawalk_y, -8, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oKoopaYellow"))
 	
 	register_array(tag_get_asset_ids("blocks", asset_object), 0);
 	register_array(tag_get_asset_ids("enemies", asset_object), 1);

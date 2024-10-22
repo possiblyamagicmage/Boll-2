@@ -298,7 +298,7 @@ if (state == "pound") {
 	if (pound_timer > 0) spriteEvent="groundPound" else spriteEvent="groundPoundFall"
 }
 
-if (state == "wallSlide") {
+if (state == "wallslide") {
 	spriteEvent="wallSlide"
 }
 

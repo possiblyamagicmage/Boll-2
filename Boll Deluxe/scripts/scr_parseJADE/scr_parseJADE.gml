@@ -23,9 +23,9 @@ function parse_level(dir=working_directory+"\save.jade") {
 				if is_array(data[10][j]) {
 					variable_instance_set(obj, data[10][j][0], data[10][j][2]);
 					show_debug_message($"set object {obj} ({object_get_name(obj.object_index)})'s variable '{data[10][j][0]}' to '{data[10][j][2]}'.");
-					with(obj) {event_user(15)}
 				}
 			}
+			with(obj) {event_user(15)}
 		}
 		/*OBJECT STAT LIST
 		 0: name

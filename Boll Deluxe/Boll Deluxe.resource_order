@@ -209,7 +209,6 @@
     {"name":"oMovingPlatform","order":12,"path":"objects/oMovingPlatform/oMovingPlatform.yy",},
     {"name":"oNoteBlock","order":6,"path":"objects/oNoteBlock/oNoteBlock.yy",},
     {"name":"oPipe","order":10,"path":"objects/oPipe/oPipe.yy",},
-    {"name":"oPlayer","order":2,"path":"objects/oPlayer/oPlayer.yy",},
     {"name":"oPlayerBACKUP","order":3,"path":"objects/oPlayerBACKUP/oPlayerBACKUP.yy",},
     {"name":"oPlayerSpawn","order":1,"path":"objects/oPlayerSpawn/oPlayerSpawn.yy",},
     {"name":"oPolyCollider","order":2,"path":"objects/oPolyCollider/oPolyCollider.yy",},
