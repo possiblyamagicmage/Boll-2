@@ -165,7 +165,6 @@ function player_collision(){
 		
 		
 	if grounded {
-		
 		//move down
 		if (check_collision_line(posx-hit_sizex,posy+hit_sizey,posx-hit_sizex,posy +hit_sizey + 15 , COL_BOTTOM) || check_collision_line(posx+hit_sizex-1,posy+hit_sizey,posx+hit_sizex-1,posy+hit_sizey + 15, COL_BOTTOM) ){   
 			while !check_collision_line(posx-hit_sizex,posy+hit_sizey, posx+hit_sizex, posy+hit_sizey, COL_BOTTOM){
@@ -180,7 +179,6 @@ function player_collision(){
 			y -- 
 			posy = y
 		}
-		
 	}
 
 }

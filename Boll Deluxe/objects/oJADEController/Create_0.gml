@@ -75,7 +75,6 @@ selected_toolbar=0;
 selected_tool=SELECT_TOOL;
 
 selected_obj=ds_list_find_value(obj_name, 0)
-selected_tile = 0
 selection = false
 selection_id = NaN
 selection_x = [0]
@@ -102,12 +101,11 @@ initial_viewy=0;
 
 zoom_level = 1;
 
-//tileset picker
+#region tileset picker variables
 show_tileset = false
 tileset_picker_x=250;
 tileset_picker_y=100;
-
-total_objects=0;
+#endregion
 
 object_list = ds_list_create();
 

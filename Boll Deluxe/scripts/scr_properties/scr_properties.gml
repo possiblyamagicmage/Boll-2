@@ -22,13 +22,14 @@ function object_get_properties(obj){
 			break;
 		case oPipe:
 			properties = [
-				["hflip", "Flip", 0, "checkbox", 0],
-				["ramp", "Is Ramp", 0, "checkbox", 0]
+				["image_angle", "Rotation Angle", 0, "dropdown", [0, 90, 180, 270]],
+				["warpname", "Warp Name:", "", "string_input", 0],
+				["warptarget", "Warp Target:", "", "string_input", 0]
 			]
 			break;
 		case oBillBlaster:
 			properties = [
-				["timer_offset", "Timer Offset", 0, "numer_input", 0]
+				["timer_offset", "Timer Offset", 0, "number_input", 0]
 			]
 			break;
 		case oDirectionChanger:

@@ -168,7 +168,6 @@ if (state == "jump" || state == "") && !(grounded) && !piped {
 		var coll=check_collision_line(x+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc),x+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc),COL_WALL)
 		if (!grounded) && (coll) && (vsp > 0){
 			state = "wallslide"
-			
 		} 
 	}
 }
@@ -176,16 +175,22 @@ if (state == "jump" || state == "") && !(grounded) && !piped {
 if (state == "" && apress && canjump > 0) && !piped {
 	state = "jump"
 	grounded = false
-	vsp = -(5.25+min(1,abs(hsp)/10)+(bool(poundjump)+0.5));
+	vsp = -(5.25+min(1,abs(hsp)/10)+(bool(poundjump)+0.5)); //preform the actual jump
 	playsfx(charmName+"jump",1+(bool(poundjump)/4),0,1)
-	if ((run && abs(hsp)>3) && !wallsliding) {runjump=1} 
+	if ((run && abs(hsp)>3) && !wallsliding) {
+		//visual maxspeed jump
+		runjump=1
+	}
+	canjump = 0;
+	//Jump Particles
 	if (poundjump) {
  		var i=instance_create_depth(x-10,y-8,0,pSmoke);
 		i.vspeed=-1;
 		var i=instance_create_depth(x+8,y-8,0,pSmoke);
 		i.vspeed=-1;
 	}
-	canjump = 0;
+	var i=instance_create_depth(x, y + hit_sizey, 0, pJumpDust);
+	i.depth = (depth + 5);
 }
 #endregion
 
@@ -369,6 +374,7 @@ bonk = 12
 
 #define floor_land
 gsp = hsp
+#region Groundpound Land
 if (state == "pound") {
 	poundjump = 16;
 	show_debug_message(colslope);
@@ -378,12 +384,20 @@ if (state == "pound") {
 	}
 	playsfx(charmName+"stomp");
 	//create pound smoke
-	var i=instance_create_depth(x-2,y,0,pSmoke);
-	i.hspeed=1.5;
-	i.vspeed=-1;
-	var i=instance_create_depth(x-2,y,0,pSmoke);
-	i.hspeed=-1.5;
-	i.vspeed=-1;
+	/*var i=instance_create_depth(x-1, y + hit_sizey - 5, 0, pJumpDust); //no clue why i have to offset these 5 pixels up
+	i.depth = (depth + 5);
+	i.image_xscale = 1;
+	i.hspeed=-3.25;
+	i.friction=0.2;
+	i.vspeed=-0.2;
+	i.gravity=-0.04;
+	var i=instance_create_depth(x+1, y + hit_sizey - 5, 0, pJumpDust);
+	i.depth = (depth + 5);
+	i.image_xscale = -1;
+	i.hspeed=3.25;
+	i.friction=0.2;
+	i.vspeed=-0.2;
+	i.gravity=-0.04;*/
 
 	var blockcoll=collision_point(x,y+hit_sizey+1,oHittable, false, true)
 	if (blockcoll) && !(blockcoll.going) && (blockcoll.amount) {
@@ -391,6 +405,7 @@ if (state == "pound") {
 		signal_emit(blockcoll.blockHit, 1, id)
 	}
 }
+#endregion
 canstopjump = false
 state = ""
 vsp = 0

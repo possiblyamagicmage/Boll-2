@@ -557,6 +557,8 @@ if keyboard_check_pressed(vk_enter) && !(is_typing) {
 #region Tool Shortcuts
 //probably replace these with keybindable ones later
 
+if !(is_typing) {
+
 if keyboard_check_pressed(ord("1")) || keyboard_check_pressed(vk_numpad1)  {
 	selected_mode=0
 	selected_toolbar=0;
@@ -650,6 +652,8 @@ if keyboard_check_pressed(ord("I")) {
 			break;
 		}
 	}
+}
+
 }
 
 #endregion

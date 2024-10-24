@@ -16,10 +16,10 @@ xsc=1
 ysc=1
 spawn_object=noone
 
-yPlus=0;
 inactive=0;
 phaseid=noone;
 turned=0;
+turning=0;
 in_shell=false;
 collision_array=[oCollider, oEnemyGround];
 
@@ -39,7 +39,6 @@ sprindex_prev = sprite_index;
 setup_box_poly(id);
 
 enemyStomped.Connect( self, function(hit_p) {
-	show_debug_message("hi im the oenemy stomp signal")
 	if (!no_stomping) {
 		hp-=1
 		with(hit_p) sig.Emit("enemy_stomped")

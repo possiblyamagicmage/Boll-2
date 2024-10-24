@@ -1,37 +1,51 @@
 if global.paused || inactive && (object_index!=oBulletBill && object_index!=oBanzaiBill) exit
 
 //grounded=false
-	
+
 if !(in_shell) && (edgeturn) && (grounded)
 {
-	if !collision_line(x + (-xsc * (hit_sizex-4)),y,x + (-xsc * (hit_sizex-4)),y+hit_sizey+16,collision_array, false, true){
+	if !check_collision_line(x + (-xsc * (hit_sizex-4)),y,x + (-xsc * (hit_sizex-4)),y+hit_sizey+16, COL_BOTTOM){
 		if !(turned) {
 			turned=1
-			hsp=-hsp
+			hsp *= -1;
+			turning = 10;
+			prevsprite_index=sprite_index
 		}
 	} else {
 		turned=0
 	}
-} else {
 }
 
 
-if check_collision_line(x+(hit_sizex+1)*xsc, y+hit_sizey-4,x+(hit_sizex+1)*-xsc, y-hit_sizey+4, COL_WALL) {
-	hsp=-hsp
+if check_collision_line(x+(hit_sizex+1)*-xsc, y+hit_sizey-3,x+(hit_sizex+1)*-xsc, y-hit_sizey+3, COL_WALL) {
+	hsp *= -1;
+	turning = 10;
+	prevsprite_index=sprite_index
 }
 
 if (enemycoll) {
-	var coll = instance_place(x+hsp, y-yPlus,oEnemy)
+	var coll = instance_place(x+hsp, y, oEnemy)
 
-	if(coll != noone && object_get_parent(coll.object_index) == oEnemy) { 
+	if !(no_interaction) && (coll != noone && object_get_parent(coll.object_index) == oEnemy) { 
 		// i will eat my shoes. make sure the object is an enemy before checking variables that not enemies dont have
-		if !(coll.inactive){
-			coll.hsp = coll.hsp * sign(hsp);
-			hsp = hsp * -1;
+		if !(coll.no_interaction) && !(coll.inactive) && !(flipped) {
+			flipped = 1;
+			hsp *= -1;
+			turning = 10;
+			prevsprite_index=sprite_index
 		}
 	}
 }
 
+if (turning) {
+	turning=max(0,turning-1)
+	flipped = 0;
+}
+event_user(0); //animation controller
+
+if !place_meeting(x+hsp,y, [oEnemy, oCollider]) {
+	flipped = 0;
+}
 
 if !grounded
 {

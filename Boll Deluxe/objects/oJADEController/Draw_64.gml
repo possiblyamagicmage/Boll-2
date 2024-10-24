@@ -312,17 +312,74 @@ if selected_mode == OBJECT_MODE {
 									
 									//if pressed enter and typing, finish typing aswell
 									if keyboard_check_pressed(vk_enter) && (is_typing-1==i) {
-										if !(incheck) && (is_typing-1==i) {
-											proparr[10][i][2]=unreal(temptypingstring,proparr[10][i][2])
-											temptypingstring=""
-											is_typing=0;
-										}
+										proparr[10][i][2]=unreal(temptypingstring,proparr[10][i][2])
+										temptypingstring=""
+										is_typing=0;
 									}
 									
 									if (is_typing-1==i) {
 										//simple typing script for numbers only
 										if string_length(string_digits(keyboard_lastchar)) && keyboard_check_pressed(vk_anykey) {
 											temptypingstring+=string_digits(keyboard_lastchar)
+										}
+										if keyboard_check_pressed(vk_backspace) {
+											temptypingstring=string_copy(temptypingstring,0,string_length(temptypingstring)-1)
+										}
+									}
+								} else break
+								break
+							}
+							case "string_input": {
+								if !open_dropmenu {
+									draw_sprite_stretched(spr_JADEnumberinput,0,96+16,(112+32*i)-12,8*12,8*3)
+									if !(is_typing-1==i)
+									ScribblejrFit(string(proparr[10][i][2]), fa_left, fa_top, smallF, 2, 90, 19).Draw(96+29,(112+32*i)-6)
+									else
+									ScribblejrFit(temptypingstring, fa_left, fa_top, smallF, 2, 90, 19).Draw(96+29,(112+32*i)-6)
+									
+									//check if clicking on box
+									var incheck=point_in_rectangle(curs_x,curs_y,object_list_area_x+37,object_list_area_y+32+10*i,object_list_area_x+133,object_list_area_y+40+10*i)
+									
+									if (mbleftpress) {
+										//start typing
+										if (incheck) && !is_typing {
+											is_typing=i+1
+										}
+										
+										//if clicking off of the box, finish typing
+										if !(incheck) && (is_typing-1==i) {
+											//set the variable to our typed number, if its blank reset back to the value it was before
+											proparr[10][i][2]=string(temptypingstring)
+											temptypingstring=""
+											is_typing=0;
+										}
+									}
+									
+									//if pressed enter and typing, finish typing aswell
+									if keyboard_check_pressed(vk_enter) && (is_typing-1==i) {
+										proparr[10][i][2]=string(temptypingstring)
+										temptypingstring=""
+										is_typing=0;
+									}
+									
+									if (is_typing-1==i) {
+										//simple typing script
+										if string_length(string_lettersdigits(keyboard_lastchar)) && keyboard_check_pressed(vk_anykey) {
+											switch (keyboard_lastkey) {
+												case vk_tab:
+												case vk_backspace:
+												case vk_capslock:
+												case vk_control:
+												case vk_rcontrol:
+												case vk_shift:
+												case vk_rshift:
+												case vk_enter: { //forbidden keys, these can create unnessecary letters that are unwanted
+													break;
+												}
+												default: {
+													temptypingstring+=string_lettersdigits(keyboard_lastchar)
+												}
+											}
 										}
 										if keyboard_check_pressed(vk_backspace) {
 											temptypingstring=string_copy(temptypingstring,0,string_length(temptypingstring)-1)
