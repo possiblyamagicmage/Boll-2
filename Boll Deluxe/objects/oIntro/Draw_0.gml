@@ -21,7 +21,7 @@ if (egg == "3") {
 		shader_set_uniform_f(uni_x,modulo(global.roomTimer,0,1600) / 1600);
 		shader_set_uniform_f(uni_y,modulo(-global.roomTimer,0,100) / 100);
 		
-		draw_sprite_tiled(spr_titleclouds,0,x,y)
+		draw_sprite_ext(spr_titleclouds,0,RESOLUTION_X div 2,0,4,-4,0,#FFFFFF,1)
 		shader_reset();
 	}
 	
