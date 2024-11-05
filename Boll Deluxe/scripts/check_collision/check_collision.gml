@@ -128,7 +128,11 @@ function check_collision_rectangle(x1, y1, x2, y2, type = 0, object = collision_
 					if !found.rounded {
 						colangle = found.angle
 					} else {
-						colangle = 360-point_direction(x,y,found.x,found.y) //basically we have to flip it diagonally, so we minus the angle by 360 to get the 'reverse' angle
+						if !found.hflip {
+							colangle = 360-point_direction(x,y,found.x,found.y) //basically we have to flip it diagonally, so we minus the angle by 360 to get the 'reverse' angle
+						} else {
+							colangle = 360-(point_direction(x,y,found.x,found.y)+180)
+						}
 					}
 	            }else{
 					colangle = 0

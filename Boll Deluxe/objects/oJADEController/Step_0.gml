@@ -202,13 +202,13 @@ if (mbleftpress) {
 		room_goto(rMainMenu)
 	}
 	if mouse_in_setting_slot(3) { //saving
-		var file = get_save_filename_ext("JADE File|*.jade", "", working_directory, "Save level.");
+		var file = get_save_filename_ext("JADE File|*.jade", "", working_directory, "Save Level");
 		if (file != "") {
 			JADE_save(file)
 		}
 	}
 	if mouse_in_setting_slot(2) { //loading
-		var file = get_open_filename_ext("JADE File|*.jade", "", working_directory, "Load level.");
+		var file = get_open_filename_ext("JADE File|*.jade", "", working_directory, "Load Level");
 		if (file != "") {
 			JADE_load(file)
 		}

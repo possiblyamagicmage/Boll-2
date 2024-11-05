@@ -1,4 +1,4 @@
-dirchange=collision_rectangle(x-1,y+15,x,y+16,oDirectionChanger,false,true)
+dirchange=collision_rectangle(x-1,y-1,x,y,oDirectionChanger,false,true)
 if (dirchange) {
 	dir=dirchange.dir
 }
