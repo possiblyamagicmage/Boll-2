@@ -38,4 +38,24 @@ function player_interactions(){
 			}
 		}
 	} else dy=0
+	
+	var spike=collision_line(x-hit_sizex,y+(hit_sizey-2)-vsp,x-hit_sizex,y-(hit_sizey-2)-vsp, oSolidSpike, false, true)
+	if (spike) && (spike.dir="right" || spike.dir="none") {
+		sig.Emit("hurt_by_enemy")
+	}
+	
+	var spike=collision_line(x+hit_sizex,y+(hit_sizey-2)-vsp,x+hit_sizex,y-(hit_sizey-2)-vsp, oSolidSpike, false, true)
+	if (spike) && (spike.dir="left" || spike.dir="none") {
+		sig.Emit("hurt_by_enemy")
+	}
+	
+	var spike=collision_line(x-hit_sizex-hsp,y+hit_sizey,x+hit_sizex-hsp,y+hit_sizey, oSolidSpike, false, true)
+	if (spike) && (spike.dir="up" || spike.dir="none") {
+		sig.Emit("hurt_by_enemy")
+	}
+	
+	var spike=collision_line(x-hit_sizex-hsp,y-hit_sizey,x+hit_sizex-hsp,y-hit_sizey, oSolidSpike, false, true)
+	if (spike) && (spike.dir="down" || spike.dir="none") {
+		sig.Emit("hurt_by_enemy")
+	}
 }

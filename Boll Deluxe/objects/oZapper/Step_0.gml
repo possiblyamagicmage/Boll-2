@@ -1,25 +1,36 @@
 buftimer=max(0,buftimer-1);
 
 if !(buftimer) { //update tick
-buftimer=5;
+buftimer=4;
 
 var list = ds_list_create();
 collision_circle_list(x+32, y, 32, global.conductive_array, false, false, list, false);
+
+array_delete(connections,0,array_length(connections))
+
+if !array_length(list) {
+	array_delete(connectedObjects,0,array_length(connectedObjects))
+	array_delete(connectedObjectsBefore,0,array_length(connectedObjectsBefore))
+}
 
 for(var i = 0, len = ds_list_size(list); i < len; i++;) { 
     var obj = list[| i]
 	with (obj) {
 		onConducted.Emit();
 	}
-	array_push(connections, [x, y, obj.x, obj.y]);
+	/*for (var j = 0; j < array_length(connections); ++j) {
+	    if array_contains(connections[j], obj.id)
+		array_delete(connections, i, 1)
+	}*/
+	array_push(connections, [x, y, obj.x, obj.y, obj.id]);
     if !array_contains(connectedObjects, obj) {
         array_push(connectedObjects, obj);
         findConnectedObjects(obj);
     }
 }
 
-if array_equals(connectedObjectsBefore, connectedObjects) //check if any connections have changed, if so, continue calculating the lines
-exit
+//if array_equals(connectedObjectsBefore, connectedObjects) //check if any connections have changed, if so, continue calculating the lines
+//exit
 
 for(var i = 0, len = array_length(connectedObjects); i < len; i++;) { 
     var connectObj = connectedObjects[i];
@@ -39,6 +50,7 @@ for(var i = 0, len = array_length(connectedObjects); i < len; i++;) {
             }
         }
         if !alreadyConnected {
+			array_push(desiredConnection, obj.id)
             array_push(connections, desiredConnection);
         }
     }

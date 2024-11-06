@@ -36,16 +36,18 @@ function object_get_properties(obj){
 			break;
 		case oDirectionChanger:
 			properties = [
-				["dir", "Direction", "right", "dropdown", ["up", "left", "right", "down"]],
-				["revdir", "Reverse Direction", "left", "dropdown", ["up", "left", "right", "down"]],
+				["dir", "Direction", 0, "number_input", 0],
+				["revdir", "Reverse Direction", 0, "number_input", 0],
 				["reverse", "Is Reverse", 0, "checkbox", 0],
 				["is_break", "Is Cutoff", 0, "checkbox", 0],
 			]
 			break;
 		case oMovingPlatform:
 		case oChainsaw:
+		case oAmp:
 			properties = [
-				["dir", "Direction", "right", "dropdown", ["up", "left", "right", "down"]]
+				["dir", "Starting Direction", 0, "number_input", 0],
+				["spd", "Speed", 0, "number_input", 0]
 			]
 			break;
 		case oSwingingPlatform:
@@ -63,6 +65,11 @@ function object_get_properties(obj){
 		case oDonutBlock:
 			properties = [
 				["collapsing", "Collapsing", 0, "checkbox", 0]
+			]
+			break;
+		case oSolidSpike:
+			properties = [
+				["dir", "Direction", "up", "dropdown", ["up", "left", "right", "down", "none"]]
 			]
 			break;
 		default:

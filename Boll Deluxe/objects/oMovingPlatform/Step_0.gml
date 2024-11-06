@@ -11,26 +11,8 @@ if (dirchange) {
 	}
 }
 
-switch (string_lower(dir)) {
-	case "right": {
-		x+=spd
-		break;
-	}
-	case "left": {
-		x-=spd
-		break;
-	}
-	case "up": {
-		if !fallen
-		y-=spd
-		break;
-	}
-	case "down": {
-		if !fallen 
-		y+=spd
-		break;
-	}
-}
+x+=lengthdir_x(spd,dir)
+y+=lengthdir_y(spd,dir)
 
 if (fallen) {
 	vsp = min(3,vsp+grav);
