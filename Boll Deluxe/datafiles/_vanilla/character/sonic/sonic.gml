@@ -1,5 +1,5 @@
 #define datalist
-spriteEvents=split_string("idle,wait,lookUp,pose,crouch,knock,dead,walk,run,runMax,brake,spring,springFall,jump,bonk,ball,spindash,spinCharge,dropDash,carryIdle,carryWalk,carryRun,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,roll,carrySwim,pushing,balancing,dive,fireToss,gateClimbing,flagPole,hang,monkeyBars,boarding,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
+spriteEvents=split_string("idle,wait,lookUp,pose,crouch,knock,dead,walk,run,runMax,brake,spring,springFall,jump,bonk,ball,spinDash,spinCharge,dropDash,carryIdle,carryWalk,carryRun,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,roll,carrySwim,pushing,balancing,dive,fireToss,gateClimbing,flagPole,hang,monkeyBars,boarding,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
 sound_list=split_string("select,damage,die,jump,win,step,bonk,release,skid,spin,spindash,insta,dash,boom,firedash,dropdash",",");
 
 #define create
@@ -213,7 +213,7 @@ if (state == "") {
 		spriteEvent="run"
 	}
 	else if !(abs(gsp)){ 
-		spriteEvent="stand"
+		spriteEvent="idle"
 	}
 	else {
 		frspd=abs(gsp)/4
@@ -231,8 +231,8 @@ if (state == "roll" || state == "jump") {
 	}
 }
 
-if (state == "spindash") {
-	spriteEvent="spindash"
+if (state == "spinDash") {
+	spriteEvent="spinDash"
 }
 
 if (hurt) {
