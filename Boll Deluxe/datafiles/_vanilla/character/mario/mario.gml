@@ -264,6 +264,7 @@ runvar = approach_val(runvar,run,0.05)
 grow = max(0, (grow - 1));
 
 #define draw
+
 #region Sprite Manager
 frspd=1
 

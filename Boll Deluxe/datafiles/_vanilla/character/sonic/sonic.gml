@@ -25,6 +25,7 @@ max_dropdash_spd = 9;
 dropdash = 0;
 dropdash_timer = 0;
 storedhsp=0;
+storeddir=0;
 yvol=0;
 
 #define step
@@ -164,17 +165,6 @@ if (state == "jump") && !(piped){
 			dropdash_timer = 0
 		}
 	}
-	
-	if (move != 0) && (vsp < 0) {
-		//wall sliding
-		var coll=check_collision_line(x+hsp+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc),x+hsp+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc),COL_WALL)
-		if (!grounded) && (coll) {
-			storedhsp=abs(hsp)
-			yvol=max((storedhsp), 6) //get amount of upward velocity calculated from horizontal AND vertical speed
-			state = "wallrun"
-			no_move=true;
-		} 
-	}
 }
 
 if (state == "" || state == "roll") && (apress) && (canjump > 0) && !(piped){
@@ -193,21 +183,34 @@ if (state == "" || state == "roll") && (apress) && (canjump > 0) && !(piped){
 	canjump = 0;
 	control_lock = 0;
 }
-
 #endregion
 
 #region Wallrunning
 
+if (move != 0) && ((vsp < 0 && state == "") || state == "jump") {
+	//wall sliding
+	var coll=check_collision_line(x+((hit_sizex+3)*xsc),y-((hit_sizey-2)*ysc),x+((hit_sizex+3)*xsc),y-((hit_sizey-2)*ysc),COL_WALL)
+	if (!grounded) && (coll) {
+		hsp=0;
+		storedhsp=abs(hsp)
+		storeddir=move;
+		yvol=max(abs(min((storedhsp*2)+min(vsp/2,0), 8)),3.5) //get amount of upward velocity calculated from horizontal AND vertical speed
+		state = "wallrun"
+		no_move=true;
+	} 
+}
+
 if (state == "wallrun") && !piped {
-	yvol=max(-7, yvol-0.2)
+	yvol=max(-7, yvol-0.15)
 	vsp=-yvol
 	no_move=true;
+	move=storeddir;
 	
-	if !(collision_point(x+(hit_sizex+1)*xsc,y,collision_array, false, true)) || grounded {
-		show_debug_message("fuck you")
+	if !(check_collision_dot(x+(hit_sizex+3)*xsc,y,COL_WALL)) || (grounded) || (vsp > 3) {
 		state = "";
 		storedhsp=0;
 		storedvsp=0;
+		storeddir=0;
 	}
 	
 	if (apress) {
@@ -220,6 +223,7 @@ if (state == "wallrun") && !piped {
 		state = "jump";
 		storedhsp=0;
 		storedvsp=0;
+		storeddir=0;
 	}
 }
 #endregion
@@ -279,6 +283,7 @@ bonk=max(bonk,bonk-1)
 grow = max(0, (grow - 1));
 
 #define draw
+
 #region Sprite Manager
 
 frspd=1
@@ -426,7 +431,7 @@ vsp = 0
 
 #define sprung
 canstopjump = true;
-state = "spring";
+state = "";
 
 #define enemy_stomped
 vsp=-4-akey*1.5

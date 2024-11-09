@@ -45,7 +45,7 @@ function player_movement_sonic(){
 	}
 	else
 	{
-		move=0 //just in case
+		//move=0 //just in case
 		// chearii: mhomentunmnm
 		
 		if (grounded) {
