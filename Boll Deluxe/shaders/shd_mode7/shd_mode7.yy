@@ -1,7 +1,7 @@
 {
   "$GMShader":"",
-  "%Name":"shd_scrollTexturePage",
-  "name":"shd_scrollTexturePage",
+  "%Name":"shd_mode7",
+  "name":"shd_mode7",
   "parent":{
     "name":"Shaders",
     "path":"folders/Shaders.yy",

@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"shd_mode7Ceiling",
+  "name":"shd_mode7Ceiling",
+  "parent":{
+    "name":"Shaders",
+    "path":"folders/Shaders.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}
