@@ -2,6 +2,10 @@
 
 globalvar cleanedge_highestcolor, cleanedge_simthres, cleanedge_linewidth, cleanedge_imgres;
 
+globalvar cleanedge_sprtable;
+
+cleanedge_sprtable = array_create(1,array_create(1,undefined));
+
 cleanedge_highestcolor = shader_get_uniform(shd_cleanEdge,"highestColor");
 cleanedge_simthres = shader_get_uniform(shd_cleanEdge, "similarThreshold");
 cleanedge_linewidth = shader_get_uniform(shd_cleanEdge, "lineWidth");
@@ -72,22 +76,30 @@ function make_cleanedge_sprite(input,subimg)
 	return output;
 }
 
-function draw_sprite_cleanedge(sprite,subimg,x,y,xscale,yscale,rot,col,alpha,obj = self)
+function draw_sprite_cleanedge(sprite,subimg,x,y,xscale,yscale,rot,col,alpha)
 {	
 	var cleanedge_scale = CLEANEDGESCALE;
 	
-	if (!variable_instance_exists(obj,"cleanedge_sprtable"))
+	var sprid = real(sprite);
+	
+	if (sprid > array_length(cleanedge_sprtable) - 1)
 	{
-		show_debug_message("no cleanedge sprite table!");
-		obj.cleanedge_sprtable = array_create(1,undefined);
+		show_debug_message($"{sprid} was out of range! resizing table...");
+		array_resize(cleanedge_sprtable, sprid + 1);
+	}
+	
+	if (cleanedge_sprtable[sprid] == 0)
+	{
+		show_debug_message($"table for {sprid} does not exist");
+		cleanedge_sprtable[sprid] = array_create(sprite_get_number(sprite),undefined);
 	}
 	
 	var make_new = 0;
-	if (subimg > (array_length(obj.cleanedge_sprtable) - 1)) // out of array range
+	if (subimg > (array_length(cleanedge_sprtable[sprid]) - 1)) // out of array range
 	{
 		make_new |= 1;
 	}
-	else if (!sprite_check_valid(obj.cleanedge_sprtable[subimg])) // sprite doesn't exist
+	else if (!sprite_check_valid(cleanedge_sprtable[sprid][subimg])) // sprite doesn't exist
 	{
 		make_new |= 2;
 	}
@@ -96,15 +108,15 @@ function draw_sprite_cleanedge(sprite,subimg,x,y,xscale,yscale,rot,col,alpha,obj
 	{
 		if (make_new & 1)
 		{
-			array_resize(obj.cleanedge_sprtable,subimg + 1);
+			array_resize(cleanedge_sprtable[sprid],subimg + 1);
 		}
 			
-		obj.cleanedge_sprtable[subimg] = make_cleanedge_sprite(sprite,subimg div 1);
+		cleanedge_sprtable[sprid][subimg] = make_cleanedge_sprite(sprite,subimg div 1);
 	}
 
-	if (sprite_check_valid(obj.cleanedge_sprtable[subimg]))
+	if (sprite_check_valid(cleanedge_sprtable[sprid][subimg]))
 	{
-		draw_sprite_ext(obj.cleanedge_sprtable[subimg],
+		draw_sprite_ext(cleanedge_sprtable[sprid][subimg],
 						0,
 						x,
 						y,
