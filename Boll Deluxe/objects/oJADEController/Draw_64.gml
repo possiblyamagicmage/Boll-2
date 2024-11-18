@@ -62,10 +62,12 @@ if selected_mode = TILE_MODE {
 		draw_sprite_ext(spr_TilesetMain, 0, tileset_picker_x,tileset_picker_y, 0.33, 0.33, 0, c_white, 1)	
 		var t_width = sprite_get_width(spr_TilesetMain)
 		var t_x,t_y,t_w,t_h;
-		t_x = tileset_picker_x+((current_tile_id mod (t_width / 16))* (16*0.33))
-		t_y = tileset_picker_y+(floor(current_tile_id/(t_width/16))* (16*0.33))
-		t_w = 16 * 0.33
-		t_h = 16 * 0.33
+		t_x = tileset_picker_x+((current_tile_id[0][0] mod (t_width / 16))* (16*0.33))
+		t_y = tileset_picker_y+(floor(current_tile_id[0][0]/(t_width/16))* (16*0.33))
+		t_w = (tile_sel_width + 1)* 16 * 0.33
+		t_h = (tile_sel_height + 1) * 16 * 0.33
+		
+		
 		draw_rectangle(t_x,t_y,t_x + t_w-1,t_y + t_h-1,true)
 	}
 }

@@ -10,6 +10,9 @@ if !surface_exists(object_list_area_surface) {
 mbleftpress=mouse_check_button_pressed(mb_left)
 mbleftrel=mouse_check_button_released(mb_left)
 mbleft=mouse_check_button(mb_left)
+mbrightpress=mouse_check_button_pressed(mb_right)
+mbrightrel=mouse_check_button_released(mb_right)
+mbright=mouse_check_button(mb_right)
 mbmiddle = (mouse_check_button(mb_middle) || (keyboard_check(vk_space) && mouse_check_button(mb_left))) //this scroll wheel is Pissing me off... i'm the original        keywalker
 
 curs_x=mouse_x-cam_x
@@ -101,16 +104,16 @@ switch(selected_mode) {
 		if selected_tool = BRUSH_TOOL {
 			if (mwheel == 1 || keyboard_check_pressed(vk_pagedown)) {
 				if !keyboard_check(vk_control)
-				current_tile_id --	
+				current_tile_id[0][0] --	
 				else
-				current_tile_id += (sprite_get_width(spr_TilesetMain)/16)
+				current_tile_id[0][0] += (sprite_get_width(spr_TilesetMain)/16)
 			}
 
 			if (mwheel == -1 || keyboard_check_pressed(vk_pageup)) {
 				if !keyboard_check(vk_control)
-				current_tile_id ++
+				current_tile_id[0][0] ++
 				else
-				current_tile_id -= (sprite_get_width(spr_TilesetMain)/16)
+				current_tile_id[0][0] -= (sprite_get_width(spr_TilesetMain)/16)
 			}
 	
 			if keyboard_check_pressed(vk_tab) {
@@ -120,9 +123,9 @@ switch(selected_mode) {
 			show_tileset = false
 		}
 	
-		//current_tile_id = wrap_val(current_tile_id, 0, 255) //todo, get tileset size lol
+		//current_tile_id[0][0] = wrap_val(current_tile_id[0][0], 0, 255) //todo, get tileset size lol
 
-		selected_tile=current_tile_id
+		selected_tile=current_tile_id[0][0]
 	break;
 	
 	case OBJECT_MODE:
@@ -400,19 +403,128 @@ if (selected_tool == SELECT_TOOL && not_on_gui && !keyboard_check(vk_space)) {
 	}
 }
 
-if show_tileset && mbleft {
+if show_tileset {
+	
 	if (selected_mode = TILE_MODE) && (selected_tool = BRUSH_TOOL) {
 		var tilelapmap = tileset_get_info(tTilesetMain)
 		var t_width = sprite_get_width(spr_TilesetMain)
 		var t_height  = sprite_get_height(spr_TilesetMain)
 		var t_size = 16 * 0.33
-		var sel_x = clamp(device_mouse_x_to_gui(0) - tileset_picker_x, 0, t_width)
-		var sel_y = clamp(device_mouse_y_to_gui(0) - tileset_picker_y, 0, t_height)
-		//show_debug_message(string(floor(mouse_x / t_size)) + " : "+ string(tilelapmap.width/ 16))
-		current_tile_id = clamp(floor(sel_x / t_size), 0, t_width/ 16) + (clamp(floor(sel_y / t_size), 0, t_height/ 16) * (t_width/16))
+		if (mbleftpress && !tile_drag) {
+			var sel_x = clamp(device_mouse_x_to_gui(0) - tileset_picker_x, 0, t_width)
+			var sel_y = clamp(device_mouse_y_to_gui(0) - tileset_picker_y, 0, t_height)
+			//show_debug_message(string(floor(mouse_x / t_size)) + " : "+ string(tilelapmap.width/ 16))
+			current_tile_id = -1
+			current_tile_id = []
+			current_tile_id[0][0] = clamp(floor(sel_x / t_size), 0, t_width/ 16) + (clamp(floor(sel_y / t_size), 0, t_height/ 16) * (t_width/16))
+			tile_sel_height = 0
+			tile_sel_width = 0
+			tile_sel_last_x = clamp(floor(sel_x / t_size), 0, t_width/ 16)
+			tile_sel_last_y = clamp(floor(sel_y / t_size), 0, t_height/ 16)
+			tile_drag = true
+		}
+		if (mbleft && tile_drag) {
+			var sel_x = clamp(device_mouse_x_to_gui(0) - tileset_picker_x, 0, t_width)
+			var sel_y = clamp(device_mouse_y_to_gui(0) - tileset_picker_y, 0, t_height)
+			tile_sel_width = max(clamp(floor(sel_x / t_size), 0, t_width/ 16) - tile_sel_last_x, 0 )
+			tile_sel_height = max(clamp(floor(sel_y / t_size), 0, t_height/ 16) - tile_sel_last_y, 0)
+		}
 		
+		if (mbleftrel && tile_drag) {
+			var sel_x = clamp(device_mouse_x_to_gui(0) - tileset_picker_x, 0, t_width)
+			var sel_y = clamp(device_mouse_y_to_gui(0) - tileset_picker_y, 0, t_height)
+			//show_debug_message("{0}, {1}", tile_sel_width, tile_sel_height)
+			for (var i = 0; i <= tile_sel_width; ++i) {
+			    for (var j = 0; j <= tile_sel_height; ++j) {
+				    current_tile_id[i][j] = (clamp(floor(sel_x / t_size), 0, t_width/ 16) + i - tile_sel_width) + ((clamp(floor(sel_y / t_size), 0, t_height/ 16) + j - tile_sel_height) * (t_width/16))
+					show_debug_message("{0}, {1}: {2}", i, j, current_tile_id[i][j])
+				}
+			}
+			tile_drag = false
+		}
 	}
 }
+if not_on_gui && selected_tool == FILL_TOOL && selected_mode == TILE_MODE {
+	if (mbleftpress && !tile_fill) {
+		fill_circle = false
+		tile_fill_last_x = gridx
+		tile_fill_last_y = gridy
+		show_debug_message("testA")
+		tile_fill = true
+	}
+	if (mbleftrel && tile_fill && !fill_circle) {
+		show_debug_message("testB")
+		var start_x = tile_fill_last_x 
+		var start_y = tile_fill_last_y 
+		var size_x = (gridx - tile_fill_last_x)
+		var size_y = (gridy - tile_fill_last_y) 
+		
+		if size_x < 0 {
+			start_x = gridx
+			size_x = abs(size_x)
+		}
+		if size_y < 0 {
+			start_y = gridy
+			size_y = abs(size_y)
+		}
+		
+		for (var i = 0; i < size_x; ++i) {
+			for (var j = 0; j < size_y; ++j) {
+				var data = tilemap_get(tilemap, tile_fill_last_x + (i *16), tile_fill_last_y+ (j *16)); //get tile to change data
+				
+				data = tile_set_index(data, current_tile_id[i mod (tile_sel_width + 1)][j mod (tile_sel_height + 1)])
+				//set tile to a mosaic of the current tile 'brush'
+				
+				data = tile_set_flip(data, 0)
+				data = tile_set_mirror(data, 0)
+				data = tile_set_rotate(data, 0)
+				tilemap_set(tilemap, data, start_x + i, start_y + j);
+
+				var tiledata = tilemap_get(tilemap, start_x + i, start_y + j)
+				ds_list_add(tile_layer_map, [tiledata, start_x + i, start_y + j]) //add tile  to list at place
+				tile_update_properties();
+								
+			}
+		}
+		tile_fill = false
+						
+	}
+	if (mbrightpress && !tile_fill) {
+		fill_circle = true
+		tile_fill_last_x = gridx
+		tile_fill_last_y = gridy
+		show_debug_message("testA")
+		tile_fill = true
+	}
+	if (mbrightrel && tile_fill && fill_circle) {
+		var start_x = tile_fill_last_x 
+		var start_y = tile_fill_last_y 
+
+		var radius = (gridx - tile_fill_last_x) 
+		var radius2 = (gridy - tile_fill_last_y)
+		for(i = 0; i < 360; i += 0.1)
+	    {
+	            var x1 = radius * dcos(i);
+	            var y1 = radius2 * dsin(i);
+				var data = tilemap_get(tilemap, start_x + round(x1), start_y + round(y1))
+	            if tile_get_index(data) != current_tile_id[0][0] {
+					data = tile_set_index(data, current_tile_id[0][0])
+					//set tile to a mosaic of the current tile 'brush'
+				
+					data = tile_set_flip(data, 0)
+					data = tile_set_mirror(data, 0)
+					data = tile_set_rotate(data, 0)
+					tilemap_set(tilemap, data, start_x + round(x1), start_y + round(y1));
+
+					var tiledata = tilemap_get(tilemap, round(x1), start_y + round(y1))
+					ds_list_add(tile_layer_map, [tiledata, round(x1), start_y + round(y1)]) //add tile  to list at place
+					tile_update_properties();
+				}
+	    }
+		tile_fill = false
+	}
+}
+
 
 if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 	
@@ -477,20 +589,22 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 					if show_tileset {
 						exit;	
 					}
-					
-					var data = tilemap_get_at_pixel(tilemap, mouse_x, mouse_y); //set tile at place
-					
-					if tile_get_index(data) != current_tile_id { //prevent tile overlapping (mainly a problem with the list)
-						show_debug_message($"Placed tile of index {current_tile_id} at {mouse_x} {mouse_y}")
-						data = tile_set_index(data, current_tile_id)
-						data = tile_set_flip(data, 0)
-						data = tile_set_mirror(data, 0)
-						data = tile_set_rotate(data, 0)
-						tilemap_set(tilemap, data, gridx, gridy);
-						show_debug_message(data)
-						var tiledata = tilemap_get(tilemap, gridx, gridy)
-						ds_list_add(tile_layer_map, [tiledata, gridx, gridy]) //add tile  to list at place
-						tile_update_properties();
+					for (var i = 0; i <= tile_sel_width; ++i) {
+						for (var j = 0; j <= tile_sel_height; ++j) {
+							var data = tilemap_get_at_pixel(tilemap, mouse_x + (i *16), mouse_y+ (j *16)); //set tile at place
+							if tile_get_index(data) != current_tile_id[i][j] { //prevent tile overlapping (mainly a problem with the list)
+								show_debug_message($"Placed tile of index {current_tile_id[i][j]} at {mouse_x + (i *16)} {mouse_y+ (j *16)}")
+								data = tile_set_index(data, current_tile_id[i][j])
+								data = tile_set_flip(data, 0)
+								data = tile_set_mirror(data, 0)
+								data = tile_set_rotate(data, 0)
+								tilemap_set(tilemap, data, gridx + i, gridy + j);
+								show_debug_message(data)
+								var tiledata = tilemap_get(tilemap, gridx + i, gridy + j)
+								ds_list_add(tile_layer_map, [tiledata, gridx + i, gridy + j]) //add tile  to list at place
+								tile_update_properties();
+							}
+						}
 					}
 				break;
 			}
@@ -534,15 +648,23 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 			switch(selected_mode) {
 				case TILE_MODE:
 					var data = tilemap_get_at_pixel(tilemap, mouse_x, mouse_y);
-					if tile_get_index(data) != current_tile_id && not_on_gui {
-						current_tile_id = tile_get_index(data)
+					if tile_get_index(data) != current_tile_id[0][0] && not_on_gui {
+						current_tile_id = -1
+						current_tile_id = []
+						current_tile_id[0][0] = tile_get_index(data)
+						tile_sel_height = 0
+						tile_sel_width = 0
 						selected_toolbar = 0
 					}
 				break;
 			}
 		break;
-		
-		
+		case FILL_TOOL:
+			switch(selected_mode) {
+				case TILE_MODE:
+					
+				break;
+			}
 		}
 	
 }

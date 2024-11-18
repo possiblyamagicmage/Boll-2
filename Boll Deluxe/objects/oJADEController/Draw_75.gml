@@ -19,9 +19,13 @@ if (not_on_gui) {
 			case TILE_MODE:
 				var _tile = tilemap_get_tileset(tilemap)
 				var _data = tilemap_get(tilemap, 0,0)
-				_data = tile_set_index(_data, current_tile_id)
-				draw_set_alpha(0.25)
-				draw_tile(_tile, _data, 0, gridx*16-cam_x, gridy*16-cam_y)
+				for (var i = 0; i <= tile_sel_width; ++i) {
+					for (var j = 0; j <= tile_sel_height; ++j) {
+						_data = tile_set_index(_data, current_tile_id[i][j])
+						draw_set_alpha(0.25)
+						draw_tile(_tile, _data, 0, (gridx + i)*16-cam_x, (gridy + j)*16-cam_y)
+					}
+				} 
 				draw_set_alpha(1)
 			break;
 		}
@@ -30,6 +34,7 @@ if (not_on_gui) {
 		case PICKER_TOOL:
 			draw_sprite(spr_JADEerase_overlay,0,gridx*16-cam_x,gridy*16-cam_y)
 		break;
+
 	}
 }
 

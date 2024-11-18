@@ -88,7 +88,16 @@ temp_toolbar=0;
 for (var i = 0; i < array_length(jade_cats); i++) {
 	current_obj_id[i] = 0
 }
-current_tile_id = 0
+current_tile_id[0][0] = 0
+tile_drag = false;
+tile_sel_width = 0
+tile_sel_height = 0
+tile_sel_last_x = 0
+tile_sel_last_y = 0
+tile_fill_last_x = 0
+tile_fill_last_y = 0
+tile_fill = false
+fill_circle = false
 
 curs_x=mouse_x
 curs_y=mouse_y

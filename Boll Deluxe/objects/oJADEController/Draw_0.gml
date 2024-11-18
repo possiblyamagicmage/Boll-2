@@ -26,10 +26,9 @@ for (var i = 0; i < ds_list_size(object_layer_map); ++i) {
 	
 	//draw eraser rectangle
 	if selected_tool == ERASE_TOOL {
-		var pos = 0
-		pos.x = (obj[1]*16) 
-		pos.y = (obj[2]*16)
-		draw_rect(pos.x, pos.y, 16, 16, c_white, 1, true)
+		var posx = (obj[1]*16) 
+		var posy = (obj[2]*16)
+		draw_rect(posx, posy, 16, 16, c_white, 1, true)
 	}
 	if global.debug draw_text((obj[1]*16), (obj[2]*16), $"{obj[1]} {obj[2]}")
 }
