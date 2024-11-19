@@ -29,27 +29,18 @@ if is_array(pathing) && (pathspd) { //prevent crashing & a slight optimization
 		xdiff = abs(x - pathing[pathprenum][0]);
 		
 		// do circular easing on the y movement
-		var curvey = easeMovement(xdiff,max(1,abs(pathx))) * pathy;
+		
+		var curvey = easeMovement(xdiff,max(0.75,abs(pathx))) * pathy;
 		
 		// clamp y instead of finding the median point
 		
-		var top, bttm, temp;
+		var top, bttm;
 		
 		top = pathing[pathprenum][1];
 		bttm = arr[1];
 		
-		// clamp is dumb; if our bottom is above our top, swap the values
-		if (bttm < top)
-		{
-			temp = bttm;
-			bttm = top;
-			top = temp;
-		}
-		
 		// FINALLY set the Y value
-		y = clamp(pathing[pathprenum][1] + curvey,
-				  top,
-				  bttm);
+		y = median(pathing[pathprenum][1] + curvey, top, bttm);
 	}
 	else
 	{
@@ -72,7 +63,7 @@ if is_array(pathing) && (pathspd) { //prevent crashing & a slight optimization
 					pathisrev=true;
 					pathnum--; //we have reversed direction, go backwards in our pathing
 				} else {
-					pathspd=0; //stop running the path code, because why would we? we've stopped.
+					pathnum=0; //stop running the path code, because why would we? we've stopped.
 				}
 			}
 		} else {
