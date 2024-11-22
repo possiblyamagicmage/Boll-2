@@ -205,12 +205,15 @@ if (mbleftpress) {
 	if mouse_in_setting_slot(3) { //saving
 		var file = get_save_filename_ext("JADE File|*.jade", "", working_directory, "Save Level");
 		if (file != "") {
+			savetextdur=60;
+			save_dir=file
 			JADE_save(file)
 		}
 	}
 	if mouse_in_setting_slot(2) { //loading
 		var file = get_open_filename_ext("JADE File|*.jade", "", working_directory, "Load Level");
 		if (file != "") {
+			save_dir=file
 			JADE_load(file)
 		}
 	}
@@ -879,6 +882,13 @@ if keyboard_check_pressed(vk_enter) && !(is_typing) {
 	room_goto(rGame)
 }
 
+if (keyboard_check(vk_control)) && keyboard_check_pressed(ord("S")) { //saving
+	if (save_dir != "") {
+		savetextdur=60;
+		JADE_save(save_dir)
+	}
+}
+
 #region Tool Shortcuts
 //probably replace these with keybindable ones later
 
@@ -909,7 +919,7 @@ if keyboard_check_pressed(ord("5")) || keyboard_check_pressed(vk_numpad5)  {
 	selected_toolbar=0;
 }
 
-if keyboard_check_pressed(ord("D")) {
+if keyboard_check_pressed(ord("D")) && !keyboard_check(vk_control) {
 	switch (selected_mode) {
 		case OBJECT_MODE:
 		case BACKGROUND_MODE:
@@ -924,7 +934,7 @@ if keyboard_check_pressed(ord("D")) {
 	}
 }
 
-if keyboard_check_pressed(ord("S")) {
+if keyboard_check_pressed(ord("S")) && !keyboard_check(vk_control) {
 	switch (selected_mode) {
 		case NODE_MODE:
 		case BACKGROUND_MODE:
@@ -936,7 +946,7 @@ if keyboard_check_pressed(ord("S")) {
 	}
 }
 
-if keyboard_check_pressed(ord("F")) {
+if keyboard_check_pressed(ord("F")) && !keyboard_check(vk_control) {
 	switch (selected_mode) {
 		case OBJECT_MODE: {
 			selected_toolbar=2;
@@ -949,7 +959,7 @@ if keyboard_check_pressed(ord("F")) {
 	}
 }
 
-if keyboard_check_pressed(ord("E")) {
+if keyboard_check_pressed(ord("E")) && !keyboard_check(vk_control) {
 	switch (selected_mode) {
 		case OBJECT_MODE:
 		case NODE_MODE: {
@@ -965,7 +975,7 @@ if keyboard_check_pressed(ord("E")) {
 	}
 }
 
-if keyboard_check_pressed(ord("I")) {
+if keyboard_check_pressed(ord("I")) && !keyboard_check(vk_control) {
 	switch (selected_mode) {
 		case TILE_MODE:
 		case BACKGROUND_MODE: {
