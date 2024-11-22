@@ -5,6 +5,8 @@ import_sheets();
 if room!=rLDTKload
 parse_level(global.nextlevel)
 
+instance_create(0,0,oBackgroundManager);
+
 global.warptimer=0;
 global.yellow_switch=0;
 global.cyan_switch=0;

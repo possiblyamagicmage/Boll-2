@@ -12,8 +12,8 @@
   "name":"oIntro",
   "overriddenProperties":[],
   "parent":{
-    "name":"JADE",
-    "path":"folders/Objects/Out Of Game/JADE.yy",
+    "name":"Menu",
+    "path":"folders/Objects/Out Of Game/Menu.yy",
   },
   "parentObjectId":null,
   "persistent":false,

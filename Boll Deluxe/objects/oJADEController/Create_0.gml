@@ -140,19 +140,19 @@ for (var i = 0; i <= NODE_MODE; ++i) {
 current_cat = 0
 #endregion
 
-function mouse_in_setting_slot(numb) {
+mouse_in_setting_slot = function(numb) {
 	var guiw=display_get_gui_width();
 	return point_in_rectangle(curs_x,curs_y,(guiw-28)-(32*numb),4,(guiw-28)-(32*numb)+24,28)
 }
 
-function mouse_in_toolbar_slot(numb) {
+mouse_in_toolbar_slot = function(numb) {
 	var guiw=display_get_gui_width();
 	if toolbar[selected_mode][numb] != EMPTY_SLOT
 	return point_in_rectangle(curs_x,curs_y,(guiw-12)-(32*14)+(32*numb),4,(guiw-12)-(32*14)+(32*numb)+32,28)
 	else return 0
 }
 
-function mouse_in_mode_slot(numb) {
+mouse_in_mode_slot = function(numb) {
 	var guih=display_get_gui_height();
 	return point_in_rectangle(curs_x,curs_y,4,((guih/4)-4)+32*numb,28,(((guih/4)-4)+32*numb)+24)
 }
@@ -162,7 +162,7 @@ is_typing=0;
 temptypingstring="";
 open_dropmenu=0;
 
-function tile_layer_alpha_check() {
+var tile_layer_alpha_check = function() {
 	//This makes the tile layer transparent if you arent in tile mode by using layer scripts
 	if oJADEController.selected_mode!=TILE_MODE {
 		shader_set(shd_alpha)
@@ -171,14 +171,14 @@ function tile_layer_alpha_check() {
 	}
 }
 
-function tile_layer_shader_reset() {
+var tile_layer_shader_reset = function() {
 	shader_reset();
 }
 layer_script_begin(tile_layer, tile_layer_alpha_check);
 layer_script_end(tile_layer, tile_layer_shader_reset);
 
 //for updating tile properties like flip, mirror, rotate etc
-function tile_update_properties() {
+tile_update_properties = function() {
 	var data = tilemap_get(tilemap, gridx, gridy)
 	var array = [gridx, gridy]
 	for (var i=0; i<ds_list_size(tile_layer_map); i++;) {
