@@ -285,6 +285,35 @@ else
 x_final = x + xnudge[0];
 y_final = y + ynudge[0];
 
+// left, top, right, bottom
+var camdata = [ x_final - (xwidth div 2), y_final - (ywidth div 2),
+				x_final + (xwidth div 2), y_final + (ywidth div 2)
+				];
+
+var camwall = find_camera_bound(camdata[0],camdata[1],camdata[2],camdata[3]);
+
+if (camwall)
+{
+	// hit a camera bound
+	
+	var xdiff_right, xdiff_left;
+	
+	xdiff_right = (camdata[2] - camwall.bbox_left);
+	xdiff_left = (camdata[0] - camwall.bbox_right);
+	
+	show_debug_message(xdiff_right);
+	
+	if (xdiff_right > 0)
+	{
+		// hit the leftmost bound
+		// shove the camera backwards and turn on course-correct
+		x_final -= (round(xdiff_right));
+		x -= (round(xdiff_right));
+		state[0] = 2;
+		xcorrect = true;
+	}
+}
+
 // move and resize the camera
 xx = clamp(x_final - (xwidth div 2), 0, xmax);
 yy = clamp(y_final - (ywidth div 2), 0, ymax);

@@ -77,8 +77,10 @@ function check_collision_line(x1, y1, x2, y2, type = 0, object = collision_array
 
 }
 
-function check_collision_rectangle(x1, y1, x2, y2, type = 0, object = collision_array){
+function check_collision_rectangle(x1, y1, x2, y2, returnme = false, type = 0, object = collision_array){
 	//var found = noone
+	
+	var bestobj = noone;
 	
 	if collision_rectangle(floor(x1) ,floor(y1),floor(x2),floor( y2), object,true,true)    {
 	    var found_list = ds_list_create()
@@ -100,14 +102,20 @@ function check_collision_rectangle(x1, y1, x2, y2, type = 0, object = collision_
 	                }else{
 						colslope = 0
 	                }
+					
+					bestobj = found;
 					ds_list_destroy(found_list)
-	                return true;
+	                return ((returnme) ? bestobj : true);
 			  }
 			}
 	    }
         ds_list_destroy(found_list)
     }
-
+	
+	if (returnme)
+	{
+		return bestobj;	
+	}
 }
 
  function get_angle_line(x1, y1, x2, y2){
@@ -312,4 +320,22 @@ function poly_collide(obj = self, is_player = false)
             }
         }
     }
+}
+
+function find_camera_bound(x1, y1, x2, y2)
+{
+	var found = noone;
+	
+	if collision_rectangle(floor(x1),floor(y1),floor(x2),floor(y2),oCameraBoundary,true,true)
+	{
+	    var found_list = ds_list_create();
+	    var found_size = collision_rectangle_list(floor(x1),floor(y1),floor(x2),floor(y2),oCameraBoundary,true,true,found_list,false);
+    
+	    for (var i = 0; i < found_size; ++i)
+		{    
+	        found = found_list[| i];
+	    }
+        ds_list_destroy(found_list);
+    }
+	return found;
 }
