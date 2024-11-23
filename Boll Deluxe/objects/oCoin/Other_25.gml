@@ -1,1 +1,1 @@
-show_message(pathing)
+pathprenum=max(pathnum-1,0)

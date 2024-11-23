@@ -23,6 +23,9 @@ function parse_level(dir=working_directory+"\save.jade") {
 				var temparr = []
 				array_copy(temparr,0,data[11],0,array_length(data[11]))
 				variable_instance_set(obj, "pathing", temparr);
+				variable_instance_set(obj, "pathspd", data[12][0]);
+				variable_instance_set(obj, "pathcanrev", data[12][1]);
+				variable_instance_set(obj, "pathnum", data[12][2]);
 			}
 			
 			for (var j = 0; j < array_length(data[10]); j++) {
