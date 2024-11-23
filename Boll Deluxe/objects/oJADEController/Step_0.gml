@@ -182,6 +182,15 @@ for (var i = 0; i < 5; ++i)
 		if selected_mode != i {
 			selected_toolbar=0
 			selected_mode=i
+			selection = false
+			var size = ds_list_size(object_layer_map)
+			for (var i = 0; i < size; ++i) {
+				var obj = ds_list_find_value(object_layer_map, i)
+		
+				if !is_undefined(obj) {
+					obj[5]=0;
+				}
+			}
 		}
 	}
 }
@@ -204,7 +213,7 @@ if (mbleftpress) {
 	}
 	if mouse_in_setting_slot(3) { //saving
 		var file = get_save_filename_ext("JADE File|*.jade", "", working_directory, "Save Level");
-		if (file != "") {
+		if string_length(file) != 0 { 
 			savetextdur=60;
 			save_dir=file
 			JADE_save(file)
@@ -212,7 +221,7 @@ if (mbleftpress) {
 	}
 	if mouse_in_setting_slot(2) { //loading
 		var file = get_open_filename_ext("JADE File|*.jade", "", working_directory, "Load Level");
-		if (file != "") {
+		if string_length(file) != 0 {
 			save_dir=file
 			JADE_load(file)
 		}
@@ -897,8 +906,8 @@ if (selected_tool==NODE_TOOL) && (not_on_gui) { //drawing nodes
 							draw_node_y=(obj[2]*16)+yoff;
 						} else {
 							var length = array_length(obj[11])-1;
-							draw_node_x=obj[11][length][2];
-							draw_node_y=obj[11][length][3];
+							draw_node_x=obj[11][length][0];
+							draw_node_y=obj[11][length][1];
 						}
 						break;
 					}
@@ -911,7 +920,7 @@ if (selected_tool==NODE_TOOL) && (not_on_gui) { //drawing nodes
 			var xoff = -sprite[1];
 			var yoff = -sprite[2];
 			
-			array_push(obj[11], [draw_node_x,draw_node_y,(gridx*16)+xoff,(gridy*16)+yoff,false])
+			array_push(obj[11], [(gridx*16)+xoff,(gridy*16)+yoff,false])
 			show_debug_message(obj[11])
 			draw_node_x=(gridx*16)+xoff
 			draw_node_y=(gridy*16)+yoff
