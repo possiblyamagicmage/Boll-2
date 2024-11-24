@@ -91,6 +91,19 @@ function compile_code(){
 	return _compiled
 }
 
+function get_sprite_frames(dir, arr) {
+	show_debug_message("start auto sprite_list")
+	var _file = file_find_first($"{dir}\\sprites\\big\\*.png",0)
+	while(_file != "") {
+		_file = string_delete(_file, string_length(_file) -3, 4)
+		array_push(arr, _file)
+		show_debug_message(_file)
+		_file = file_find_next();
+	}
+	_file = file_find_close();
+	show_debug_message("end auto sprite_list")
+}
+
 function import_sheets() {
 	show_debug_message("BEGIN SPRITE COMPLATION...")
 	oGameManager.PlayerColl.StartBatch();
@@ -100,20 +113,32 @@ function import_sheets() {
 		if file_exists($"{dir}\\sprites\\_HUDicon.png") {
 			oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\_HUDicon.png",$"spr_{_name}_HUDicon",1,false,false,CollageOrigin.CENTER,CollageOrigin.CENTER)
 		} else throw $"SORRY! NO HUD ICON IN CHARACTER \"{_name}\" EXISTS! CHECK YOUR SPRITES!"
-		if is_array(config_getarray("sprite_list", dir)) {
-			global.player_spritelists[i]=config_getarray("sprite_list", dir)
+		
+		if file_exists($"{dir}\\pal.png") {
+			oGameManager.PlayerColl.AddFile($"{dir}\\pal.png",$"spr_{_name}_pal",1,false,false,0,0)		
+		}
+		
+
+			get_sprite_frames(dir, global.player_spritelists[i])
+		
 			var array=global.player_spritelists[i]
 			for (var j = 0; j < array_length(global.powerups); ++j) {
+				var sprite_yank = global.powerups[j]
+				if config_getstring(global.powerups[j] + " override", dir) != "" {
+						sprite_yank = config_getstring(global.powerups[j] + " override", dir)		
+				}
+				show_debug_message(sprite_yank)
 				for (var g = 0; g < array_length(array); ++g) {
-					if (array[g]!="_HUDicon") && file_exists($"{dir}\\sprites\\{global.powerups[j]}\\{array[g]}.png") { //make sure they arent trying to overwrite our HUD icon that we imported
-						var frames=nozerounreal(config_setting(global.powerups[j]+" "+array[g]+" frames", dir),config_setting(array[g]+" frames", dir))
-						var org_x=nozerounreal(config_setting(global.powerups[j]+" "+array[g]+" orgx", dir),nozerounreal(config_setting(array[g]+" orgx", dir), nozerounreal(config_setting("origin x", dir), CollageOrigin.CENTER)))
-						var org_y=nozerounreal(config_setting(global.powerups[j]+" "+array[g]+" orgy", dir),nozerounreal(config_setting(array[g]+" orgy", dir), nozerounreal(config_setting("origin y", dir), CollageOrigin.CENTER)))
-						oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\{global.powerups[j]}\\{array[g]}.png",$"spr_{_name}_{global.powerups[j]}_{array[g]}",frames,false,false,org_x,org_y)
+					if (array[g]!="_HUDicon") && file_exists($"{dir}\\sprites\\{sprite_yank}\\{array[g]}.png") { //make sure they arent trying to overwrite our HUD icon that we imported
+						var frames=nozerounreal(config_setting(sprite_yank+" "+array[g]+" frames", dir),config_setting(array[g]+" frames", dir))
+						var org_x=nozerounreal(config_setting(sprite_yank+" "+array[g]+" orgx", dir),nozerounreal(config_setting(array[g]+" orgx", dir), nozerounreal(config_setting("origin x", dir), CollageOrigin.CENTER)))
+						var org_y=nozerounreal(config_setting(sprite_yank+" "+array[g]+" orgy", dir),nozerounreal(config_setting(array[g]+" orgy", dir), nozerounreal(config_setting("origin y", dir), CollageOrigin.CENTER)))
+						oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\{sprite_yank}\\{array[g]}.png",$"spr_{_name}_{global.powerups[j]}_{array[g]}",frames,false,false,org_x,org_y)
 					} else continue
 				}
 			}
-		}
+			show_debug_message(global.player_spritelists[i])
+		
 	}
 	oGameManager.PlayerColl.FinishBatch();
 	show_debug_message("Sprite have finished being compiled")

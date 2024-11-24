@@ -8,9 +8,8 @@ sig.Connect( self, function(str_var) {
 });
 
 // Palette
-pal_swap_init_system(shd_pal_swapper);
-palette=0
-palette_index=0
+//palette=0
+//palette_index=0
 
 greenmode=0
 

@@ -273,6 +273,7 @@
     {"$GMIncludedFile":"","%Name":"walk.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario/sprites/big","name":"walk.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"wallslide.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario/sprites/big","name":"wallslide.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"config.ini","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/sonic","name":"config.ini","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"pal.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/sonic","name":"pal.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"sonicairdash.wav","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/sonic/sfx","name":"sonicairdash.wav","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"sonicboom.wav","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/sonic/sfx","name":"sonicboom.wav","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"sonicdamage.wav","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/sonic/sfx","name":"sonicdamage.wav","resourceType":"GMIncludedFile","resourceVersion":"2.0",},

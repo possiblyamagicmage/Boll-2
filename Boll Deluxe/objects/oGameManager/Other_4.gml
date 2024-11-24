@@ -1,4 +1,5 @@
 global.player_spritelists[0]=[]
+pal_swap_init_system(shd_pal_swapper);
 PlayerColl=new Collage("Players", 4096, 4096, false, 1, true)
 import_sheets();
 

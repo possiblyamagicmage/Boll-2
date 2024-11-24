@@ -2,11 +2,15 @@ function skin_setting(_sett) {
 	var File =file_text_open_read($"{working_directory}/_vanilla/character/{charmName}/config.ini");
 		
 	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && (!file_text_eof(File)) {
+	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
 		file_text_readln(File);
 		Line =file_text_read_string(File);
 	}
-		
+	
+	if string_starts_with(Line,";") {
+		file_text_close(File);
+		return 0
+	}
 	var _string = string_delete(Line, 1, string_length(_sett+"="));
 		
 	file_text_close(File);
@@ -18,7 +22,7 @@ function skin_getstring(_sett) {
 	var File =file_text_open_read($"{working_directory}/_vanilla/character/{charmName}/config.ini");
 		
 	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && (!file_text_eof(File)) {
+	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
 		file_text_readln(File);
 		Line =file_text_read_string(File);
 		if (file_text_eof(File) && !string_pos(_sett+"=",Line)) {
@@ -26,7 +30,10 @@ function skin_getstring(_sett) {
 			return ""
 		}
 	}
-		
+	if string_starts_with(Line,";") {
+		file_text_close(File);
+		return ""
+	}	
 	var _string = string_delete(Line, 1, string_length(_sett+"="));
 		
 	file_text_close(File);
@@ -37,7 +44,7 @@ function skin_getstring(_sett) {
 function skin_getarray(_sett) {
 	var File =file_text_open_read($"{working_directory}/_vanilla/character/{charmName}/config.ini");
 	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && (!file_text_eof(File)) {
+	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
 		file_text_readln(File);
 		Line =file_text_read_string(File);
 	}
@@ -47,6 +54,10 @@ function skin_getarray(_sett) {
 		file_text_close(File);
 		return split_string(_string,",");
 	}
+	if string_starts_with(Line,";") {
+		file_text_close(File);
+		return ""
+	}
 	file_text_close(File);
 }
 
@@ -54,7 +65,7 @@ function config_setting(_sett, dir) {
 	var File =file_text_open_read($"{dir}/config.ini");
 		
 	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && (!file_text_eof(File)) {
+	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
 		file_text_readln(File);
 		Line =file_text_read_string(File);
 	}
@@ -70,9 +81,17 @@ function config_getstring(_sett, dir) {
 	var File =file_text_open_read($"{dir}/config.ini");
 		
 	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && (!file_text_eof(File)) {
+	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
 		file_text_readln(File);
 		Line =file_text_read_string(File);
+	}
+	if (file_text_eof(File) && !string_pos(_sett+"=",Line)) {
+		file_text_close(File);
+		return ""
+	}
+	if string_starts_with(Line,";") {
+		file_text_close(File);
+		return ""
 	}
 		
 	var _string = string_delete(Line, 1, string_length(_sett+"="));
@@ -85,7 +104,7 @@ function config_getstring(_sett, dir) {
 function config_getarray(_sett, dir) {
 	var File =file_text_open_read($"{dir}/config.ini");
 	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && (!file_text_eof(File)) {
+	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
 		file_text_readln(File);
 		Line =file_text_read_string(File);
 	}
@@ -94,6 +113,10 @@ function config_getarray(_sett, dir) {
 		var _string = string_delete(Line, 1, string_length(_sett+"="));
 		file_text_close(File);
 		return split_string(_string,",");
+	}
+	if string_starts_with(Line,";") {
+		file_text_close(File);
+		return ""
 	}
 	file_text_close(File);
 }
@@ -126,8 +149,12 @@ function skin_animationdata(slot,name,list) {
 	var t,spr;
 
 	for (var j = 0; j < array_length(global.powerups); ++j) {
+		var sprite_yank = global.powerups[j]
+		if skin_getstring(global.powerups[j] + " override") != "" {
+			sprite_yank = skin_getstring(global.powerups[j] + " override")			
+		}
 		for (var g = 0; g < array_length(spriteEvents); ++g) {
-			var _getspr=skin_getstring($"{global.powerups[j]} {spriteEvents[g]}")
+			var _getspr=skin_getstring($"{sprite_yank} {spriteEvents[g]}")
 			if (_getspr=="") {
 				_getspr=string(skin_getstring($"{spriteEvents[g]}"))
 			}
@@ -226,6 +253,8 @@ function init_player() { //make this load animation data later
 	alpha=1;
 	top_margin=120;
 	dy=0;
+	show_debug_message(spriteEvents)
+	
 	
 	skin_animationdata(pNum,charmName,global.player_spritelists[pNum]);
 	init_sounds();
