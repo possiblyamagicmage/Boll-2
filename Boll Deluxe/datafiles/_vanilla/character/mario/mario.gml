@@ -17,6 +17,7 @@ poundjump = 0;
 grow = 0;
 state = "";
 groundpound_land=false;
+pounding_block = false;
 
 #define stop
 hsp = 0;
@@ -145,9 +146,22 @@ if (state == "pound") && !piping {
 		hsp = 0;
 	}
 	
-	var blockcoll=collision_point(x,y+hit_sizey+vsp+1,oHittable, false, true)
-	if (blockcoll) && !(blockcoll.going) && (blockcoll.amount) {
-		signal_emit(blockcoll.blockHit, 1, id)
+	//hittable block collision
+	if (grounded) && (pound_timer <= 0) {
+		var blockcoll=collision_point(x,y+hit_sizey+vsp+1,oHittable, false, true)
+		if (blockcoll) && !(blockcoll.no_hit) && (pounding_block == true) && (blockcoll.amount != 0) {
+			if (blockcoll.hit == 0) {
+				signal_emit(blockcoll.blockHit, 1, id)
+				pounding_block = false
+			}
+		} else {
+			state = "";
+			pound_timer = 0;
+		}
+		
+		if (down) {
+			pounding_block = true
+		}
 	}
 }
 
@@ -166,6 +180,7 @@ if (state == "jump" || state == "") && !(grounded) && !piped {
 		pound_timer = 10
 		state = "pound"
 		playsfx(charmName+"pound")
+		pounding_block = true
 	}
 	
 	if (!alarm_get(2)) {

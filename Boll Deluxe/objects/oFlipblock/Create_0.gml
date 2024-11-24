@@ -9,6 +9,7 @@ blockHit.Connect( self, function(hit_p, obj) {
 	event_inherited()
 	flip_time = 300;
 	image_speed = abs(hit);
+	show_debug_message("boing2")
 	//hit = hit_p;
 	//dy = -1 * hit;
 	//obj.vsp = 2;
