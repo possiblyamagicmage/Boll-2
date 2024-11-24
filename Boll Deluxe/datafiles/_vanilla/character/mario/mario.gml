@@ -16,6 +16,7 @@ storedxsc = 1;
 poundjump = 0;
 grow = 0;
 state = "";
+groundpound_land=false;
 
 #define stop
 hsp = 0;
@@ -142,6 +143,11 @@ if (state == "pound") && !piping {
 		grav = defaultgrav;
 		vsp = 7;
 		hsp = 0;
+	}
+	
+	var blockcoll=collision_point(x,y+hit_sizey+vsp+1,oHittable, false, true)
+	if (blockcoll) && !(blockcoll.going) && (blockcoll.amount) {
+		signal_emit(blockcoll.blockHit, 1, id)
 	}
 }
 
@@ -389,32 +395,34 @@ if (state == "pound") {
 		gsp = (-8 * dsin(colangle)) 
 	}
 	playsfx(charmName+"stomp");
-	//create pound smoke
-	/*var i=instance_create_depth(x-1, y + hit_sizey - 5, 0, pJumpDust); //no clue why i have to offset these 5 pixels up
-	i.depth = (depth + 5);
-	i.image_xscale = 1;
-	i.hspeed=-3.25;
-	i.friction=0.2;
-	i.vspeed=-0.2;
-	i.gravity=-0.04;
-	var i=instance_create_depth(x+1, y + hit_sizey - 5, 0, pJumpDust);
-	i.depth = (depth + 5);
-	i.image_xscale = -1;
-	i.hspeed=3.25;
-	i.friction=0.2;
-	i.vspeed=-0.2;
-	i.gravity=-0.04;*/
 
-	var blockcoll=collision_point(x,y+hit_sizey+1,oHittable, false, true)
-	if (blockcoll) && !(blockcoll.going) && (blockcoll.amount) {
-		blockcoll.dummyTimer = blockcoll.dummyTimerReset;
-		signal_emit(blockcoll.blockHit, 1, id)
+	var blockcoll=collision_point(x,y+hit_sizey+vsp+1,oHittable, false, true)
+	if !(blockcoll) || (blockcoll && !blockcoll.amount) {
+		state = ""
+		vsp = 0
+		playsfx(charmName+"stomp");
+		//create pound smoke
+		var i=instance_create_depth(x-1, y + hit_sizey, 0, pSmoke); //no clue why i have to offset these 5 pixels up
+		i.depth = (depth + 5);
+		i.image_xscale = 1;
+		i.hspeed=-3.25;
+		i.friction=0.2;
+		i.vspeed=-0.2;
+		i.gravity=-0.04;
+		var i=instance_create_depth(x+1, y + hit_sizey, 0, pSmoke);
+		i.depth = (depth + 5);
+		i.image_xscale = -1;
+		i.hspeed=3.25;
+		i.friction=0.2;
+		i.vspeed=-0.2;
+		i.gravity=-0.04;
 	}
+} else {
+	state = ""
+	vsp = 0
 }
 #endregion
 canstopjump = false
-state = ""
-vsp = 0
 
 
 #define sprung

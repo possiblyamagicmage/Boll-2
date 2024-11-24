@@ -95,6 +95,11 @@ function player_collision(){
 			get_angle_line(posx+hit_sizex,posy+hit_sizey,posx+hit_sizex,posy +hit_sizey + 3)
 			
 			if self.object_index = oPlayer{
+				//move up
+				while check_collision_line(posx-hit_sizex,posy+hit_sizey, posx+hit_sizex, posy+hit_sizey, COL_BOTTOM) {
+					y -- 
+					posy = y
+				}
 				sig.Emit("floor_land")
 			} else {
 				gsp = hsp
