@@ -190,6 +190,7 @@
     {"$GMIncludedFile":"","%Name":"mario-feather.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"mario-feather.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"mario-fire.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"mario-fire.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"mario.gml","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"mario.gml","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"pal.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"pal.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"mariodamage.wav","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario/sfx","name":"mariodamage.wav","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"mariodie.wav","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario/sfx","name":"mariodie.wav","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"mariodive.wav","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario/sfx","name":"mariodive.wav","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
