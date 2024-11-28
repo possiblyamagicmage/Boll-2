@@ -3,9 +3,10 @@ pal_swap_init_system(shd_pal_swapper);
 PlayerColl=new Collage("Players", 4096, 4096, false, 1, true)
 import_sheets();
 
-parse_level(global.nextlevel)
+instance_create_depth(0,0,0,oBackgroundManager);
+instance_create_depth(0,0,0,oNodeManager);
 
-instance_create(0,0,oBackgroundManager);
+parse_level(global.nextlevel)
 
 global.warptimer=0;
 global.yellow_switch=0;
