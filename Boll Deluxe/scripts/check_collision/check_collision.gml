@@ -340,11 +340,11 @@ function find_camera_bound(x1, y1, x2, y2)
 	return found;
 }
 
-function node_path_movement() {
-	if is_array(pathing) && (pathspd) { //prevent crashing & a slight optimization
+function node_path_movement(movePlayer=false) {
+	if is_array(pathing) && (pathspd) && !(pathfallen) { //prevent crashing & a slight optimization
 		var arr=pathing[pathnum];
 	
-		if (arr[2])
+		if (arr[2]) && !(pathfallen)
 		{
 			// curved path, handle special behavior
 			var dir=point_direction(pathing[pathprenum][0],
@@ -394,22 +394,30 @@ function node_path_movement() {
 			y=median(y,pathing[pathprenum][1],arr[1]);
 		}
 	
-		if !floor(point_distance(x,y,arr[0],arr[1])) { //check if we've reached our destination
+		if !floor(point_distance(x,y,arr[0],arr[1])) && !(pathfallen) { //check if we've reached our destination
 			x=arr[0]; //snap to our destination just in case we misalign by a margin
 			y=arr[1];
 			pathprenum=pathnum;
-			if !(pathisrev) {
+			if !(pathisrev) && !(pathfallen) {
 				if ((array_length(pathing)-1) > pathnum) {
 					pathnum++ //if there is another node in our path, continue on
 				} else {
 					if (pathcanrev) { //can we reverse our pathing?
 						pathisrev=true;
 						pathnum--; //we have reversed direction, go backwards in our pathing
+					} else if (pathcanfall) {
+						pathfallen=1
+						var dir=point_direction(pathing[max(pathprenum-1,0)][0],pathing[max(pathprenum-1,0)][1],arr[0],arr[1]);
+						show_debug_message(dir)
+						hspeed=lengthdir_x(pathspd,dir)
+						show_debug_message(hspeed)
+						vspeed=lengthdir_y(pathspd,dir)
+						gravity=0.15;
 					} else {
 						pathnum=0; //stop running the path code, because why would we? we've stopped.
 					}
 				}
-			} else {
+			} else if (pathisrev) {
 				if (pathnum==0) { //if we have reached the beginning
 					pathisrev=false;
 					pathnum++; //we have reversed direction, go forwards in our pathing
@@ -420,10 +428,10 @@ function node_path_movement() {
 		}
 	}
 	
-	x_diff = x - xprevious;
-	y_diff = y - yprevious;
+	x_diff = (x - xprevious) + hspeed;
+	y_diff = (y - yprevious) + vspeed;
 	
-	if !(no_collide) {
+	if movePlayer {
 		with(oPlayer) {
 			if (grounded) && collision_line(x-hit_sizex+other.x_diff,y+hit_sizey+2+abs(other.y_diff),x+hit_sizex+other.x_diff,y+hit_sizey+2+abs(other.y_diff),other,false,true) {
 				x += other.x_diff;

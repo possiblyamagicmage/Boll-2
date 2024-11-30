@@ -4,6 +4,9 @@ if (hit != 0) && (!goDirection) {
 	goDirection=hit
 	no_collide=true;
 	no_path_follow=true;
+	hspeed=0;
+	vspeed=0;
+	gravity=0;
 }
 
 if (goDirection != 0) {

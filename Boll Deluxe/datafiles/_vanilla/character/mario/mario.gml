@@ -5,7 +5,7 @@ sound_list=split_string("select,damage,die,jump,win,step,bonk",",");
 #define create
 slopesliding = 0;
 no_move = 0;
-fric = 0.0625;
+fric = 0.07;
 runvar = 0;
 runjump = 0;
 dusttimer = 1;
@@ -81,6 +81,15 @@ if (state == "" || state == "jump") && !piped && !electrocuted && !electrocution
 		run=1.5;
 	} else {
 		run = 0;
+	}
+	
+	if (bpress) && (size=="fire") && !(has_fired) {
+		var proj=instance_create_depth(x+(hit_sizex+3)*xsc,y+hit_sizey-8,2,oFireball)
+		proj.hsp=2.5*xsc
+		proj.vsp=-2
+		proj.owner=id
+		
+		has_fired+=1;
 	}
 	
 	if (!grounded) {
@@ -325,7 +334,7 @@ frspd=1
 
 if (state == "") {
 	if (ceil(abs(hsp))>3) spriteEvent="run"
-	else if !(abs(hsp)) {
+	else if !(round(abs(hsp))) {
 		spriteEvent="idle"
 	}
 	else {

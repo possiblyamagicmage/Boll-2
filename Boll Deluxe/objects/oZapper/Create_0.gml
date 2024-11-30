@@ -5,8 +5,10 @@ pathing=-1;
 pathprenum=0;
 pathnum=1;
 pathspd=2;
-pathcanrev=true;
+pathcanrev=false;
 pathisrev=false;
+pathfallen=false;
+pathcanfall=false;
 
 buftimer=0;
 

@@ -70,3 +70,12 @@ targetx=x;
 targety=y;
 
 depth=50;
+
+pathing=-1;
+pathprenum=0;
+pathnum=1;
+pathspd=2;
+pathcanrev=false;
+pathisrev=false;
+pathfallen=false;
+pathcanfall=false;
