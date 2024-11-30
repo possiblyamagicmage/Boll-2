@@ -18,6 +18,7 @@ grow = 0;
 state = "";
 groundpound_land=false;
 pounding_block = false;
+firing = 0;
 
 #define stop
 hsp = 0;
@@ -83,14 +84,20 @@ if (state == "" || state == "jump") && !piped && !electrocuted && !electrocution
 		run = 0;
 	}
 	
-	if (bpress) && (size=="fire") && !(has_fired) {
-		var proj=instance_create_depth(x+(hit_sizex+3)*xsc,y+hit_sizey-8,2,oFireball)
+	#region Fire Projectile
+	
+	if (bpress) && (size=="fire") && !(has_fired) && !(slopesliding) {
+		var proj=instance_create_depth(x+(hit_sizex+3)*xsc,y+hit_sizey-12,2,oFireball)
 		proj.hsp=2.5*xsc
-		proj.vsp=-2
+		proj.vsp=2
 		proj.owner=id
 		
 		has_fired+=1;
+		frame=0;
+		firing=15;
 	}
+	
+	#endregion
 	
 	if (!grounded) {
 		vsp = min(4, vsp + grav);
@@ -322,6 +329,7 @@ if (left || right) && (state == "" || state == "jump") && !slopesliding && !pipe
 
 bonk=max(0,bonk-1)
 poundjump=max(0,poundjump-1)
+firing=max(0,firing-1)
 
 runvar = approach_val(runvar,run,0.05)
 
@@ -371,6 +379,10 @@ if (state == "pound") {
 
 if (state == "wallslide") {
 	spriteEvent="wallSlide"
+}
+
+if (firing) {
+	spriteEvent="fireToss"
 }
 
 if (slopesliding) {

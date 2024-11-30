@@ -15,3 +15,4 @@ pathcanrev=false;
 pathisrev=false;
 pathfallen=false;
 pathcanfall=false;
+pathdraw=true;

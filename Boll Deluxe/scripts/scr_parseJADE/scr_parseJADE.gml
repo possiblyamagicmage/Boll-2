@@ -28,6 +28,7 @@ function parse_level(dir=working_directory+"\save.jade") {
 				variable_instance_set(obj, "pathcanrev", data[12][1]);
 				variable_instance_set(obj, "pathnum", data[12][2]);
 				variable_instance_set(obj, "pathcanfall", data[12][3]);
+				variable_instance_set(obj, "pathdraw", data[12][4]);
 			}
 			
 			for (var j = 0; j < array_length(data[10]); j++) {

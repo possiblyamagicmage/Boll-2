@@ -6,3 +6,6 @@ switch (dir) {
 	case "down": image_index=3 break;
 }
 pathprenum=max(pathnum-1,0)
+if is_array(pathing) && (pathdraw) {
+	ds_list_add(oNodeManager.objectNodesList,[pathing,pathcanrev,pathcanfall])
+}

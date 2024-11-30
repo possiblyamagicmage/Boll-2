@@ -776,7 +776,6 @@ if selected_mode == OBJECT_MODE {
 				ScribblejrFit(objname, fa_left, fa_middle, smallF, 3, object_list_area_width-104, 32).Draw(96,48)
 				//draw divider
 				draw_rect(12,96,object_list_area_width-24,3,$65555c,1,false)
-				//we're doing a reverse loop, starting from the bottom to the top so that things like drop down menus can overlay the buttons below
 					if is_array(proparr) { 
 						ScribblejrFit($"Reverse on End:", fa_left, fa_middle, smallF, 3, 96, 32).Draw(16,112+32*1)
 						draw_sprite_stretched(spr_JADEcheckbox,bool(proparr[1]),96+16,(112+32*1)-12,8*3,8*3)
@@ -877,6 +876,18 @@ if selected_mode == OBJECT_MODE {
 						if (mbleftpress) {
 							if (incheck) {
 								proparr[3]=!proparr[3]
+							}
+						}
+						
+						ScribblejrFit($"Draw Track:", fa_left, fa_middle, smallF, 3, 96, 32).Draw(16,112+32*4)
+						draw_sprite_stretched(spr_JADEcheckbox,bool(proparr[4]),96+16,(112+32*4)-12,8*3,8*3)
+								
+						//toggle variable
+						var incheck=point_in_rectangle(curs_x,curs_y,object_list_area_x+37,object_list_area_y+34+(32/3)*4,object_list_area_x+44,object_list_area_y+40+(32/3)*4)&&(!open_dropmenu||open_dropmenu-1==4)
+								
+						if (mbleftpress) {
+							if (incheck) {
+								proparr[4]=!proparr[4]
 							}
 						}
 				}
