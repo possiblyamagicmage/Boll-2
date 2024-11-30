@@ -64,10 +64,10 @@ wallrundata[5] = sign(vsp);
 wallrundata[6] = sqrt((hsp * hsp) + (vsp * vsp)/2);
 
 // do the same for difference
-wallrundata[7] = sqrt((wallrundata[1] * wallrundata[1]) + (wallrundata[4] * wallrundata[4]));
+wallrundata[7] = sqrt(wallrundata[1] * wallrundata[1]);
 
 #region Start Wallrunning
-if (move != 0) && (vsp < 0) && (state!="wallrun") {
+if (move != 0) && (vsp < 0) && (state!="wallrun") && (abs(wallrundata[6]) > 1) {
 	//wall sliding
 	var coll=check_collision_line(x+((hit_sizex+4)*xsc),y-((hit_sizey-2)*ysc),x+((hit_sizex+4)*xsc),y-((hit_sizey-2)*ysc),COL_WALL)
 	if (!grounded)
@@ -274,11 +274,12 @@ if (state == "wallrun") && !piped {
 	}
 	
 	if (apress) {
-		control_lock=15;
+		control_lock=7;
 		wallrundata[6] *= 0.75;
-		hsp=-2.5*esign(move,xsc)
-		vsp=-5
+		hsp=-3*esign(move,xsc)
+		vsp=-6
 		move=-move
+		canstopjump=false;
 		xsc=esign(hsp,xsc)
 		no_move=true;
 		alarm_set(2,15);
