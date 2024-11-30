@@ -86,7 +86,7 @@ if (state == "" || state == "jump") && !piped && !electrocuted && !electrocution
 	
 	#region Fire Projectile
 	
-	if (bpress) && (size=="fire") && !(has_fired) && !(slopesliding) {
+	if (bpress) && (size=="fire") && (has_fired < 2) && !(slopesliding) {
 		var proj=instance_create_depth(x+(hit_sizex+3)*xsc,y+hit_sizey-12,2,oFireball)
 		proj.hsp=2.5*xsc
 		proj.vsp=2
