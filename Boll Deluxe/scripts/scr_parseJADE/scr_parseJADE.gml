@@ -1,4 +1,4 @@
-function parse_level(dir=working_directory+"\save.jade") {
+function parse_level(dir="\save.jade") {
 	var file = dir
 	if !file_exists(file) {
 		show_message($"Level does not exist at {dir}! make sure you've saved first!")

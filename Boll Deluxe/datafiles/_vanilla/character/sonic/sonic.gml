@@ -557,6 +557,31 @@ if (coll) && (state!="roll") && (state!="spindash") {
 }
 }
 
+#define hurt_by_spike
+stopsfx(charmName+"damage")
+hurt=1
+hsp=2.25*-xsc
+vsp=-4
+canstopjump=true
+state=""
+grounded=false
+oldsize = size;
+switch (size) {
+	case "basic":
+	case "mini":
+		signal_emit(sig, "on_kill", charmName)
+		break;
+	case "big":
+		size = "basic";
+		playsfx(charmName+"damage")
+		break;
+	default:
+		size = "big";
+		playsfx(charmName+"damage")
+	break;	
+}	
+grow = 60;
+
 #define electrocute
 state=""
 electrocuted = true;

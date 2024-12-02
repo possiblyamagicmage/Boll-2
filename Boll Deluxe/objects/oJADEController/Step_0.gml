@@ -1005,7 +1005,7 @@ if keyboard_check_pressed(vk_enter) && !(is_typing) { //PLAYTEST
 		}
 	}
 	
-	global.nextlevel=working_directory+"\save.jade" //the level the game will load
+	global.nextlevel="\save.jade" //the level the game will load
 	global.jade_testing = true;
 	room_goto(rGame)
 }

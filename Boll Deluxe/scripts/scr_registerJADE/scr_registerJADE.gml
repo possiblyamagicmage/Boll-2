@@ -118,7 +118,7 @@ function registerobj(uuid,sprite,xoff,yoff,xscale,yscale,can_xscale,can_yscale,m
 	}
 }
 
-function JADE_save(file=working_directory+"\save.jade") {
+function JADE_save(file="\save.jade") {
 	file_delete(file)
 	show_debug_message($"Saving JADE file to: {file}")
 	var array = [];
@@ -156,7 +156,7 @@ function JADE_save(file=working_directory+"\save.jade") {
 	show_debug_message($"Successfully saved JADE file to: {file}!")
 }
 
-function JADE_load(file=working_directory+"\save.jade") {
+function JADE_load(file="\save.jade") {
 	if !file_exists(file) exit;
 	var loaded = buffer_load(file)
 	var save_file = buffer_decompress(loaded)
