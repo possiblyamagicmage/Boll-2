@@ -1,6 +1,6 @@
 /// @description boxpoly init
 ptype = 0;
-LDtkReloadFields();
+;
 
 x -= 8
 y -= 8

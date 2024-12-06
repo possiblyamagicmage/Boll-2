@@ -2,7 +2,7 @@ event_inherited();
 hitted=0;
 content="coin"
 bricked=false;
-LDtkReloadFields()
+
 
 if content=="multicoins" amount=12
 

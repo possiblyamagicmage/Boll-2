@@ -10,7 +10,7 @@ slope = true;
 semi = true;
 ramp = false
 influence = true;
-LDtkReloadFields();
+;
 
 if hflip = true {
 	image_xscale *= -1;

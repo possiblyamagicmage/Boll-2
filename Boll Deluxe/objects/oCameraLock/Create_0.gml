@@ -3,7 +3,7 @@ x_limit = 0;
 y_limit = 0;
 make_limits_scale = false;
 
-LDtkReloadFields();
+;
 
 if (make_limits_scale)
 {

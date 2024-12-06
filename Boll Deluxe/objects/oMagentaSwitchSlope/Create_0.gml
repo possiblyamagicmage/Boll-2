@@ -2,7 +2,7 @@
 event_inherited();
 
 hflip=false;
-LDtkReloadFields();
+;
 
 if hflip = true {
 	image_xscale *= -1;

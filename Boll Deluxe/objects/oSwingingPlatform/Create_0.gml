@@ -49,7 +49,7 @@ image_speed=0;
 depth=5;
 fr=0
 
-LDtkReloadFields()
+
 
 image_yscale=1;
 
