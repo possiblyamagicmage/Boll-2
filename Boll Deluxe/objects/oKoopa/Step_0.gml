@@ -26,12 +26,14 @@ y=checky
 if (check_hitbox_on_hitbox(id,nearenemy)) && (enemy != noone) { //make sure shell is actually colliding with an enemy before trying to kill the enemy it collided with???
 	if (in_shell) && (abs(hsp)) {
 		if !(enemy.unshellable) {
+			VinylPlay(snd_enemykick)
 			enemy.killtype="spin";
 			enemy.killhsp = sign(hsp);
 			instance_create_depth(x+hit_sizex*xsc,y,2,pImpact)
 			enemy.hp-=1;
 		} else {
 			instance_destroy();
+			killtype="spin";
 		}
 	}
 }

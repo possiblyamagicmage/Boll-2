@@ -66,7 +66,7 @@ function player_poly_collision()
 	}
 }
 
-function player_collision(){
+function player_collision(shoveOutOfWalls=true){
 	
 	if (piped) exit
 	
@@ -74,16 +74,18 @@ function player_collision(){
 	posx = x
 	posy = y
 	
-	//left wall
-	while check_collision_dot(posx-hit_sizex, posy-sign(vsp), COL_WALL){
-		x++	
-		posx = x
-	}
+	if (shoveOutOfWalls) {
+		//left wall
+		while check_collision_dot(posx-hit_sizex, posy-sign(vsp), COL_WALL){
+			x++	
+			posx = x
+		}
 		
-	//right wall
-	while check_collision_dot(posx+hit_sizex, posy-sign(vsp), COL_WALL){
-		x--
-		posx = x
+		//right wall
+		while check_collision_dot(posx+hit_sizex, posy-sign(vsp), COL_WALL){
+			x--
+			posx = x
+		}
 	}
 	
 	//landing on solid ground
@@ -170,7 +172,7 @@ function player_collision(){
 	}
 		
 		
-	if grounded {
+	if grounded && (shoveOutOfWalls) {
 		//move down
 		if (check_collision_line(posx-hit_sizex,posy+hit_sizey,posx-hit_sizex,posy +hit_sizey + 15 , COL_BOTTOM) || check_collision_line(posx+hit_sizex-1,posy+hit_sizey,posx+hit_sizex-1,posy+hit_sizey + 15, COL_BOTTOM) ){   
 			while !check_collision_line(posx-hit_sizex,posy+hit_sizey, posx+hit_sizex, posy+hit_sizey, COL_BOTTOM){

@@ -10,9 +10,9 @@ if !on_screen(32,32) {
 	}
 }
 
-player_collision();
+player_collision(false);
 
-if check_collision_line(x+hit_sizex+hsp,y-hit_sizey,x+hit_sizex+hsp,y+hit_sizey,COL_WALL) || check_collision_line(x-hit_sizex+hsp,y-hit_sizey,x-hit_sizex+hsp,y+hit_sizey,COL_WALL) {
+if check_collision_line(x+hit_sizex+hsp,y-hit_sizey+1,x+hit_sizex+hsp,y+hit_sizey-1,COL_WALL) || check_collision_line(x-hit_sizex+hsp,y-hit_sizey+1,x-hit_sizex+hsp,y+hit_sizey-1,COL_WALL) {
 	if (owner!=-1) {
 		owner.has_fired-=1;
 	}
@@ -22,10 +22,11 @@ if check_collision_line(x+hit_sizex+hsp,y-hit_sizey,x+hit_sizex+hsp,y+hit_sizey,
 
 if (grounded) {
 	grounded=false;
-	vsp=-1.75;
+	vsp=-2;
 } else {
 	vsp=min(vsp+grav,4)
 }
+
 
 if check_hitbox_on_hitbox(id,instance_nearest(x,y,oEnemy)) {
 	var enemy=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey,oEnemy,false,true)

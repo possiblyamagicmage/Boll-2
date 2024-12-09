@@ -51,7 +51,7 @@ switch (size) {
 }
 
 if (braking) xsc=brakedir
-maxspd = 2 + runvar + ((size != "basic" && !crouch) * 0.5) - (1.25*crouch);
+maxspd = 2 + runvar + ((size != "basic" && !crouch) * 0.5) - (1.25*(crouch && grounded));
 
 #region PreventMovement
 var no_move_prev = no_move;
@@ -128,7 +128,7 @@ if (state == "" || state == "jump") && !piped && !electrocuted && !electrocution
 		player_slide(12.5, 0.225, 0.32, false);
 		
 		//temp skidding
-		if (sign(gsp)!=esign(move,xsc)) && !(crouch) {
+		if (abs(gsp) > 1.5+(size!="basic")) && (sign(gsp)!=esign(move,xsc)) && !(crouch) {
 			if (abs(hsp)>2 && !carry && !skidding) {
 				skidding=1
 				//playsfx(name+"skid",1)
@@ -348,7 +348,7 @@ frspd=1
 
 if (state == "") {
 	if !(crouch) {
-		if (ceil(abs(hsp))>3) {
+		if (ceil(abs(hsp))>3.25) {
 			spriteEvent="run"
 		}
 		else if !(round(abs(hsp))) {
@@ -510,6 +510,7 @@ canstopjump = false
 
 #define sprung
 state = "jump";
+crouch = false
 canstopjump = true
 
 #define enemy_stomped

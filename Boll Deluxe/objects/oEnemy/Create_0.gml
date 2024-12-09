@@ -81,7 +81,7 @@ enemyFireballed.Connect( self, function(proj, hit_p) {
 	VinylPlay(snd_enemykick)
 	hp-=1
 	instance_create_depth(proj.x,proj.y,2,pImpact)
-	killhsp=esign(-proj.hsp,1)
+	killhsp=esign(proj.hsp,1)
 	killtype="spin"
 });
 
