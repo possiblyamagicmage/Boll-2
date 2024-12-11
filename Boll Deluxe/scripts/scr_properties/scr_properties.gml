@@ -10,7 +10,8 @@ function object_get_properties(obj){
 			properties = [
 				["content", "Contents", "coin", "dropdown", ["coin", "multicoins", "mushroom", "fireflower", "thunderflower"]],
 				["amount", "Amount", 1, "number_input", 50],
-				["bricked", "Is Brick", 0, "checkbox", 0]
+				["bricked", "Is Brick", 0, "checkbox", 0],
+				["hidden", "Is Hidden", 0, "checkbox", 0]
 			]
 			break;
 		case oSemiSlope:

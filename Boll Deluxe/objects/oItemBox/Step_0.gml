@@ -1,5 +1,12 @@
 event_inherited();
 
+if (hidden) {
+	visible = 0;
+	no_collide = 1
+} else {
+	no_collide = 0	
+}
+
 if (going) {
 	if !(amount) {
 		flash=max(flash-1,0)

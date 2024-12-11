@@ -2,6 +2,7 @@ event_inherited();
 hitted=0;
 content="coin"
 bricked=false;
+hidden=false;
 lose_amount=true;
 
 
@@ -35,6 +36,8 @@ blockHit.Connect( self, function(hit_p, obj) {
 	flash=bumpMax
 	times_hit++;
 	event_user(2);
+	hidden = false;
+	visible = 1;
 	
 	if !(amount) {
 		sprite_index = image_hit

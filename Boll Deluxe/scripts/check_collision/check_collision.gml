@@ -20,7 +20,7 @@ function check_collision_dot(x1, y1, type = 0, object = collision_array){
     
 	    for (var i = 0; i < found_size; ++i) {    
 	        var found = found_list[| i];
-	        if (!found.no_collide) { 
+	        if (!found.no_collide || (found.object_index == oItemBox && found.hidden && type == COL_TOP)) { 
 	          if (type != COL_BOTTOM && !found.semi) || (type == COL_BOTTOM) {
 					if found.slope {
 						if !(found.rounded) {
@@ -53,7 +53,7 @@ function check_collision_line(x1, y1, x2, y2, type = 0, object = collision_array
     
 	    for (var i = 0; i < found_size; ++i) {    
 	        var found = found_list[| i];
-	        if (!found.no_collide) { 
+	        if (!found.no_collide || (found.object_index == oItemBox && found.hidden && type == COL_TOP)) {
 	          if (type != COL_BOTTOM && !found.semi) || (type == COL_BOTTOM){
 					if found.slope { 
 						if !(found.rounded) {
@@ -88,7 +88,7 @@ function check_collision_rectangle(x1, y1, x2, y2, returnme = false, type = 0, o
     
 	    for (var i = 0; i < found_size; ++i) {    
 	        var found = found_list[| i];
-	        if (!found.no_collide) { 
+	        if (!found.no_collide || (found.object_index == oItemBox && found.hidden && type == COL_TOP)) {
 	          if (type != COL_BOTTOM && !found.semi)|| (type == COL_BOTTOM) {
 					if found.slope { 
 						if !(found.rounded) {
