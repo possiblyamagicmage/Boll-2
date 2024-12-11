@@ -1,3 +1,6 @@
+if (no_collide)
+	exit;
+
 var x_diff = x-xprevious;
 var y_diff = y-yprevious;
 var object_is_on=false;
@@ -27,3 +30,4 @@ if !(object_is_on) {
 }
 
 if (collapsing) image_index=1;
+

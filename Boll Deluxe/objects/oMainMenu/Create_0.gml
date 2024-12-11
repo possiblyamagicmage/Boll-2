@@ -4,6 +4,7 @@ crMenu="mainmenu";
 subopt=0;
 suboptMAX=3;
 optionLock=0;
+startLock = 10;
 
 // General
 OptionMover = function () {

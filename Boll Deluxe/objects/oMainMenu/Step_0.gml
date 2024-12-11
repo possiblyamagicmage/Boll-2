@@ -6,6 +6,14 @@ if (!optionLock) {
 	akey	=(input_check_pressed("a") || input_check_pressed("enter"));
 	bkey	=input_check_pressed("b");
 	ckey	=input_check_pressed("c");
+	
+	if (startLock) { //discard inputs when first created to prevent immediately being booted to the level select sometimes
+		akey		=0;
+		bkey		=0;
+		ckey		=0;
+		startLock -= 1;
+	}
+	
 } else {
 	right	=0;
 	left	=0;
@@ -30,6 +38,7 @@ if (!optionLock) {
 					case 3: room_goto(rIntro) option=0 break;
 					case 4: game_end(); break;
 				}
+				safe = 1
 			}
 		break
 	

@@ -17,3 +17,4 @@ pathfallen=false;
 pathcanfall=false;
 pathdraw=true;
 pathstarted=true;
+respawntime = -1;
