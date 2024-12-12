@@ -78,6 +78,11 @@ function object_get_properties(obj){
 				["dir", "Direction", "right", "dropdown", ["up", "left", "right", "down"]]
 			]
 			break;
+		case oCheckpoint:
+			properties = [
+				["dir", "Flip", 0, "checkbox", 0]
+			]
+			break;
 		//NODE MODE
 		case oCameraRegion:
 			properties = [

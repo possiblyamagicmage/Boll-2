@@ -128,9 +128,11 @@ txr_exec(global.scripts[? $"{charmName}_create"]);
 start_hit_sizex = hit_sizex
 start_hit_sizey = hit_sizey
 
-if (global.checkpointX != no_checkpoint && global.checkpointY != no_checkpoint) {
-	x = global.checkpointX + 32
-	y = global.checkpointY + 32
-}
-
 init_player();
+
+if (global.checkpointX != no_checkpoint && global.checkpointY != no_checkpoint) {
+	x = global.checkpointX + 32 - (8 * global.checkpointDir)
+	y = global.checkpointY + 40
+	xsc = (!global.checkpointDir * 2) - 1 // (0 or 1 -> 1 or -1)
+	move_dir = xsc
+}

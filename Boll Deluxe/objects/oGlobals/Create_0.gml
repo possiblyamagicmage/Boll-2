@@ -14,6 +14,7 @@ global.jade_testing = false; // whether the current level is being tested in JAD
 
 global.checkpointX = no_checkpoint;
 global.checkpointY = no_checkpoint;
+global.checkpointDir = 0;
 
 if !(instance_exists(input_controller_object)) instance_create_depth(0,0,16001,input_controller_object)
 
