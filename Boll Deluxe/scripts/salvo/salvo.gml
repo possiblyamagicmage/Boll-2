@@ -1888,6 +1888,8 @@ function SlimeHandleDeath(obj)
 
         // IWRAM_SFXPanning = (short)(obj.xpos >> 8) - BG_CamX;
         // PlaySound(0x8d);
+		
+		VinylPlay(snd_popYI,false,0.15,1)
         
         new_part = instance_create_depth(obj.x, obj.y, obj.depth - 1, oSlimeParticle);
         rand = irandom(65535);
@@ -1898,6 +1900,7 @@ function SlimeHandleDeath(obj)
         new_part.hsp = particle_hspds[(rand & 14) >> 1] / 256;
         new_part.vsp = particle_vspds[(rand & 6) >> 1] / 256;
         new_part.field_0xa2 = 0xff;
+		
     }
     obj.morph_scale = obj.morph_scale - 32;
     if (obj.morph_scale < 0x2000)

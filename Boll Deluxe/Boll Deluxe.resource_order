@@ -965,6 +965,7 @@
     {"name":"snd_hardblockbreak","order":2,"path":"sounds/snd_hardblockbreak/snd_hardblockbreak.yy",},
     {"name":"snd_itemcoin","order":1,"path":"sounds/snd_itemcoin/snd_itemcoin.yy",},
     {"name":"snd_pipe","order":3,"path":"sounds/snd_pipe/snd_pipe.yy",},
+    {"name":"snd_popYI","order":7,"path":"sounds/snd_popYI/snd_popYI.yy",},
     {"name":"snd_powerup","order":2,"path":"sounds/snd_powerup/snd_powerup.yy",},
     {"name":"snd_shootblockbreak","order":6,"path":"sounds/snd_shootblockbreak/snd_shootblockbreak.yy",},
     {"name":"snd_shootblockshoot","order":5,"path":"sounds/snd_shootblockshoot/snd_shootblockshoot.yy",},
