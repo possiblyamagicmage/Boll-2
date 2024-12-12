@@ -1,3 +1,5 @@
+event_inherited();
+
 hit_sizex=4
 hit_sizey=4
 vsp=0

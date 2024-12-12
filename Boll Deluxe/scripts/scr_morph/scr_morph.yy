@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"helper_functions",
+  "%Name":"scr_morph",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"helper_functions",
+  "name":"scr_morph",
   "parent":{
     "name":"Helpers",
     "path":"folders/Scripts/Helpers.yy",

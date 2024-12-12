@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_platforms",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"Entity Scripts",
+    "path":"folders/Scripts/Entity Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

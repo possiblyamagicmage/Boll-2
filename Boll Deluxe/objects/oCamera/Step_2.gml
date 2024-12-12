@@ -343,5 +343,8 @@ yb = intlib_make_u32(ybounds * zoom);
 camera_set_view_pos(view_camera[0],floor(xx),clamp(floor(yy)-8,0,ymax));
 camera_set_view_size(view_camera[0],xb,yb);
 
+camera_x = floor(xx);
+camera_y = clamp(floor(yy)-8,0,ymax);
+
 x_final_prev = xx;
 y_final_prev = yy;

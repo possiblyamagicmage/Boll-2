@@ -11,7 +11,9 @@ if !on_screen(32,32) {
 
 //player_collision(false);
 
-if check_collision_line(x-hit_sizex,y,x+hit_sizex,y,COL_WALL) {
+if check_collision_line(x-hit_sizex,y,x+hit_sizex,y,COL_WALL)
+	||(hit_tics)
+{
 	if (owner!=-1) {
 		owner.has_fired-=1;
 	}

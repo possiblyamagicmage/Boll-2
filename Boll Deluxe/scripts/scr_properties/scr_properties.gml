@@ -43,6 +43,14 @@ function object_get_properties(obj){
 				["spd", "Speed", 0, "number_input", 0]
 			]
 			break;
+		case oSlime:
+			properties = [
+				["snap_to_ceiling", "Ceiling Offset", 0, "checkbox", 0],
+				["skip_spawn_anim", "Skip Spawn", 1, "checkbox", 0],
+				["spawn_huge", "Larger", 0, "checkbox", 0],
+				["spawn_tall", "Taller", 0, "checkbox", 0]
+			]
+			break;
 		case oSwingingPlatform:
 			properties = [
 				["chain_length", "Chain Length", 4, "number_input", 0],

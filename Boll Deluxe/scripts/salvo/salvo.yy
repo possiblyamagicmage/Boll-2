@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"helper_functions",
+  "%Name":"salvo",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"helper_functions",
+  "name":"salvo",
   "parent":{
-    "name":"Helpers",
-    "path":"folders/Scripts/Helpers.yy",
+    "name":"Entity Scripts",
+    "path":"folders/Scripts/Entity Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

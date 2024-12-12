@@ -15,7 +15,14 @@
 #macro STALL_X 1
 #macro STALL_Y 2
 #macro IN_LOCK 4
+//
+// the target FPS threshold
+// ideally, the uncapped FPS should *never* drop below this
+#macro FPS_TARGET 300
 
+globalvar camera_x, camera_y;
+camera_x = 0;
+camera_y = camera_x;
 
 function check_signs_matching(a, b)
 {
@@ -317,6 +324,15 @@ function is_range_onscreen_horizontal(left, right, wport = undefined)
 	return false;
 }
 
+function update_camerapos()
+{
+	if (view_camera[view_current] != undefined)
+	{
+		camera_x = camera_get_view_x(view_camera[view_current]) div 1;
+		camera_y = camera_get_view_y(view_camera[view_current]) div 1;
+	}
+}
+
 function chance(percent){
 	// Returns true or false depending on RNG
 	//Chance(0.7);    -> Returns true 70% of the time
@@ -438,4 +454,12 @@ function easeOutCirc(_x)
 function easeMovement(_x, xdist)
 {
     return easeOutCirc(min(xdist, _x)/xdist);
+}
+
+// calls a function from an array
+function call_func_from_table(obj, A, idx)
+{
+    var func = A[max(0, min(array_length(A) - 1, idx))];
+
+    func(obj);
 }
