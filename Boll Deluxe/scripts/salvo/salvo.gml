@@ -4,7 +4,11 @@
 // the code's been modified where necessary to not rely too much on arrays
 // and to use raw math instead
 // otherwise, this is a near-straight port, so subpixeling and other Fun Stuff ahoy
-// a big todo for me is to eliminate subpixel positions entirely
+
+/* TODO:
+ * make slimes use the standard player_collision functions; might have to hack shit together with
+   the current hitbox code
+*/
 
 #macro SLIME_MOVE 0
 #macro SLIME_DMG_REBOUND 1
