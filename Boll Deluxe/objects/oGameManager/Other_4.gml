@@ -5,6 +5,7 @@ import_sheets();
 
 instance_create_depth(0,0,0,oBackgroundManager);
 instance_create_depth(0,0,0,oNodeManager);
+instance_create_depth(0,0,0,oDrawingManager);
 
 parse_level(global.nextlevel)
 

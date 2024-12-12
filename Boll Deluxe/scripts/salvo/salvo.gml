@@ -213,7 +213,6 @@ function init_slime_data(obj = self)
 
 function SlimeSpawn(obj = self)
 {
-    var eyes; // 👀
 
     if (!variable_instance_exists(obj,"morph"))
     {
@@ -235,22 +234,13 @@ function SlimeSpawn(obj = self)
     obj.bottom_bounding = 1968;
 
     obj.action_state = 5;
-    eyes = instance_create_depth(obj.x, obj.y, obj.depth - 1, oSlimeEyes);
-	eyes.visible = false;
-    eyes.x = obj.x;
 
     obj.y += 6;
-    eyes.y = obj.y;
 
 	obj.intro_ypos = int64(obj.y * FRACUNIT) + 8;
 	obj.intro_ypos2 = obj.intro_ypos;
 
     obj.y_rel = make_s16(obj.y - camera_y) + 22;
-    eyes.timer = 0xffff;
-    obj.eyes = eyes;
-    obj.eyes_id = eyes.id;
-    eyes.sprframe = 15;
-
     obj.rebound = 0;
     obj.vsp_px = 0;
     obj.do_intro = 0;
@@ -297,7 +287,7 @@ function Slime_HandleBGRender(obj = self)
             return;
         }
         
-        morph.vis_x = (obj.eye_x);
+        //morph.vis_x = (obj.eye_x);
         morph.vis_y = (make_s8((make_u32(obj.rebound_px) >> 8)) 
                         - make_s16((obj.morph_bottom * 5 >> 5))) - 8;
 
@@ -323,12 +313,6 @@ function Slime_HandleBGRender(obj = self)
 
     FUN_DrawSlime(obj);
     obj.morph_yprev = morph.y_prev;
-    if (obj.action_state != 5)
-    {
-        obj.eyes.mul = (obj.morph_scale / 65535) * 16;
-		obj.eyes.x = morph.vis_x + obj.x;
-        obj.eyes.y = (morph.vis_y + obj.y) - (16);
-    }
 }
 
 function FUN_RenderSlime(morph,obj)
@@ -713,7 +697,7 @@ function Slime_SetXPos(morph)
 
     yPos = make_s32(morph.y1);
 	morph.exceed_x = max(0, morph.x2 + ((morph.vis_width div 2) + 64) - 256);
-    xPos = make_s32(morph.x2 - morph.exceed_x);
+    xPos = make_s32(morph.x2 - 8 - morph.exceed_x);
 	
 	var exceed = max(0, (yPos + 1 - (CAMERA_MAX_HEIGHT - 8)));
 
@@ -1529,7 +1513,7 @@ function SlimeGeneric(obj)
 	if (obj.depth == 610)
 	{
 		obj.depth = obj.real_depth + 1;
-		obj.eyes.depth = obj.depth - 1;
+		//obj.eyes.depth = obj.depth - 1;
 	}
 
     OBJ_SlimeMain(obj);

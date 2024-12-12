@@ -21,7 +21,7 @@ layer_background_htiled(hills_bg,true)
 layer_background_visible(hills_bg,true)
 layer_background_htiled(hills2_bg,true)
 layer_background_visible(hills2_bg,true)
-
+/*
 var tile_layer_3d = function() {
 	if !surface_exists(oBackgroundManager.clouds_3d_surface) exit
 	
@@ -61,7 +61,7 @@ var tile_layer_shader_reset = function() {
 
 layer_script_begin(clouds3d_layer, tile_layer_3d);
 layer_script_end(clouds3d_layer, tile_layer_shader_reset);
-
+*/
 // these variables should help positioning backgrounds comprised of only one non-looping image
 // if only one of those axis should not loop, then only use one
 xdiff = 0

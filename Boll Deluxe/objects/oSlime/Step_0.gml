@@ -239,12 +239,8 @@ if (variable_instance_exists(self,"intro_ypos2"))
 
 if (deleteflag)
 {
-	if (eyes)
-	{
-		instance_destroy(eyes);	
-	}
 	
 	instance_create_depth(x,y,depth,pSmoke);
 	
-	instance_destroy(self);
+	instance_destroy();
 }

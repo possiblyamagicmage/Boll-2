@@ -1,20 +1,8 @@
 // don't bother rendering if we're not active
 if (!(active && ready))
 {
-	return;	
+	exit;	
 }
-
-var _tex = sprite_get_uvs(spr_slime_morphcone, 0);
-
-morph_uv_left = _tex[0];
-morph_uv_right = _tex[2];
-morph_uv_top = _tex[1];
-morph_uv_bottom = _tex[3];
-
-var finy = camera_y;
-var exceed = max(0, y - camera_y - (CAMERA_MAX_HEIGHT - 8));
-
-finy += exceed;
 
 if (global.debug)
 {
@@ -38,11 +26,34 @@ if (global.debug)
 
 }
 
-shader_set(shd_morphing);
-	morph_set_shader_data(morph);
-	
-	draw_sprite(spr_slime_morphcone,0,camera_x + morph.exceed_x,finy);
-shader_reset();
+var eyeposy=y-16
+var eyeposx=x
+var nearplayer=instance_nearest(x,y,oPlayer)
+
+if instance_exists(oPlayer) {
+	var eyetargetx=lengthdir_x(24,point_direction(eyeposx,eyeposy,nearplayer.x,nearplayer.y))
+	var eyetargety=lengthdir_y(12,point_direction(eyeposx,eyeposy,nearplayer.x,nearplayer.y))
+} else {
+	var eyetargetx=0
+	var eyetargety=0
+}
+
+eyedestx=lerp(eyedestx,eyetargetx,0.05)
+eyedesty=lerp(eyedesty,eyetargety,0.05)
+
+var eyelocx=median(-16,floor(eyedestx),16)
+var eyelocy=median(-8,floor(eyedesty),8)
+
+draw_sprite(
+	spr_slime_eye,2,
+	floor(eyeposx+eyelocx-6),
+	floor(eyeposy+morph.vis_y+eyelocy)
+);
+draw_sprite(
+	spr_slime_eye,2,
+	floor(eyeposx+eyelocx+2),
+	floor(eyeposy+morph.vis_y+eyelocy)
+);
 
 if (global.debug)
 {

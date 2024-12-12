@@ -49,8 +49,8 @@ init = function()
 	if (skip_spawn_anim)
 	{
 		// start off moving around
-		SlimeSpawnEyes(self);
-		eyes.visible = false;
+		//SlimeSpawnEyes(self);
+		//eyes.visible = false;
 		action_state = 8;
 	
 		if (spawn_huge)
@@ -64,6 +64,8 @@ init = function()
 	ready = true;
 }
 
+eyedestx = 0;
+eyedesty = 0;
 active = false;
 ready = false;
 

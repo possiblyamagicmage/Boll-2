@@ -10,6 +10,7 @@ var camheight=camera_get_view_height(view_camera[0])+64
 instance_activate_region(camx,camy,camwidth,camheight,true)
 instance_activate_object(oBackgroundManager)
 instance_activate_object(oNodeManager)
+instance_activate_object(oDrawingManager)
 instance_activate_object(oGlobals)
 instance_activate_object(oCamera)
 instance_activate_object(oPlayer)

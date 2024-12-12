@@ -60,7 +60,7 @@ function morph_struct(_parent = noone) constructor{
     y_rel = 0;
 
     // relative position offsets
-    rel_offset = [ 0, 0 ];
+    rel_offset = [ -8, 0 ];
 
     // bottom position of morph
     bottom = 0;

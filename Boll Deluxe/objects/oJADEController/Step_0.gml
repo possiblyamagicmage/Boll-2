@@ -641,6 +641,8 @@ if not_on_gui && selected_tool == FILL_TOOL && selected_mode == TILE_MODE {
 
 				var tiledata = tilemap_get(tilemap, start_x + i, start_y + j)
 				ds_list_add(tile_layer_map[selected_tile_layer], [tiledata, start_x + i, start_y + j]) //add tile  to list at place
+				
+				
 				tile_update_properties();
 								
 			}
