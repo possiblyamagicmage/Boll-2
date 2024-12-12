@@ -10,6 +10,11 @@ global.netgame = false; // top 10 boll deluxe things that will never happen:
 global.nextlevel = "\save.jade"
 global.jade_testing = false; // whether the current level is being tested in JADE or not
 
+#macro no_checkpoint -51781 // silver the hedgehogs do NOT turn this upside down.....
+
+global.checkpointX = no_checkpoint;
+global.checkpointY = no_checkpoint;
+
 if !(instance_exists(input_controller_object)) instance_create_depth(0,0,16001,input_controller_object)
 
 //// TXR SETUP!!! ////

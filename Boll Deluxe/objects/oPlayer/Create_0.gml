@@ -128,4 +128,15 @@ txr_exec(global.scripts[? $"{charmName}_create"]);
 start_hit_sizex = hit_sizex
 start_hit_sizey = hit_sizey
 
+if (global.checkpointX != no_checkpoint && global.checkpointY != no_checkpoint) {
+	x = global.checkpointX	
+	y = global.checkpointY
+	
+	if (place_meeting(x, y, oCheckpoint)) 
+		with instance_place(x, y, oCheckpoint) {
+			hit = 1;
+			image_index = 1;
+		}
+}
+
 init_player();
