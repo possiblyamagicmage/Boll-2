@@ -1338,8 +1338,7 @@ function OBJ_SlimeBouncing(obj  = self)
 						
 						//show_debug_message(obj.vsp);
 
-                        /*IWRAM_SFXPanning = (short)(obj.xpos >> 8) - BG_CamX;
-                        PlaySound(0x89);*/
+                        VinylPlay(snd_slimebounce,false);
 
                         obj.hsp = ldrsh(obj.slime[SLIME_HSPEED]) / FRACUNIT;
                         obj.vertcoltime = 0;
@@ -1360,8 +1359,7 @@ function OBJ_SlimeBouncing(obj  = self)
 				
 				//show_debug_message(obj.vsp);
 
-                /*IWRAM_SFXPanning = (short)(obj.xpos >> 8) - BG_CamX;
-                PlaySound(0x89);*/
+                VinylPlay(snd_slimebounce,false);
 
                 obj.hsp = ldrsh(obj.slime[SLIME_HSPEED]) / FRACUNIT;
                 obj.vertcoltime = 0;
@@ -1578,7 +1576,10 @@ function Slime_MoveOnGround(obj)
             obj.hsp = (bounceMem & 1) / FRACUNIT;
 
             obj.slime[SLIME_MOVE] = 2;
-
+			
+			// sonic SFX for a mario enemy? blasphemous!
+			VinylPlay(snd_hydrocityturbine,false,0.5);
+			
             obj.action_state = 3;
             return;
         }
@@ -1894,16 +1895,16 @@ function SlimeHandleDeath(obj)
         // IWRAM_SFXPanning = (short)(obj.xpos >> 8) - BG_CamX;
         // PlaySound(0x8d);
 		
-		VinylPlay(snd_popYI,false,0.15,1)
+		VinylPlay(snd_popYI,false,0.15,1);
         
-        new_part = instance_create_depth(obj.x, obj.y, obj.depth - 1, oSlimeParticle);
+        new_part = instance_create_depth(obj.x, obj.y, obj.depth - 1, pSlimeParticle);
         rand = irandom(65535);
 
         new_part.x = obj.x + ((make_s32(((rand & 0xf) - 8) * 0x10000) >> 8) / 256);
         new_part.y = obj.y - 12;
         new_part.timer = 0xffff;
-        new_part.hsp = particle_hspds[(rand & 14) >> 1] / 256;
-        new_part.vsp = particle_vspds[(rand & 6) >> 1] / 256;
+        new_part.hsp = particle_hspds[min(13, (rand % 14))] / 256;
+        new_part.vsp = particle_vspds[min(6, (rand % 7))] / 256;
         new_part.field_0xa2 = 0xff;
 		
     }
@@ -2129,8 +2130,7 @@ function SlimeHandleDamage(obj)
 
                 hitGravity = int64(hitMe.grav * 256);
 
-                // IWRAM_SFXPanning = (short)(obj.xpos >> 8) - BG_CamX;
-                // PlaySound(0x8d);
+                VinylPlay(snd_popYI,false,0.15,1);
 
                 var noptrset = true;
 
@@ -2155,7 +2155,7 @@ function SlimeHandleDamage(obj)
 
                 if (noptrset)
                 {
-                    spawnObj = instance_create_depth(obj.x, obj.y, obj.depth - 1, oMiniSlime);
+                    spawnObj = instance_create_depth(obj.x, obj.y, obj.depth - 1, pSlimeParticle);
                     newslime = spawnObj;
                     newslime.timer = 0xffff;
                 }
