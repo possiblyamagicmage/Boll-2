@@ -326,10 +326,10 @@ function is_range_onscreen_horizontal(left, right, wport = undefined)
 
 function update_camerapos()
 {
-	if (view_camera[view_current] != undefined)
+	if (view_camera[0] != undefined)
 	{
-		camera_x = camera_get_view_x(view_camera[view_current]) div 1;
-		camera_y = camera_get_view_y(view_camera[view_current]) div 1;
+		camera_x = camera_get_view_x(view_camera[0]) div 1;
+		camera_y = camera_get_view_y(view_camera[0]) div 1;
 	}
 }
 

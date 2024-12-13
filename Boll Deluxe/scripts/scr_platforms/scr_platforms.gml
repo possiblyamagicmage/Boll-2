@@ -263,7 +263,7 @@ function blue_plat_interact_with_objects(obj)
 
     obj.collideactive =
         (((global.freezeframe) ? 1 : 0) |
-        (port < ( (((sin_x * 0x10000 >> 0x10) - intlib_make_u32(global.camera_x)) + 0x10) div 1) ));
+        (port < ( (((sin_x * 0x10000 >> 0x10) - intlib_make_u32(camera_x)) + 0x10) div 1) ));
     
     if (obj.collideactive == 0) // if we're active...
     {

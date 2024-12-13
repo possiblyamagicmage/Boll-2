@@ -23,3 +23,5 @@ with(oActivationRegion) {
 with(oPlayer) {
 	instance_activate_region(floor(x)-hit_sizex-32,floor(y)-hit_sizey-32, hit_sizex+64, hit_sizey+64, true)
 }
+
+update_camerapos();
