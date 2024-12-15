@@ -746,15 +746,16 @@ function CheckMorphCollision(obj, morph, xpos = 0, yoff = 0)
     if (morph.collide_severity != 0)
     {
         // there's Some form of collision severity, offset by 10 cycles
-        offset = 10;
+        offset = 6;
     }
 
-    sVar1 = floor(obj.y - camera_y);
+    sVar1 = floor((obj.y - obj.hit_sizey) - camera_y);
 	exceed = max(0, sVar1 - (CAMERA_MAX_HEIGHT + 8));
 	
 	var index = 0;
 	
 	var under, over;
+	var xhit, lefthit, righthit;
 	under = 0;
 	over = 0;
 
@@ -763,7 +764,7 @@ function CheckMorphCollision(obj, morph, xpos = 0, yoff = 0)
         ycam = make_s32(sVar1);
         uVar5 = 0;
         // loop for 5 cycles
-        targ_offset = offset + 10;
+        targ_offset = offset + 6;
 		index = 0;
 		array_resize(morph.debug_col,1);
 		morph.debug_col[0] = [ 0, 0, 0 ];
@@ -814,8 +815,16 @@ function CheckMorphCollision(obj, morph, xpos = 0, yoff = 0)
                 // enmded up rewriting this because the old system was too jank
 				// it's 2024, not 2003. I don't need to imitate archaic systems!
 				
-				if (obj.x >= (xpos - (morph.x_width div 2)))
-				&& (obj.x <= (xpos + (morph.x_width div 2)))
+				xhit = ((obj.x >= (xpos - (morph.x_width div 2)))
+						&& (obj.x <= (xpos + (morph.x_width div 2))));
+				
+				lefthit = (((obj.x - obj.hit_sizex) >= (xpos - (morph.x_width div 2)))
+							&& ((obj.x - obj.hit_sizex) <= (xpos + (morph.x_width div 2))));
+							
+				righthit = (((obj.x + obj.hit_sizex) >= (xpos - (morph.x_width div 2)))
+							&& ((obj.x + obj.hit_sizex) <= (xpos + (morph.x_width div 2))));
+				
+				if (xhit || lefthit || righthit)
 				&& (morph.x_width > 2)
 				{
 					uVar5 = uVar5 + 1;
@@ -922,7 +931,7 @@ function CheckMorphCollision(obj, morph, xpos = 0, yoff = 0)
             return;
         }
 
-        sVar1 = floor(obj.y - camera_y);
+        sVar1 = floor((obj.y - obj.hit_sizey) - camera_y);
 		exceed = max(0, sVar1 - (CAMERA_MAX_HEIGHT - 8));
 
         // if we get no collision, run the loop a second time
@@ -956,8 +965,6 @@ function MorphHandleObjectCollisions(morph, obj)
 			var real_height = max(0, obj.y - (hit_height + exceed + camera_y));
 			
 			var heightpct = max(0, min(100, ((real_height) / (morph.vis_height)) * 100)) div 1;
-			
-			show_debug_message($"hit: {heightpct}");
 			
 			if (heightpct >= 60)
 			&& (collide_p.damagespecial > 0)
@@ -2015,9 +2022,9 @@ function SlimeMovePlayer(obj)
         if (((obj.morph.colfactor2 & 1) == 0) || ((obj.morph.colfactor2 & 0xe) != 0))
         {
             obj.morph.colflags =
-                make_s16((128 * ((obj.facing >> 1) ? -1 : 1)) - obj.camx2 >> 1);
+                make_s16((128 * ((obj.facing >> 1) ? -1 : 1)) - (obj.camx2 div 2));
             if ((2 < make_u16(obj.action_state - 9) && (obj.action_state != 9)) &&
-                ((hsp_frac + (FRACUNIT * 4)) < ((FRACUNIT * 7999) div 1000)))
+                ((abs(hsp_frac) + (FRACUNIT * 4)) < ((FRACUNIT * 7999) div 1000)))
             {
                 hsp_frac = hsp_frac - obj.morph.colflags;
                 hitme.hsp = min(8, abs(hsp_frac) / FRACUNIT) * sign(hsp_frac);
@@ -2029,7 +2036,7 @@ function SlimeMovePlayer(obj)
             vsp_frac = vsp_frac >> 1;
         }
 
-        if (((make_s32((vsp_frac + (FRACUNIT * 2))) div FRACUNIT) 
+        if (((make_s32((abs(vsp_frac) + (FRACUNIT * 2))) div FRACUNIT) 
                 < ((FRACUNIT * 3999) div 1000)))
         {
             vsp_frac -= (((((FRACUNIT div 2) * ((obj.yfacing >> 1) ? -1 : 1))
