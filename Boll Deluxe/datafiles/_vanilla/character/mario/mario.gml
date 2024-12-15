@@ -121,8 +121,13 @@ if (state == "" || state == "jump") && !piped && !electrocuted && !electrocution
 			if (((chsp * 100) / 1) == 0)
 			chsp = 0;
 		}
+
+		if (skidding) {
+			stopsfx(charmName+"skid")
+			skidding=0
+		}
 	} else {
-		if (state == "") && (down) && !(piped) {
+		if (state == "") && (down) && !(piped) && !(skidding) {
 			crouch=true;
 		} else {
 			if (!check_collision_line(x-hit_sizex,y-hit_sizey-8,x+hit_sizex,y-hit_sizey-8,COL_TOP) || size=="basic") {
@@ -138,7 +143,7 @@ if (state == "" || state == "jump") && !piped && !electrocuted && !electrocution
 		player_slide(12.5, 0.225, 0.32, false);
 		
 		//skidding
-		if (((abs(gsp) >= (2 + (size != "basic"))) || skidding) && move != 0 && !check_signs_matching(gsp,move) && !crouch && !carrying) {
+		if (((abs(gsp) >= 3) || skidding) && move != 0 && !check_signs_matching(gsp,move) && !crouch && !carrying) {
 			if (!skidding) {
 				skiddir = esign(move,xsc)
 				dusttimer = 0;
@@ -333,7 +338,7 @@ if (grounded) {
 	}
 }
 
-if ((ceil(abs(hsp))>3 && grounded && state == "") || skidding) {
+if ((ceil(abs(hsp))>3 || skidding) && grounded && state == "") {
 	dusttimer = min(dusttimer + 1, (dusttimer + 1) mod 10);
 	if (dusttimer == 1) {
 		var part = pRunDust
