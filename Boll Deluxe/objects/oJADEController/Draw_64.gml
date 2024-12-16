@@ -225,8 +225,7 @@ if selected_mode == OBJECT_MODE {
 				
 				var arr=ds_map_find_value(obj_data,proparr[0])
 				var sprite=arr[0]
-				var sprarr=ds_map_find_value(jade_cats[selected_mode][current_cat],proparr[0])
-				objname=sprarr[1]
+				objname=arr[10]
 				var ysize=64
 				if sprite_get_height(sprite)*4 < 64
 				ysize=sprite_get_height(sprite)
