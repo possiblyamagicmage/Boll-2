@@ -57,7 +57,9 @@ switch (size) {
 }
 
 if (braking) xsc=brakedir
-maxspd = 2 + runvar + ((size != "basic" && !crouch) * 0.5) - (1.25*(crouch && grounded));
+if !in_water()
+maxspd = 2 + runvar + ((size != "basic" && !crouch) * 0.5) - (1.25*(crouch && grounded))
+else maxspd = 1.5
 
 #region PreventMovement
 var no_move_prev = no_move;
@@ -85,7 +87,9 @@ if ((alarm_get(0) > 0) && (grounded)) {
 }
 
 if (state == "" || state == "jump") && !piped && !electrocuted && !electrocution_timer {
-	grav = defaultgrav;
+	if in_water() {
+		grav=defaultgrav/4
+	} else grav=defaultgrav
 	
 	if (bkey) && !(crouch) {
 		run=1.5;
@@ -111,7 +115,7 @@ if (state == "" || state == "jump") && !piped && !electrocuted && !electrocution
 	
 	if (!grounded) {
 		vsp = min(4, vsp + grav);
-		canjump -= 1;
+		canjump = max(0, canjump-1);
 		
 		// chearii: coneyor speed management
 		if (abs(chsp * 100))
@@ -238,10 +242,10 @@ if (state == "pound") && !piping {
 #endregion
 
 #region Jumping
+var underwater=in_water()
 if (state == "jump" || state == "") && !(grounded) && !piped {
-	if (slopesliding) {
-		crouch = false
-	}
+	if in_water() state=""
+	
 	if (!akey && vsp < -2 && !canstopjump) //Make player jump lower when jump is released
 	{
 		vsp *= 0.6;
@@ -267,27 +271,36 @@ if (state == "jump" || state == "") && !(grounded) && !piped {
 	}
 }
 
-if ((state == "" || state=="crouch") && apress && canjump > 0) && !piped {
-	state = "jump"
+if ((state == "" || state=="crouch") && apress && (canjump > 0 || underwater)) && !piped {
 	grounded = false
-	vsp = -(5.25+min(1,abs(hsp)/10)+(bool(poundjump)+0.5)); //preform the actual jump
-	playsfx(charmName+"jump",1+(bool(poundjump)/4),0,1)
-	if ((run && abs(hsp)>3) && !wallsliding) {
-		//visual maxspeed jump
-		runjump=1
+	if (slopesliding) {
+		crouch = false
 	}
-	canjump = 0;
-	//Jump Particles
-	if (poundjump) {
- 		var i=instance_create_depth(x-10,y-8,0,pSmoke);
-		i.vspeed=-1;
-		var i=instance_create_depth(x+8,y-8,0,pSmoke);
-		i.vspeed=-1;
+	if !in_water() {
+		state = "jump"
+		vsp = -(5.25+min(1,abs(hsp)/10)+(bool(poundjump)+0.5)); //preform the actual jump
+		playsfx(charmName+"jump",1+(bool(poundjump)/4),0,1)
+		if ((run && abs(hsp)>3) && !wallsliding) {
+			//visual maxspeed jump
+			runjump=1
+		}
+		canjump = 0;
+		//Jump Particles
+		if (poundjump) {
+	 		var i=instance_create_depth(x-10,y-8,0,pSmoke);
+			i.vspeed=-1;
+			var i=instance_create_depth(x+8,y-8,0,pSmoke);
+			i.vspeed=-1;
+		}
+		var i=instance_create_depth(x, y + hit_sizey, 0, pJumpDust);
+		i.depth = (depth + 5);
+		i.vspeed=(y-yprevious)/1.5
+		i.friction=0.2
+	} else { //swim
+		vsp = -(2.25); //preform the actual jump
+		playsfx(charmName+"swim",1,0,1)
+		swim=24
 	}
-	var i=instance_create_depth(x, y + hit_sizey, 0, pJumpDust);
-	i.depth = (depth + 5);
-	i.vspeed=(y-yprevious)/1.5
-	i.friction=0.2
 }
 #endregion
 
@@ -376,6 +389,8 @@ grow = max(0, (grow - 1));
 
 damagespecial = max(0, pound_severity);
 
+swim = max(0, swim-1)
+
 #define draw
 
 #region Sprite Manager
@@ -422,6 +437,12 @@ if (state == "") {
 	if (skidding) && !(crouch) {
 		spriteEvent="brake" 
 		xsc = -(skiddir)
+	}
+	
+	if (in_water()) {
+		if !swim
+		spriteEvent="swim"
+		else spriteEvent="swimPaddle"
 	}
 
 	if (finish && posed && no_move) {

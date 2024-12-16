@@ -593,6 +593,7 @@ if !(instance_exists(input_controller_object)) instance_create_depth(0,0,16001,i
 		txr_function_add("get_timer", get_timer, -1);
 		txr_function_add("get_spriteindex", get_spriteindex, -1);
 		txr_function_add("get_spritenum", get_spritenum, -1);
+		txr_function_add("in_water", in_water, -1);
 	#endregion
 	
 	#region Player Functions
@@ -780,6 +781,7 @@ if !(instance_exists(input_controller_object)) instance_create_depth(0,0,16001,i
 		txr_function_add("rectangle_in_circle", rectangle_in_circle, -1);
 		txr_function_add("check_collision_dot", check_collision_dot, -1);
 		txr_function_add("check_collision_line", check_collision_line, -1);
+		txr_function_add("check_collision_rectangle", check_collision_rectangle, -1);
 	#endregion
 	 
 	#region DS Lists

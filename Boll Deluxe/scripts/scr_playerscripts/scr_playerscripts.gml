@@ -335,6 +335,9 @@ function animate_player() {
 		frn=frames_list[spri] //frame number
 		var times=times_list[spri]
 		frs=(frspd*animf*speed_list[spri])/max(1,times[floor(frame)]) //(game speed * percent * sprite speed) / frame time
+		if in_water() {
+			frs*=0.45
+		}
 		frl=loops_list[spri]-1 //loop point  
 		//if (water && !cantslowanim) frs*=wf                       
 		if (piped!=2) frame+=frs

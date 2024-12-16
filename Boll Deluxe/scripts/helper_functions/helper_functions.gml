@@ -480,3 +480,7 @@ function get_morph_cost()
 	
 	return [ raw, pct ];
 }
+
+function in_water() {
+	return bool(collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey,oWater,false,true));
+}
