@@ -1,3 +1,6 @@
+/// \file  scr_morph.gml
+/// \brief Handling of variables relevant to the morph shader
+
 globalvar morph_xoffsets, morph_yoffsets, u_morph_xoffsets, u_morph_yoffsets;
 globalvar morph_uv_top, morph_uv_bottom, morph_uv_left, morph_uv_right,
 globalvar u_morph_uv, u_morph_uv_x;
