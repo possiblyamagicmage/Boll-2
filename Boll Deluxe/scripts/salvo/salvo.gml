@@ -251,6 +251,7 @@ function SlimeSpawn(obj = self)
     obj.rebound = 0;
     obj.vsp_px = 0;
     obj.do_intro = 0;
+	obj.eyexpos = 0;
 
     obj.morph_sinmul = 0;
     obj.morph_sinoffs = 0x100;
@@ -294,7 +295,8 @@ function Slime_HandleBGRender(obj = self)
             return;
         }
         
-        //morph.vis_x = (obj.eye_x);
+		// chearii: who the fuck commented vis_x out
+        morph.vis_x = 0;
         morph.vis_y = (make_s8((make_u32(obj.rebound_px) >> 8)) 
                         - make_s16((obj.morph_bottom * 5 >> 5))) - 8;
 
@@ -320,6 +322,10 @@ function Slime_HandleBGRender(obj = self)
 
     FUN_DrawSlime(obj);
     obj.morph_yprev = morph.y_prev;
+	if (obj.action_state != 5)
+    {
+        obj.eyexpos = morph.vis_x;
+    }
 }
 
 function FUN_RenderSlime(morph,obj)
@@ -676,13 +682,14 @@ function SetMorphPositions(morph, yoff, xoff)
 {
     var morphY;
     var yPos;
-
+	
     morphY =
         make_s32(make_s16(make_u16(make_u32(morph.vis_y << 0x10) >> 8)) | make_u8(make_u32(morph.vis_y) >> 8))
 		* ldrsh(morph.bottom) + 0x8000;
     morph.vis_y = make_s16(morphY >> 0x10);
 	
     yPos = (morphY >> 0x10) + yoff;
+
     if (yPos < CAMERA_MAX_HEIGHT)
     {
         xoff = xoff - int64(morph.shader_data[0][max(0, yPos)] * 256);
@@ -691,6 +698,7 @@ function SetMorphPositions(morph, yoff, xoff)
     {
         xoff = 0;
     }
+
     morph.vis_x = xoff + make_s16((morph.scale * make_s16(make_u16((morph.vis_x << 0x10) >> 8) |
                                                           make_u8(morph.vis_x >> 8)) +
                                    0x8000) >>
@@ -2225,8 +2233,8 @@ function SlimeHandleDamage(obj)
                     newslime.timer = 0xffff;
                 }
 
-                newslime.xpos = hitX;
-                newslime.ypos = hitY;
+                newslime.x = hitX;
+                newslime.y = hitY;
 
                 newslime.field_0xa2 = 0xff;
 

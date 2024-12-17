@@ -52,12 +52,12 @@ if (eyes_visible)
 
 	draw_sprite(
 		spr_slime_eye,eye_frame,
-		floor(eyeposx+eyelocx-6),
+		floor(eyeposx+eyexpos+eyelocx-6),
 		floor(eyeposy+morph.vis_y+eyelocy)
 	);
 	draw_sprite(
 		spr_slime_eye,eye_frame,
-		floor(eyeposx+eyelocx+2),
+		floor(eyeposx+eyexpos+eyelocx+2),
 		floor(eyeposy+morph.vis_y+eyelocy)
 	);
 }
