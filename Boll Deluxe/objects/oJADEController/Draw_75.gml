@@ -41,7 +41,7 @@ if (not_on_gui) {
 	}
 }
 
-if (selected_tool == TILE_MODE) {
+if (selected_mode == TILE_MODE) {
 	draw_sprite_ext(spr_JADEShowSelLayer,selected_tile_layer,0,RESOLUTION_Y,1,1,0,#FFFFFF,ui_opacity)
 }
 
