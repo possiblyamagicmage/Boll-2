@@ -1,5 +1,9 @@
 event_inherited();
 
+if (content == "multicoins" && eject != 0) {
+	eject = 0;
+}
+
 if (hidden) {
 	visible = 0;
 	ceiling_only = 1
