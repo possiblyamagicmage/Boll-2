@@ -82,8 +82,8 @@ function player_interactions(){
 		finish=1;
 	}
 	
-	var steely = collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oBigSteely, true, true)
-	if (steely) && !(hurt) && !(dead) {
+	var steely = collision_rectangle(x-hit_sizex,y-(hit_sizey-1),x+hit_sizex,y+(hit_sizey-1), oBigSteely, true, true)
+	if (steely) && (abs(steely.hsp)>0) && !(hurt) && !(dead) {
 		sig.Emit("hurt_by_spike");
 	}
 	

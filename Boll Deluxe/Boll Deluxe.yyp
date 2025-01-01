@@ -513,6 +513,7 @@
     {"id":{"name":"oPylom","path":"objects/oPylom/oPylom.yy",},},
     {"id":{"name":"oRoundedSlope1x1","path":"objects/oRoundedSlope1x1/oRoundedSlope1x1.yy",},},
     {"id":{"name":"oRoundedSlope2x2","path":"objects/oRoundedSlope2x2/oRoundedSlope2x2.yy",},},
+    {"id":{"name":"oRoundedSlope3x3","path":"objects/oRoundedSlope3x3/oRoundedSlope3x3.yy",},},
     {"id":{"name":"oSemilider","path":"objects/oSemilider/oSemilider.yy",},},
     {"id":{"name":"oSemiSlope","path":"objects/oSemiSlope/oSemiSlope.yy",},},
     {"id":{"name":"oShootBlock","path":"objects/oShootBlock/oShootBlock.yy",},},

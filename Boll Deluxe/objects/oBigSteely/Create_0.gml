@@ -1,4 +1,6 @@
 ///// PHYSICS /////
+event_inherited();
+
 grav=0.2; //we're having an actual grav var now because changing gravity should be EASIER!!
 defaultgrav = grav; //for resetting gravity back to default
 vsp=0;
@@ -10,12 +12,14 @@ cvsp = 0;
 
 steep_slope = false
 
-fric = 0; //slipperiness
+fric = 0.02; //slipperiness
 rot=0
 xsc=1
 ysc=1
 grounded = true
 piped = false
+
+turned=false
 
 hit_sizex = 20
 hit_sizey = 20
@@ -29,10 +33,22 @@ sprindex_prev = sprite_index;
 setup_box_poly(id);
 
 function ball_movement() {
+	var col=collision_line(x+hsp+(hit_sizex+1)*xsc, y+(hit_sizey),x+hsp+(hit_sizex+1)*xsc, y-(hit_sizey),oBigSteely,true,true)
+	if (col) {
+		col.hsp+=hsp/2
+		col.gsp=col.hsp
+		hsp=-(hsp/2)
+		gsp=hsp
+	}
+	
 	//bounce off wall
-	if check_collision_line(x+(hit_sizex+1)*xsc, y+hit_sizey-4,x+(hit_sizex+1)*xsc, y-hit_sizey+4, COL_WALL, oCollider) {
-		hsp=-hsp
-		gsp=-gsp
+	if check_collision_line(x+hsp+(hit_sizex+1)*xsc, y+(hit_sizey-4),x+hsp+(hit_sizex+1)*xsc, y-(hit_sizey-4), COL_WALL) {
+		if !turned {
+			hsp=-hsp
+			gsp=-gsp
+		}
+	} else {
+		turned=0
 	}
 	
 	if !grounded {
@@ -72,10 +88,8 @@ function ball_movement() {
 	}
 	
 	if (grounded) {
-		//apply friction
-		gsp = approach_val(gsp,0,fric)
 		
-		var coll=collision_line(x-hit_sizex,y+hit_sizey+2,x+hit_sizex,y+hit_sizey+2, collision_array, true, true)
+		var coll=collision_line(x-hit_sizex,y+hit_sizey+2,x+hit_sizex,y+hit_sizey+2, collision_array, false, true)
 		var is_coll=check_collision_line(x-hit_sizex,y+hit_sizey+2,x+hit_sizex,y+hit_sizey+2, COL_BOTTOM, collision_array)
 		
 		//center of mass checking, checks if the center is leaning off an edge and pushes it off
@@ -83,9 +97,9 @@ function ball_movement() {
 			hsp -= 0.05
 		} else if (is_coll) && (coll) && (x < coll.bbox_left) && (y < (coll.bbox_top+2)) { //right leaning
 			hsp += 0.05
-		} else {
-			gsp -= (0.25 * dsin(colangle)) //regular slope speed
 		}
+			
+		gsp -= (fric * dsin(colangle)) //regular slope speed
 		
 		vsp = gsp * -dsin(colangle)
 		hsp = gsp * dcos(colangle)
@@ -93,6 +107,7 @@ function ball_movement() {
 	
 	gsp=clamp(gsp,-3,3)
 	hsp=clamp(hsp,-3,3)
+	if (hsp < 1 && hsp > -1) && (colangle==0) hsp=approach_val(hsp,1*sign(hsp),fric)
 	
 	x += hsp 
 	y += vsp

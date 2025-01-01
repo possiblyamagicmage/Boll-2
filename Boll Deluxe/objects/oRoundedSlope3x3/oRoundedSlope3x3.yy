@@ -1,9 +1,9 @@
 {
   "$GMObject":"",
-  "%Name":"oRoundedSlope2x2",
+  "%Name":"oRoundedSlope3x3",
   "eventList":[],
   "managed":true,
-  "name":"oRoundedSlope2x2",
+  "name":"oRoundedSlope3x3",
   "overriddenProperties":[],
   "parent":{
     "name":"Collision",
@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_rslope2",
-    "path":"sprites/spr_rslope2/spr_rslope2.yy",
+    "name":"spr_rslope3",
+    "path":"sprites/spr_rslope3/spr_rslope3.yy",
   },
   "spriteMaskId":null,
   "visible":false,

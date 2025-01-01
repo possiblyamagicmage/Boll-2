@@ -17,6 +17,7 @@ function object_get_properties(obj){
 			break;
 		case oSemiSlope:
 		case oSlopeCollider:
+		case oRoundedSlope3x3:
 		case oRoundedSlope2x2:
 		case oRoundedSlope1x1:
 			properties = [
