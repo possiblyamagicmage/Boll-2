@@ -1,5 +1,12 @@
 ///// PHYSICS /////
-event_inherited();
+no_collide = false;
+semi = false;
+ceiling_only = false;
+slope = false;
+rounded = false;
+x_diff = 0;
+y_diff = 0;
+my_friction = 1;
 
 grav=0.2; //we're having an actual grav var now because changing gravity should be EASIER!!
 defaultgrav = grav; //for resetting gravity back to default
@@ -23,7 +30,7 @@ turned=false
 
 hit_sizex = 20
 hit_sizey = 20
-collision_array=[oCollider, oEnemyGround];
+collision_array=[oCollider, oEnemyGround, oBigSteely];
 
 colangle=0;
 
@@ -55,7 +62,7 @@ function ball_movement() {
 		vsp += grav
 		
 		//bounce off the ground
-		if (floor(vsp) > 0.5 && check_collision_line(x-hit_sizex,y+hit_sizey+vsp,x+hit_sizex,y+hit_sizey+vsp, COL_BOTTOM)) || (floor(vsp) < 0 && check_collision_line(x-hit_sizex,y-hit_sizey-vsp,x+hit_sizex,y-hit_sizey-vsp, COL_TOP)) {
+		if (floor(vsp) > 0.5 && check_collision_line(x-hit_sizex,y+hit_sizey+vsp,x+hit_sizex,y+hit_sizey+vsp, COL_BOTTOM)){
 			vsp =-vsp
 			vsp *= 0.5
 			
@@ -114,7 +121,7 @@ function ball_movement() {
 }
 	
 function ball_interactions() {
-	var spring = collision_line(x-hit_sizex,y+hit_sizey+vsp,x+hit_sizex,y+hit_sizey+vsp, oTerrainSpring, true, true)
+	var spring = collision_line(x-hit_sizex,y+hit_sizey+1+vsp,x+hit_sizex,y+hit_sizey+1+vsp, oTerrainSpring, true, true)
 	if (spring) {
 		vsp=min(-spring.spring_power,vsp) //dont set vsp if it exceeds power
 		spring.image_speed=1

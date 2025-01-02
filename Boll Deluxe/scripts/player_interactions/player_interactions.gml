@@ -92,7 +92,7 @@ function player_interactions(){
 	}
 	
 	var steely = collision_rectangle(x-hit_sizex,y-(hit_sizey-1),x+hit_sizex,y+(hit_sizey-1), oBigSteely, true, true)
-	if (steely) && (abs(steely.hsp)>0) && !(hurt) && !(dead) {
+	if (steely) && !(hurt) && !(dead) {
 		sig.Emit("hurt_by_spike");
 	}
 	
@@ -101,7 +101,7 @@ function player_interactions(){
 		if (flagpole.state == 0) {
 			finish = 1;
 			flagpole.state = 1;
-			flagpole.player = self;
+			flagpole.player = id;
 		}
 	}
 }
