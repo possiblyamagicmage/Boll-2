@@ -5,6 +5,14 @@
 #macro COL_WALL 2
 #macro COL_BOTTOM 3
 
+// YI collision flags, mainly used for post-collision checks
+#macro COL_FLOOR 1
+#macro COL_CEILI 2
+#macro COL_LWALL 4
+#macro COL_RWALL 8
+#macro COL_VERTI 3
+#macro COL_HORIZ 12
+
 
 #macro COL_DOT 1
 #macro COL_LINE 2

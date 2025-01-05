@@ -19,13 +19,6 @@
 #macro MCOL_CEILI 2
 #macro MCOL_VERTI 3
 
-#macro COL_FLOOR 1
-#macro COL_CEILI 2
-#macro COL_LWALL 4
-#macro COL_RWALL 8
-#macro COL_VERTI 3
-#macro COL_HORIZ 12
-
 #macro FINEEASE 65536
 
 globalvar DAT_081a7e84, Slime_Offsets, SlimePosOffsetTable;
@@ -117,6 +110,9 @@ EWR_SprYRelToCamY = 0; // Y relative to the camera, (obj.y - camera_y)
 function init_slime_data(obj = self)
 {
     obj.active = true;
+	
+	// oooooouuuurrrruurgggghghghghghh
+	obj.collision_array = [oCollider, oEnemyGround];
     
     // Morph!!! (crowd cheering sfx)
     obj.morph = new morph_struct(obj);
@@ -1864,6 +1860,7 @@ function BOSS_Salvo(obj)
 		obj.action_state++;
 		obj.timer = 32;
         obj.eyes_visible = true;
+		obj.colactive = true;
 	}
     else if (106 < eyesYDiff)
     {
@@ -1879,6 +1876,7 @@ function BOSS_Salvo(obj)
 			obj.action_state++;
 			obj.timer = 32;
             obj.eyes_visible = true;
+			obj.colactive = true;
         }
     }
     OBJ_SlimeMain(obj);

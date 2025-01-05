@@ -66,9 +66,39 @@ function player_poly_collision()
 	}
 }
 
-function player_collision(shoveOutOfWalls=true){
+function player_collision(shoveOutOfWalls=true,auto_coords=true,l,r,t,b,c = 0){
 	
-	if (piped) exit
+	var left, right, top, bottom;
+	
+	if (auto_coords)
+	{
+		left = -hit_sizex;
+		right = hit_sizex;
+		top = -hit_sizey;
+		bottom = hit_sizey;
+	}
+	else
+	{
+		left = l;
+		right = r;
+		top = t;
+		bottom = b;
+	}
+	
+	var _piped = false;
+	
+	if (variable_instance_exists(self,"piped"))
+	{
+		_piped = piped;
+	}
+	
+	if (_piped)
+	{
+		exit;
+	}
+	
+	// init/reset colflags
+	colflags = 0;
 	
 	var posx, posy
 	posx = x
@@ -76,28 +106,31 @@ function player_collision(shoveOutOfWalls=true){
 	
 	if (shoveOutOfWalls) {
 		//left wall
-		while check_collision_dot(posx-hit_sizex, posy-sign(vsp), COL_WALL){
+		while check_collision_dot(posx+left, posy-sign(vsp)+c, COL_WALL){
 			x++	
 			posx = x
+			colflags |= COL_LWALL;
 		}
 		
 		//right wall
-		while check_collision_dot(posx+hit_sizex, posy-sign(vsp), COL_WALL){
+		while check_collision_dot(posx+right, posy-sign(vsp)+c, COL_WALL){
 			x--
 			posx = x
+			colflags |= COL_RWALL;
 		}
 	}
 	
 	//landing on solid ground
 	if !grounded && vsp >= 0 {
-		if check_collision_line(posx-hit_sizex,posy+hit_sizey,posx+hit_sizex,posy+hit_sizey, COL_BOTTOM){
+		if check_collision_line(posx+left,posy+bottom,posx+right,posy+bottom, COL_BOTTOM){
 			grounded = true
-			get_angle_line(posx-hit_sizex,posy+hit_sizey,posx-hit_sizex,posy +hit_sizey + 3)
-			get_angle_line(posx+hit_sizex,posy+hit_sizey,posx+hit_sizex,posy +hit_sizey + 3)
+			colflags |= COL_FLOOR;
+			get_angle_line(posx+left,posy+bottom,posx+left,posy+bottom + 3)
+			get_angle_line(posx+right,posy+bottom,posx+right,posy+bottom + 3)
 			
 			if self.object_index = oPlayer{
 				//move up
-				while check_collision_line(posx-hit_sizex,posy+hit_sizey, posx+hit_sizex, posy+hit_sizey, COL_BOTTOM) {
+				while check_collision_line(posx+left,posy+bottom, posx+right, posy+bottom, COL_BOTTOM) {
 					y -- 
 					posy = y
 				}
@@ -111,12 +144,12 @@ function player_collision(shoveOutOfWalls=true){
 	
 	//hitting the ceiling
 	if !grounded && vsp < 0 {
-		if (check_collision_dot(posx+hit_sizex, posy-hit_sizey, COL_TOP)
-			or check_collision_dot(posx-hit_sizex, posy-hit_sizey, COL_TOP)){
+		if (check_collision_dot(posx+right, posy+top, COL_TOP)
+			or check_collision_dot(posx+left, posy+top, COL_TOP)){
 			//push out
 				
-			while (check_collision_dot(posx+hit_sizex, posy-hit_sizey, COL_TOP) 
-				or check_collision_dot(posx-hit_sizex, posy-hit_sizey, COL_TOP)) {
+			while (check_collision_dot(posx+right, posy+top, COL_TOP) 
+				or check_collision_dot(posx+left, posy+top, COL_TOP)) {
 				y++
 				posy = y
 				
@@ -128,7 +161,7 @@ function player_collision(shoveOutOfWalls=true){
 				VinylPlay(snd_blockbump)
 				sig.Emit("ceil_bonk")
 				var _list = ds_list_create();
-				var _num = collision_line_list(posx-(hit_sizex), posy-(hit_sizey+1)+vsp, posx+(hit_sizex), posy-(hit_sizey+1)+vsp, oHittable, false, true, _list, true);
+				var _num = collision_line_list(posx+left, posy+top-1+vsp, posx+right, posy+top-1+vsp, oHittable, false, true, _list, true);
 				if (_num > 0) {
 					for (var i = 0; i < _num; ++i;) {
 						with(_list[| i]) if !(no_hit) {
@@ -140,29 +173,45 @@ function player_collision(shoveOutOfWalls=true){
 				ds_list_destroy(_list);
 			}
 			
+			colflags |= COL_CEILI;
 			vsp = 2
 		}
 	}
 	
 	//normal ground loop (for a variety of slopes
 	if grounded {
+		
+		if (vsp > 0)
+		{
+			colflags |= COL_FLOOR;
+		}
 		//gets angle so it doesnt jitter
-		get_angle_line(posx-hit_sizex,posy+hit_sizey,posx-hit_sizex,posy +hit_sizey + 3)
-		get_angle_line(posx+hit_sizex,posy+hit_sizey,posx+hit_sizex,posy +hit_sizey + 3)
+		get_angle_line(posx+left,posy+bottom,posx+left,posy+bottom + 3)
+		get_angle_line(posx+right,posy+bottom,posx+right,posy+bottom + 3)
 		
 		
-		var offsetx, offsety;
+		var offsetx, offsety, nopoly;
 		
 		offsetx = xprevious - x
 		offsety = yprevious - y
 		
+		if (!variable_instance_exists(self,"polyfloor"))
+		{
+			nopoly = true;
+		}
+		else
+		{
+			nopoly = (!abs(polyfloor[1]));
+		}
+		
 		//fall
-		if (!check_collision_line(posx-hit_sizex,posy+hit_sizey,posx-hit_sizex,posy +hit_sizey + 15 , COL_BOTTOM) && !check_collision_line(posx+hit_sizex-1,posy+hit_sizey,posx+hit_sizex-1,posy+hit_sizey + 15, COL_BOTTOM) ){
-				if (!abs(polyfloor[1]))
+		if (!check_collision_line(posx+left,posy+bottom,posx+left,posy+bottom + 15 , COL_BOTTOM) && !check_collision_line(posx+right-1,posy+bottom,posx+right-1,posy+bottom + 15, COL_BOTTOM) ){
+				if (nopoly)
 				{
 					vsp = gsp * -dsin(colangle)
 					hsp = gsp * dcos(colangle)
 					grounded = false
+					colflags &= ~(COL_FLOOR);
 					colangle = 0
 					colslope = 0
 				}
@@ -173,19 +222,26 @@ function player_collision(shoveOutOfWalls=true){
 		
 		
 	if grounded && (shoveOutOfWalls) {
+		
+		var shove = 0;
 		//move down
-		if (check_collision_line(posx-hit_sizex,posy+hit_sizey,posx-hit_sizex,posy +hit_sizey + 15 , COL_BOTTOM) || check_collision_line(posx+hit_sizex-1,posy+hit_sizey,posx+hit_sizex-1,posy+hit_sizey + 15, COL_BOTTOM) ){   
-			while !check_collision_line(posx-hit_sizex,posy+hit_sizey, posx+hit_sizex, posy+hit_sizey, COL_BOTTOM){
+		if (check_collision_line(posx+left,posy+bottom,posx+left,posy+bottom + 15 , COL_BOTTOM) || check_collision_line(posx+right-1,posy+bottom,posx+right-1,posy+bottom + 15, COL_BOTTOM) ){   
+			while !check_collision_line(posx+left,posy+bottom,posx+right,posy+bottom, COL_BOTTOM){
 				y ++ 
 				posy = y
-				
+				shove++;
 			}
 		}
 		
 		//move up
-		while check_collision_line(posx-hit_sizex,posy+hit_sizey, posx+hit_sizex, posy+hit_sizey, COL_BOTTOM) {
+		while check_collision_line(posx+left,posy+bottom, posx+right, posy+bottom, COL_BOTTOM) {
 			y -- 
 			posy = y
+			shove--;
+		}
+		
+		if object_index == oPlayer{
+			shove = 0;
 		}
 	}
 
