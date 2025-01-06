@@ -1,4 +1,4 @@
-egg=random(3)
+egg=string(floor(random(3) + 0.5))
 if (egg == "3") {
 	sprite_prefetch(sBlast1)
 	

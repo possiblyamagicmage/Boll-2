@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_pShine",
-    "path":"sprites/spr_pShine/spr_pShine.yy",
+    "name":"spr_pGlitter",
+    "path":"sprites/spr_pGlitter/spr_pGlitter.yy",
   },
   "spriteMaskId":null,
   "visible":true,
