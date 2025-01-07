@@ -1,3 +1,4 @@
+event_inherited()
 travel=0; //the y level within the pipe
 timer=120;
 go=false; //whether or not it should go up the pipe
