@@ -94,7 +94,7 @@ function JADE_initializeobj() {
 	registerobj(object_get_name(oThwomp), spr_thwomp, 4, 7, 8, 14, false, false, OBJECT_MODE, 1, object_get_properties("oThwomp"))
 	registerobj(object_get_name(oBigSteely), spr_bigsteely, -24, -24, 48, 48, false, false, OBJECT_MODE, 1, object_get_properties("oBigSteely"), "Big Steely", true)
 	registerobj(object_get_name(oPiranhaPlant), spr_piranhaplant, -8, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oPiranhaPlant"), "Piranha Plant", true)
-	registerobj(object_get_name(oJumpingPiranha), spr_jumpingpiranhafall, 0, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oPiranhaPlant"), "Piranha Plant", true)
+	registerobj(object_get_name(oJumpingPiranha), spr_jumpingpiranhafall, -16, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oPiranhaPlant"), "Piranha Plant", true)
 	
 	registerobj(object_get_name(oCoin), spr_coin, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oCoin"), "Coin", true)
 	registerobj(object_get_name(oMushroom), spr_mushroom, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oMushroom"), "Mushroom", true)

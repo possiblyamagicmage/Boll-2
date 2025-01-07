@@ -7,6 +7,26 @@ if !on_screen(32,32) && !origin_on_screen(xstart,ystart,32,32) {
 
 if (parent_pipe == noone) {
 	player_collision();
+	if !grounded {
+		if round(vsp) < 0 {
+			sprite_index=fly_sprite
+			vsp=lerp(vsp,0,0.04)
+		} else	{
+			if sprite_index!=fall_sprite image_index*=2
+			sprite_index=fall_sprite
+			vsp=lerp(vsp,0.75,0.025)
+		}
+		timer=90;
+	} else {
+		sprite_index=fly_sprite
+		timer=max(0,timer-1)
+
+		if !(timer) {
+			vsp=-5
+			grounded=false;
+			timer=90;
+		}
+	}
 	x+=hsp
 	y+=vsp
 	exit

@@ -59,7 +59,7 @@ if !place_meeting(x+hsp,y, [oEnemy, oCollider]) {
 
 if !grounded
 {
-	vsp += grav;
+	vsp=min(vsp+grav,4);
 } else {
 	if walker {
 		gsp = constantspd * _direction
