@@ -57,7 +57,7 @@ wallrundata[4] = abs((y - yprevious) div 1);
 wallrundata[5] = sign(vsp);
 
 // get the distance in total of the horizontal speed
-wallrundata[6] = hsp+gsp;
+wallrundata[6] = hsp;
 
 // do the same for difference
 wallrundata[7] = sqrt(wallrundata[1] * wallrundata[1]);
@@ -68,7 +68,7 @@ if (grounded) {
 }
 
 #region Start Wallrunning
-if (move!=0) && (vsp < 0) && (state!="wallrun") && (abs(wallrundata[8]) > 0.5) {
+if (move!=0) && (vsp < 0) && (state!="wallrun") && (abs(wallrundata[8]) > 1) {
 	//wall sliding
 	var coll=check_collision_line(x+((hit_sizex+4)*xsc),y-((hit_sizey-2)*ysc),x+((hit_sizex+4)*xsc),y-((hit_sizey-2)*ysc),COL_WALL)
 	if (!grounded)
@@ -390,16 +390,28 @@ switch (state) {
 			}
 		} else {
 			wait_timer = 0;
-			if (ceil(abs(gsp))>=topspd) {
-				frspd=abs(gsp)/4
-				spriteEvent="run"
+			if ((abs(gsp) > 2.5) && (move_dir == -sign(gsp))) {
+				spriteEvent="brake"
 			}
-			else {
-				frspd=abs(gsp)/4
-				if (frspd < 0.3) {
-					frspd = 0.3;
+			
+			if (spriteEvent=="brake") {
+				if (move_dir == sign(gsp)) {
+					spriteEvent = "walk"
 				}
-				spriteEvent="walk"
+			}
+			if (spriteEvent != "brake"){
+			
+				if (ceil(abs(gsp))>=topspd) {
+					frspd=abs(gsp)/4
+					spriteEvent="run"
+				}
+				else {
+					frspd=abs(gsp)/4
+					if (frspd < 0.3) {
+						frspd = 0.3;
+					}
+					spriteEvent="walk"
+				}
 			}
 		}
 	} break;
