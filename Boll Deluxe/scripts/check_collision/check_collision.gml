@@ -57,9 +57,9 @@ function check_collision_dot(x1, y1, type = 0, object = collision_array){
 function check_collision_line(x1, y1, x2, y2, type = 0, object = collision_array){
 	//var found = noone
 	
-	if collision_line(floor(x1),floor(y1),floor(x2), floor(y2), object,true,true)    {
+	if collision_line(floor(x1),floor(y1),floor(x2), floor(y2), object,true,false)    {
 	    var found_list = ds_list_create()
-	    var found_size = collision_line_list(floor(x1),floor(y1),floor(x2), floor(y2), object,false,true, found_list, false)
+	    var found_size = collision_line_list(floor(x1),floor(y1),floor(x2), floor(y2), object,true,true, found_list, false)
     
 	    for (var i = 0; i < found_size; ++i) {    
 	        var found = found_list[| i];
@@ -94,7 +94,7 @@ function check_collision_rectangle(x1, y1, x2, y2, type = 0, object = collision_
 	
 	var bestobj = noone;
 	
-	if collision_rectangle(floor(x1) ,floor(y1),floor(x2),floor( y2), object,true,true)    {
+	if collision_rectangle(floor(x1) ,floor(y1),floor(x2),floor( y2), object,true,false)    {
 	    var found_list = ds_list_create()
 	    var found_size = collision_rectangle_list(floor(x1),floor(y1),floor(x2), floor(y2), object,true,true, found_list, false)
     
@@ -133,7 +133,7 @@ function check_collision_rectangle(x1, y1, x2, y2, type = 0, object = collision_
 	
 	if collision_rectangle(floor(x1) ,floor(y1),floor(x2), floor(y2), object,false,true)    {
 	    var found_list = ds_list_create()
-	    var found_size = collision_rectangle_list(floor(x1) ,floor(y1),floor(x2), floor(y2), object,false,true, found_list, true)
+	    var found_size = collision_rectangle_list(floor(x1) ,floor(y1),floor(x2), floor(y2), object,true,true, found_list, true)
 
     
 	    for (var i = 0; i < found_size; ++i) {    
@@ -144,6 +144,8 @@ function check_collision_rectangle(x1, y1, x2, y2, type = 0, object = collision_
 					if !found.rounded {
 						colangle = found.angle
                         colslope = found.slope_factor * (-1 + (found.hflip * 2))
+                        ds_list_destroy(found_list)
+                        return true;
 					} else {
                         var new_rise=point_distance(x,y,x,found.bbox_bottom)
                         var new_run=point_distance(x,y,found.x,y)
@@ -154,13 +156,16 @@ function check_collision_rectangle(x1, y1, x2, y2, type = 0, object = collision_
 						} else {
 							colangle = 360-(point_direction(x,y,found.x,found.y)+180)
 						}
+                        ds_list_destroy(found_list) 
+                        return true;
 					}
 	            }else{
                     colslope = 0
 					colangle = 0
+                    ds_list_destroy(found_list)
+                    return true;
 	            }
-				ds_list_destroy(found_list)
-	            return true;
+				
 			  
 			}
 	    }

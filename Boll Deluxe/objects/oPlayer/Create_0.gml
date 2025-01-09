@@ -2,7 +2,6 @@
 
 sig = new Signal();
 updateBox = new Signal();
-
 sig.Connect( self, function(str_var) {
 	txr_exec(global.scripts[? $"{charmName}_{str_var}"]);
 });
@@ -12,7 +11,7 @@ sig.Connect( self, function(str_var) {
 //palette_index=0
 
 greenmode=0
-
+grabbed_obj = noone;
 ///// GENERAL /////
 
 pNum = 0; //player number (P1, P2, etc.)

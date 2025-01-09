@@ -4,6 +4,7 @@ if !dead && !no_step {
 
 /// @description poly collision hell
 player_poly_collision();
+player_grab();
 
 if !(pollenated) && part_system_exists(pollenPart) {
 	part_system_destroy(pollenPart)

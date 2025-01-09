@@ -406,6 +406,11 @@ damagespecial = max(0, pound_severity);
 
 swim = max(0, swim-1)
 
+#define step_end
+
+//player_grab();
+
+
 #define draw
 
 #region Sprite Manager
