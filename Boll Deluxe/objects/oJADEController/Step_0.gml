@@ -382,30 +382,39 @@ if (selected_tool == SELECT_TOOL && not_on_gui && !keyboard_check(vk_space)) {
 							selection = 1
 							selection_id = i //boxed up
 					}
-
 			
 					if selection = 1 && i = selection_id {
 							var grabx = mouse_x - (obj[1]*16)
 							var graby = mouse_y - (obj[2]*16)
-							obj[6] = abs(grabx) + min(grabx, 0)//box movement
-							obj[7] = abs(graby) + min(graby, 0)
+							if (sprite[5])
+								obj[6] = abs(grabx) + min(grabx, 0)//box movement
+							if (sprite[6])
+								obj[7] = abs(graby) + min(graby, 0)
 					}
 					if selection = 1 && mbleftrel {
 				
 						obj = ds_list_find_value(object_layer_map, selection_id) //object you resized
+						sprite = ds_map_find_value(obj_data, obj[0])
 						var obj_other = ds_list_find_value(object_layer_map, i) //every other object selected
-					
-						obj[6] = round(obj[6] /16) * 16 //rounding box to grid
-						obj[7] = round(obj[7] /16) * 16
-				
-
-						obj_other[3] = (obj[6] / sprite[3]) * sprite[11] //setting scale
-						obj_other[4] = (obj[7] / sprite[4]) * sprite[12]
-						obj_other[6] = obj[6] 
-						obj_other[7] = obj[7]	
-						obj_other[8] = (sprite[1] = 0) ? 0 : sprite[1] + (sprite[3]/2) * obj_other[3] //setting offset
-						obj_other[9] = (sprite[2] = 0) ? 0 : sprite[2] + (sprite[4]/2) * obj_other[4]
-					
+						var sprite_other = ds_map_find_value(obj_data, obj_other[0])
+						
+						
+						if (sprite_sel[5]) {
+							obj[6] = round(obj[6] /16) * 16 //rounding box to grid
+							if (sprite_other[5]) {
+								obj_other[3] = (obj[6] / sprite[3]) * sprite[11] //setting scale
+								obj_other[6] = obj[6] 
+								obj_other[8] = (sprite[1] = 0) ? 0 : sprite[1] + (sprite[3]/2) * obj_other[3] //setting offset
+							}
+						}
+						if (sprite_sel[6]) {
+							obj[7] = round(obj[7] /16) * 16
+							if (sprite_other[6]) {
+								obj_other[4] = (obj[7] / sprite[4]) * sprite[12]
+								obj_other[7] = obj[7]	
+								obj_other[9] = (sprite[2] = 0) ? 0 : sprite[2] + (sprite[4]/2) * obj_other[4]
+							}
+						}					
 				
 					}
 				#endregion
