@@ -423,6 +423,10 @@ if (state == "") {
 			spriteEvent="idle"
 			if (wait_timer > 440) {
 				spriteEvent="wait"
+			}			
+			if (up) {
+				wait_timer = 0
+				spriteEvent="lookUp"
 			}
 		} else {
 			wait_timer = 0

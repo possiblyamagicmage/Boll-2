@@ -388,6 +388,10 @@ switch (state) {
 			if (wait_timer > 440) {
 				spriteEvent="wait"
 			}
+			if (up) {
+				wait_timer = 0
+				spriteEvent="lookUp"
+			}
 		} else {
 			wait_timer = 0;
 			if ((abs(gsp) > 2.5) && (move_dir == -sign(gsp))) {
