@@ -1,1 +1,1 @@
-/// @description sorry nothing
+instance_destroy()

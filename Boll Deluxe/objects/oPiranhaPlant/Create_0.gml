@@ -1,3 +1,4 @@
+parent_pipe = noone;
 event_inherited()
 travel=0; //the y level within the pipe
 timer=120;

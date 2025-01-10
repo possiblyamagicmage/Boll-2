@@ -1,3 +1,5 @@
+exit;
+
 var terrain = instance_place(x+hsp,y,oCollider)
 if (terrain && object_get_parent(terrain.object_index) < 0) {
 	hsp = 0

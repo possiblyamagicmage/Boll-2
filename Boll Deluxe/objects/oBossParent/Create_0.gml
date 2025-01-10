@@ -19,3 +19,4 @@ while (col >= 0 && i < 16) {
 	col = instance_place(x,y,oCollider)
 	i += 1
 }
+alarm[0] = -1
