@@ -21,6 +21,9 @@ event_inherited();
 //		gsp = 0
 //	}
 //}
+//if (turned || flipped) {
+//	xsc = -sign(hsp);
+//}
 
 if (in_shell || unshellable) {
 	shell_time -= 1;

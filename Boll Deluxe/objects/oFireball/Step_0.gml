@@ -31,10 +31,9 @@ while check_collision_dot(x,y+hit_sizey, COL_BOTTOM) {
 	y--	
 }
 
-
-if check_hitbox_on_hitbox(id,instance_nearest(x,y,oEnemy)) {
-	var enemy=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey,oEnemy,false,true)
-	with(enemy) {
+var enemy = instance_nearest(x,y,oEnemy);
+if check_hitbox_on_hitbox(id,enemy) {
+	with (enemy) {
 		enemyFireballed.Emit(other.id,other.owner);
 	}
 	if (owner!=-1) {

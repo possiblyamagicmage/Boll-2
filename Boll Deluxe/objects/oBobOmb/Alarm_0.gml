@@ -8,5 +8,6 @@ if in_shell {
 
 if unshellable {
 	constantspd = 1;
+	panic = true;
 	x = floor(x);
 }

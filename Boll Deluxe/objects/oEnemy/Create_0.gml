@@ -27,6 +27,7 @@ colangle = 0
 phase_leeway = 10;
 
 phaseid=noone;
+flipped=0;
 turned=0;
 turning=0;
 in_shell=false;

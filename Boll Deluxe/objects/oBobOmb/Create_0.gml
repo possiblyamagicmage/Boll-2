@@ -5,9 +5,10 @@ shell_time = 60 * 5;
 shell_move = false;
 hp = 2;
 ignore = noone;
+panic = false;
 
 enemyStomped.Connect( self, function(hit_p) {
-	if !(no_interaction) && !(unshellable) {
+	if !(panic) && !(unshellable) {
 		phaseid = hit_p;
 		phase_leeway = 60 * 6;
 		in_shell = true;
@@ -28,14 +29,17 @@ enemyFireballed.Connect( self, function(proj, hit_p) {
 	VinylPlay(snd_enemykick)
 	vsp = -2;
 	grounded = false;
-	if !(no_interaction) && !(in_shell) {
-		no_interaction = true;
-		no_stomping = true;
-		unshellable = true;
-		constantspd = 1;
-		x = floor(x);
-		phaseid = hit_p;
-		phase_leeway = 60 * 6;
+	if !(in_shell) {
+		//xsc = -sign(hsp);
+		if !(panic) {
+			panic = true;
+			no_stomping = true;
+			unshellable = true;
+			constantspd = 1;
+			x = floor(x);
+			phaseid = hit_p;
+			phase_leeway = 60 * 6;
+		}
 	}
 });
 
