@@ -7,4 +7,3 @@ x_diff = 0;
 y_diff = 0;
 my_friction = 1;
 grabbed = false;
-

@@ -8,4 +8,6 @@ depth=1
 xscale=1
 yscale=1
 
-alarm[0] = 120 + timer_offset;
+timer = 120 + timer_offset;
+
+shoot = oBulletBill;

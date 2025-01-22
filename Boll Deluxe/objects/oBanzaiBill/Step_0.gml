@@ -1,5 +1,5 @@
 var _list = ds_list_create();
-var coll = instance_place_list(x, y, oHardBlock, _list, false);
+var coll = instance_place_list(x, y, [oHardBlock, oBrick, oItemBox, oFlipblock, oShootBlock], _list, false);
 
 if coll > 0
 {
