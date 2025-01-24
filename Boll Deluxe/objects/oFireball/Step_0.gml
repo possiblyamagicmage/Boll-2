@@ -36,7 +36,9 @@ while check_collision_dot(x,y+hit_sizey, COL_BOTTOM) {
 var enemy = instance_nearest(x,y,oEnemy);
 if check_hitbox_on_hitbox(id,enemy) {
 	with (enemy) {
-		enemyFireballed.Emit(other.id,other.owner);
+		if can_fireball {
+			enemyFireballed.Emit(other.id,other.owner);
+		}
 	}
 	if (owner!=-1) {
 		owner.has_fired-=1;
