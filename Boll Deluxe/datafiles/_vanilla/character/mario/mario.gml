@@ -1,5 +1,5 @@
 #define datalist
-spriteEvents=split_string("idle,walk,run,wait,lookUp,crouchIdle,crouchWalk,crouchJump,crouchFall,crouchFireToss,crouchBonk,crouchFireToss,victory,hurt,dead,brake,jump,fall,bonk,runJump,runJumpFall,doubleJump,doubleJumpFall,doubleJumpBonk,wallSlide,wallJump,groundPound,groundPoundFall,slopeSlide,carryIdle,carryWalk,carryRun,carryLookUp,carryJump,carryFall,carryBonk,carryCrouchIdle,carryCrouchWalk,carryCrouchJump,carryCrouchFall,carryCrouchBonk,carryKick,carryAirKick,roll,swim,swimPaddle,carrySwim,carryPaddle,spinJump,pushing,balancing,dive,bellySlide,fireToss,gateClimbing,flagPole,hang,monkeyBars,boarding,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
+spriteEvents=split_string("idle,walk,run,wait,lookUp,crouchIdle,crouchWalk,crouchJump,crouchFall,crouchFireToss,crouchBonk,crouchFireToss,victory,hurt,dead,brake,jump,fall,bonk,runJump,runJumpFall,doubleJump,doubleJumpFall,doubleJumpBonk,wallSlide,wallJump,groundPound,groundPoundFall,slopeSlide,carryIdle,carryWalk,carryRun,carryLookUp,carryJump,carryFall,carryBonk,carrySpinJump,carrySpinJumpFall,carryCrouchIdle,carryCrouchWalk,carryCrouchJump,carryCrouchFall,carryCrouchBonk,carryKick,carryAirKick,roll,swim,swimPaddle,carrySwim,carryPaddle,spinJump,spinJumpFall,pushing,balancing,dive,bellySlide,fireToss,gateClimbing,flagPole,hang,monkeyBars,boarding,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
 sound_list=split_string("select,damage,die,jump,win,step,bonk",",");
 
 #define create
@@ -27,6 +27,9 @@ crouch = false;
 invincible_type = 0;                                                                                //0 is off, 1 is hurt frames and 2 is invincibility
 invincible_timer = 0;
 found_block = false;
+spinjump = false;
+stun = false;
+wallkick = false;
 
 #define stop
 hsp = 0;
@@ -60,19 +63,6 @@ switch (size) {
 	} break
 }
 
-//if !invincibletimer {
-//	switch (invincibletype) {
-//		case 2 : {invincibletimer = 60 invincibletype = 1} break;
-//		case 1 :
-//		default: {invincibletimer = 0  invincibletype = 0} break;
-//	}
-//} else {
-//	invincibletimer -= 1;
-//	if !(global.roomTimer & 3) {
-//		instance_create(random_range(x - 8, x + 8), random_range(y, y - hit_sizey), pShine)
-//	}
-//}
-
 if (braking) xsc=brakedir
 if !in_water()
 maxspd = 2 + runvar + ((size != "basic" && !crouch) * 0.5) - (1.25*(crouch && grounded))
@@ -82,7 +72,7 @@ else maxspd = 1.5
 var no_move_prev = no_move;
 no_move = 0;
 
-if (state == "pound") || (alarm_get(2)) || (hurt) || (finish && posed && no_move_prev) {
+if (state == "pound") || (state=="dive") || (alarm_get(2)) || (hurt) || (stun) || (finish && posed && no_move_prev) {
 	no_move = true;
 }
 
@@ -103,7 +93,7 @@ if ((alarm_get(0) > 0) && (grounded)) {
 	alarm_set(0,0)
 }
 
-if (state == "" || state == "jump") && !piped && !electrocuted && !electrocution_timer {
+if (state == "" || state == "jump" || state == "dive") && !piped && !electrocuted && !electrocution_timer {
 	if in_water() {
 		grav=defaultgrav/4
 	} else grav=defaultgrav
@@ -116,7 +106,7 @@ if (state == "" || state == "jump") && !piped && !electrocuted && !electrocution
 	
 	#region Fire Projectile
 	
-	if (bpress) && (size=="fire") && (has_fired < 2) && !(slopesliding) {
+	if (bpress) && (size=="fire") && state != "dive"&& (has_fired < 2) && !(slopesliding) {
 		var proj=instance_create_depth(x+(hit_sizex+3)*xsc,y+hit_sizey-12,2,oFireball)
 		proj.hsp=2.5*xsc
 		proj.vsp=2
@@ -237,20 +227,8 @@ if (state == "pound") && !piping {
 			state = ""
 			vsp = 0
 			//create pound smoke
-			var i=instance_create_depth(x-1, y + hit_sizey, 0, pSmoke);
-			i.depth = (depth + 5);
-			i.image_xscale = 1;
-			i.hspeed=-3.25;
-			i.friction=0.2;
-			i.vspeed=-0.2;
-			i.gravity=-0.04;
-			var i=instance_create_depth(x+1, y + hit_sizey, 0, pSmoke);
-			i.depth = (depth + 5);
-			i.image_xscale = -1;
-			i.hspeed=3.25;
-			i.friction=0.2;
-			i.vspeed=-0.2;
-			i.gravity=-0.04;
+			make_particle(pSmoke, x-1, y + hit_sizey, depth + 5, 1, -3.25, -0.2, -0.04, 0.2);
+			make_particle(pSmoke, x-1, y + hit_sizey, depth + 5, -1, 3.25, -0.2, -0.04, 0.2);
 			pound_timer = 0;
 		}
 		
@@ -260,7 +238,6 @@ if (state == "pound") && !piping {
 		ds_list_destroy(blocklist)
 	}
 }
-
 #endregion
 
 #region Jumping
@@ -268,12 +245,20 @@ var underwater=in_water()
 if (state == "jump" || state == "") && !(grounded) && !piped {
 	if in_water() state=""
 	
-	if (!akey && vsp < -2 && !canstopjump) //Make player jump lower when jump is released
-	{
-		vsp *= 0.6;
+	if !(spinjump) {
+		if (!akey && vsp < -2 && !canstopjump) //Make player jump lower when jump is released
+		{
+			vsp *= 0.6;
+		}
+	} else {
+		if (!ckey && vsp < -2 && !canstopjump) //Make player jump lower when jump is released
+		{
+			vsp *= 0.6;
+		}
 	}
 	
 	if (downpress) {
+		stopsfx(charmName+"jump")
 		pound_timer = 10
 		state = "pound"
 		found_block = false;
@@ -294,7 +279,7 @@ if (state == "jump" || state == "") && !(grounded) && !piped {
 	}
 }
 
-if ((state == "" || state=="crouch") && apress && (canjump > 0 || underwater)) && !piped {
+if ((state == "" || state=="crouch") && apress && (canjump > 0 || underwater) && !spinjump) && !piped {
 	grounded = false
 	if (slopesliding) {
 		crouch = false
@@ -310,15 +295,12 @@ if ((state == "" || state=="crouch") && apress && (canjump > 0 || underwater)) &
 		canjump = 0;
 		//Jump Particles
 		if (poundjump) {
-	 		var i=instance_create_depth(x-10,y-8,0,pSmoke);
-			i.vspeed=-1;
-			var i=instance_create_depth(x+8,y-8,0,pSmoke);
-			i.vspeed=-1;
+			make_particle(pSmoke, x-10, y-8, depth + 5, 1, 0, -1);
+			make_particle(pSmoke, x+8, y-8, depth + 5, 1, 0, -1);
 		}
-		var i=instance_create_depth(x, y + hit_sizey, 0, pJumpDust);
-		i.depth = (depth + 5);
-		i.vspeed=(y-yprevious)/1.5
-		i.friction=0.2
+		slopesliding = false;
+		
+		make_particle(pJumpDust, x, y + hit_sizey, depth + 5, 1, 0, (y-yprevious)/1.5, 0, 0.2);
 	} else { //swim
 		vsp = -(2.25); //preform the actual jump
 		playsfx(charmName+"swim",1,0,1)
@@ -346,9 +328,41 @@ if (state == "wallslide") && !piped {
 		alarm_set(2,12);
 		playsfx(charmName+"jump",1,0,1)
 		state = "jump";
+		wallkick = true;
 	}
 	
 }
+#endregion
+
+#region Spinjumping & Diving
+
+if (cpress && !is_grabbing) {
+	if (grounded) {
+		grounded=false;
+		spinjump=1
+		crouch=0
+		playsfx(charmName+"spinjump")
+		vsp=-(5.2+min(1,abs(hsp)/10))
+		state = "jump"
+		canstopjump=false
+		make_particle(pJumpDust, x, y + hit_sizey, depth + 5, 1, 0, (y-yprevious)/1.5, 0, 0.2);
+	} else if (state != "dive" && !spinjump && !up && (!crouch || pound)) {
+		stopsfx(charmName+"jump")
+       	pound=0
+		spinjump=0
+		crouch=0
+		run=1.5
+		runvar=1.5
+		playsfx(charmName+"dive")
+		make_particle(pSmoke, x, y, depth + 5, 1, 0.5*-xsc);
+		vsp=-2.7
+		hsp=3.5*esign(move,xsc)
+		xsc=esign(move,xsc)
+		state = "dive"
+		canstopjump=false
+	}
+}
+
 #endregion
 
 if (colangle != 0 && slopesliding) {
@@ -379,13 +393,7 @@ if ((ceil(abs(hsp))>3 || skidding) && grounded && state == "") {
 		var part = pRunDust
 		if (skidding) part = pSkidDust
 
-		var i=instance_create_depth(x - (1 * xsc), y + hit_sizey, 0, part);
-		i.depth = (depth + 5);
-		i.image_xscale = xsc;
-		i.hspeed=(2.25 - skidding) * -xsc;
-		i.friction=0.2;
-		i.vspeed=-0.1;
-		i.gravity=-0.02;
+		make_particle(part, x - (1 * xsc), y + hit_sizey, depth + 5, xsc, (2.25 - skidding) * -xsc, -0.1, -0.02, 0.2);
 	}
 }
 
@@ -553,6 +561,26 @@ if (state == "jump") {
 			else spriteEvent="carryCrouchBonk"
 		}
 	}
+	
+	if (spinjump) {
+		if !(vsp>1) {
+			if !(is_grabbing)
+			spriteEvent="spinJump"
+			else spriteEvent="carrySpinJump"
+		} else {
+			if !(is_grabbing)
+			spriteEvent="spinJumpFall"
+			else spriteEvent="carrySpinJumpFall"
+		}
+	}
+	
+	if (wallkick){
+		spriteEvent="wallJump"
+	}
+}
+
+if (state == "dive") {
+	spriteEvent="dive"
 }
 
 if (slopesliding) {
@@ -573,7 +601,7 @@ if (firing) && !(is_grabbing) {
 	} else spriteEvent="crouchFireToss"
 }
 
-if (hurt) {
+if (hurt || stun) {
 	spriteEvent="hurt"
 	if (dead) {
 		spriteEvent="dead"
@@ -664,23 +692,24 @@ give_lives(pNum, x + (hit_sizex / 2), y - 8, 3, p3UP)
 #define ceil_bonk
 bonk = 12
 
+#define wall_hit
+if (state == "dive") {
+	VinylPlay(asset_get_index("snd_blockbump"))
+	make_particle(pImpact, x + hit_sizex*xsc, y)
+	hit_block(x+(hit_sizex+1)*xsc,y-hit_sizey+2,x+(hit_sizex+1)*xsc,y+hit_sizey-2)
+	hsp=1*-xsc
+	vsp=-2
+	canstopjump=true
+	state=""
+	stun=1
+	grounded=false
+}
+
 #define floor_land
 gsp = hsp
 
-var i=instance_create_depth(x - 1, y + hit_sizey, 0, pSkidDust); //should prooobably get some kind of particle spawning function in later. too many giant blocks of particle here.
-i.depth = (depth + 5);
-i.image_xscale = 1;
-i.hspeed=-2.25
-i.friction=0.2;
-i.vspeed=-0.1;
-i.gravity=-0.02;
-var i=instance_create_depth(x + 1, y + hit_sizey, 0, pSkidDust);
-i.depth = (depth + 5);
-i.image_xscale = -1;
-i.hspeed=2.25
-i.friction=0.2;
-i.vspeed=-0.1;
-i.gravity=-0.02;
+make_particle(pSkidDust, x - 1, y + hit_sizey, depth + 5, 1, -2.25, -0.1, -0.02, 0.2);
+make_particle(pSkidDust, x + 1, y + hit_sizey, depth + 5, -1, 2.25, -0.1, -0.02, 0.2);
 
 #region Groundpound Land
 if (state == "pound") {
@@ -696,12 +725,16 @@ if (state == "pound") {
 	vsp = 0
 }
 #endregion
-canstopjump = false
 
+canstopjump = false
+spinjump = false
+stun = false;
+wallkick = false;
 
 #define sprung
 state = "jump";
 crouch = false
+slopesliding = false
 canstopjump = true
 
 #define enemy_stomped
@@ -738,7 +771,7 @@ if (coll) && !(slopesliding) && !(invincible_type && invincible_timer) {
 	}
 	grow = 60;
 } else if (coll) && (!(invincible_type) || (invincible_type == 2)) {
-	instance_create_depth(coll.x+coll.xsc,coll.y,2,pImpact)
+	make_particle(pImpact,coll.x+coll.xsc,coll.y,2)
 	coll.hp-=1
 	coll.phaseid=id
 	coll.killdir=esign(coll.x-x,1)

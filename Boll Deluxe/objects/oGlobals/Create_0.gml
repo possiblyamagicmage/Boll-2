@@ -613,6 +613,8 @@ if !(instance_exists(input_controller_object)) instance_create_depth(0,0,16001,i
 		txr_function_add("post_wall", post_wall, -1);
         txr_function_add("player_grab", player_grab, -1);
 		txr_function_add("finish_death", finish_death, -1);
+		txr_function_add("hit_block", hit_block, -1);
+		txr_function_add("make_particle", make_particle, -1);
 	#endregion
 	
 	#region Audio

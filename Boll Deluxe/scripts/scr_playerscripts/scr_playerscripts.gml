@@ -459,3 +459,21 @@ function give_lives(player = 0, _x = x, _y = y, amount = 1, part = p1UP, sound =
 	
 	global.lives[player]+=amount
 }
+
+function hit_block(x1, y1, x2, y2, dir=-1, _id=id) {
+	var blockcoll=collision_line(x1,y1,x2,y2, oHittable, false, true);
+	if (blockcoll) && (blockcoll.hit == 0) && (blockcoll.amount != 0) && !(blockcoll.no_hit) {
+		blockcoll.blockHit.Emit(dir, _id)
+	}
+}
+
+function make_particle(obj,_x,_y,_depth=depth+5,xsc=1,hsp=0,vsp=0,grav=0,fric=0,ysc=1) {
+	var i=instance_create_depth(_x, _y, _depth, obj);
+	i.depth = _depth;
+	i.image_xscale = xsc;
+	i.image_yscale = ysc;
+	i.hspeed=hsp
+	i.friction=fric;
+	i.vspeed=vsp;
+	i.gravity=grav;
+}
