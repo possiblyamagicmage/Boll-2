@@ -180,7 +180,7 @@ function JADE_save(file=game_save_id+"\save.jade") {
 	var arrayTileLayers=[];
 	i=0;
 	repeat (array_length(layers)) {
-	    array_push(arrayTileLayers, [layer_get_name(layers[i]), layer_get_depth(layers[i]), tilemap_get_tileset(tile_layer[i])])
+	    array_push(arrayTileLayers, [layer_get_name(layers[i]), layer_get_depth(layers[i]), tileset_get_name(tilemap_get_tileset(tile_layer[i]))])
 		i++;
 	}
 	array_push(array, JADE_VERSION)

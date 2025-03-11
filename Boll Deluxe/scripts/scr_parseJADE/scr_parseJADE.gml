@@ -1,4 +1,6 @@
 function parse_level(dir=game_save_id+"\save.jade") {
+	tile_layer=array_create(1);
+	tilemap=array_create(1);
 	var file = dir
 	if !file_exists(file) {
 		show_message($"Level does not exist at {dir}! make sure you've saved first!")
@@ -129,29 +131,29 @@ function parse_level(dir=game_save_id+"\save.jade") {
 		var tilelayersize = array_length(array[tile_layer_arr_index]) //read amount of tile layers
 		var i=0;
 		repeat (tilelayersize) {
-			var tile_layer = layer_create(array[tile_layer_arr_index][i][1],array[tile_layer_arr_index][i][0])
-			var tilemap = layer_tilemap_create(tile_layer,0,0,array[tile_layer_arr_index][i][2],ceil(room_width/16),ceil(room_height/16))
+			tile_layer[i] = layer_create(array[tile_layer_arr_index][i][1],array[tile_layer_arr_index][i][0])
+			tilemap[i] = layer_tilemap_create(tile_layer[i],0,0,asset_get_index(array[tile_layer_arr_index][i][2]),ceil(room_width/16),ceil(room_height/16))
 			if array_length(array[tile_arr_index][i]) { // does it actually contain any tiles?
 				var j=0;
 				repeat (array_length(array[tile_arr_index][i])) { //loading tiles
 					var data = array[tile_arr_index][i][j]
-					var tiledata = tilemap_get(tilemap, data[1], data[2]);
+					var tiledata = tilemap_get(tilemap[i], data[1], data[2]);
 					tiledata = tile_set_index(tiledata, data[0])
-					tilemap_set(tilemap, tiledata, data[1], data[2]) //set tile at place
+					tilemap_set(tilemap[i], tiledata, data[1], data[2]) //set tile at place
 					j++;
 				}
 			}
 			i++;
 		}
 	} else { //legacy tile conversion
-		var tile_layer = layer_create(100,"MainTiles")
-		var tilemap = layer_tilemap_create(tile_layer,0,0,tTilesetMain,ceil(room_width/16),ceil(room_height/16))
+		tile_layer[0] = layer_create(100,"MainTiles")
+		tilemap[0] = layer_tilemap_create(tile_layer,0,0,tTilesetMain,ceil(room_width/16),ceil(room_height/16))
 		var j=0;
 		repeat (array_length(array[tile_arr_index])) { //loading tiles
 			var data = array[tile_arr_index][j]
-			var tiledata = tilemap_get(tilemap, data[1], data[2]);
+			var tiledata = tilemap_get(tilemap[0], data[1], data[2]);
 			tiledata = tile_set_index(tiledata, data[0])
-			tilemap_set(tilemap, tiledata, data[1], data[2]) //set tile at place
+			tilemap_set(tilemap[0], tiledata, data[1], data[2]) //set tile at place
 			j++;
 		}
 	}
