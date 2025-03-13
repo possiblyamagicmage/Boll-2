@@ -1018,9 +1018,9 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 						exit;	
 					}
 					var i=0;
-					repeat(array_length(current_tile_id)) {
+					repeat(tile_sel_width) {
 						var j=0;
-						repeat(array_length(current_tile_id[i])) {
+						repeat(tile_sel_height) {
 							var data = tilemap_get_at_pixel(tilemap, mouse_x + (i *16), mouse_y+ (j *16)); //set tile at place
 							if tile_get_index(data) != current_tile_id[i][j] { //prevent tile overlapping (mainly a problem with the list)
 								show_debug_message($"Placed tile of index {current_tile_id[i][j]} at {mouse_x + (i *16)} {mouse_y+ (j *16)}")
