@@ -321,6 +321,7 @@ if (state == "wallslide") && !piped {
 	
 	if (apress) {
 		hsp=esign(move,xsc)*-2.5
+		frame=0;
 		vsp=-5
 		move=-move
 		xsc=esign(hsp,xsc)
