@@ -101,11 +101,12 @@ function JADE_initializeobj() {
 	registerobj(object_get_name(oSlime), spr_slime_editor, -65, -85, 130, 85, false, false, OBJECT_MODE, 1, object_get_properties("oSlime"))
 	registerobj(object_get_name(oThwomp), spr_thwomp, 0, -14, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oThwomp"))
 	registerobj(object_get_name(oBobOmb), spr_bobombwalk, -8, -8, 21, 22, false, false, OBJECT_MODE, 1, object_get_properties("oBobOmb"))
-	registerobj(object_get_name(oBigSteely), spr_bigsteely, -24, -24, 48, 48, false, false, OBJECT_MODE, 1, object_get_properties("oBigSteely"), "Big Steely", true)
-	registerobj(object_get_name(oBillBlaster), spr_billblasterJADE, 0, 0, 16, 32, false, true, OBJECT_MODE, 1, object_get_properties("oBillBlaster"), "Bill Blaster", false)
-	registerobj(object_get_name(oBanzaiBlaster), spr_banzaiblasterJADE, -32, -32, 64, 64, false, true, OBJECT_MODE, 1, object_get_properties("oBanzaiBlaster"), "Banzai Blaster", false)
-	registerobj(object_get_name(oPiranhaPlant), spr_piranhaplant, 4, -6, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oPiranhaPlant"), "Piranha Plant", false)
-	registerobj(object_get_name(oJumpingPiranha), spr_jumpingpiranhafall, -16, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oPiranhaPlant"), "Piranha Plant", true)
+	registerobj(object_get_name(oBigSteely), spr_bigsteely, -24, -24, 48, 48, false, false, OBJECT_MODE, 1, object_get_properties("oBigSteely"), "Big Steely")
+	registerobj(object_get_name(oBillBlaster), spr_billblasterJADE, 0, 0, 16, 32, false, true, OBJECT_MODE, 1, object_get_properties("oBillBlaster"), "Bill Blaster")
+	registerobj(object_get_name(oBanzaiBlaster), spr_banzaiblasterJADE, -32, -32, 64, 64, false, true, OBJECT_MODE, 1, object_get_properties("oBanzaiBlaster"), "Banzai Blaster")
+	registerobj(object_get_name(oPiranhaPlant), spr_piranhaplant, 4, -6, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oPiranhaPlant"), "Piranha Plant")
+	registerobj(object_get_name(oJumpingPiranha), spr_jumpingpiranhafall, -16, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oJumpingPiranha"), "Jumping Piranha")
+	registerobj(object_get_name(oPolarBear), spr_polarbear, -8, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oPolarBear"), "Polar Bear")
 	
 	registerobj(object_get_name(oCoin), spr_coin, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oCoin"), "Coin", true)
 	registerobj(object_get_name(oMushroom), spr_mushroom, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oMushroom"), "Mushroom", true)
@@ -208,6 +209,7 @@ function JADE_load(file=game_save_id+"\save.jade") {
 		var objects = level_data[$ "objects"] //read amount of objects
 		var node_objects = level_data[$ "node_objects"] //read amount of node objects
 		var tiles = level_data[$ "tiles"] //read amount of tiles
+		var tile_layers = level_data[$ "tile_layers"]
 		ds_list_clear(object_layer_map) //erase object map beforehand
 		var i;
 	
@@ -222,17 +224,19 @@ function JADE_load(file=game_save_id+"\save.jade") {
 			i++
 		}
 		i=0;
-		repeat(array_length(tiles)) { //loading tiles
-			tilemap_clear(tile_layer[i], 0) //erase tilemap beforehand
-			ds_list_clear(tile_layer_map[i]) //erase tile map beforehand
-			var j=0;
-			repeat (array_length(tiles[i])) {
-				var data = tiles[i][j]
-				tilemap_set(tile_layer[i],data[0],data[1],data[2])
-				ds_list_add(tile_layer_map[i], [data[0], data[1], data[2]]) //add tile to list at place
-				j++;
+		repeat (array_length(tile_layers)) {
+			tilemap_tileset(tile_layer[i], asset_get_index(tile_layers[i][2]))
+			if array_length(tiles[i]) { // does it actually contain any tiles?
+				var j=0;
+				repeat (array_length(tiles[i])) { //loading tiles
+					var data = tiles[i][j]
+					var tiledata = tilemap_get(tile_layer[i], data[1], data[2]);
+					tiledata = tile_set_index(tiledata, data[0])
+					tilemap_set(tile_layer[i], tiledata, data[1], data[2]) //set tile at place
+					j++;
+				}
 			}
-			i++
+			i++;
 		}
 		ds_list_clear(node_layer_map)
 		i=0;
@@ -246,12 +250,14 @@ function JADE_load(file=game_save_id+"\save.jade") {
 		var object_arr_index=1;
 		var tile_arr_index=2;
 		var node_arr_index=3;
+		var tile_layer_arr_index=4;
 		var has_version=true;
 		if array_length(level_data) < 5 { //legacy conversion
 			has_version=false;
 			object_arr_index=0;
 			tile_arr_index=1;
 			node_arr_index=2;
+			tile_layer_arr_index=3;
 		}
 		var size = array_length(level_data[object_arr_index]) //read amount of objects
 		var nodesize = array_length(level_data[node_arr_index]) //read amount of objects
@@ -275,6 +281,7 @@ function JADE_load(file=game_save_id+"\save.jade") {
 				tilemap_clear(tile_layer[i], 0) //erase tilemap beforehand
 				ds_list_clear(tile_layer_map[i]) //erase tile map beforehand
 				var j=0;
+				tilemap_tileset(tile_layer[i], asset_get_index(level_data[tile_layer_arr_index][i][2]))
 				repeat (array_length(level_data[tile_arr_index][i])) {
 					var data = level_data[tile_arr_index][i][j]
 				    tilemap_set(tile_layer[i],data[0],data[1],data[2])

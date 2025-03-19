@@ -27,7 +27,6 @@ blockFinished = new Signal();
 
 blockHit.Connect( self, function(hit_p, obj) {
 
-	show_debug_message("boing");
 	hit = hit_p;
 	dy = -1 * hit;
 	going = true;

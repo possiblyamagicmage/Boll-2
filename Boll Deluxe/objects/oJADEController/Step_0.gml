@@ -731,7 +731,7 @@ if not_on_gui && selected_tool == FILL_TOOL && selected_mode == TILE_MODE {
 			repeat (size_y){
 				var data = tilemap_get(tilemap, tile_fill_last_x + (i *16), tile_fill_last_y+ (j *16)); //get tile to change data
 				
-				data = tile_set_index(data, current_tile_id[i mod (tile_sel_width + 1)][j mod (tile_sel_height + 1)])
+				data = tile_set_index(data, current_tile_id[i mod (tile_sel_width+1)][j mod (tile_sel_height+1)])
 				//set tile to a mosaic of the current tile 'brush'
 				
 				data = tile_set_flip(data, 0)

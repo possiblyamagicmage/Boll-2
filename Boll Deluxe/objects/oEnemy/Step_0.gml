@@ -1,4 +1,4 @@
-if global.paused && (object_index!=oBulletBill && object_index!=oBanzaiBill) exit
+if global.paused exit
 
 //grounded=false
 
@@ -84,4 +84,5 @@ y += vsp
 
 player_collision();
 
+if !(overridexsc)
 if gsp != 0 && (hp > 0) xsc=-esign(gsp,-1)

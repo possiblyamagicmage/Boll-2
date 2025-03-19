@@ -20,6 +20,7 @@ charmName = global._playerChars[pNum]; //what charm this player character is usi
 size="basic";
 oldsize="basic";
 colangle = 0;
+palette=0
 
 hit_sizex = 6
 hit_sizey = 6

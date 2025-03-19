@@ -149,12 +149,14 @@ function check_hitbox_on_hitbox(object1, object2){
 		var i=0;
 	    repeat (instance_number(object2)) {    
 	        var found = instance_find(object2, i);
-			x2 = floor(found.x)
-			y2 = floor(found.y)
-			hit_sizex2 = found.hit_sizex
-			hit_sizey2 = found.hit_sizey
-	        if rectangle_in_rectangle(x1 - hit_sizex,y1 - hit_sizey,x1 + hit_sizex,y1 + hit_sizey, x2 - hit_sizex2, y2 - hit_sizey2, x2 + hit_sizex2, y2 + hit_sizey2) {
-	            return found;
+			if found.id != id {
+				x2 = floor(found.x)
+				y2 = floor(found.y)
+				hit_sizex2 = found.hit_sizex
+				hit_sizey2 = found.hit_sizey
+		        if rectangle_in_rectangle(x1 - hit_sizex,y1 - hit_sizey,x1 + hit_sizex,y1 + hit_sizey, x2 - hit_sizex2, y2 - hit_sizey2, x2 + hit_sizex2, y2 + hit_sizey2) {
+		            return found;
+				}
 			}
 			i++;
 	    }

@@ -2,12 +2,12 @@ function player_interactions(){
 	if (piped) exit
 	
 	var enemystomp=check_rectangle_in_hitbox(x-hit_sizex,y+hit_sizey+1,x+hit_sizex,y+hit_sizey+1, oEnemy)
-	if (enemystomp) && !(enemystomp.damage_on_contact) && !(enemystomp.no_stomping) && !grounded && vsp > 0  {
+	if (enemystomp) && (enemy.phaseid==noone || enemy.phaseid.id!=id) && !(enemystomp.damage_on_contact) && !(enemystomp.no_stomping) && !grounded && vsp > 0  {
 		if !(hurt) && !(dead) 
 		enemystomp.enemyStomped.Emit(id);
 	} else {
 		var enemy=check_hitbox_on_hitbox(id, oEnemy)
-		if (enemy) && !(hurt) && !(dead)  {
+		if (enemy) && (enemy.phaseid==noone || enemy.phaseid.id!=id) && !(hurt) && !(dead) {
 			enemy.enemyCollidePlayer.Emit(id);
 		}
 	}
@@ -99,11 +99,18 @@ function player_interactions(){
 	}
 	
 	var flagpole=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oFlagpole, false, true)
-	if (flagpole) && !(finish) {
+	if (flagpole) && !(finish) && !(dead) {
 		if (flagpole.state == 0) {
 			finish = 1;
 			flagpole.state = 1;
 			flagpole.player = id;
 		}
+	}
+	
+	var bearballoon=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oPolarBearBalloon, false, true)
+	if (bearballoon) && !(hurt) && !(dead) {
+		if vsp >= 0 vsp=-2;
+		instance_create_depth(bearballoon.x,bearballoon.y,2,pImpact)
+		instance_destroy(bearballoon);
 	}
 }

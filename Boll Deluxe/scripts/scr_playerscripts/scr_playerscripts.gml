@@ -129,8 +129,12 @@ function get_spriteindex() { //returns the sprite name of the player's current s
 	}
 	
 	var spritedat = global.animdat[pNum][0]
-	var _getspr=spritedat[$ $"{size} {spriteEvent}"]
-	var spr=$"spr_{charmName}_{size}_{_getspr}"
+	
+	var sprite_yank = size
+	if !is_undefined(spritedat[$ $"{size} override"])
+	sprite_yank = spritedat[$ $"{size} override"]
+	var _getspr=spritedat[$ $"{sprite_yank} {spriteEvent}"]
+	var spr=$"spr_{charmName}_{sprite_yank}_{_getspr}"
 	
 	if (size != mem) {
 		size = mem;
@@ -336,8 +340,12 @@ function animate_player() {
 	txr_exec(global.scripts[? $"{charmName}_draw"]);
 	 
 	//Growing and hurting size changes.
-	
-	var spri=array_get_index(global.player_spritelists[pNum], spriteMap[$ $"{size} {spriteEvent}"])
+	var spritedat = global.animdat[pNum][0]
+	var sprite_yank = size
+	if !is_undefined(spritedat[$ $"{size} override"])
+	sprite_yank = spritedat[$ $"{size} override"]
+
+	var spri=array_get_index(global.player_spritelists[pNum], spriteMap[$ $"{sprite_yank} {spriteEvent}"])
 	
 	var myspr=get_spriteindex()
 	if myspr=-1 myspr=oldspr
@@ -345,9 +353,10 @@ function animate_player() {
 	if (myspr!=oldspr) {
 		frame=0
 		show_debug_message(spriteEvent)
-		show_debug_message(spriteMap[$ $"{size} {spriteEvent}"])
-		show_debug_message(spri)
+		show_debug_message(spriteMap[$ $"{sprite_yank} {spriteEvent}"])
+		
 	}
+	show_debug_message(spri)
 	
 	if spri!=-1 {
 		frn=frames_list[spri] //frame number
@@ -362,7 +371,7 @@ function animate_player() {
 		if (frame<0) frame+=frn
 		if (frame>=frn) {frame=frame-frn if (frl<frn) frame=frl}
 		frame=modulo(frame,0,frn)
-		var sizeNum = array_get_index(global.powerups, size); //not sure why this was a loop before. theres literally this same method above to get spri LOL
+		var sizeNum = array_get_index(global.powerups, get_size()); //not sure why this was a loop before. theres literally this same method above to get spri LOL
 		offset_x=offset_x_list[sizeNum]
 		offset_y=offset_y_list[sizeNum]
 		animf=animspd_list[sizeNum]

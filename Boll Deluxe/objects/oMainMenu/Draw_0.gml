@@ -27,7 +27,7 @@ switch (crMenu) {
 	
 		_displayOPS = global.levellist;
 		var _xPos = 56,
-			_yPos = (_rmHei/2)-(16*(array_length(_displayOPS)-1)/2);
+			_yPos = (_rmHei/2)-max((array_length(_displayOPS)-1)/2,option)*16;
 		var i=0;
 		repeat (array_length(_displayOPS)) { // Looping through options to draw them on screen
 			if (option=i)

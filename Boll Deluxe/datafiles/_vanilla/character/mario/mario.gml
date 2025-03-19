@@ -337,7 +337,7 @@ if (state == "wallslide") && !piped {
 
 #region Spinjumping & Diving
 
-if (cpress && !is_grabbing) {
+if (cpress && !is_grabbing) && !(stun) {
 	if (grounded) {
 		grounded=false;
 		spinjump=1
@@ -844,7 +844,3 @@ if !(invincible_type && invincible_timer) {
 	}
 	grow = 60;
 }
-
-
-#define stomp_failed
-show_debug_message("stomp_failed called")

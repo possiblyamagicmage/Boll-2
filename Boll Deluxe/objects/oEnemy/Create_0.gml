@@ -24,7 +24,7 @@ gsp = 0
 spawn_object=noone
 no_dam = false;
 colangle = 0
-phase_leeway = 10;
+phase_leeway = 0;
 
 phaseid=noone;
 flipped=0;
@@ -40,6 +40,7 @@ killvsp=-3;
 
 piped = false
 grounded = false
+overridexsc = false
 
 hit_sizex = 6
 hit_sizey = 6
@@ -67,7 +68,6 @@ enemyStomped.Connect( self, function(hit_p) {
 		phase_leeway=7;
 		killtype="stomp"
 	} else {
-		show_debug_message("enemy calling stomp_failed")
 		with(hit_p) {
 			sig.Emit("stomp_failed")
 		}
