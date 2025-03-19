@@ -16,16 +16,6 @@ if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex())))
 		shader_set_uniform_f(uni_g,1)
 		shader_set_uniform_f(uni_b,0)
 	}
-	if (electrocuted) && (electrocution_timer mod 10 < 7.5) {
-		shader_set(shd_flatcolor);
-		
-		var uni_r = shader_get_uniform(shd_flatcolor, "red");
-		var uni_g = shader_get_uniform(shd_flatcolor, "green");
-		var uni_b = shader_get_uniform(shd_flatcolor, "blue");
-		shader_set_uniform_f(uni_r,-1)
-		shader_set_uniform_f(uni_g,-1)
-		shader_set_uniform_f(uni_b,-1)
-	}
 	draw_player();
 	if palette != 0 {
 		pal_swap_reset()

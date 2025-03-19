@@ -48,6 +48,9 @@ else {
 }
 
 if (electrocuted) {
+	hsp=0;
+	gsp=0;
+	vsp=0;
 	electrocution_timer=max(electrocution_timer-1,0);
 	if !(electrocution_timer) {
 		sig.Emit("hurt_by_electrocution")

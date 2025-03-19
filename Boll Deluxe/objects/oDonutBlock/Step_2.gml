@@ -13,12 +13,13 @@ with(oPlayer) {
 	}
 }
 
-if (place_meeting(x, y-2-abs(y_diff), oEnemy))
+with(oEnemy)
 {
-	var object = instance_place(x, y-2-abs(y_diff), oEnemy)
-	object_is_on=true;
-	object.x += x_diff;
-	object.y += y_diff;
+	if (grounded) && (grav!=0) && collision_line(x-(hit_sizex-4),y+hit_sizey+1,x+(hit_sizex-4),y+hit_sizey+1,other,true,true) {
+		object_is_on=true;
+		x += x_diff;
+		y += y_diff;
+	}
 }
 
 if !(object_is_on) {

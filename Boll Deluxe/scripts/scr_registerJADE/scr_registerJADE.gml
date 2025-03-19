@@ -107,6 +107,7 @@ function JADE_initializeobj() {
 	registerobj(object_get_name(oPiranhaPlant), spr_piranhaplant, 4, -6, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oPiranhaPlant"), "Piranha Plant")
 	registerobj(object_get_name(oJumpingPiranha), spr_jumpingpiranhafall, -16, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oJumpingPiranha"), "Jumping Piranha")
 	registerobj(object_get_name(oPolarBear), spr_polarbear, -8, -8, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oPolarBear"), "Polar Bear")
+	registerobj(object_get_name(oStopbob), spr_stopbob, -8, -16, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oStopbob"), "Stopbob")
 	
 	registerobj(object_get_name(oCoin), spr_coin, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oCoin"), "Coin", true)
 	registerobj(object_get_name(oMushroom), spr_mushroom, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oMushroom"), "Mushroom", true)
@@ -181,12 +182,11 @@ function JADE_save(file=game_save_id+"\save.jade") {
 	var arrayTileLayers=[];
 	i=0;
 	repeat (array_length(layers)) {
-	    array_push(arrayTileLayers, [layer_get_name(layers[i]), layer_get_depth(layers[i]), tileset_get_name(tilemap_get_tileset(tile_layer[i]))])
+	    array_push(arrayTileLayers, [layer_get_name(layers[i]), layer_get_depth(layers[i]), tileset_get_name(tilemap_get_tileset(tile_layer[i])), arrayTiles[i]])
 		i++;
 	}
 	struct[$ "version"]=JADE_VERSION
 	struct[$ "objects"]=arrayObjects
-	struct[$ "tiles"]=arrayTiles
 	struct[$ "node_objects"]=arrayNodeObjects
 	struct[$ "tile_layers"]=arrayTileLayers
 	var _json=json_stringify(struct); //compile all saved things
@@ -208,7 +208,6 @@ function JADE_load(file=game_save_id+"\save.jade") {
 	if !is_array(level_data) && is_struct(level_data) {
 		var objects = level_data[$ "objects"] //read amount of objects
 		var node_objects = level_data[$ "node_objects"] //read amount of node objects
-		var tiles = level_data[$ "tiles"] //read amount of tiles
 		var tile_layers = level_data[$ "tile_layers"]
 		ds_list_clear(object_layer_map) //erase object map beforehand
 		var i;
@@ -226,13 +225,15 @@ function JADE_load(file=game_save_id+"\save.jade") {
 		i=0;
 		repeat (array_length(tile_layers)) {
 			tilemap_tileset(tile_layer[i], asset_get_index(tile_layers[i][2]))
-			if array_length(tiles[i]) { // does it actually contain any tiles?
+			var tiles=tile_layers[i][3]
+			if array_length(tiles) { // does it actually contain any tiles?
 				var j=0;
-				repeat (array_length(tiles[i])) { //loading tiles
-					var data = tiles[i][j]
+				repeat (array_length(tiles)) { //loading tiles
+					var data = tiles[j]
 					var tiledata = tilemap_get(tile_layer[i], data[1], data[2]);
 					tiledata = tile_set_index(tiledata, data[0])
 					tilemap_set(tile_layer[i], tiledata, data[1], data[2]) //set tile at place
+					ds_list_add(tile_layer_map[i], [data[0], data[1], data[2]]) //add tile to list at place
 					j++;
 				}
 			}

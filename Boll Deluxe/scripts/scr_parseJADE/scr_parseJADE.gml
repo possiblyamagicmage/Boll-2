@@ -10,9 +10,9 @@ function parse_level(dir=game_save_id+"\save.jade") {
 	var save_file = buffer_decompress(loaded)
 	var level_data = json_parse(buffer_read(save_file,buffer_string))
 	show_debug_message($"Loading JADE level from: {file}")
+	show_debug_message(level_data)
 	if !is_array(level_data) && is_struct(level_data) {
 		var objects=level_data[$ "objects"]
-		var tiles=level_data[$ "tiles"]
 		var node_objects=level_data[$ "node_objects"]
 		var tile_layers=level_data[$ "tile_layers"]
 		var i=0;
@@ -124,10 +124,11 @@ function parse_level(dir=game_save_id+"\save.jade") {
 		repeat (array_length(tile_layers)) {
 			tile_layer[i] = layer_create(tile_layers[i][1],tile_layers[i][0])
 			tilemap[i] = layer_tilemap_create(tile_layer[i],0,0,asset_get_index(tile_layers[i][2]),ceil(room_width/16),ceil(room_height/16))
-			if array_length(tiles[i]) { // does it actually contain any tiles?
+			var tiles=tile_layers[i][3]
+			if array_length(tiles) { // does it actually contain any tiles?
 				var j=0;
-				repeat (array_length(tiles[i])) { //loading tiles
-					var data = tiles[i][j]
+				repeat (array_length(tiles)) { //loading tiles
+					var data = tiles[j]
 					var tiledata = tilemap_get(tilemap[i], data[1], data[2]);
 					tiledata = tile_set_index(tiledata, data[0])
 					tilemap_set(tilemap[i], tiledata, data[1], data[2]) //set tile at place
