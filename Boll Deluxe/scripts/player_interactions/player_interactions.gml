@@ -119,7 +119,7 @@ function player_interactions(){
 	if (crate) && (vsp>=0) && !(hurt) && !(dead) {
 		vsp = -(2.5+akey*1.5);
 		sig.Emit("sprung");
-		crate.blockHit.Emit();
+		crate.blockHit.Emit(-1, id);
 	}
 	
 	var coin=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oCoin, false, true)
@@ -133,5 +133,10 @@ function player_interactions(){
 	var item=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oMushroom, false, true)
 	if (item) && !(hurt) && !(dead) {
 		item.itemCollected.Emit(id);
+	}
+	
+	var monitor=collision_line(x-hit_sizex,y+hit_sizey+vsp,x+hit_sizex,y+hit_sizey+vsp, oMonitor, false, true)
+	if (monitor) && !(hurt) && !(dead) {
+		monitor.blockHit.Emit(-1, id);
 	}
 }

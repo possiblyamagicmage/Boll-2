@@ -321,7 +321,10 @@ if (mbleftpress) {
 			}
 		break;
 		}
-	} else if !(not_on_gui) && !((on_object_list && show_object_list) || on_list_top) drawing_node=-1;
+	} else if !(not_on_gui) && !((on_object_list && show_object_list) || on_list_top) {
+		drawing_node=-1;
+		drawing_rotator=-1;
+	}
 }
 
 if (selected_tool == SELECT_TOOL && not_on_gui && !keyboard_check(vk_space)) {
@@ -893,6 +896,8 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 							obj[10] = [] //properties
 							obj[11] = [] //node array
 							obj[12] = [2,false,0,false,true,true] //node properties
+							obj[13] = [] //rotator array
+							obj[14] = [2,false,false,false] //rotator properties
 							if is_array(sprite[8]) && array_length(sprite[8]) {
 								var o=0;
 								repeat(array_length(sprite[8])) { //god Damn.
@@ -954,6 +959,8 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 							obj[10] = []
 							obj[11] = []
 							obj[12] = []
+							obj[13] = []
+							obj[14] = []
 							if is_array(sprite[8]) && array_length(sprite[8]) {
 								var o=0;
 								repeat(array_length(sprite[8])) { //god Damn.
@@ -1166,6 +1173,71 @@ if (selected_tool==NODE_TOOL) && (not_on_gui) { //drawing nodes
 				drawing_node=-1;
 			} else {
 				drawing_node=-1
+			}
+		}
+	}
+}
+
+if (selected_tool==ROTATOR_TOOL) && (not_on_gui) { //drawing nodes
+	if (mbleftpress) {
+		if (drawing_rotator==-1) {
+			var size = ds_list_size(object_layer_map)
+	
+			var i=0;
+			repeat(size) {
+				//is place matching cursor?
+				var obj = ds_list_find_value(object_layer_map, i)
+		
+				if !is_undefined(obj) {
+					var over = point_in_rectangle(mouse_x, mouse_y, (obj[1]*16), (obj[2]*16),(obj[1]*16) + obj[6] - 1, (obj[2]*16) + obj[7] - 1)
+					
+					var sprite = ds_map_find_value(obj_data,obj[0])
+					var xoff = -sprite[1];
+					var yoff = -sprite[2];
+					
+					if (over) && (sprite[9]) {
+						drawing_rotator=i;
+						draw_rotator_x=(obj[1]*16)-((obj[6]-16)/2)+xoff
+						draw_rotator_y=(obj[2]*16)-((obj[7]-16)/2)+yoff
+					}
+				}
+				i++;
+			}
+		} else {
+			var obj = ds_list_find_value(object_layer_map, drawing_rotator)
+			
+			var sprite = ds_map_find_value(obj_data,obj[0])
+			var xoff = -sprite[1];
+			var yoff = -sprite[2];
+			
+			obj[13]=[(gridx*16)-((obj[6]-16)/2)+xoff,(gridy*16)-((obj[7]-16)/2)+yoff,false]
+			show_debug_message(obj[13])
+		}
+	}
+	
+	if (mbrightpress) {
+		if (drawing_rotator!=-1) {
+			var obj = ds_list_find_value(object_layer_map, drawing_rotator)
+			var size = array_length(obj[13])
+			if (size) {
+				var sprite = ds_map_find_value(obj_data,obj[0])
+				var xoff = -sprite[1];
+				var yoff = -sprite[2];
+			
+				var deleted=false;
+				var i=0;
+				var over = point_in_rectangle(mouse_x, mouse_y, obj[13][0]+((obj[6]-16)/2)-xoff, obj[13][1]+((obj[7]-16)/2)-yoff, obj[13][0]+15+((obj[6]-16)/2)-xoff, obj[13][1]+15+((obj[7]-16)/2)-yoff)
+					
+				if (over) {
+					obj[13]=[];
+					draw_rotator_x=(obj[1]*16)-((obj[6]-16)/2)+xoff
+					draw_rotator_y=(obj[2]*16)-((obj[7]-16)/2)+yoff
+					deleted=true;
+				}
+				if !(deleted)
+				drawing_rotator=-1;
+			} else {
+				drawing_rotator=-1
 			}
 		}
 	}

@@ -47,6 +47,8 @@ enemyCollidePlayer.Connect( self, function(hit_p) {
 		dashcooldown=60;
 		_direction=-xsc;
 		hurt=false;
+		upset_walk=true;
+		constantspd=0.5;
 	} else {
 		passive=false;
 		phaseid=hit_p

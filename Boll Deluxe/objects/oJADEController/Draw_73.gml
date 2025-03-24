@@ -56,6 +56,31 @@ repeat(ds_list_size(object_layer_map)) {
 			draw_sprite(spr_JADEnode,0,(gridx*16),(gridy*16))
 		}
 	}
+	
+	if (sprite[9]) && (drawing_rotator==i) {
+		draw_sprite(spr_JADErotator,1,(obj[1]*16)+(obj[6]-16)/2,(obj[2]*16)+(obj[7]-16)/2)
+		if (array_length(obj[13]) > 0) {
+			var arr=obj[13]
+			var x2=(obj[1]*16)-((obj[6]-16)/2)+xoff
+			var y2=(obj[2]*16)-((obj[7]-16)/2)+yoff
+			draw_set_color($88695a)
+			draw_line(x2,y2,arr[0]+((obj[6]-16)/2)+(8-xoff),arr[1]+((obj[7]-16)/2)+(8-yoff))
+			draw_set_color(c_white)
+				
+			var over = point_in_rectangle(mouse_x, mouse_y, arr[0]+((obj[6]-16)/2)-xoff, arr[1]+((obj[7]-16)/2)-yoff, arr[0]+15+((obj[6]-16)/2)-xoff, arr[1]+15+((obj[7]-16)/2)-yoff)
+				
+			draw_sprite(spr_JADErotator,0,arr[0]+((obj[6]-16)/2)-xoff,arr[1]+((obj[7]-16)/2)-yoff)
+				
+			if (over){
+				draw_circle_color((arr[0]+((obj[6]-16)/2)-xoff)+7,(arr[1]+((obj[7]-16)/2)-yoff)+7,8,$88695a,$88695a,true)
+			}
+		} else if (not_on_gui) {
+			draw_set_color($88695a)
+			draw_line(draw_rotator_x+(8-xoff),draw_rotator_y+(8-yoff),(gridx*16)+8,(gridy*16)+8)
+			draw_set_color(c_white)
+			draw_sprite(spr_JADErotator,0,(gridx*16),(gridy*16))
+		}
+	}
 	i++;
 }
 

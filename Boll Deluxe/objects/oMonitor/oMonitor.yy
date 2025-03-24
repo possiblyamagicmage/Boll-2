@@ -3,7 +3,6 @@
   "%Name":"oMonitor",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":25,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":10,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"oMonitor",
@@ -13,8 +12,8 @@
     "path":"folders/Objects/Objects.yy",
   },
   "parentObjectId":{
-    "name":"oCollider",
-    "path":"objects/oCollider/oCollider.yy",
+    "name":"oHittable",
+    "path":"objects/oHittable/oHittable.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

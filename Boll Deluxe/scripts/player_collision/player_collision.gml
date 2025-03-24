@@ -55,6 +55,7 @@ function player_poly_collision()
 			// landed on a polygon, do the usual landing routine
 			if self.object_index = oPlayer{
 				sig.Emit("floor_land")
+				
 			} else {
 				gsp = hsp
 				vsp = 0	

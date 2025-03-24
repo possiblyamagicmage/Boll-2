@@ -51,8 +51,6 @@ function parse_level(dir=game_save_id+"\save.jade") {
 					}
 					j++;
 				}
-			
-				with(obj) {event_user(15)}
 			}
 			/*OBJECT STAT LIST
 			 0: name
@@ -120,6 +118,7 @@ function parse_level(dir=game_save_id+"\save.jade") {
 			*/
 			i++;
 		}
+		with(all) {event_user(15)}
 		var i=0;
 		repeat (array_length(tile_layers)) {
 			tile_layer[i] = layer_create(tile_layers[i][1],tile_layers[i][0])

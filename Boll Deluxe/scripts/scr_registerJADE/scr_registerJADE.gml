@@ -1,7 +1,7 @@
-#macro REGION_MODE 0
-#macro OBJECT_MODE 1
-#macro TILE_MODE 2
-#macro BACKGROUND_MODE 3
+#macro OBJECT_MODE 0
+#macro TILE_MODE 1
+#macro BACKGROUND_MODE 2
+#macro ASSET_MODE 3
 #macro NODE_MODE 4
 #macro JADE_VERSION 2
 

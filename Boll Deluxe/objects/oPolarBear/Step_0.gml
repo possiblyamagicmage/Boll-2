@@ -44,9 +44,9 @@ if !(passive) {
 	
 	if !(dashcooldown) && !(dashduration) {
 		targeted_player=noone;
-		var LOSleft = x-128*xsc //line of sight variables
+		var LOSleft = x-160*xsc //line of sight variables
 		var LOSup = y-4
-		var LOSright = x+128*xsc
+		var LOSright = x+160*xsc
 		var LOSdown = y+4
 		with(oPlayer) {
 			if (rectangle_in_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, LOSleft, LOSup, LOSright, LOSdown)) && !check_collision_line(x,other.y,other.x,other.y,COL_WALL, other.collision_array) {
@@ -71,9 +71,9 @@ if !(passive) {
 	}
 	
 	if (targeted_player!=noone) {
-		var LOSleft = x-128*xsc//line of sight variables
+		var LOSleft = x-160*xsc//line of sight variables
 		var LOSup = y-4
-		var LOSright = x+128*xsc
+		var LOSright = x+160*xsc
 		var LOSdown = y+4
 		if !check_collision_line(x,y,targeted_player.x,y,COL_WALL) { //check if player isnt behind wall
 			with (targeted_player) {

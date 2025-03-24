@@ -7,12 +7,12 @@
 #macro ERASE_TOOL 4 //object, tile, background, node
 #macro PICKER_TOOL 5 //object, tile, background
 #macro REFERENCE_TOOL 6 //object, tile, background, node
-#macro REGION_TOOL 7 //region
-#macro ROTATE_TOOL 8 //tile, background
-#macro MIRROR_TOOL 9 //tile, background
-#macro FLIP_TOOL 10 //tile, background
-#macro COLOR_TOOL 11 //tile, background
-#macro NODE_TOOL 12 //node
+#macro ROTATE_TOOL 7 //tile, background
+#macro MIRROR_TOOL 8 //tile, background
+#macro FLIP_TOOL 9 //tile, background
+#macro COLOR_TOOL 10 //tile, background
+#macro NODE_TOOL 11 //node
+#macro ROTATOR_TOOL 12 //region
 
 ///Modes:
 //0: Region
@@ -21,27 +21,32 @@
 //3: Backgrounds
 //4: Nodes
 //Mode is first, tool is second
-//Region
-toolbar[0][0]=SELECT_TOOL
-toolbar[0][1]=REGION_TOOL
-toolbar[0][2]=ERASE_TOOL
 //Object
-toolbar[1][0]=SELECT_TOOL
-toolbar[1][1]=BRUSH_TOOL
-toolbar[1][2]=FILL_TOOL
-toolbar[1][3]=ERASE_TOOL
-toolbar[1][4]=PICKER_TOOL
-toolbar[1][5]=REFERENCE_TOOL
+toolbar[0][0]=SELECT_TOOL
+toolbar[0][1]=BRUSH_TOOL
+toolbar[0][2]=FILL_TOOL
+toolbar[0][3]=ERASE_TOOL
+toolbar[0][4]=PICKER_TOOL
+toolbar[0][5]=REFERENCE_TOOL
 //Tile
-toolbar[2][0]=BRUSH_TOOL
-toolbar[2][1]=FILL_TOOL
+toolbar[1][0]=BRUSH_TOOL
+toolbar[1][1]=FILL_TOOL
+toolbar[1][2]=ERASE_TOOL
+toolbar[1][3]=PICKER_TOOL
+toolbar[1][4]=ROTATE_TOOL
+toolbar[1][5]=MIRROR_TOOL
+toolbar[1][6]=FLIP_TOOL
+toolbar[1][7]=REFERENCE_TOOL
+//Background
+toolbar[2][0]=SELECT_TOOL
+toolbar[2][1]=BRUSH_TOOL
 toolbar[2][2]=ERASE_TOOL
 toolbar[2][3]=PICKER_TOOL
-toolbar[2][4]=ROTATE_TOOL
-toolbar[2][5]=MIRROR_TOOL
-toolbar[2][6]=FLIP_TOOL
+toolbar[2][4]=MIRROR_TOOL
+toolbar[2][5]=FLIP_TOOL
+toolbar[2][6]=COLOR_TOOL
 toolbar[2][7]=REFERENCE_TOOL
-//Background
+//Asset
 toolbar[3][0]=SELECT_TOOL
 toolbar[3][1]=BRUSH_TOOL
 toolbar[3][2]=ERASE_TOOL
@@ -54,8 +59,9 @@ toolbar[3][7]=REFERENCE_TOOL
 toolbar[4][0]=SELECT_TOOL
 toolbar[4][1]=BRUSH_TOOL
 toolbar[4][2]=NODE_TOOL
-toolbar[4][3]=ERASE_TOOL
-toolbar[4][4]=REFERENCE_TOOL
+toolbar[4][3]=ROTATOR_TOOL
+toolbar[4][4]=ERASE_TOOL
+toolbar[4][5]=REFERENCE_TOOL
 
 JADE_initializeobj();
 
@@ -135,6 +141,10 @@ ui_opacity = 0.5;
 drawing_node=-1;
 draw_node_x=0;
 draw_node_y=0;
+
+drawing_rotator=-1;
+draw_rotator_x=0;
+draw_rotator_y=0;
 
 #region tileset picker variables
 var guiw=display_get_gui_width()
