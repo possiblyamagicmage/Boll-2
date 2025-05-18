@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"component_charms",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"component_charms",
+  "parent":{
+    "name":"Player",
+    "path":"folders/Scripts/Player.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

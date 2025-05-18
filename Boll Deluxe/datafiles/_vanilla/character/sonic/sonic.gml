@@ -13,7 +13,7 @@ friction_mult = 1;
 skidding = 0;
 skiddir = 0;
 storedxsc = 1;
-grav=0.225;
+grav=0.25;
 defaultgrav = grav;
 //spindash = 0;
 wait_timer = 0;
@@ -128,7 +128,7 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 	
 // Fall off platform
 if (!grounded) {
-	vsp = min(7, vsp + grav);
+	vsp = min(5.75, vsp + grav);
 	canjump -= 1;
 	
 	if (vsp < 0 && vsp > -2 ) {
@@ -212,7 +212,7 @@ if (state == "jump") && !(piped){
 	slopesliding = 0
 	if (!akey && vsp < -2 && !canstopjump) //Make player jump lower when jump is released
 	{
-		vsp = -2
+		vsp *= 0.6;
 	}
 
 	if (vsp >= -2 && apress && dropdash == 0) {
@@ -299,13 +299,13 @@ if (state == "wallrun") && !piped {
 
 #region Rolling
 if (state != "roll" || !grounded) && !(piped) {
-	accel = 0.0425
+	accel = 0.046875
 	if (!grounded) {
 		accel = 0.09375
 		fastaccel = 0.09375
 	}
-	fastaccel = 0.7 //deaccel
-	fric = 0.055
+	fastaccel = 0.5 //deaccel
+	fric = 0.046875
 }
 
 
@@ -346,7 +346,7 @@ if (grounded) {
 	}
 }
 
-if ((ceil(abs(hsp))>3 && grounded && state == "") || skidding) {
+if ((ceil(abs(hsp))>3 && grounded && state == "")) {
 	dusttimer = min(dusttimer + 1, (dusttimer + 1) mod 10);
 	if (dusttimer == 1) {
 		var part = pRunDust
@@ -394,13 +394,22 @@ switch (state) {
 			}
 		} else {
 			wait_timer = 0;
-			if ((abs(gsp) > 2.5) && (move_dir == -sign(gsp))) {
+			if ((abs(gsp) > 1.5) && (move_dir == -sign(gsp)) && grounded) {
+				if (spriteEvent != "brake"){
+					playsfx(charmName+"skid",1,0,1)
+				}
 				spriteEvent="brake"
 			}
 			
 			if (spriteEvent=="brake") {
 				if (move_dir == sign(gsp)) {
 					spriteEvent = "walk"
+				}
+				
+				dusttimer = min(dusttimer + 1, (dusttimer + 1) mod 10);
+				if (dusttimer == 1) {
+					var part = pSkidDust
+					make_particle(part, x - (1 * xsc), y + hit_sizey, depth + 5, xsc, (2.25 - skidding) * -xsc, -0.1, -0.02, 0.2);
 				}
 			}
 			if (spriteEvent != "brake"){
@@ -628,10 +637,10 @@ state = "";
 vsp=-4-akey*1.5
 
 #define collide_with_enemy
-var coll=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oEnemy, false, true)
-if (coll) && (!coll.no_dam) {
-
-if (coll) && (state!="roll") && (state!="spindash") {
+var coll=check_hitbox_on_hitbox(id, oEnemy)
+if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
+	
+if (coll) && (state != "roll") && (state != "jump") && !(invincible_type && invincible_timer) {
 	stopsfx(charmName+"damage")
 	hurt=1
 	hsp=2.25*-xsc
@@ -655,8 +664,8 @@ if (coll) && (state!="roll") && (state!="spindash") {
 			break;
 	}
 	grow = 60;
-} else {
-	instance_create_depth(coll.x+coll.xsc,coll.y,2,pImpact)
+} else if (coll) && (!(invincible_type) || (invincible_type == 2)) {
+	make_particle(pImpact,coll.x+coll.xsc,coll.y,2)
 	coll.hp-=1
 	coll.phaseid=id
 	coll.killdir=esign(coll.x-x,1)
@@ -667,7 +676,9 @@ if (coll) && (state!="roll") && (state!="spindash") {
 }
 }
 
+
 #define hurt_by_spike
+
 stopsfx(charmName+"damage")
 hurt=1
 hsp=2.25*-xsc
@@ -692,10 +703,13 @@ switch (size) {
 }	
 grow = 60;
 
+
 #define electrocute
+
 state=""
 electrocuted = true;
 electrocution_timer=60;
+
 
 #define hurt_by_electrocution
 stopsfx(charmName+"damage")

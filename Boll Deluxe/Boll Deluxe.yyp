@@ -1,5 +1,5 @@
 {
-  "$GMProject":"",
+  "$GMProject":"v1",
   "%Name":"Boll Deluxe",
   "AudioGroups":[
     {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
@@ -197,6 +197,7 @@
     {"$GMFolder":"","%Name":"Queues","folderPath":"folders/Vinyl/Queues.yy","name":"Queues","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Runtime Setup","folderPath":"folders/Vinyl/Runtime Setup.yy","name":"Runtime Setup","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
+  "ForcedPrefabProjectReferences":[],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"config.ini","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"config.ini","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"mario-basic.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"mario-basic.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -481,7 +482,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.11.0.179",
+    "IDEVersion":"2024.13.1.193",
   },
   "name":"Boll Deluxe",
   "resources":[
@@ -919,6 +920,7 @@
     {"id":{"name":"CollageRestoreGPUState","path":"scripts/CollageRestoreGPUState/CollageRestoreGPUState.yy",},},
     {"id":{"name":"CollageSterlizeGPUState","path":"scripts/CollageSterlizeGPUState/CollageSterlizeGPUState.yy",},},
     {"id":{"name":"CollageTextureFlush","path":"scripts/CollageTextureFlush/CollageTextureFlush.yy",},},
+    {"id":{"name":"component_charms","path":"scripts/component_charms/component_charms.yy",},},
     {"id":{"name":"draw_image_ext","path":"scripts/draw_image_ext/draw_image_ext.yy",},},
     {"id":{"name":"draw_image_general","path":"scripts/draw_image_general/draw_image_general.yy",},},
     {"id":{"name":"draw_image_part_ext","path":"scripts/draw_image_part_ext/draw_image_part_ext.yy",},},

@@ -31,7 +31,9 @@ function player_interactions(){
 	
 	var amp = collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oAmp, false, true)
 	if (amp) && !(electrocuted) && !(hurt) && !(dead) {
-		sig.Emit("electrocute");
+		if !(invincible_type && invincible_timer) {
+			sig.Emit("electrocute");
+		}
 	}
 	
 	var list=ds_list_create();
@@ -63,28 +65,38 @@ function player_interactions(){
 	#region Solid Spike Collision
 	var spike=collision_line(x-hit_sizex+hsp,y-hit_sizey+2,x-hit_sizex+hsp,y+hit_sizey-abs(vsp), oSolidSpike, false, true)
 	if (spike) && (spike.dir="right" || spike.dir="none") && !(hurt) {
-		sig.Emit("hurt_by_spike")
+		if !(invincible_type && invincible_timer) {
+			sig.Emit("hurt_by_spike")
+		}
 	}
 	
 	var spike=collision_line(x+hit_sizex+hsp,y-hit_sizey+2,x+hit_sizex+hsp,y+hit_sizey-abs(vsp), oSolidSpike, false, true)
 	if (spike) && (spike.dir="left" || spike.dir="none") && !(hurt) {
-		sig.Emit("hurt_by_spike")
+		if !(invincible_type && invincible_timer) {
+			sig.Emit("hurt_by_spike")
+		}
 	}
 	
 	var spike=collision_line(x-hit_sizex-1,y+hit_sizey+1,x+hit_sizex-1,y+hit_sizey+1, oSolidSpike, false, true)
 	if (spike) && (spike.dir="up" || spike.dir="none") && !(hurt) {
-		sig.Emit("hurt_by_spike")
+		if !(invincible_type && invincible_timer) {
+			sig.Emit("hurt_by_spike")
+		}
 	}
 	
 	var spike=collision_line(x-hit_sizex-1,y-hit_sizey+vsp,x+hit_sizex-1,y-hit_sizey+vsp, oSolidSpike, false, true)
 	if (spike) && (spike.dir="down" || spike.dir="none") && !(hurt) {
-		sig.Emit("hurt_by_spike")
+		if !(invincible_type && invincible_timer) {
+			sig.Emit("hurt_by_spike")
+		}
 	}
 	#endregion
 	
 	var chainsaw=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oChainsaw, false, true)
 	if (chainsaw) && !(hurt) {
-		sig.Emit("hurt_by_spike")
+		if !(invincible_type && invincible_timer) {
+			sig.Emit("hurt_by_spike")
+		}
 	}
 	
 	var mysteryorb=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oMysteryOrb, false, true)
@@ -95,7 +107,9 @@ function player_interactions(){
 	
 	var steely = collision_rectangle(x-hit_sizex,y-(hit_sizey-1),x+hit_sizex,y+(hit_sizey-1), oBigSteely, true, true)
 	if (steely) && !(hurt) && !(dead) {
-		sig.Emit("hurt_by_spike");
+		if !(invincible_type && invincible_timer) {
+			sig.Emit("hurt_by_spike");
+		}
 	}
 	
 	var flagpole=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oFlagpole, false, true)

@@ -121,7 +121,7 @@ if (state == "" || state == "jump" || state == "dive") && !piped && !electrocute
 	#endregion
 	
 	if (!grounded) {
-		vsp = min(4, vsp + grav);
+		vsp = min(5.75, vsp + grav);
 		canjump = max(0, canjump-1);
 		
 		// chearii: coneyor speed management
@@ -811,7 +811,7 @@ if (coll) && !(slopesliding) && !(invincible_type && invincible_timer) {
 }
 
 #define hurt_by_spike
-if !(invincible_type && invincible_timer) {
+
 	stopsfx(charmName+"damage")
 	hurt=1
 	hsp=2.25*-xsc
@@ -835,17 +835,17 @@ if !(invincible_type && invincible_timer) {
 		break;	
 	}	
 	grow = 60;
-}
+
 
 #define electrocute
-if !(invincible_type && invincible_timer) {
+
 	state=""
 	electrocuted = true;
 	electrocution_timer=60;
-}
+
 
 #define hurt_by_electrocution
-if !(invincible_type && invincible_timer) {
+
 	stopsfx(charmName+"damage")
 	electrocuted = false;
 	hurt=1
@@ -870,4 +870,4 @@ if !(invincible_type && invincible_timer) {
 			break;
 	}
 	grow = 60;
-}
+

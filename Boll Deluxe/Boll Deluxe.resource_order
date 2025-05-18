@@ -565,6 +565,7 @@
     {"name":"CollageRestoreGPUState","order":12,"path":"scripts/CollageRestoreGPUState/CollageRestoreGPUState.yy",},
     {"name":"CollageSterlizeGPUState","order":13,"path":"scripts/CollageSterlizeGPUState/CollageSterlizeGPUState.yy",},
     {"name":"CollageTextureFlush","order":14,"path":"scripts/CollageTextureFlush/CollageTextureFlush.yy",},
+    {"name":"component_charms","order":11,"path":"scripts/component_charms/component_charms.yy",},
     {"name":"draw_image_ext","order":1,"path":"scripts/draw_image_ext/draw_image_ext.yy",},
     {"name":"draw_image_general","order":2,"path":"scripts/draw_image_general/draw_image_general.yy",},
     {"name":"draw_image_part_ext","order":4,"path":"scripts/draw_image_part_ext/draw_image_part_ext.yy",},
