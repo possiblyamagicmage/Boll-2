@@ -10,3 +10,5 @@ pathfallen=false;
 pathcanfall=false;
 pathdraw=true;
 pathstarted=true;
+
+depth=1;

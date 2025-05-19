@@ -1,11 +1,6 @@
+pathprenum=max(pathnum-1,0)
+if is_array(pathing) && (pathdraw) {
+	ds_list_add(oNodeManager.objectNodesList,[pathing,pathcanrev,pathcanfall,sprite_get_xoffset(sprite_index),sprite_get_yoffset(sprite_index),id])
+}
+
 txr_exec(global.scripts_level[? $"{script_onCreate}"]);
-show_debug_message("ran script" + string(id))
-
-
-//show_debug_message(string(global.scripts_level[? $"{script_onCreate}"]))
-//show_debug_message(string(global.scripts_level[? $"{script_onStep}"]))
-//show_debug_message()
-
-show_debug_message(script_onCreate)
-show_debug_message(script_onStep)
-show_debug_message(script_onTrigger)
