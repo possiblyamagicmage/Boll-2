@@ -1,7 +1,7 @@
 #define text
 
 debugtext = "yep, sure is reading this peice of text!" 
-show_debug_message("ran script inside" + string(id))
+show_message("ran script inside" + string(id))
 
 #define test_create
 

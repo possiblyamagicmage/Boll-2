@@ -151,36 +151,104 @@ function compile_level_scripts(){
 	
 	show_debug_message("BEGIN SCRIPT (LEVEL) COMPLATION...")
 	
-	var _folder = file_find_first($"{working_directory}\\_vanilla\\scripts\\*", fa_directory)
+	var _folder = file_find_first($"{working_directory}\\_vanilla\\scripts\\triggers\\*.gml", fa_none)
 	while(_folder != "") {
 		
-		show_debug_message("SCRIPT FOLDER FOUND! `" + _folder + "`");
+		show_debug_message("SCRIPT FILE FOUND! `" + _folder + "`");
 		
 		if string_starts_with(_folder, "!") {
 			show_debug_message("WARNING: Terminate symbol found in `" + _folder + "`. Ignoring...");
 			_folder = file_find_next();
 		}else {
-			found_folders[index++] = "scripts\\" + _folder
+			found_folders[index++] = "scripts\\triggers\\" + _folder
 			_folder = file_find_next();
 		}
 	}
-	show_debug_message("END SCRIPT FOLDER SEARCH");
+	show_debug_message("END SCRIPT FILE SEARCH");
 	
 	_folder = file_find_close();
 	
 	var j=0;
 	repeat(array_length(found_folders)) {
 		
-		var _file = file_find_first($"{working_directory}\\_vanilla\\" + found_folders[j] + "\\*.gml",0)
+		var _file = file_find_first($"{working_directory}\\_vanilla\\" + found_folders[j], fa_none)
 		show_debug_message("BEGIN SCRIPT COMPILE IN `" + found_folders[j] + "`");
 	
 		while(_file != "") {
-			show_debug_message("SCRIPT FILE FOUND! `" + _file + "`");
 			
-			var _filepath = $"{working_directory}\\_vanilla\\" + found_folders[j] + "\\" + _file
+			var _filepath = $"{working_directory}\\_vanilla\\" + found_folders[j]
 			//var _filepath2 = $"{working_directory}\\_vanilla\\scripts\\" + _folder 
-			show_debug_message(_filepath)
+			
 			//show_debug_message(_filepath2)
+			_file = string_delete(_file, string_length(_file) -3, 4)
+			def_names = global._findDefine( _filepath)
+			var i=0;
+			repeat(array_length(def_names)) {
+			
+				var store = def_names[i]
+				show_debug_message(store)
+			
+				if !is_undefined(_compiled[? store]) {
+					show_message("WARNING: `" + store + "` already has a script compiled.")
+				}
+			
+				_compiled[? store] = txr_compile(global._loopThrough(def_names[i], _filepath));
+				if (_compiled[? store] == undefined) {
+					show_message("ERROR IN `" + _file + "`: "+ def_names[i] + ": " + txr_error);
+				} 
+				i++;
+			}
+			
+			show_debug_message("END SCRIPT EXTRACT IN FILE " + _file);
+			_file = file_find_next();
+
+		}
+		
+		show_debug_message("END SCRIPT COMPILE IN FOLDER " + found_folders[j]);
+		_file = file_find_close();
+		j++;
+	}
+	
+	show_debug_message("Scripts have finished being compiled")
+	
+	return _compiled
+}
+
+function compile_object_scripts(){
+	var index = 0
+	var _compiled = ds_map_create();
+	var def_names = []
+	var	found_folders = []
+	
+	show_debug_message("BEGIN SCRIPT (OBJECT) COMPLATION...")
+	
+	var _folder = file_find_first($"{working_directory}\\_vanilla\\scripts\\objects\\*.gml", fa_none)
+	while(_folder != "") {
+		
+		show_debug_message("SCRIPT FILE FOUND! `" + _folder + "`");
+		
+		if string_starts_with(_folder, "!") {
+			show_debug_message("WARNING: Terminate symbol found in `" + _folder + "`. Ignoring...");
+			_folder = file_find_next();
+		}else {
+			found_folders[index++] = _folder
+			_folder = file_find_next();
+		}
+	}
+	show_debug_message("END SCRIPT FILE SEARCH");
+	
+	_folder = file_find_close();
+	
+	var j=0;
+	repeat(array_length(found_folders)) {
+		
+		var _file = file_find_first($"{working_directory}\\_vanilla\\scripts\\objects\\" + found_folders[j], fa_none)
+		show_debug_message("BEGIN SCRIPT COMPILE IN `" + found_folders[j] + "`");
+	
+		while(_file != "") {
+			
+			var _filepath = $"{working_directory}\\_vanilla\\scripts\\objects\\{_file}"
+
 			_file = string_delete(_file, string_length(_file) -3, 4)
 			def_names = global._findDefine( _filepath)
 			var i=0;
@@ -188,12 +256,11 @@ function compile_level_scripts(){
 			
 				var store = _file + "_" + def_names[i]
 				show_debug_message(store)
-				//show_message(store);
 			
 				if !is_undefined(_compiled[? store]) {
 					show_message("WARNING: `" + store + "` already has a script compiled.")
 				}
-			
+				
 				_compiled[? store] = txr_compile(global._loopThrough(def_names[i], _filepath));
 				if (_compiled[? store] == undefined) {
 					show_message("ERROR IN `" + _file + "`: "+ def_names[i] + ": " + txr_error);

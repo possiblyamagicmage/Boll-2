@@ -73,7 +73,7 @@ function component_mario_start_dive(speedX = 3.5, speedY = -2.7){
 	runvar=1.5
 	playsfx(charmName+"dive")
 	make_particle(pSmoke, x, y, depth + 5, 1, 0.5*-xsc);
-	vsp=-speedY
+	vsp=speedY
 	hsp=speedX*esign(move,xsc)
 	xsc=esign(move,xsc)
 	state = "dive"

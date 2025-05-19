@@ -122,15 +122,7 @@ function object_get_properties(obj){
 				["timer_offset", "Timer Offset", 0, "number_input", 0]
 			]
 			break;
-		//NODE MODE
-		case oCameraRegion:
-			properties = [
-				["nudge_x", "Nudge X", 0, "number_input", 0],
-				["nudge_y", "Nudge Y", 0, "number_input", 0],
-				["zoom", "Zoom Level", 1, "number_input", 0],
-				["lockon", "Lock Camera", 0, "checkbox", 0]
-			]
-			break;
+		//TECHNICAL
 		case oScript:
 		properties = [
 				["script_onTrigger", "Trigger Script", "", "string_input", 0],
@@ -140,6 +132,20 @@ function object_get_properties(obj){
 				["detection_value", "Detect Value", 0, "number_input", 0]
 			]
 		break;
+		case oCustomObject:
+		properties = [
+				["script_name", "Script Name", "", "string_input", 0]
+			]
+		break;
+		//NODE MODE
+		case oCameraRegion:
+			properties = [
+				["nudge_x", "Nudge X", 0, "number_input", 0],
+				["nudge_y", "Nudge Y", 0, "number_input", 0],
+				["zoom", "Zoom Level", 1, "number_input", 0],
+				["lockon", "Lock Camera", 0, "checkbox", 0]
+			]
+			break;
 		default: break;
 	}
 	return properties;

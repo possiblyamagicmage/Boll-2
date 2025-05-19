@@ -203,6 +203,7 @@ repeat(5)
 			selected_toolbar=0
 			selected_mode=i
 			selection = false
+			current_cat = 0
 			var size = ds_list_size(object_layer_map)
 			var j=0;
 			repeat(size) {
