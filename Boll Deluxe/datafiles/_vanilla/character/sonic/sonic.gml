@@ -306,7 +306,8 @@ if (sprindex_prev != sprite_index) {
 	sprindex_prev = sprite_index;
 }
 
-component_common_timer_values()
+bonk=max(0,bonk-1)	
+grow = max(0, (grow - 1));
 
 #define draw
 #region Sprite Manager

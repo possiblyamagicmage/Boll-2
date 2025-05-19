@@ -30,6 +30,7 @@ found_block = false;
 spinjump = false;
 stun = false;
 wallkick = false;
+was_in_water = false;
 
 #define stop
 hsp = 0;
@@ -64,9 +65,10 @@ switch (size) {
 }
 
 if (braking) xsc=brakedir
-if !in_water()
+
 maxspd = 2 + runvar + ((size != "basic" && !crouch) * 0.5) - (1.25*(crouch && grounded))
-else maxspd = 1.5
+
+//maxspd = 1.5
 
 #region PreventMovement
 var no_move_prev = no_move;
@@ -77,6 +79,37 @@ if (state == "pound") || (state=="dive") || (alarm_get(2)) || (hurt) || (stun) |
 }
 
 #endregion
+
+
+if in_water(){
+	if (!was_in_water) {
+		
+		vsp /= 5
+		was_in_water = true
+		state = ""
+		swim = 0
+	}
+	call water;
+	return -1;
+} else {
+	if (was_in_water) {
+		if (!grounded) {
+			state = "jump"
+			if (up) {
+				vsp = -5
+			} else if (vsp > 0) {
+				vsp = -3
+			}
+		}
+		accel = 0.09375; //how fast you gain speed
+		fastaccel = 0.3125; // accel during a turnaround
+		skid_accel = 0.16125; // accel while skidding ?
+		fric = 0.07; //slipperiness
+		friction_mult = 1; //multiplier for friction (e.g. ice blocks)
+		maxspd = 1.5
+		was_in_water = false
+	}
+}
 //add more checks here
 
 #region Normal
@@ -100,6 +133,7 @@ if (state == "" || state == "jump" || state == "dive") && !piped && !electrocute
 	
 	if (bkey) && !(crouch) {
 		run=1.5;
+		//show_debug_message("is_rinning")
 	} else {
 		run = 0;
 	}
@@ -160,6 +194,40 @@ if (state == "") && !(hurt) {
 #region Groundpound
 if (state == "pound") && !piping {
 	component_mario_groundpound()
+	
+	//hittable block collision
+	if (grounded) && (pound_timer <= 0) {
+		var blocklist=ds_list_create();
+		var num=collision_line_list(x-hit_sizex,y+hit_sizey+vsp+2,x+hit_sizex,y+hit_sizey+vsp+2, oHittable, false, true, blocklist, true)
+		
+		if (num > 0) {
+			found_block = false;
+			for (var i = 0; i < num; i+=1) {
+				var blockcoll=ds_list_find_value(blocklist, i)
+				if !(blockcoll.no_hit) && (pounding_block == true) && (blockcoll.amount != 0) {
+					found_block=true;
+					if (blockcoll.hit == 0) {
+						signal_emit(blockcoll.blockHit, 1, id)
+					}
+				}
+			}
+			pounding_block = false
+		}
+		
+		if !(found_block) {
+			state = ""
+			vsp = 0
+			//create pound smoke
+			make_particle(pSmoke, x-1, y + hit_sizey, depth + 5, 1, -3.25, -0.2, -0.04, 0.2);
+			make_particle(pSmoke, x-1, y + hit_sizey, depth + 5, -1, 3.25, -0.2, -0.04, 0.2);
+			pound_timer = 0;
+		}
+		
+		if (down) {
+			pounding_block = true
+		}
+		ds_list_destroy(blocklist)
+	}
 }
 #endregion
 
@@ -279,7 +347,65 @@ firing=max(0,firing-1)
 
 runvar = approach_val(runvar,run,0.05)
 damagespecial = max(0, pound_severity);
+
+bonk=max(0,bonk-1)	
+grow = max(0, (grow - 1));
+
+return -1;
+
+show_debug_message("if this runs then we are in trouble");
+
+#region Water
+label water: {
+
+grav = defaultgrav / 5
+no_move = false
+steep_slope = false
+move_lock = false
+accel = 0.05
+fastaccel = 0.05
+if (grounded) {
+maxspd = 0.98
+} else {
+	maxspd = 1.52	
+}
+
+xsc = esign(move, xsc)
+
+
+component_gravity_coneyor()
+
+if grounded {
+	vsp = 0
+}
+//fric = fric * friction_mult;
+
+#region Swimming
+	if (apress) {
+		grounded = false
+		var v_move = (down - up)
+		if (vsp > 0 || down) {
+			vsp = 0;
+		}
+		vsp -= 1.1 - (0.5 * bool(down)) + (0.6 * bool(up))
+		vsp = max(vsp, -1.5 - (0.8 * bool(up)));
+		playsfx(charmName+"swim",1,0,1)
+		swim=24
+	}
+#endregion
+
+was_in_water = true
+
+player_movement();
+basic_step_move();
+post_wall();
+
 swim = max(0, swim-1)
+
+//return 0;
+}
+#endregion
+
 
 #define step_end
 
@@ -371,10 +497,12 @@ if (state == "") {
 			if !(is_grabbing)
 			spriteEvent="swim"
 			else spriteEvent="carrySwim"
+			frspd=1
 		} else {
 			if !(is_grabbing)
 			spriteEvent="swimPaddle"
 			else spriteEvent="carryPaddle"
+			frspd=1.2
 		}
 	}
 
@@ -473,6 +601,9 @@ if (electrocuted) {
 }
 #endregion
 
+
+
+
 #define upd_frame
 if spriteEvent=="crouchIdle" {
 	if oldSpriteEvent=="crouchWalk" || oldSpriteEvent=="crouchJump" || oldSpriteEvent=="crouchFall" || oldSpriteEvent=="crouchBonk" || oldSpriteEvent=="crouchFireToss" || oldSpriteEvent=="carryCrouchIdle"  || oldSpriteEvent=="carryCrouchWalk" || oldSpriteEvent=="carryCrouchJump"  || oldSpriteEvent=="carryCrouchFall" || oldSpriteEvent=="carryCrouchBonk" {
@@ -483,6 +614,10 @@ if spriteEvent=="crouchIdle" {
 	if oldSpriteEvent=="crouchIdle" || oldSpriteEvent=="crouchWalk" || oldSpriteEvent=="crouchJump" || oldSpriteEvent=="crouchFall" || oldSpriteEvent=="crouchBonk" || oldSpriteEvent=="crouchFireToss" || oldSpriteEvent=="carryCrouchWalk" || oldSpriteEvent=="carryCrouchJump"  || oldSpriteEvent=="carryCrouchFall" || oldSpriteEvent=="carryCrouchBonk" {
 		var spri = sprite_arrposition(spriteEvent)
 		frame = loops_list[spri]-1
+	}
+} else if (spriteEvent=="swimPaddle" || spriteEvent=="carryPaddle") {
+	if swim >= 23 {
+		frame = 0
 	}
 }
 

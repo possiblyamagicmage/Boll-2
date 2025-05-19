@@ -133,40 +133,6 @@ function component_mario_groundpound(fallSpeed = 7){
 		pound_severity = vsp;
 		hsp = 0;
 	}
-	
-	//hittable block collision
-	if (grounded) && (pound_timer <= 0) {
-		var blocklist=ds_list_create();
-		var num=collision_line_list(x-hit_sizex,y+hit_sizey+vsp+2,x+hit_sizex,y+hit_sizey+vsp+2, oHittable, false, true, blocklist, true)
-		
-		if (num > 0) {
-			found_block = false;
-			for (var i = 0; i < num; i+=1) {
-				var blockcoll=ds_list_find_value(blocklist, i)
-				if !(blockcoll.no_hit) && (pounding_block == true) && (blockcoll.amount != 0) {
-					found_block=true;
-					if (blockcoll.hit == 0) {
-						signal_emit(blockcoll.blockHit, 1, id)
-					}
-				}
-			}
-			pounding_block = false
-		}
-		
-		if !(found_block) {
-			state = ""
-			vsp = 0
-			//create pound smoke
-			make_particle(pSmoke, x-1, y + hit_sizey, depth + 5, 1, -3.25, -0.2, -0.04, 0.2);
-			make_particle(pSmoke, x-1, y + hit_sizey, depth + 5, -1, 3.25, -0.2, -0.04, 0.2);
-			pound_timer = 0;
-		}
-		
-		if (down) {
-			pounding_block = true
-		}
-		ds_list_destroy(blocklist)
-	}
 }
 
 function component_sonic_start_spindash(){
@@ -245,7 +211,6 @@ function component_get_ground_friction(){
 
 function component_common_timer_values(){
 	
-	bonk=max(0,bonk-1)	
-	grow = max(0, (grow - 1));
+	//txr try not to break when i add an identical function challenge 
 }
 	
