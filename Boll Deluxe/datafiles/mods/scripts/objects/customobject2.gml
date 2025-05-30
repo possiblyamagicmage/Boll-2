@@ -19,7 +19,7 @@ ysc=1
 vsp+=grav
 
 if check_collision_line(x,y+sprite_height+1,x+sprite_width,y+sprite_height, COL_BOTTOM) {
-    vsp=-4
+    vsp= -4
 }
 
 y+=vsp

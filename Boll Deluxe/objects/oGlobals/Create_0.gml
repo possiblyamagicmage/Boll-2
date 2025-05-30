@@ -185,6 +185,8 @@ GMLspeak.interface.compileFlags.checkForVariables = true;
 		GMLspeak.interface.exposeFunction("stopsfx", stopsfx);
 		GMLspeak.interface.exposeFunction("VinylPlay", VinylPlay);
 		GMLspeak.interface.exposeFunction("VinylStop", VinylStop);
+		
+		GMLspeak.interface.exposeDynamicConstant("GAME", function() {return instance_find(oGameManager, 0)})
 	#endregion
 
 	#region Input
