@@ -1,7 +1,7 @@
 node_path_movement();
 
-if !grabbed {
-    grab_delay = max(grab_delay--, 0)
+if !(grabbed) {
+    grab_delay = max(grab_delay-1, 0)
     if !grounded { 
         vsp=min(vsp+grav,6);
     }
@@ -21,7 +21,7 @@ if !grabbed {
             }
  
         }
-    } 
+    }
     
     x += hsp
     y += vsp

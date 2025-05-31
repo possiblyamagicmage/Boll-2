@@ -1,15 +1,17 @@
 {
   "$GMObject":"",
-  "%Name":"oIceBlock",
+  "%Name":"oFrozenItem",
   "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":25,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":10,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"oIceBlock",
+  "name":"oFrozenItem",
   "overriddenProperties":[],
   "parent":{
-    "name":"Collision",
-    "path":"folders/Objects/Objects/Collision.yy",
+    "name":"Items",
+    "path":"folders/Objects/Items.yy",
   },
   "parentObjectId":{
     "name":"oCollider",
@@ -33,9 +35,9 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_iceblock",
-    "path":"sprites/spr_iceblock/spr_iceblock.yy",
+    "name":"spr_frozenitem",
+    "path":"sprites/spr_frozenitem/spr_frozenitem.yy",
   },
   "spriteMaskId":null,
-  "visible":false,
+  "visible":true,
 }

@@ -1,6 +1,6 @@
 function player_grab(){
     if (bkey && grabbed_obj == noone) {
-        var awesome = collision_line(x,y,x +((hit_sizex + 2) * move),y, oGrabable, false, true) 
+        var awesome = collision_line(x,y,x +((hit_sizex + 2) * xsc),y, oGrabable, false, true) 
         if (awesome && variable_instance_exists(awesome, "grabbed")) {
             grabbed_obj = awesome
 			is_grabbing = true
@@ -9,7 +9,7 @@ function player_grab(){
     }
     
     if (grabbed_obj != noone) {
-        grabbed_obj.x = x + (xsc * (16))
+        grabbed_obj.x = x + (12 * xsc)
         grabbed_obj.y = y
         grabbed_obj.grabbed = true
 		is_grabbing = true

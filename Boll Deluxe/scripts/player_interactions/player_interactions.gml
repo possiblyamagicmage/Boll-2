@@ -62,6 +62,8 @@ function player_interactions(){
 		dy=totaldy
 	} else dy=0
 	
+	ds_list_destroy(list);
+	
 	#region Solid Spike Collision
 	var spike=collision_line(x-hit_sizex+hsp,y-hit_sizey+2,x-hit_sizex+hsp,y+hit_sizey-abs(vsp), oSolidSpike, false, true)
 	if (spike) && (spike.dir="right" || spike.dir="none") && !(hurt) {
@@ -142,6 +144,14 @@ function player_interactions(){
 		VinylPlay(snd_itemcoin);
 		instance_create_depth(coin.x,coin.y,0,pGlitter);
 		instance_destroy(coin);
+	}
+	
+	var dotcoin=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oDottedCoin, false, true)
+	if (dotcoin) && !(hurt) && !(dead) {
+		with(dotcoin) {
+			if !triggered
+			event_user(0);
+		}
 	}
 	
 	var item=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oMushroom, false, true)

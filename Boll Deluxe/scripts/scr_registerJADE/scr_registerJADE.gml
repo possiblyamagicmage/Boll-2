@@ -73,7 +73,6 @@ function JADE_initializeobj() {
 	registerobj(object_get_name(oGrateSemi), spr_gratesemi, -sprite_get_xoffset(spr_gratesemi), -sprite_get_yoffset(spr_gratesemi), sprite_get_width(spr_gratesemi), sprite_get_height(spr_gratesemi), false, false, OBJECT_MODE, 0, object_get_properties("oGrateSemi"))
 	registerobj(object_get_name(oEnemyGround), spr_enemyground, -sprite_get_xoffset(spr_enemyground), -sprite_get_yoffset(spr_enemyground), sprite_get_width(spr_enemyground), sprite_get_height(spr_enemyground), false, false, OBJECT_MODE, 0, object_get_properties("oEnemyGround"))
 	registerobj(object_get_name(oEnemyGroundSemi), spr_enemygroundsemi, -sprite_get_xoffset(spr_enemygroundsemi), -sprite_get_yoffset(spr_enemygroundsemi), sprite_get_width(spr_enemygroundsemi), sprite_get_height(spr_enemygroundsemi), false, false, OBJECT_MODE, 0, object_get_properties("oEnemyGroundsemi"))
-	registerobj(object_get_name(oIceBlock), spr_iceblockJADE, -sprite_get_xoffset(spr_iceblockJADE), -sprite_get_yoffset(spr_iceblockJADE), sprite_get_width(spr_iceblockJADE), sprite_get_height(spr_iceblockJADE), true, true, OBJECT_MODE, 0, object_get_properties("oIceBlock"))
 	registerobj(object_get_name(oPollenFlower), spr_pollenflower, -sprite_get_xoffset(spr_pollenflower), -sprite_get_yoffset(spr_pollenflower), sprite_get_width(spr_pollenflower), sprite_get_height(spr_pollenflower), false, false, OBJECT_MODE, 0, object_get_properties("oPollenFlower"))
 	registerobj(object_get_name(oWater), spr_water, 0, 0, 16, 16, true, true, OBJECT_MODE, 0, object_get_properties("oWater"), "Water", false, 0.25, 0.5)
 	
@@ -116,15 +115,17 @@ function JADE_initializeobj() {
 	registerobj(object_get_name(oStopbob), spr_stopbob, -8, -16, 16, 16, false, false, OBJECT_MODE, 1, object_get_properties("oStopbob"), "Stopbob")
 	
 	registerobj(object_get_name(oCoin), spr_coin, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oCoin"), "Coin", true)
+	registerobj(object_get_name(oDottedCoin), spr_dottedcoin, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oDottedCoin"), "Dotted Coin", true)
 	registerobj(object_get_name(oMushroom), spr_mushroom, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oMushroom"), "Mushroom", true)
 	registerobj(object_get_name(oFireFlower), spr_fireflower, -8, -10, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oFireFlower"), "Fire Flower", true)
 	registerobj(object_get_name(oThunderFlower), spr_thunderflowerJADE, -8, -10, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oThunderFlower"), "Thunder Flower",true)
 	registerobj(object_get_name(oStar), spr_starman, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oStar"), "Star", true)
-	registerobj(object_get_name(oMysteryOrb), spr_mysteryorb, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oMysteryOrb"), "Mystery Orb", true)
     registerobj(object_get_name(o1up), spr_1up, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("o1up"), "1-UP Mushroom", true)
     registerobj(object_get_name(o3up), spr_3up, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("o3up"), "3-UP Moon", true)
 	registerobj(object_get_name(oPoisonShroom), spr_ugly_poison_shroom_from_sonic_boll, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oPoisonShroom"), "Poison Mushroom", true)
-    registerobj(object_get_name(oCheckpoint), spr_checkpoint, 21, 28, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oCheckpoint"), "Checkpoint")
+	registerobj(object_get_name(oFrozenItem), spr_frozenitem, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oFrozenItem"), "Frozen Item", true)
+	registerobj(object_get_name(oMysteryOrb), spr_mysteryorb, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oMysteryOrb"), "Mystery Orb", true)
+	registerobj(object_get_name(oCheckpoint), spr_checkpoint, 21, 28, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oCheckpoint"), "Checkpoint")
 	registerobj(object_get_name(oFlagpole), spr_JADEflagpole, -8, -160, 48, 160, false, false, OBJECT_MODE, 2, object_get_properties("oFlagpole"), "Flagpole")
 	registerobj(object_get_name(oSoccerBall), spr_soccerball, -8, -8, 16, 16, false, false, OBJECT_MODE, 2, object_get_properties("oSoccerBall"), "Soccer Ball", true)
 	

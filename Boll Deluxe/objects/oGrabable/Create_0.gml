@@ -16,7 +16,6 @@ grav = 0.2
 bounce = false
 hit_sizex = 8
 hit_sizey = 8
-bounce_speed = vsp
 collision_array = [oCollider]
 
 node_init_vars()

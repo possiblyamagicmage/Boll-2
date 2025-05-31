@@ -6,6 +6,12 @@ function object_get_properties(obj){
 	var properties = [];
 	
 	switch (asset_get_index(obj)){
+		case oCollider:
+		case oSemilider:
+			properties = [
+				["slippery", "Is Slippery", 0, "checkbox", 0]
+			]
+			break;
 		case oItemBox:
 			properties = [
 				["content", "Contents", "coin", "dropdown", ["coin", "multicoins", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"]],
@@ -33,6 +39,11 @@ function object_get_properties(obj){
 				["content", "Contents", "coin", "dropdown", ["coin", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"]]
 			]
 			break;
+		case oFrozenItem:
+			properties = [
+				["content", "Contents", "coin", "dropdown", ["coin", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "mysteryorb"]]
+			]
+			break;
 		case oSemiSlope:
 		case oSlopeCollider:
 		case oRoundedSlope3x3:
@@ -40,7 +51,8 @@ function object_get_properties(obj){
 		case oRoundedSlope1x1:
 			properties = [
 				["hflip", "Flip", 0, "checkbox", 0],
-				["ramp", "Is Ramp", 0, "checkbox", 0]
+				["ramp", "Is Ramp", 0, "checkbox", 0],
+				["slippery", "Is Slippery", 0, "checkbox", 0]
 			]
 			break;
 		case oPipe:

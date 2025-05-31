@@ -26,7 +26,7 @@ function component_mario_crouch(){
 
 function component_mario_skid(){
 	
-	if (((abs(gsp) >= 3) || skidding) && move != 0 && !check_signs_matching(gsp,move) && !crouch && !carrying) {
+	if (((abs(gsp) >= 3) || skidding) && move != 0 && !check_signs_matching(gsp,move) && !crouch && !is_grabbing) {
 		if (!skidding) {
 			skiddir = esign(move,xsc)
 			dusttimer = 0;
@@ -230,11 +230,11 @@ function component_sonic_roll(){
 	ds_list_destroy(blocklist)
 }
 
-function component_get_ground_friction(){
+function component_get_ground_friction() {
 	
-	if (grounded) {
-		var i = instance_place(x, y + hit_sizey + 4,oCollider)
-		if !is_undefined(i.my_friction) {
+	if (grounded) && check_collision_line(x-hit_sizex, y+hit_sizey+1+vsp,x+hit_sizex,y+hit_sizey+1+vsp, COL_BOTTOM, collision_array) {
+		var i = collision_line(x-hit_sizex, y+hit_sizey+1+vsp,x+hit_sizex,y+hit_sizey+1+vsp, collision_array, true, true)
+		if instance_exists(i) && !variable_instance_exists(i, "my_riction") {
 			friction_mult = i.my_friction;
 		}
 	}

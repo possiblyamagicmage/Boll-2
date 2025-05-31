@@ -42,9 +42,11 @@ blockHit.Connect( self, function(hit_p, obj) {
 		var i=0;
 	    repeat(_num) {
 			var enemy = _list[| i];
-			enemy.hp -= 1;
-			enemy.killtype="bump";
-			enemy.xsc=sign(enemy.x-x) 
+			if (enemy.grounded) {
+				enemy.hp -= 1;
+				enemy.killtype="bump";
+				enemy.xsc=sign(enemy.x-x) 
+			}
 			i++;
 	    }
 	}
