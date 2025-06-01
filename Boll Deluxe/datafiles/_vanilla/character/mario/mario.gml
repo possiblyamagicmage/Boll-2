@@ -31,6 +31,10 @@ spinjump = false;
 stun = false;
 wallkick = false;
 was_in_water = false;
+gotimer = 0;
+dead=0
+deadtimer=0;
+deadgo=0;
 
 	//we do this in create because its a function, and we only need to do it once
 	#region Water Handling Setup

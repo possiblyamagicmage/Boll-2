@@ -38,6 +38,8 @@ storeddir=0;
 yvol=0;
 wallrunperiod=0;
 
+dead=0;
+deadtimer=0;
 
 #define step_begin
 
