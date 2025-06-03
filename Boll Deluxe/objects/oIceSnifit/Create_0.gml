@@ -5,6 +5,7 @@ revving=false;
 revtimer=0;
 blowing=false;
 blowtimer=0;
+cooldowntimer=0;
 
 blowingPart=-1;
 

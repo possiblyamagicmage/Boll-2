@@ -231,9 +231,13 @@ if (state == "" || state == "jump" || state == "dive") && !piped && !electrocute
 		
 		if (hurt) {
 			hurt = false;
-			invincible_type = 1;
-			invincible_timer = 75;
+			if !(was_frozen) {
+				invincible_type = 1;
+				invincible_timer = 75;
+			}
 		}
+		
+		was_frozen = false
 		
 		canjump = 5;  // Coyote frames
 		runjump = false
@@ -256,7 +260,7 @@ if (state == "") && !(hurt) {
 #endregion
 
 #region Groundpound
-if (state == "pound") && !piped {
+if (state == "pound") && !(piped) && !(stun) {
 	component_mario_groundpound()
 	
 	//hittable block collision
@@ -299,7 +303,7 @@ if (state == "pound") && !piped {
 
 #region Jumping
 var underwater=in_water()
-if (state == "jump" || state == "") && !(grounded) && !piped {
+if (state == "jump" || state == "") && !(grounded) && !piped && !(stun) {
 	if (underwater) {
 		state=""
 	}
@@ -357,7 +361,7 @@ if ((state == "" || state=="crouch") && !hurt && !stun && apress && canjump > 0 
 
 #region Wallsliding
 
-if (state == "wallslide") && !piped {
+if (state == "wallslide") && !piped && !(stun) {
 	component_mario_wallslide()
 }
 #endregion
@@ -797,7 +801,9 @@ stun = false;
 wallkick = false;
 
 #define sprung
-state = "jump";
+if state != "frozen" {
+	state = "jump";
+}
 crouch = false
 slopesliding = false
 canstopjump = true

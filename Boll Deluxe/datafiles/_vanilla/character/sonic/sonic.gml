@@ -77,6 +77,7 @@ if (move!=0) && (vsp < 0) && (state!="wallrun") && (abs(wallrunstored_gsp) > 1) 
 #endregion
 
 #define step
+hit_sizex = 6
 switch (size) {
 	case "basic": {
 		can_break_bricks=false
@@ -391,7 +392,7 @@ if (dropdash && dropdash_timer >= 18) {
 	spriteEvent="dropDash"
 }
 
-if (hurt) {
+if (hurt || state == "frozen") {
 	spriteEvent="hurt"
 	if (dead) {
 		spriteEvent="dead"
@@ -488,9 +489,10 @@ bonk = 12
 
 #define floor_land
 canstopjump = false;
-if state!="wallrun" {
+if state!="wallrun" && state!="frozen" {
 	state = "";
 }
+vsp = 0;
 bonk = 0;
 gsp = hsp
 
@@ -566,7 +568,9 @@ vsp = 0
 
 #define sprung
 canstopjump = true;
-state = "";
+if state != "frozen" {
+	state = "";
+}
 
 #define enemy_stomped
 vsp= -(4+akey*1.5)
@@ -668,3 +672,12 @@ switch (size) {
 	} break
 }
 grow = 60;
+
+#define on_freeze
+state = "frozen"
+while (check_collision_line(x-hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey,COL_BOTTOM)) {
+	y-=1
+}
+
+#define enter_pipe
+stopsfx(charmName+"skid")

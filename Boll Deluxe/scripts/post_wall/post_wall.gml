@@ -4,9 +4,11 @@ function post_wall(){
 		var oldhsp = hsp;
 		
 		if (state == "frozen") {
-			state="jump"
+			state=""
 			vsp=-2;
+			hurt = true;
 			grounded=false;
+			was_frozen = true;
 			y-=8
 			var j=noone
 			j = instance_create(x-8,y+8,pDestruction) with(j){image_index=10 hspeed=-1 vspeed=-2} //bottom left
@@ -31,9 +33,11 @@ function post_wall(){
 		var oldhsp = hsp;
 		
 		if (state == "frozen") {
-			state="jump"
+			state=""
 			vsp=-2;
+			hurt=1;
 			grounded=false;
+			was_frozen = true;
 			y-=8
 			var j=noone
 			j = instance_create(x-8,y+8,pDestruction) with(j){image_index=10 hspeed=-1 vspeed=-2} //bottom left

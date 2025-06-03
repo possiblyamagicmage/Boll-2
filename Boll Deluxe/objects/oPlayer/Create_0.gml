@@ -83,6 +83,7 @@ grow=0;
 can_break_bricks=false;
 has_fired=0;
 wait_timer=0;	//wait animation
+was_frozen=false;
 frozen_health=5;
 
 pollenated=false;

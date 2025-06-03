@@ -3,9 +3,11 @@ event_inherited();
 
 stun=max(stun-1,0);
 
+cooldowntimer=max(cooldowntimer-1,0);
+
 //if check_rectangle_in_hitbox(x-((hit_sizex+64)*xsc),y-16,x-((hit_sizex+64)*xsc),y+16,oPlayer)
 
-if !(blowing) && check_rectangle_in_hitbox(x-((hit_sizex+90)*xsc),y-hit_sizey-16,x,y+hit_sizey,oPlayer) && !(revving) {
+if !(blowing) && !(cooldowntimer) && check_rectangle_in_hitbox(x-((hit_sizex+90)*xsc),y-hit_sizey-16,x,y+hit_sizey,oPlayer) && !(revving) {
 	revving=true
 	revtimer=90
 	constantspd=0;
@@ -52,6 +54,7 @@ if (blowing) {
 	if !(blowtimer) {
 		constantspd=0.5
 		blowing=false
+		cooldowntimer=20;
 	}
 }
 

@@ -56,7 +56,7 @@ if (state != "frozen") {
 	
 	fric = 0
 	
-	maxspd=5
+	maxspd = 10
 	
 	component_gravity_coneyor();
 	
@@ -75,6 +75,7 @@ if (state != "frozen") {
 			state="jump"
 			vsp=-2;
 			grounded=false;
+			was_frozen = true;
 			y-=8
 			VinylPlay(snd_iceshatter)
 			exit
