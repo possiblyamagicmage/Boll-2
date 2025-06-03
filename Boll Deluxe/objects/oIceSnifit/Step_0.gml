@@ -36,6 +36,10 @@ if (blowing) {
 				
 				if (state!="frozen") {
 					VinylPlay(snd_playerfreeze)
+					state = "frozen"
+					while (check_collision_line(x-hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey,COL_BOTTOM)) {
+						y-=1
+					}
 					sig.Emit("on_freeze")
 					frozen_health = 5
 				}

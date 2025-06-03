@@ -909,11 +909,5 @@ if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 	}
 	grow = 60;
 
-#define on_freeze
-state = "frozen"
-while (check_collision_line(x-hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey,COL_BOTTOM)) {
-	y-=1
-}
-
 #define enter_pipe
 stopsfx(charmName+"skid")
