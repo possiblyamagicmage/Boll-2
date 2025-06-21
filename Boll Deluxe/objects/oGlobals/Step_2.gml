@@ -21,3 +21,5 @@ if global.debug {
 		room_speed+=10
 	}
 }
+
+file_dropper_flush()

@@ -249,6 +249,13 @@ repeat(tb_length)
 
 selected_tool=toolbar[selected_mode][selected_toolbar]
 
+droppedfiles=file_dropper_get_files(".jade")
+
+if array_length(droppedfiles) {
+	global.save_dir=droppedfiles[0]
+	JADE_load(droppedfiles[0])
+}
+
 if (mbleftpress) {
 	if mouse_in_setting_slot(0) { //exit button
 		JADE_save();
@@ -289,7 +296,30 @@ if (mbleftpress) {
 		if (selected_tool == PICKER_TOOL) {
 			switch(selected_mode) {
 				case OBJECT_MODE:
-					//todo, redo picker based on new object system
+					var size = ds_list_size(object_layer_map)
+					var i=0;
+					repeat(size) {
+						//is place matching cursor?
+						var obj = ds_list_find_value(object_layer_map, i)
+						if !is_undefined(obj) {
+						    if obj[1] == gridx && obj[2] == gridy {
+								selected_obj=obj[0];
+								break;
+							}
+						}
+						i++;
+					}
+				break;
+				case TILE_MODE:
+					var data = tilemap_get_at_pixel(tilemap, mouse_x, mouse_y);
+					if tile_get_index(data) != current_tile_id[0][0] && not_on_gui {
+						current_tile_id = -1
+						current_tile_id = []
+						current_tile_id[0][0] = tile_get_index(data)
+						tile_sel_height = 0
+						tile_sel_width = 0
+						selected_toolbar = 0
+					}
 				break;
 			}
 		}
@@ -1083,21 +1113,6 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 						data = tile_set_empty(data)
 						tilemap_set(tilemap, data, gridx, gridy); //delete tile at place lol
 						tile_update_properties();
-					}
-				break;
-			}
-		break;
-		case PICKER_TOOL:
-			switch(selected_mode) {
-				case TILE_MODE:
-					var data = tilemap_get_at_pixel(tilemap, mouse_x, mouse_y);
-					if tile_get_index(data) != current_tile_id[0][0] && not_on_gui {
-						current_tile_id = -1
-						current_tile_id = []
-						current_tile_id[0][0] = tile_get_index(data)
-						tile_sel_height = 0
-						tile_sel_width = 0
-						selected_toolbar = 0
 					}
 				break;
 			}
