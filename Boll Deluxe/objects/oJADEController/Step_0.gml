@@ -2,8 +2,8 @@ cam_x = camera_get_view_x(view_camera[0])
 cam_y = camera_get_view_y(view_camera[0])
 cam_w = camera_get_view_width(view_camera[0])
 cam_h = camera_get_view_height(view_camera[0])
-guiw = window_get_width();
-guih = window_get_height();
+guiw = display_get_gui_width();
+guih = display_get_gui_height();
 
 if !os_is_paused() && guiw>0 && guih>0 {
 	if !surface_exists(GUIcanvas) {
@@ -30,11 +30,12 @@ mbmiddle = (mouse_check_button(mb_middle) || (keyboard_check(vk_space) && mouse_
 #region GUI Input Handler
 if (mbleftpress) {
 	topbuttons.update();
+	toolbarbuttons.update();
 }
 #endregion
 
-curs_x=(mouse_x-cam_x)/zoom_level
-curs_y=(mouse_y-cam_y)/zoom_level
+curs_x=window_mouse_get_x()
+curs_y=window_mouse_get_y()
 
 #region Camera Panning
 if (not_on_gui) && (mbmiddle) {
@@ -74,7 +75,7 @@ if (mwheel != 0) && keyboard_check(vk_control) && (not_on_gui) {
 zoom_goto=clamp(zoom_goto,0.125, 5)
 var oldzoom=zoom_level
 zoom_level=approach_val(zoom_level,zoom_goto,0.025)
-camera_set_view_size(view_camera[0], floor(480*zoom_level), floor(270*zoom_level))
+camera_set_view_size(camera, floor(1440*zoom_level), floor(810*zoom_level))
 
 if (zoom_level!=oldzoom) {
 	cam_x = camera_get_view_x(view_camera[0])
@@ -82,19 +83,17 @@ if (zoom_level!=oldzoom) {
 	cam_w = camera_get_view_width(view_camera[0])
 	cam_h = camera_get_view_height(view_camera[0])
 	
-	var old_cam_w = floor(480*oldzoom)
-	var old_cam_h = floor(270*oldzoom)
+	var old_cam_w = floor(1440*oldzoom)
+	var old_cam_h = floor(810*oldzoom)
 	cam_x += floor(old_cam_w/2 - cam_w/2)
 	cam_y += floor(old_cam_h/2 - cam_h/2)
 	
-	camera_set_view_pos(view_camera[0],cam_x,cam_y)
+	camera_set_view_pos(camera,cam_x,cam_y)
 }
 #endregion
 
 gridx = floor(mouse_x/16) 
 gridy = floor(mouse_y/16)
-
-selected_tool=toolbar[selected_mode][selected_toolbar]
 
 droppedfiles=file_dropper_get_files(".jade")
 
@@ -226,6 +225,7 @@ if (mbleftpress) {
 	}
 }
 
+/*
 if (selected_tool == SELECT_TOOL && not_on_gui && !keyboard_check(vk_space)) {
 	var overlap = 0
 	
@@ -830,7 +830,7 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 						/*SPRITE STAT LIST
 						 just look in JADE_initializeobj() lol
 						*/
-					}
+				/*	}
 				break;
 				case NODE_MODE:
 					if is_string(selected_obj) {
@@ -893,7 +893,7 @@ if (mbleft && not_on_gui && !keyboard_check(vk_space)) {
 						/*SPRITE STAT LIST
 						 just look in JADE_initializeobj() lol
 						*/
-					}
+				/*	}
 				break;
 				case TILE_MODE:
 					if show_tileset && on_tile_picker {

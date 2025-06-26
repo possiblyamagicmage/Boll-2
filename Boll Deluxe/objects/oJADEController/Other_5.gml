@@ -1,4 +1,6 @@
+window_set_size(480*3,270*3)
+display_set_gui_size(480,270)
+surface_resize(application_surface, 480, 270);
 surface_free(object_list_area_surface);
 VinylStopAll();
 VinylStop(editorMusic);
-cursor_sprite = -1;

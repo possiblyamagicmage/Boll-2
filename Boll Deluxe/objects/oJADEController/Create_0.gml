@@ -22,8 +22,8 @@ cam_x = camera_get_view_x(view_camera[0])
 cam_y = camera_get_view_y(view_camera[0])
 cam_w = camera_get_view_width(view_camera[0])
 cam_h = camera_get_view_height(view_camera[0])
-guiw = window_get_width();
-guih = window_get_height();
+guiw = display_get_gui_width();
+guih = display_get_gui_height();
 
 themeaccent1=scribble_rgb_to_bgr($0d1128)
 themeaccent2=scribble_rgb_to_bgr($1c2348)
@@ -70,8 +70,6 @@ topbuttons.add("View", function() {
 topbuttons.add("Region", function() {
 
 });
-
-cursor_sprite = spr_JADEcursor;
 
 //Modes:
 //1: Objects
@@ -120,6 +118,10 @@ toolbar[4][2]=NODE_TOOL
 toolbar[4][3]=ROTATOR_TOOL
 toolbar[4][4]=ERASE_TOOL
 toolbar[4][5]=REFERENCE_TOOL
+
+toolbarbuttons = new JADEtoolbar(196,26)
+
+toolbarbuttons.set(toolbar[0])
 
 JADE_initializeobj();
 
@@ -172,7 +174,6 @@ selected_mode=OBJECT_MODE;
 selected_toolbar=0;
 selected_tool=SELECT_TOOL;
 
-selected_obj=ds_list_find_value(obj_name, 0)
 selection = false
 selection_id = NaN
 selection_x = [0]
@@ -200,6 +201,9 @@ gotoroom=rGame
 
 curs_x=mouse_x
 curs_y=mouse_y
+
+selected_obj=-1;
+selected_deco_obj=-1;
 
 view_grab=0 //view panning
 view_grabx=0
@@ -244,28 +248,15 @@ object_list_area_x = (guiw-object_list_area_width/3)
 object_list_area_y = ((guih/2)-(object_list_area_height/3)/2)
 object_list_area_surface = surface_create(object_list_area_width, object_list_area_height)
 
-var i=0;
-repeat (NODE_MODE+1) {
-    var j=0;
-	repeat (array_length(jade_cats)) {
-		object_list_scroll_pos[i][j] = 0
-		current_obj_id[i][j] = 0
-		j++;
-	}
-	i++;
-}
-current_cat = 0
-#endregion
-
 selection_box_fr=0
 is_typing=0;
 temptypingstring="";
 open_dropmenu=0;
-
+/*
 place_object = function(uuid,_x,_y,xscale=1,yscale=1) { 
 	ds_list_add(object_layer_map[selected_region], [uuid, _x, _y, xscale, yscale, 0])//add object to list at place
 	var obj = ds_list_find_value(object_layer_map[selected_region], ds_list_size(object_layer_map[selected_region])-1)
-	var sprite = ds_map_find_value(obj_data,obj[0])
+	var sprite = []//ds_map_find_value(obj_data,obj[0])
 	if !is_undefined(obj) {
 		obj[6] = sprite[3]*xscale //set correct hitbox for the collider
 		obj[7] = sprite[4]*yscale //set correct hitbox for the collider
