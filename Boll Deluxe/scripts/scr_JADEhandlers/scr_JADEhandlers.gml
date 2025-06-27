@@ -166,7 +166,9 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 	listheight = 0;
 	scroll_x = 0;
 	scroll_y = 0;
+	handle_x = 0;
 	handle_y = 0;
+	mouse_offset_x = 0;
 	mouse_offset_y = 0;
 	is_scrolling_x=0;
 	is_scrolling_y=0;
@@ -200,13 +202,15 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		listwidth = 0;
 		listheight = 0;
 		
+		var over = point_in_rectangle(curs_x,curs_y,x,y,x+width,y+height);
+		
 		draw_set_font(global.rulerGold)
 		while(array_length(currarr)) { //this code is a fucking mess Im sorry.
 			var item = currarr[0]
 			array_delete(currarr,0,1);
 			if (is_instanceof(item, JADEobj)) {
-				var over = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y)
-				if (mbleft) && (over) {
+				var over_button = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y) && over
+				if (mbleft) && (over_button) {
 					variable_instance_set(oJADEController, checkvar, item)
 					mbleft=0
 				}
@@ -214,7 +218,7 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 				if (checkervalue!=-1) && (checkervalue.uuid == item.uuid) {
 					draw_rect(x+indent+scroll_x,y+(24*i)+2+scroll_y,width,20,oJADEController.themeaccent2,1)
 				}
-				else if (over) draw_rect(x+indent+scroll_x,y+(24*i)+2+scroll_y,width,20,oJADEController.themeaccent4,1,true)
+				else if (over_button) draw_rect(x+indent+scroll_x,y+(24*i)+2+scroll_y,width,20,oJADEController.themeaccent4,1,true)
 				
 				draw_rect(x+2+indent+scroll_x,y+24+(24*i)-1+scroll_y,width-4,2,oJADEController.themeaccent2,1) //divider
 				draw_text(x+24+indent+scroll_x,y+8+(24*i)+scroll_y, item.name)
@@ -226,22 +230,22 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 					
 				}
 			} else if is_instanceof(item, JADElistcategory) {
-				var over = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y)
-				if (mbleft) && (over) {
+				var over_button = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y) && over
+				if (mbleft) && (over_button) {
 					item.collapse();
 					mbleft=0
 				}
 				
-				draw_gui(x+4+indent+scroll_x,y+(24*i)+1+scroll_y,width-8,22,oJADEController.themeaccent4,1)
-				draw_text(x+8+12+indent+scroll_x,y+8+(24*i)+scroll_y,item.listname)
-				draw_sprite(spr_JADElistarrow,item.collapsed,x+indent+width+8+scroll_x,y+4+(24*i)+scroll_y)
+				draw_gui(x+4+indent+scroll_x,y+(24*i)+1+scroll_y,width-8,22,oJADEController.themeaccent4,1) //button
+				draw_text(x+8+24+indent+scroll_x,y+8+(24*i)+scroll_y,item.listname) //category name
+				draw_sprite(spr_JADElistarrow,item.collapsed,x+8+indent+scroll_x,y+4+(24*i)+scroll_y) //collapse arrow
 				
 				if !(item.collapsed) {
 					if array_length(currarr) {
 						array_push(prevarr,variable_clone(currarr))
 						array_push(prevind,indent);
 					}
-				
+					currarr=[];
 					array_copy(currarr,0,item.listcontents,0,array_length(item.listcontents))
 					indent+=16;
 					listwidth+=16;
@@ -254,14 +258,20 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		
 		//Scrollbars
 		var total_height=height+listheight
+		var total_width=width+listwidth
 		
-		var over_vert_scrollbar = point_in_rectangle(curs_x,curs_y,x+width,y,x+width+4+6,y+height);
+		var over_vert_scrollbar = point_in_rectangle(curs_x,curs_y,x+width,y,x+width+4+8,y+height);
 		var bar_height = max(6,(height/total_height)*height)
 		
-		draw_gui(x+width+4,y,6,height,oJADEController.themeaccent2,1)
-		draw_gui(x+width+4,y+handle_y,6,bar_height,oJADEController.themeaccent4,1)
+		var over_horizontal_scrollbar = point_in_rectangle(curs_x,curs_y,x,y+height,x+width,y+height+4+8);
+		var bar_width = max(6,(width/total_width)*width)
 		
-		var over = point_in_rectangle(curs_x,curs_y,x,y,x+width,y+height);
+		draw_gui(x+width+4,y,6,height,oJADEController.themeaccent2,1) //vertical scrollbar bg
+		draw_gui(x+width+4,y+handle_y,6,bar_height,oJADEController.themeaccent4,1) //vertical scrollbar handle
+		
+		draw_gui(x,y+height+4,width,6,oJADEController.themeaccent2,1) //horizontal scrollbar bg
+		draw_gui(x+handle_x,y+height+4,bar_width,6,oJADEController.themeaccent4,1) //horizontal scrollbar handle
+		
 		var mwheel = mouse_wheel_down() - mouse_wheel_up();
 		if (mwheel == 0) {
 			mwheel = keyboard_check(vk_down) - keyboard_check(vk_up)
@@ -275,16 +285,22 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 				handle_y = 0 - ((height - bar_height) * scroll_y / (listheight))
 			} else {
 				scroll_x+=8*mwheel
+				scroll_x=clamp(scroll_x,-listwidth,0)
 			}
 		}
 		
-		var handle_middle = bar_height/ 2
-		
-		if (over_vert_scrollbar) && (mbleft) {
-			if !is_scrolling_y {
-				mouse_offset_y = (curs_y - (y + handle_y))	
+		if (mbleft) {
+			if (over_vert_scrollbar)  {
+				if !is_scrolling_y {
+					mouse_offset_y = (curs_y - (y + handle_y))	
+				}
+				is_scrolling_y=true
+			} else if (over_horizontal_scrollbar) {
+				if !is_scrolling_x {
+					mouse_offset_x = (curs_x - (x + handle_x))	
+				}
+				is_scrolling_x=true
 			}
-			is_scrolling_y=true
 		}
 		
 		if (mouse_check_button_released(mb_left)) {
@@ -293,17 +309,16 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		}
 		
 		if (is_scrolling_y) {
-			//var y_normalized = y - curs_y + (bar_height/2);
-			//scroll_y = (y_normalized / (height - bar_height)) * listheight
 			handle_y = curs_y - y - mouse_offset_y;
 			handle_y = clamp( handle_y, 0, height - bar_height);
 			
 			scroll_y = 0 - ((listheight) * handle_y / (height - bar_height));
-			show_debug_message(mouse_offset_y)
+		} else if (is_scrolling_x) {
+			handle_x = curs_x - x - mouse_offset_x;
+			handle_x = clamp(handle_x, 0, width - bar_width);
+			
+			scroll_x = 0 - ((listwidth) * handle_x / (width - bar_width));
 		}
-		
-		//scroll_y=clamp(scroll_y,-listheight,0)
-		scroll_x=clamp(scroll_x,-listwidth,0)
 	}
 }
 
