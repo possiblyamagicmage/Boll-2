@@ -233,6 +233,7 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 				var over_button = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y) && over
 				if (mbleft) && (over_button) {
 					item.collapse();
+					scroll_x=clamp(scroll_x,-listwidth,0)
 					mbleft=0
 				}
 				
@@ -282,10 +283,14 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 				scroll_y+=12*-mwheel
 				scroll_y=clamp(scroll_y,-listheight,0)
 				
-				handle_y = 0 - ((height - bar_height) * scroll_y / (listheight))
+				if (listheight)
+				handle_y = -((height - bar_height) * scroll_y / (listheight))
 			} else {
 				scroll_x+=8*mwheel
 				scroll_x=clamp(scroll_x,-listwidth,0)
+				
+				if (listwidth)
+				handle_x = -((width - bar_width) * scroll_x / (listwidth))
 			}
 		}
 		
@@ -312,12 +317,12 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 			handle_y = curs_y - y - mouse_offset_y;
 			handle_y = clamp( handle_y, 0, height - bar_height);
 			
-			scroll_y = 0 - ((listheight) * handle_y / (height - bar_height));
+			scroll_y = -((listheight) * handle_y / (height - bar_height));
 		} else if (is_scrolling_x) {
 			handle_x = curs_x - x - mouse_offset_x;
 			handle_x = clamp(handle_x, 0, width - bar_width);
 			
-			scroll_x = 0 - ((listwidth) * handle_x / (width - bar_width));
+			scroll_x = -((listwidth) * handle_x / (width - bar_width));
 		}
 	}
 }
