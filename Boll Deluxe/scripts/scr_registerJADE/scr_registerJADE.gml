@@ -8,8 +8,8 @@
 
 function JADE_initializeobj() {
 	obj_data = {};
-	objectlist = new JADElisthandler(1196,32, 232, 640, "selected_obj")
-	decolist = new JADElisthandler(1196,32, 232, 640, "selected_obj")
+	objectlist = new JADElisthandler(1196,32, 228, 640, "selected_obj")
+	decolist = new JADElisthandler(1196,32, 228, 640, "selected_obj")
 	
 	registerobj(oPlayerSpawn, spr_spawner, 0, 0, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Player Spawn")
 	registerobj(oCollider, spr_collider, 0, 0, 16, 16, true, true, objectlist, object_get_properties("oCollider"), "Collider")
@@ -28,6 +28,35 @@ function JADE_initializeobj() {
 	objectlist.add(blockcategory) //we added the items to the category, but we still need to apply the category to the main list
 	
 	registerobj(oSlopeCollider, spr_slopesolid, 0, 0, 16, 16, true, true, objectlist, object_get_properties("oCollider"), "Slope Collider")
+	registerobj(oGoomba, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oGoombrat, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oKoopa, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oKoopaRed, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oKoopaYellow, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oKoopaSkating, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oPolarBear, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oStopbob, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oIceSnifit, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oAmp, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oLongItemBox, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oFlipblock, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oHardBlock, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oCrate, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oPipe, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oMovingPlatform, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oSwingingPlatform, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oChainsaw, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oZapper, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oSolidSpike, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oIcicle, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oBillBlaster, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oBanzaiBill, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oBillBlaster, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oPiranhaPlant, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oThwomp, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oWater, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oTerrainSpring, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
+	registerobj(oTerrainSprong, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Placeholder")
 }
 
 function WM_initializeobj() {	

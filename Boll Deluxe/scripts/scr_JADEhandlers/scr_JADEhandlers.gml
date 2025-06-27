@@ -72,6 +72,7 @@ function JADEtoolbar(_x, _y) constructor {
 	buttons = [];
 	size=28;
 	spacing=8;
+	
 	static set = function(arr) {
 		buttons = arr;		
 	}
@@ -161,6 +162,12 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 	height=_height;
 	listcontents=[];
 	checkvar=_checkvar;
+	listwidth = 0;
+	listheight = 0;
+	scroll_x = 0;
+	scroll_y = 0;
+	is_scrolling_x=0;
+	is_scrolling_y=0;
 	
 	static add = function(_item) {
 		array_push(listcontents, _item)
@@ -185,39 +192,47 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		var i=0;
 		checkervalue=variable_instance_get(oJADEController, checkvar)
 		
+		var prevscissor = gpu_get_scissor();
+		gpu_set_scissor(x,y,width,height);
+		
+		listwidth = 0;
+		listheight = 0;
+		
 		draw_set_font(global.rulerGold)
 		while(array_length(currarr)) { //this code is a fucking mess Im sorry.
 			var item = currarr[0]
 			array_delete(currarr,0,1);
 			if (is_instanceof(item, JADEobj)) {
-				var over = point_in_rectangle(curs_x,curs_y,x+indent,y+(24*i),x+width+indent,y+24+(24*i))
+				var over = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y)
 				if (mbleft) && (over) {
 					variable_instance_set(oJADEController, checkvar, item)
 					mbleft=0
 				}
 			
 				if (checkervalue!=-1) && (checkervalue.uuid == item.uuid) {
-					draw_rect(x+indent,y+(24*i)+2,width,20,oJADEController.themeaccent2,1)
+					draw_rect(x+indent+scroll_x,y+(24*i)+2+scroll_y,width,20,oJADEController.themeaccent2,1)
 				}
-				else if (over) draw_rect(x+indent,y+(24*i)+2,width,20,oJADEController.themeaccent4,1,true)
+				else if (over) draw_rect(x+indent+scroll_x,y+(24*i)+2+scroll_y,width,20,oJADEController.themeaccent4,1,true)
 				
-				draw_rect(x+2+indent,y+24+(24*i)-1,width-4,2,oJADEController.themeaccent2,1) //divider
-				draw_text(x+24+indent,y+8+(24*i), item.name)
+				draw_rect(x+2+indent+scroll_x,y+24+(24*i)-1+scroll_y,width-4,2,oJADEController.themeaccent2,1) //divider
+				draw_text(x+24+indent+scroll_x,y+8+(24*i)+scroll_y, item.name)
 				
 				if (!array_length(currarr)) && array_length(prevarr) {
 					var temp=array_pop(prevarr)
 					array_copy(currarr,0,temp,0,array_length(temp))
 					indent=array_pop(prevind);
+					
 				}
 			} else if is_instanceof(item, JADElistcategory) {
-				var over = point_in_rectangle(curs_x,curs_y,x+indent,y+(24*i),x+width+indent,y+24+(24*i))
+				var over = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y)
 				if (mbleft) && (over) {
 					item.collapse();
 					mbleft=0
 				}
 				
-				draw_gui(x+4+indent,y+(24*i)+1,width-8,22,oJADEController.themeaccent4,1)
-				draw_text(x+8+indent,y+8+(24*i),item.listname)
+				draw_gui(x+4+indent+scroll_x,y+(24*i)+1+scroll_y,width-8,22,oJADEController.themeaccent4,1)
+				draw_text(x+8+12+indent+scroll_x,y+8+(24*i)+scroll_y,item.listname)
+				draw_sprite(spr_JADElistarrow,item.collapsed,x+indent+width+8+scroll_x,y+4+(24*i)+scroll_y)
 				
 				if !(item.collapsed) {
 					if array_length(currarr) {
@@ -227,11 +242,53 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 				
 					array_copy(currarr,0,item.listcontents,0,array_length(item.listcontents))
 					indent+=16;
+					listwidth+=16;
 				}
 			}
 			i++;
+			if i>(height/24) listheight+=24
+		}
+		gpu_set_scissor(prevscissor);
+		
+		//Scrollbars
+		var total_height=height+listheight
+		
+		var over_vert_scrollbar = point_in_rectangle(curs_x,curs_y,x+width,y,x+width+4+6,y+height);
+		var bar_height = max(6,(height/total_height)*height)
+		
+		draw_gui(x+width+4,y,6,height,oJADEController.themeaccent2,1)
+		draw_gui(x+width+4,y-scroll_y,6,bar_height,oJADEController.themeaccent4,1)
+		
+		var over = point_in_rectangle(curs_x,curs_y,x,y,x+width,y+height);
+		var mwheel = mouse_wheel_down() - mouse_wheel_up();
+		if (mwheel == 0) {
+			mwheel = keyboard_check(vk_down) - keyboard_check(vk_up)
 		}
 		
+		if (over) && (mwheel != 0) {
+			if !keyboard_check(vk_control) {
+				scroll_y+=12*-mwheel
+			} else {
+				scroll_x+=8*mwheel
+			}
+		}
+		
+		if (over_vert_scrollbar) && (mbleft) {
+			is_scrolling_y=true
+		}
+		
+		if (mouse_check_button_released(mb_left)) {
+			is_scrolling_x=0
+			is_scrolling_y=0
+		}
+		
+		if (is_scrolling_y) {
+			var y_normalized = y - curs_y + (bar_height/2);
+			scroll_y = (y_normalized / (height - bar_height)) * listheight
+		}
+		
+		//scroll_y=clamp(scroll_y,-listheight,0)
+		scroll_x=clamp(scroll_x,-listwidth,0)
 	}
 }
 
