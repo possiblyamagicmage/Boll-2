@@ -1,5 +1,3 @@
- 
-
 selection_box_fr+=0.2
 
 //Selection Tool mass-select box

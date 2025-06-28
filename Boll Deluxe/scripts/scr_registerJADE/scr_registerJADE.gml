@@ -28,7 +28,7 @@ function JADE_initializeobj() {
 	objectlist.add(blockcategory) //we added the items to the category, but we still need to apply the category to the main list
 	
 	registerobj(oSlopeCollider, spr_slopesolid, 0, 0, 16, 16, true, true, objectlist, object_get_properties("oCollider"), "Slope Collider")
-	registerobj(oGoomba, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "A")
+	/*registerobj(oGoomba, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "A")
 	registerobj(oGoombrat, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "B")
 	registerobj(oKoopa, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "C")
 	registerobj(oKoopaRed, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "D")
@@ -56,7 +56,7 @@ function JADE_initializeobj() {
 	registerobj(oThwomp, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Z")
 	registerobj(oWater, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "A2")
 	registerobj(oTerrainSpring, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "B2")
-	registerobj(oTerrainSprong, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "B3")
+	registerobj(oTerrainSprong, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "B3")*/
 }
 
 function WM_initializeobj() {	

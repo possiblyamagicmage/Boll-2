@@ -11,5 +11,4 @@ repeat(4) {
 	g++;
 }
 
-surface_free(object_list_area_surface)
 surface_free(GUIcanvas);

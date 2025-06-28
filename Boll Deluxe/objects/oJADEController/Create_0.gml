@@ -225,33 +225,7 @@ drawing_rotator=-1;
 draw_rotator_x=0;
 draw_rotator_y=0;
 
-#region tileset picker variables
-
-show_tileset = false
-on_tile_picker = false
-tile_zoom = 1;
-tileset_picker_x = (guiw-(sprite_get_width(tilesets[$ current_tileset][0]) / 3))
-tileset_picker_y = ((guih/2) - (sprite_get_height(tilesets[$ current_tileset][0]) / 3) /2) - 8
-#endregion
-
-object_list = ds_list_create();
-
-#region object list variables
-on_object_list=false
-show_object_list=true
-object_list_active = 1
-properties_tab_active = 0
-
-object_list_area_width = 96*3
-object_list_area_height = 128*3
-object_list_area_x = (guiw-object_list_area_width/3)
-object_list_area_y = ((guih/2)-(object_list_area_height/3)/2)
-object_list_area_surface = surface_create(object_list_area_width, object_list_area_height)
-
 selection_box_fr=0
-is_typing=0;
-temptypingstring="";
-open_dropmenu=0;
 /*
 place_object = function(uuid,_x,_y,xscale=1,yscale=1) { 
 	ds_list_add(object_layer_map[selected_region], [uuid, _x, _y, xscale, yscale, 0])//add object to list at place
