@@ -9,6 +9,7 @@ if (state < 2) {
 		}
 		
 		//VinylSetPitch(sound, lerp(0.5,2,temp))
+		
 		//for some reason gamemaker wont reconize this function so ill just leave everything
 		//relating to the flagpoles sounds commented
 		
@@ -17,7 +18,7 @@ if (state < 2) {
 			gfx_y = -32
 			state = 2;
 			instance_create(x + 16, y + gfx_y + 16, pSmoke);
-			VinylStop(sound);
+			//VinylStop(sound);
 			exit;
 		}
 	}
