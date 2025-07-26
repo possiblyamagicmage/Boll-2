@@ -1,18 +1,18 @@
 ///@description Intialize
 ///Tools:
 #macro EMPTY_SLOT -1
-#macro SELECT_TOOL 1 //region, object, background, node
-#macro BRUSH_TOOL 2 //object, tile, background
-#macro FILL_TOOL 3 //object, tile
-#macro ERASE_TOOL 4 //object, tile, background, node
-#macro PICKER_TOOL 5 //object, tile, background
-#macro REFERENCE_TOOL 6 //object, tile, background, node
-#macro ROTATE_TOOL 7 //tile, background
-#macro MIRROR_TOOL 8 //tile, background
-#macro FLIP_TOOL 9 //tile, background
-#macro COLOR_TOOL 10 //tile, background
-#macro NODE_TOOL 11 //node
-#macro ROTATOR_TOOL 12 //node
+#macro SELECT_TOOL 0 //region, object, background, node
+#macro BRUSH_TOOL 1 //object, tile, background
+#macro FILL_TOOL 2 //object, tile
+#macro ERASE_TOOL 3 //object, tile, background, node
+#macro PICKER_TOOL 4 //object, tile, background
+#macro REFERENCE_TOOL 5 //object, tile, background, node
+#macro ROTATE_TOOL 6 //tile, background
+#macro MIRROR_TOOL 7 //tile, background
+#macro FLIP_TOOL 8 //tile, background
+#macro COLOR_TOOL 9 //tile, background
+#macro NODE_TOOL 10 //node
+#macro ROTATOR_TOOL 11 //node
 
 camera = view_camera[0]
 
@@ -174,10 +174,10 @@ selected_mode=OBJECT_MODE;
 selected_toolbar=0;
 selected_tool=SELECT_TOOL;
 
-selection = false
-selection_id = NaN
-selection_x = [0]
-selection_y = [0]
+selection_grab = false;
+selection_grab_x = 0
+selection_grab_y = 0
+selected_array = [];
 selection_box = false
 selection_box_x = 0
 selection_box_y = 0
@@ -226,6 +226,20 @@ draw_rotator_x=0;
 draw_rotator_y=0;
 
 selection_box_fr=0
+
+check_colliding_object = function(_x,_y) {
+	if (selected_mode == OBJECT_MODE) {
+		var i=0;
+		repeat(ds_list_size(object_layer_map[selected_region])) {
+			var obj=object_layer_map[selected_region][| i]
+			if point_in_rectangle(_x,_y,obj[1],obj[2],obj[1]+15,obj[2]+15) {
+				return i+1
+			}
+			i++;
+		}
+	}
+}
+
 /*
 place_object = function(uuid,_x,_y,xscale=1,yscale=1) { 
 	ds_list_add(object_layer_map[selected_region], [uuid, _x, _y, xscale, yscale, 0])//add object to list at place

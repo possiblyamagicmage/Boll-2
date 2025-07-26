@@ -11,12 +11,12 @@ function JADE_initializeobj() {
 	objectlist = new JADElisthandler(1196,32, 228, 640, "selected_obj")
 	decolist = new JADElisthandler(1196,32, 228, 640, "selected_obj")
 	
-	registerobj(oPlayerSpawn, spr_spawner, 0, 0, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Player Spawn")
+	registerobj(oPlayerSpawn, spr_spawner, 8, 8, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Player Spawn")
 	registerobj(oCollider, spr_collider, 0, 0, 16, 16, true, true, objectlist, object_get_properties("oCollider"), "Collider")
 	
 	var blockcategory = new JADElistcategory("Blocks")
-	registerobj(oBrick, spr_brick, -8, -8, 16, 16, false, false, blockcategory, object_get_properties("oPlayerSpawn"), "Brick Block")
-	registerobj(oShootBlock, spr_brick, -8, -8, 16, 16, false, false, blockcategory, object_get_properties("oPlayerSpawn"), "Shoot Block")
+	registerobj(oBrick, spr_brick, 8, 8, 16, 16, false, false, blockcategory, object_get_properties("oPlayerSpawn"), "Brick Block")
+	registerobj(oShootBlock, spr_brick, 8, 8, 16, 16, false, false, blockcategory, object_get_properties("oPlayerSpawn"), "Shoot Block")
 	var bigblockcategory = new JADElistcategory("Big Blocks")
 	registerobj(oMonitor, spr_monitor, -8, -16, 16, 16, false, false, bigblockcategory, object_get_properties("oPlayerSpawn"), "Monitor")
 	registerobj(oBigSteely, spr_monitor, -8, -16, 16, 16, false, false, bigblockcategory, object_get_properties("oPlayerSpawn"), "Big Steely")
