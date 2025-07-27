@@ -175,14 +175,19 @@ selected_toolbar=0;
 selected_tool=SELECT_TOOL;
 
 selection_grab = false;
-selection_grab_x = 0
-selection_grab_y = 0
+selection_grab_x = 0;
+selection_grab_y = 0;
 selected_array = [];
-selection_box = false
-selection_box_x = 0
-selection_box_y = 0
-temp_mode=0;
-temp_toolbar=0;
+selection_box = false;
+selection_box_x = 0;
+selection_box_y = 0;
+resizing = 0;
+resizing_x = 0;
+resizing_y = 0;
+resizing_x2 = 0;
+resizing_y2 = 0;
+resizing_initial_w=0;
+resizing_initial_h=0;
 
 current_tile_id[0][0] = 0
 tile_drag = false;
@@ -232,7 +237,8 @@ check_colliding_object = function(_x,_y) {
 		var i=0;
 		repeat(ds_list_size(object_layer_map[selected_region])) {
 			var obj=object_layer_map[selected_region][| i]
-			if point_in_rectangle(_x,_y,obj[1],obj[2],obj[1]+15,obj[2]+15) {
+			var data = obj_data[$ obj[0]]
+			if point_in_rectangle(_x,_y,obj[1],obj[2],obj[1]+data.width*obj[3],obj[2]+data.height*obj[4]) {
 				return i+1
 			}
 			i++;

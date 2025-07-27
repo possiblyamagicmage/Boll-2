@@ -1,6 +1,19 @@
 #region Scaler drawing
-if array_length(selected_array) {
-	
+if array_length(selected_array)==1 {
+	var obj=object_layer_map[selected_region][| selected_array[0]]
+	var data=obj_data[$ obj[0]]
+	if (resizing != 1)
+	draw_sprite(spr_JADE4scaler,0,obj[1],obj[2])
+	else draw_sprite_ext(spr_JADE4scaler,0,obj[1],obj[2],1.5,1.5,0,c_white,1)
+	if (resizing != 2)
+	draw_sprite(spr_JADE4scaler,1,obj[1]+(data.width*obj[3]),obj[2])
+	else draw_sprite_ext(spr_JADE4scaler,1,obj[1]+(data.width*obj[3]),obj[2],1.5,1.5,0,c_white,1)
+	if (resizing != 3)
+	draw_sprite(spr_JADE4scaler,2,obj[1],obj[2]+(data.height*obj[4]))
+	else draw_sprite_ext(spr_JADE4scaler,2,obj[1],obj[2]+(data.height*obj[4]),1.5,1.5,0,c_white,1)
+	if (resizing != 4)
+	draw_sprite(spr_JADE4scaler,3,obj[1]+(data.width*obj[3]),obj[2]+(data.height*obj[4]))
+	else draw_sprite_ext(spr_JADE4scaler,3,obj[1]+(data.width*obj[3]),obj[2]+(data.height*obj[4]),1.5,1.5,0,c_white,1)
 }
 #endregion
 

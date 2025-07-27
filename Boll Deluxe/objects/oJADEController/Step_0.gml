@@ -123,16 +123,70 @@ if (mbleft && not_on_gui) {
 			}
 		break;
 		case SELECT_TOOL:
-			if (mbleftpress) {
+			if (mbleftpress) && !(resizing) {
+				//resizing
+				if array_length(selected_array)==1 {
+					var obj=object_layer_map[selected_region][| selected_array[0]]
+					var data=obj_data[$ obj[0]]
+					//top left
+					if point_in_rectangle(mouse_x,mouse_y,obj[1]-2,obj[2]-2,obj[1]+2,obj[2]+2) {
+						resizing = 1;
+						resizing_x = mouse_x;
+						resizing_y = mouse_y;
+						resizing_x2 = obj[1]
+						resizing_y2 = obj[2]
+						resizing_initial_w = obj[3];
+						resizing_initial_h = obj[4];
+						break;
+					}
+					//top right
+					if point_in_rectangle(mouse_x,mouse_y,obj[1]+(data.width*obj[3])-2,obj[2]-2,obj[1]+(data.width*obj[3])+2,obj[2]+2) {
+						resizing = 2;
+						resizing_x = mouse_x;
+						resizing_y = mouse_y;
+						resizing_x2 = obj[1]
+						resizing_y2 = obj[2]
+						resizing_initial_w = obj[3];
+						resizing_initial_h = obj[4];
+						break;
+					}
+					//bottom left
+					if point_in_rectangle(mouse_x,mouse_y,obj[1]-2,obj[2]+(data.height*obj[4])-2,obj[1]+2,obj[2]+(data.height*obj[4])+2) {
+						resizing = 3;
+						resizing_x = mouse_x;
+						resizing_y = mouse_y;
+						resizing_x2 = obj[1]
+						resizing_y2 = obj[2]
+						resizing_initial_w = obj[3];
+						resizing_initial_h = obj[4];
+						break;
+					}
+					//bottom right
+					if point_in_rectangle(mouse_x,mouse_y,obj[1]+(data.width*obj[3])-2,obj[2]+(data.height*obj[4])-2,obj[1]+(data.width*obj[3])+2,obj[2]+(data.height*obj[4])+2) {
+						resizing = 4;
+						resizing_x = mouse_x;
+						resizing_y = mouse_y;
+						resizing_x2 = obj[1]
+						resizing_y2 = obj[2]
+						resizing_initial_w = obj[3];
+						resizing_initial_h = obj[4];
+						break;
+					}
+				}
+				
 				var draggingobject=false;
 				//select single object
 				var col = check_colliding_object(gridx*16,gridy*16)
 				if (col) {
+					//TODO: move this to the mbrel section so you can drag select over unselected objects
 					if array_get_index(selected_array,col-1)==-1 {
+						if !keyboard_check(vk_shift) {
+							selected_array=[];
+						}
 						array_push(selected_array,col-1)
 						break;
 					} else if !keyboard_check(vk_shift) {
-						draggingobject=true;
+						draggingobject = true;
 						selection_grab = true;
 						selection_grab_x = gridx*16;
 						selection_grab_y = gridy*16;
@@ -164,6 +218,57 @@ if (mbleft && not_on_gui) {
 					selection_grab_y = gridy*16;
 				}
 			}
+			
+			if (resizing) {
+				if array_length(selected_array)==1 {
+					var obj = object_layer_map[selected_region][| selected_array[0]]
+					var data = obj_data[$ obj[0]]
+					var x_diff = (resizing_x-(gridx*16));
+					var y_diff = (resizing_y-(gridy*16));
+					var scale_diff_x = data.width/16;
+					var scale_diff_y = data.height/16;
+					if (x_diff!=0) || (y_diff!=0) {
+						switch(resizing) {
+							case 1: //top left
+								obj[3] += floor(x_diff/16)/scale_diff_x;
+								obj[4] += floor(y_diff/16)/scale_diff_y;
+								obj[3] = max(obj[3],1)
+								obj[4] = max(obj[4],1)
+								obj[1] = resizing_x2+round(((resizing_initial_w-obj[3])*16)*scale_diff_x)
+								obj[2] = resizing_y2+round(((resizing_initial_h-obj[4])*16)*scale_diff_y)
+								resizing_x = gridx*16;
+								resizing_y = gridy*16;
+							break;
+							case 2: //top right
+								obj[3] += ceil(-x_diff/16)/scale_diff_x;
+								obj[4] += floor(y_diff/16)/scale_diff_y;
+								obj[3] = max(obj[3],1)
+								obj[4] = max(obj[4],1)
+								obj[2] = resizing_y2+round(((resizing_initial_h-obj[4])*16)*scale_diff_y)
+								resizing_x = gridx*16;
+								resizing_y = gridy*16;
+							break;
+							case 3: //bottom left
+								obj[3] += floor(x_diff/16)/scale_diff_x;
+								obj[4] += ceil(-y_diff/16)/scale_diff_y;
+								obj[3] = max(obj[3],1)
+								obj[4] = max(obj[4],1)
+								obj[1] = resizing_x2+round(((resizing_initial_w-obj[3])*16)*scale_diff_x)
+								resizing_x = gridx*16;
+								resizing_y = gridy*16;
+							break; 
+							case 4: //bottom right
+								obj[3] += ceil(-x_diff/16)/scale_diff_x;
+								obj[4] += ceil(-y_diff/16)/scale_diff_y;
+								obj[3] = max(obj[3],1)
+								obj[4] = max(obj[4],1)
+								resizing_x = gridx*16;
+								resizing_y = gridy*16;
+							break;
+						}
+					}
+				}
+			}
 		break;
 	}
 }
@@ -178,8 +283,9 @@ if (mbleftrel) {
 		var box_y2 = floor(selection_box_y+min(box_h, 0)+abs(box_h))
 		var i=0;
 		repeat(ds_list_size(object_layer_map[selected_region])) {
-			var obj=object_layer_map[selected_region][| i]
-			if rectangle_in_rectangle(box_x1,box_y1,box_x2,box_y2,obj[1],obj[2],obj[1]+15,obj[2]+15) {
+			var obj = object_layer_map[selected_region][| i]
+			var data = obj_data[$ obj[0]]
+			if rectangle_in_rectangle(box_x1,box_y1,box_x2,box_y2,obj[1],obj[2],obj[1]+data.width*obj[3],obj[2]+data.height*obj[4]) {
 				if array_get_index(selected_array,i)==-1 {
 					array_push(selected_array,i)
 				}
@@ -189,4 +295,5 @@ if (mbleftrel) {
 	}
 	selection_box = false;
 	selection_grab = false;
+	resizing = false;
 }

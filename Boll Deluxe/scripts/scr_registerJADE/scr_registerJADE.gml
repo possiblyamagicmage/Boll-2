@@ -17,6 +17,7 @@ function JADE_initializeobj() {
 	var blockcategory = new JADElistcategory("Blocks")
 	registerobj(oBrick, spr_brick, 8, 8, 16, 16, false, false, blockcategory, object_get_properties("oPlayerSpawn"), "Brick Block")
 	registerobj(oShootBlock, spr_brick, 8, 8, 16, 16, false, false, blockcategory, object_get_properties("oPlayerSpawn"), "Shoot Block")
+	registerobj(oLongItemBox, spr_longitembox, 24, 8, 48, 16, false, false, blockcategory, object_get_properties("oPlayerSpawn"), "Long Item Box")
 	var bigblockcategory = new JADElistcategory("Big Blocks")
 	registerobj(oMonitor, spr_monitor, -8, -16, 16, 16, false, false, bigblockcategory, object_get_properties("oPlayerSpawn"), "Monitor")
 	registerobj(oBigSteely, spr_monitor, -8, -16, 16, 16, false, false, bigblockcategory, object_get_properties("oPlayerSpawn"), "Big Steely")
