@@ -26,7 +26,7 @@
   "origin":0,
   "parent":{
     "name":"Palettes",
-    "path":"folders/Sprites/JADE/Objects/Palettes.yy",
+    "path":"folders/Sprites/Palettes.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

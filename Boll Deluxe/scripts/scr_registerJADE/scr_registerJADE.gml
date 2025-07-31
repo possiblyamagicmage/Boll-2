@@ -8,56 +8,36 @@
 
 function JADE_initializeobj() {
 	obj_data = {};
-	objectlist = new JADElisthandler(1196,32, 228, 640, "selected_obj")
-	decolist = new JADElisthandler(1196,32, 228, 640, "selected_obj")
+	properties = new JADEproperties()
+	objectlist = new JADElisthandler(1196,56, 228, 640, "selected_obj")
+	decolist = new JADElisthandler(1196,56, 228, 640, "selected_obj")
+	propertylist = new JADEpropertylisthandler(1196,56, 228, 640);
 	
-	registerobj(oPlayerSpawn, spr_spawner, 8, 8, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Player Spawn")
-	registerobj(oCollider, spr_collider, 0, 0, 16, 16, true, true, objectlist, object_get_properties("oCollider"), "Collider")
+	list_tabbuttons=new JADEsmallbuttons(1196,38,96,20,16,false, true)
+	list_tabbuttons.add("Object List", function() {
+		properties_tab_active = false;
+	});
+	list_tabbuttons.add("Properties", function() {
+		properties_tab_active = true;
+	});
+	list_tabbuttons.selected_button=0
+	
+	registerobj(oPlayerSpawn, spr_spawner, 8, 8, 16, 16, false, false, objectlist, "Player Spawn")
+	registerobj(oCollider, spr_collider, 0, 0, 16, 16, true, true, objectlist, "Collider")
+	registerobj(oSlopeCollider, spr_slopesolid, 0, 0, 16, 16, true, true, objectlist, "Slope Collider")
 	
 	var blockcategory = new JADElistcategory("Blocks")
-	registerobj(oBrick, spr_brick, 8, 8, 16, 16, false, false, blockcategory, object_get_properties("oPlayerSpawn"), "Brick Block")
-	registerobj(oShootBlock, spr_brick, 8, 8, 16, 16, false, false, blockcategory, object_get_properties("oPlayerSpawn"), "Shoot Block")
-	registerobj(oLongItemBox, spr_longitembox, 24, 8, 48, 16, false, false, blockcategory, object_get_properties("oPlayerSpawn"), "Long Item Box")
-	var bigblockcategory = new JADElistcategory("Big Blocks")
-	registerobj(oMonitor, spr_monitor, -8, -16, 16, 16, false, false, bigblockcategory, object_get_properties("oPlayerSpawn"), "Monitor")
-	registerobj(oBigSteely, spr_monitor, -8, -16, 16, 16, false, false, bigblockcategory, object_get_properties("oPlayerSpawn"), "Big Steely")
-	
-	blockcategory.add(bigblockcategory)
-	
-	registerobj(oItemBox, spr_itembox, -8, -8, 16, 16, false, false, blockcategory, object_get_properties("oPlayerSpawn"), "Item Box")
+	registerobj(oBrick, spr_brick, 8, 8, 16, 16, false, false, blockcategory, "Brick Block")
+	registerobj(oItemBox, spr_itembox, 8, 8, 16, 16, false, false, blockcategory, "Item Box")
+	properties.addDropdown(oItemBox, "Content", "content", "coin", ["Single Coin", "Multiple Coins", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushrom"], ["coin", "multicoins", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
+	properties.addNumberInput(oItemBox, "Amount", "amount", 1, true)
+	properties.addCheckbox(oItemBox, "Is Brick", "bricked", false)
+	properties.addCheckbox(oItemBox, "Is Hidden", "hidden", false)
+	properties.addCheckbox(oItemBox, "Is Dispenser", "eject", false)
+	registerobj(oLongItemBox, spr_longitembox, 24, 8, 48, 16, false, false, blockcategory, "Long Item Box")
+	registerobj(oMonitor, spr_monitor, 8, 8, 16, 16, false, false, blockcategory, "Monitor")
 	
 	objectlist.add(blockcategory) //we added the items to the category, but we still need to apply the category to the main list
-	
-	registerobj(oSlopeCollider, spr_slopesolid, 0, 0, 16, 16, true, true, objectlist, object_get_properties("oCollider"), "Slope Collider")
-	/*registerobj(oGoomba, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "A")
-	registerobj(oGoombrat, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "B")
-	registerobj(oKoopa, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "C")
-	registerobj(oKoopaRed, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "D")
-	registerobj(oKoopaYellow, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "E")
-	registerobj(oKoopaSkating, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "F")
-	registerobj(oPolarBear, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "G")
-	registerobj(oStopbob, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "H")
-	registerobj(oIceSnifit, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "I")
-	registerobj(oAmp, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "J")
-	registerobj(oLongItemBox, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "K")
-	registerobj(oFlipblock, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "L")
-	registerobj(oHardBlock, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "M")
-	registerobj(oCrate, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "N")
-	registerobj(oPipe, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "O")
-	registerobj(oMovingPlatform, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "P")
-	registerobj(oSwingingPlatform, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Q")
-	registerobj(oChainsaw, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "R")
-	registerobj(oZapper, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "S")
-	registerobj(oSolidSpike, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "T")
-	registerobj(oIcicle, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "U")
-	registerobj(oBillBlaster, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "V")
-	registerobj(oBanzaiBill, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "W")
-	registerobj(oBillBlaster, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "X")
-	registerobj(oPiranhaPlant, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Y")
-	registerobj(oThwomp, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "Z")
-	registerobj(oWater, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "A2")
-	registerobj(oTerrainSpring, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "B2")
-	registerobj(oTerrainSprong, spr_monitor, -8, -16, 16, 16, false, false, objectlist, object_get_properties("oPlayerSpawn"), "B3")*/
 }
 
 function WM_initializeobj() {	
@@ -88,10 +68,11 @@ function WM_initializeobj() {
 	*/
 }
 
-function registerobj(uuid,_sprite,_xoff,_yoff,_width,_height,_can_xscale,_can_yscale,_list,_properties,_name,_nodeable=false,_sizex=1,_sizey=1) {
+function registerobj(uuid,_sprite,_xoff,_yoff,_width,_height,_can_xscale,_can_yscale,_list,_name,_nodeable=false,_sizex=1,_sizey=1) {
 	var _id=object_get_name(uuid)
 	if is_undefined(obj_data[$ _id]) {
-		obj_data[$ _id]=new JADEobj(_id,_sprite,_xoff,_yoff,_width,_height,_can_xscale,_can_yscale,_properties,_name,_nodeable,_sizex,_sizey)
+		obj_data[$ _id]=new JADEobj(_id,_sprite,_xoff,_yoff,_width,_height,_can_xscale,_can_yscale,_name,_nodeable,_sizex,_sizey)
+		properties.initProperties(uuid)
 		_list.add(obj_data[$ _id])
 	} else {
 		show_debug_message($"JADE object {object_get_name(uuid)} has already been initialized! Ignoring...")

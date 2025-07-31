@@ -31,8 +31,6 @@ themeaccent3=scribble_rgb_to_bgr($3a4466)
 themeaccent4=scribble_rgb_to_bgr($67739a)
 themehighlight=c_white
 
-selected_button=[-1, -1];
-
 GUIcanvas = surface_create(guiw,guih);
 
 topbuttons = new JADEsmallbuttons(4,4,52,16)
@@ -59,6 +57,7 @@ topbuttons.add("File", function() {
 			room_goto(rMainMenu);
 			break;
 		}
+		with(oJADEController) topbuttons.reset();
 	})
 });
 topbuttons.add("Edit", function() {
@@ -170,6 +169,11 @@ not_on_gui = false
 
 savetextdur=0;
 
+is_typing = -1;
+
+default_grid_size = 16;
+current_grid_size = default_grid_size;
+
 selected_mode=OBJECT_MODE;
 selected_toolbar=0;
 selected_tool=SELECT_TOOL;
@@ -232,13 +236,19 @@ draw_rotator_y=0;
 
 selection_box_fr=0
 
+properties_tab_active = false;
+property_dropdown_index = -1;
+property_object_index = -1;
+
+pressed_dropdown = false;
+
 check_colliding_object = function(_x,_y) {
 	if (selected_mode == OBJECT_MODE) {
 		var i=0;
 		repeat(ds_list_size(object_layer_map[selected_region])) {
 			var obj=object_layer_map[selected_region][| i]
 			var data = obj_data[$ obj[0]]
-			if point_in_rectangle(_x,_y,obj[1],obj[2],obj[1]+data.width*obj[3],obj[2]+data.height*obj[4]) {
+			if point_in_rectangle(_x,_y,obj[1],obj[2],obj[1]+(data.width*obj[3])-1,obj[2]+(data.height*obj[4])-1) {
 				return i+1
 			}
 			i++;
@@ -246,38 +256,15 @@ check_colliding_object = function(_x,_y) {
 	}
 }
 
-/*
-place_object = function(uuid,_x,_y,xscale=1,yscale=1) { 
-	ds_list_add(object_layer_map[selected_region], [uuid, _x, _y, xscale, yscale, 0])//add object to list at place
-	var obj = ds_list_find_value(object_layer_map[selected_region], ds_list_size(object_layer_map[selected_region])-1)
-	var sprite = []//ds_map_find_value(obj_data,obj[0])
-	if !is_undefined(obj) {
-		obj[6] = sprite[3]*xscale //set correct hitbox for the collider
-		obj[7] = sprite[4]*yscale //set correct hitbox for the collider
-		obj[8] = 0
-		obj[9] = 0
-		obj[10] = []
-		obj[11] = []
-		obj[12] = [2,false,0,false,true,true] //node properties
-		obj[13] = [];
-		obj[14] = [2,false,false,false] //rotator properties
-		if is_array(sprite[8]) && array_length(sprite[8]) {
-			var o=0;
-			repeat (o < array_length(sprite[8])) { //god Damn.
-				if is_array(sprite[8][o]) {
-					obj[10][o] = array_create(1,0)
-					array_copy(obj[10][o],0,sprite[8][o],0,array_length(sprite[8][o]))
-					if is_array(sprite[8][o][4]) {
-						obj[10][o][4] = array_create(1,0)
-						array_copy(obj[10][o][4],0,sprite[8][o][4],0,array_length(sprite[8][o][4]))	
-					}
-				}
-				o++;
-			}
-		}
-	}
+object_place = function(_uuid, _x, _y, _xscale, _yscale) {
+	var obj = [_uuid, _x, _y, _xscale, _yscale]
+	var data = obj_data[$ obj[0]]
+	obj[5] = properties.getDefaultValues(_uuid);
+	//add other data stuff here later
+	ds_list_add(object_layer_map[selected_region], obj)
 }
 
+/*
 tile_update_properties = function() {
 	var i=0;
 	var list=tile_layer_map[selected_region][selected_tile_layer]

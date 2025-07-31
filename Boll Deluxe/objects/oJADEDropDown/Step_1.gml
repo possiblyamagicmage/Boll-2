@@ -12,7 +12,8 @@ if mouse_check_button_pressed(mb_left) {
 		if over {
 			oJADEController.selected_button=[-1,-1]
 			func(names[i], i);
-			instance_destroy();
+			oJADEController.pressed_dropdown=1;
+			instance_destroy(id,false);
 		}
 		i++;
 	}

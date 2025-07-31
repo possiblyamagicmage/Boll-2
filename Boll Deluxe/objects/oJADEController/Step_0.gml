@@ -27,6 +27,7 @@ mbmiddle = (mouse_check_button(mb_middle) || (keyboard_check(vk_space) && mouse_
 if (mbleftpress) {
 	topbuttons.update();
 	toolbarbuttons.update();
+	list_tabbuttons.update();
 }
 #endregion
 
@@ -88,8 +89,12 @@ if (zoom_level!=oldzoom) {
 }
 #endregion
 
-gridx = floor(mouse_x/16) 
-gridy = floor(mouse_y/16)
+if keyboard_check(vk_control) {
+	current_grid_size=1;
+} else current_grid_size=default_grid_size
+
+gridx = floor(mouse_x/current_grid_size) 
+gridy = floor(mouse_y/current_grid_size)
 
 droppedfiles=file_dropper_get_files(".jade")
 
@@ -103,11 +108,8 @@ if (mbleft && not_on_gui) {
 		case BRUSH_TOOL:
 			switch(selected_mode) {
 				case OBJECT_MODE:
-					if is_struct(selected_obj) && !check_colliding_object(gridx*16,gridy*16) {
-						var obj = [selected_obj.uuid, gridx*16, gridy*16, 1, 1]
-						var data = obj_data[$ obj[0]]
-						//add other data stuff here later
-						ds_list_add(object_layer_map[selected_region], obj)
+					if is_struct(selected_obj) && !check_colliding_object(mouse_x,mouse_y) {
+						object_place(selected_obj.uuid,gridx*current_grid_size,gridy*current_grid_size,1,1);
 					}
 				break;
 			}
@@ -115,7 +117,7 @@ if (mbleft && not_on_gui) {
 		case ERASE_TOOL:
 			switch(selected_mode) {
 				case OBJECT_MODE:
-					var obj = check_colliding_object(gridx*16,gridy*16)
+					var obj = check_colliding_object(mouse_x,mouse_y)
 					if (obj) {
 						ds_list_delete(object_layer_map[selected_region], obj-1)
 					}
@@ -123,13 +125,14 @@ if (mbleft && not_on_gui) {
 			}
 		break;
 		case SELECT_TOOL:
+			#region object selection
 			if (mbleftpress) && !(resizing) {
 				//resizing
 				if array_length(selected_array)==1 {
 					var obj=object_layer_map[selected_region][| selected_array[0]]
 					var data=obj_data[$ obj[0]]
 					//top left
-					if point_in_rectangle(mouse_x,mouse_y,obj[1]-2,obj[2]-2,obj[1]+2,obj[2]+2) {
+					if point_in_rectangle(mouse_x,mouse_y,obj[1]-4,obj[2]-4,obj[1]+2,obj[2]+2) {
 						resizing = 1;
 						resizing_x = mouse_x;
 						resizing_y = mouse_y;
@@ -140,7 +143,7 @@ if (mbleft && not_on_gui) {
 						break;
 					}
 					//top right
-					if point_in_rectangle(mouse_x,mouse_y,obj[1]+(data.width*obj[3])-2,obj[2]-2,obj[1]+(data.width*obj[3])+2,obj[2]+2) {
+					if point_in_rectangle(mouse_x,mouse_y,obj[1]+(data.width*obj[3])-2,obj[2]-4,obj[1]+(data.width*obj[3])+4,obj[2]+2) {
 						resizing = 2;
 						resizing_x = mouse_x;
 						resizing_y = mouse_y;
@@ -151,7 +154,7 @@ if (mbleft && not_on_gui) {
 						break;
 					}
 					//bottom left
-					if point_in_rectangle(mouse_x,mouse_y,obj[1]-2,obj[2]+(data.height*obj[4])-2,obj[1]+2,obj[2]+(data.height*obj[4])+2) {
+					if point_in_rectangle(mouse_x,mouse_y,obj[1]-4,obj[2]+(data.height*obj[4])-2,obj[1]+4,obj[2]+(data.height*obj[4])+2) {
 						resizing = 3;
 						resizing_x = mouse_x;
 						resizing_y = mouse_y;
@@ -162,7 +165,7 @@ if (mbleft && not_on_gui) {
 						break;
 					}
 					//bottom right
-					if point_in_rectangle(mouse_x,mouse_y,obj[1]+(data.width*obj[3])-2,obj[2]+(data.height*obj[4])-2,obj[1]+(data.width*obj[3])+2,obj[2]+(data.height*obj[4])+2) {
+					if point_in_rectangle(mouse_x,mouse_y,obj[1]+(data.width*obj[3])-2,obj[2]+(data.height*obj[4])-2,obj[1]+(data.width*obj[3])+4,obj[2]+(data.height*obj[4])+4) {
 						resizing = 4;
 						resizing_x = mouse_x;
 						resizing_y = mouse_y;
@@ -176,7 +179,7 @@ if (mbleft && not_on_gui) {
 				
 				var draggingobject=false;
 				//select single object
-				var col = check_colliding_object(gridx*16,gridy*16)
+				var col = check_colliding_object(mouse_x,mouse_y)
 				if (col) {
 					//TODO: move this to the mbrel section so you can drag select over unselected objects
 					if array_get_index(selected_array,col-1)==-1 {
@@ -188,8 +191,8 @@ if (mbleft && not_on_gui) {
 					} else if !keyboard_check(vk_shift) {
 						draggingobject = true;
 						selection_grab = true;
-						selection_grab_x = gridx*16;
-						selection_grab_y = gridy*16;
+						selection_grab_x = gridx*current_grid_size;
+						selection_grab_y = gridy*current_grid_size;
 						break;
 					}
 				}
@@ -204,8 +207,8 @@ if (mbleft && not_on_gui) {
 			}
 			
 			if (selection_grab) {
-				var x_diff = (selection_grab_x-(gridx*16));
-				var y_diff = (selection_grab_y-(gridy*16));
+				var x_diff = (selection_grab_x-(gridx*current_grid_size));
+				var y_diff = (selection_grab_y-(gridy*current_grid_size));
 				if (x_diff!=0) || (y_diff!=0) {
 					var i=0;
 					repeat(array_length(selected_array)) {
@@ -214,8 +217,8 @@ if (mbleft && not_on_gui) {
 						obj[2]-=y_diff
 						i++;
 					}
-					selection_grab_x = gridx*16;
-					selection_grab_y = gridy*16;
+					selection_grab_x = gridx*current_grid_size;
+					selection_grab_y = gridy*current_grid_size;
 				}
 			}
 			
@@ -223,52 +226,53 @@ if (mbleft && not_on_gui) {
 				if array_length(selected_array)==1 {
 					var obj = object_layer_map[selected_region][| selected_array[0]]
 					var data = obj_data[$ obj[0]]
-					var x_diff = (resizing_x-(gridx*16));
-					var y_diff = (resizing_y-(gridy*16));
-					var scale_diff_x = data.width/16;
-					var scale_diff_y = data.height/16;
+					var x_diff = (resizing_x-(gridx*current_grid_size));
+					var y_diff = (resizing_y-(gridy*current_grid_size));
+					var scale_diff_x = data.width/current_grid_size;
+					var scale_diff_y = data.height/current_grid_size;
 					if (x_diff!=0) || (y_diff!=0) {
 						switch(resizing) {
 							case 1: //top left
-								obj[3] += floor(x_diff/16)/scale_diff_x;
-								obj[4] += floor(y_diff/16)/scale_diff_y;
+								obj[3] += floor(x_diff/current_grid_size)/scale_diff_x;
+								obj[4] += floor(y_diff/current_grid_size)/scale_diff_y;
 								obj[3] = max(obj[3],1)
 								obj[4] = max(obj[4],1)
-								obj[1] = resizing_x2+round(((resizing_initial_w-obj[3])*16)*scale_diff_x)
-								obj[2] = resizing_y2+round(((resizing_initial_h-obj[4])*16)*scale_diff_y)
-								resizing_x = gridx*16;
-								resizing_y = gridy*16;
+								obj[1] = resizing_x2+round(((resizing_initial_w-obj[3])*current_grid_size)*scale_diff_x)
+								obj[2] = resizing_y2+round(((resizing_initial_h-obj[4])*current_grid_size)*scale_diff_y)
+								resizing_x = gridx*current_grid_size;
+								resizing_y = gridy*current_grid_size;
 							break;
 							case 2: //top right
-								obj[3] += ceil(-x_diff/16)/scale_diff_x;
-								obj[4] += floor(y_diff/16)/scale_diff_y;
+								obj[3] += ceil(-x_diff/current_grid_size)/scale_diff_x;
+								obj[4] += floor(y_diff/current_grid_size)/scale_diff_y;
 								obj[3] = max(obj[3],1)
 								obj[4] = max(obj[4],1)
-								obj[2] = resizing_y2+round(((resizing_initial_h-obj[4])*16)*scale_diff_y)
-								resizing_x = gridx*16;
-								resizing_y = gridy*16;
+								obj[2] = resizing_y2+round(((resizing_initial_h-obj[4])*current_grid_size)*scale_diff_y)
+								resizing_x = gridx*current_grid_size;
+								resizing_y = gridy*current_grid_size;
 							break;
 							case 3: //bottom left
-								obj[3] += floor(x_diff/16)/scale_diff_x;
-								obj[4] += ceil(-y_diff/16)/scale_diff_y;
+								obj[3] += floor(x_diff/current_grid_size)/scale_diff_x;
+								obj[4] += ceil(-y_diff/current_grid_size)/scale_diff_y;
 								obj[3] = max(obj[3],1)
 								obj[4] = max(obj[4],1)
-								obj[1] = resizing_x2+round(((resizing_initial_w-obj[3])*16)*scale_diff_x)
-								resizing_x = gridx*16;
-								resizing_y = gridy*16;
+								obj[1] = resizing_x2+round(((resizing_initial_w-obj[3])*current_grid_size)*scale_diff_x)
+								resizing_x = gridx*current_grid_size;
+								resizing_y = gridy*current_grid_size;
 							break; 
 							case 4: //bottom right
-								obj[3] += ceil(-x_diff/16)/scale_diff_x;
-								obj[4] += ceil(-y_diff/16)/scale_diff_y;
+								obj[3] += ceil(-x_diff/current_grid_size)/scale_diff_x;
+								obj[4] += ceil(-y_diff/current_grid_size)/scale_diff_y;
 								obj[3] = max(obj[3],1)
 								obj[4] = max(obj[4],1)
-								resizing_x = gridx*16;
-								resizing_y = gridy*16;
+								resizing_x = gridx*current_grid_size;
+								resizing_y = gridy*current_grid_size;
 							break;
 						}
 					}
 				}
 			}
+			#endregion
 		break;
 	}
 }
