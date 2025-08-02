@@ -28,7 +28,7 @@ if !finish {
 player_castlewalk()
 
 steep_slope = false
-if abs(colangle) > 60 && abs(colangle) < 300 {
+if abs(colangle) > 60 && abs(colangle) < 300  && !(abs(colangle)>85 && abs(colangle)<95) {
 	steep_slope = true	
 }
 
