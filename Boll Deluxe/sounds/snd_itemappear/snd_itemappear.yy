@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":0.467211,
+  "duration":0.4672109,
   "name":"snd_itemappear",
   "parent":{
     "name":"Items",

@@ -982,16 +982,20 @@ function JADElistunselectable(_name) constructor {
 
 function JADEtilelayer(_name,_tileset) constructor {
 	name = _name
+	tilemap = ds_list_create();
 	tileset = _tileset
 	tileset_info = oJADEController.tilesets[$ tileset]
-	sprite = tileset_info[1]
+	sprite = tileset_info[0]
 	my_layer = layer_create(0,name)
-	my_deco_layer = layer_tilemap_create(my_layer,0,0,tileset_info[0],ceil(room_width/16),ceil(room_height/16))
+	my_deco_layer = layer_tilemap_create(my_layer,0,0,tileset_info[1],ceil(room_width/16),ceil(room_height/16))
+	//layer_script_begin(my_layer, tile_layer_alpha_check);
+	//layer_script_end(my_layer, function() {shader_reset()});
 }
 
 function JADEassetlayer(_name) constructor {
 	name = _name
-	my_deco_layer = layer_create(0,name)
+	my_layer = layer_create(0,name)
+	my_deco_layer = my_layer
 }
 
 function JADEbackgroundlayer(_name,_sprite) constructor {
@@ -1009,6 +1013,11 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 	tile_zoom = 1;
 	pan_x = 0;
 	pan_y = 0;
+	start_pan_x = 0;
+	start_pan_y = 0;
+	initial_pan_x = 0;
+	initial_pan_y = 0;
+	panning = 0;
 	tile_drag = false;
 	tile_sel_last_x = 0;
 	tile_sel_last_y = 0;
@@ -1039,19 +1048,18 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 				t_w = (oJADEController.tile_sel_width + 1)* 16 * tile_zoom
 				t_h = (oJADEController.tile_sel_height + 1) * 16 * tile_zoom
 				
-				draw_rect(t_x,t_y,t_w,t_h,c_white,1,true)
+				draw_rect(t_x+pan_x,t_y+pan_y,t_w,t_h,c_white,1,true)
 			}
 		} else { //draw tile selecting rectangle
 			var curs_x = window_mouse_get_x()
 			var curs_y = window_mouse_get_y()
-			var sel_x = curs_x - x
-			var sel_y = curs_y - y
+			var sel_x = curs_x - x - pan_x
+			var sel_y = curs_y - y - pan_y
 			var pos_x = clamp(floor(sel_x / t_size),0,t_width)*t_size
 			var pos_y = clamp(floor(sel_y / t_size),0,t_height)*t_size
-			var boxw = (pos_x - tile_sel_last_x*t_size)
-			var boxh = (pos_y - tile_sel_last_y*t_size)
-			draw_rect(x+(tile_sel_last_x*t_size)+min(boxw+16,0),y+(tile_sel_last_y*t_size)+min(boxh+16,0),abs(boxw+16),abs(boxh+16),c_white,1,true)
-			draw_text(curs_x,curs_y-16,pos_x)
+			var boxw = max(pos_x - tile_sel_last_x*t_size,0)
+			var boxh = max(pos_y - tile_sel_last_y*t_size,0)
+			draw_rect(x+(tile_sel_last_x*t_size)+pan_x,y+(tile_sel_last_y*t_size)+pan_y,min(abs(boxw+16),t_width-tile_sel_last_x*t_size),min(abs(boxh+16),t_height-tile_sel_last_y*t_size),c_white,1,true)
 		}
 		
 		gpu_set_scissor(scissor)
@@ -1071,17 +1079,15 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 		var t_size = 16 * tile_zoom
 		var t_width = sprite_get_width(tileset[0])
 		var t_height = sprite_get_height(tileset[0])
-		var sel_x = curs_x - x
-		var sel_y = curs_y - y
-		var pos_x = clamp(floor(sel_x / t_size),0,t_width/16)
-		var pos_y = clamp(floor(sel_y / t_size),0,t_height/16)
+		var sel_x = curs_x - x - pan_x
+		var sel_y = curs_y - y - pan_y
+		var pos_x = clamp(floor(sel_x / t_size),0,(t_width/16)-1)
+		var pos_y = clamp(floor(sel_y / t_size),0,(t_height/16)-1)
 		
 		//select single tile/start tile dragging
 		if (over) {
 			if (mbleftpress && !tile_drag) {
-				var sel_x = clamp(curs_x - x, 0, t_width)
-				var sel_y = clamp(curs_y - y, 0, t_height)
-				//show_debug_message(string(floor(mouse_x / t_size)) + " : "+ string(tilelapmap.width/ 16))
+				show_debug_message("go!")
 				with(oJADEController) {
 					current_tile_id = -1
 					current_tile_id = []
@@ -1093,26 +1099,42 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 				tile_sel_last_y = pos_y
 				tile_drag = true
 			}
+			
+			if (mouse_check_button_pressed(mb_middle)) {
+				start_pan_x=curs_x;
+				start_pan_y=curs_y;
+				initial_pan_x=pan_x;
+				initial_pan_y=pan_y;
+				panning=true;
+			}
+		}
+		
+		if !mouse_check_button(mb_middle) {
+			panning = false;
+		}
+		
+		if (panning) {
+			pan_x = clamp(initial_pan_x+curs_x-start_pan_x,-(t_width-width),0);
+			pan_y = clamp(initial_pan_y+curs_y-start_pan_y,-(t_height-height),0);
 		}
 		
 		if (mbleft && tile_drag) {
-			oJADEController.tile_sel_width = pos_x - tile_sel_last_x
-			oJADEController.tile_sel_height = pos_y - tile_sel_last_y
+			oJADEController.tile_sel_width = clamp(pos_x - tile_sel_last_x,0,(t_width/16)-1)
+			oJADEController.tile_sel_height = clamp(pos_y - tile_sel_last_y,0,(t_height/16)-1)
 		}
 		
 		//complete tile dragging
 		if (mbleftrel && tile_drag) {
 			with(oJADEController) {
 				var i=0;
-				repeat(abs(tile_sel_width+1)) {
+				repeat(tile_sel_width+1) {
 					var j=0;
-					repeat(abs(tile_sel_height+1)) {
-						current_tile_id[i][j] = (pos_x + i - abs(tile_sel_width)) + ((pos_y + j - abs(tile_sel_height)) * (t_width/16))
+					repeat(tile_sel_height+1) {
+						current_tile_id[i][j] = (other.tile_sel_last_x + i) + ((other.tile_sel_last_y + j) * (t_width/16))
 						j++;
 					}
 					i++;
 				}
-				show_debug_message(current_tile_id)
 			}
 			tile_drag = false
 		}

@@ -21,5 +21,5 @@
   "sampleRate":44100,
   "soundFile":"mus_editor_loop.ogg",
   "type":0,
-  "volume":1.0,
+  "volume":0.0,
 }

@@ -81,18 +81,9 @@ topbuttons.add("Region", function() {
 
 });
 
-modebuttons = new JADEsmallbuttons(272,4,86,16,8)
-modebuttons.add("Object Mode", function() {
-	selected_mode = OBJECT_MODE
-});
-modebuttons.add("Deco Mode", function() {
-	selected_mode = DECO_MODE
-});
-modebuttons.add("Gizmo Mode", function() {
-	selected_mode = NODE_MODE
-});
-
-selected_layer=""
+selected_layer=-1
+tilemap=-1;
+tilemap_layer=-1;
 layerlist = new JADElayerlisthandler(8,56,192-24,640, "selected_layer") 
 layerlist.add(new JADElistunselectable("Objects"))
 array_push(layerlist.listcontents,new JADEtilelayer("Main Tiles", current_tileset))
@@ -105,6 +96,8 @@ update_layer = function(_layer) {
 		var info = tileset_get_info(_layer.tileset_info[1])
 		default_grid_size = info.tile_width
 		current_grid_size = default_grid_size
+		tilemap=_layer.tilemap
+		tilemap_layer=_layer.my_deco_layer
 	} else if is_instanceof(_layer, JADEassetlayer) {
 		type="asset";
 	} else if is_instanceof(_layer, JADEbackgroundlayer) {
@@ -112,6 +105,18 @@ update_layer = function(_layer) {
 	}
 	deco_mode_type=type;
 }
+
+modebuttons = new JADEsmallbuttons(272,4,86,16,8)
+modebuttons.add("Object Mode", function() {
+	selected_mode = OBJECT_MODE
+});
+modebuttons.add("Deco Mode", function() {
+	selected_mode = DECO_MODE
+	update_layer(oJADEController.selected_layer)
+});
+modebuttons.add("Gizmo Mode", function() {
+	selected_mode = NODE_MODE
+});
 
 layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,spr_JADEaddicon,function() {
 	JADEdropdown(layeraddbutton.x,layeraddbutton.y+layeraddbutton.height,["Add Tile Layer", "Add Asset Layer", "Add Background Layer"], function(optname,ind) {
@@ -127,12 +132,12 @@ layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,
 					}
 					i++;
 				}
-				oJADEController.layerlist.add(new JADEtilelayer(name,tilesets[$ current_tileset]))
+				oJADEController.layerlist.add(new JADEtilelayer(name,"tTilesetMain"))
 			break;
 			case 1:
 				var name = "New Layer 0"
 				var i=0;
-				var src=layerlist.get_contents();
+				var src=oJADEController.layerlist.get_contents();
 				repeat (array_length(src)) {
 					if layer_get_id(name)!=-1 {
 						var name = "New Layer "+string(i)
@@ -144,7 +149,7 @@ layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,
 			case 2:
 				var name = "New Layer 0"
 				var i=0;
-				var src=layerlist.get_contents();
+				var src=oJADEController.layerlist.get_contents();
 				repeat (array_length(src)) {
 					if layer_get_id(name)!=-1 {
 						var name = "New Layer "+string(i)
@@ -212,37 +217,6 @@ toolbarbuttons = new JADEtoolbar(196,26)
 
 toolbarbuttons.set(toolbar[0])
 
-var i=0;
-repeat(4) {
-	layers[i][0]=layer_create(-200,$"EditorTiles_FG_Region{i}")
-	layers[i][1]=layer_create(-100,$"EditorTiles_FGDeco_Region{i}")
-	layers[i][2]=layer_create(100,$"EditorTiles_Main_Region{i}")
-	layers[i][3]=layer_create(150,$"EditorTiles_Misc_Region{i}")
-	layers[i][4]=layer_create(200,$"EditorTiles_Deco_Region{i}")
-	layers[i][5]=layer_create(300,$"EditorTiles_Semi_Region{i}")
-	layers[i][6]=layer_create(400,$"EditorTiles_BG_Region{i}")
-	
-	tile_layer[i][0] = layer_tilemap_create(layers[i][0],0,0,asset_get_index(current_tileset),ceil(room_width/16),ceil(room_height/16))
-	tile_layer[i][1] = layer_tilemap_create(layers[i][1],0,0,asset_get_index(current_tileset),ceil(room_width/16),ceil(room_height/16))
-	tile_layer[i][2] = layer_tilemap_create(layers[i][2],0,0,asset_get_index(current_tileset),ceil(room_width/16),ceil(room_height/16))
-	tile_layer[i][3] = layer_tilemap_create(layers[i][3],0,0,asset_get_index(current_tileset),ceil(room_width/16),ceil(room_height/16))
-	tile_layer[i][4] = layer_tilemap_create(layers[i][4],0,0,asset_get_index(current_tileset),ceil(room_width/16),ceil(room_height/16))
-	tile_layer[i][5] = layer_tilemap_create(layers[i][5],0,0,asset_get_index(current_tileset),ceil(room_width/16),ceil(room_height/16))
-	tile_layer[i][6] = layer_tilemap_create(layers[i][6],0,0,asset_get_index(current_tileset),ceil(room_width/16),ceil(room_height/16))
-	object_layer_map[i] = ds_list_create()
-	node_layer_map[i] = ds_list_create()
-	
-	var j=0;
-	repeat (array_length(tile_layer[i])) {
-		tile_layer_map[i][j]=ds_list_create();
-		layer_script_begin(layers[i][j], tile_layer_alpha_check);
-		layer_script_end(layers[i][j], function() {shader_reset()});
-		j++;
-	}
-	i++;
-}
-
-tilemap = tile_layer[0][2]
 selected_tile_layer=2;
 
 not_on_gui = false
@@ -281,6 +255,8 @@ tile_fill = false
 fill_circle = false
 
 selected_region = 0;
+object_layer_map[0] = ds_list_create();
+node_layer_map[0] = ds_list_create();
 
 gotoroom=rGame
 
@@ -332,6 +308,18 @@ check_colliding_object = function(_x,_y) {
 	}
 }
 
+check_colliding_tile = function(_x, _y) {
+	var i=0;
+	repeat(ds_list_size(tilemap)) {
+		var tile=tilemap[| i]
+		var tilesetinf = tileset_get_info(selected_layer.tileset_info[1])
+		if point_in_rectangle(_x,_y,tile[1]*16,tile[2]*16,tile[1]*16+tilesetinf.tile_width,tile[2]*16+tilesetinf.tile_height) {
+			return i+1
+		}
+		i++;
+	}
+}
+
 object_place = function(_uuid, _x, _y, _xscale, _yscale) {
 	var obj = [_uuid, _x, _y, _xscale, _yscale]
 	var data = obj_data[$ obj[0]]
@@ -340,27 +328,27 @@ object_place = function(_uuid, _x, _y, _xscale, _yscale) {
 	ds_list_add(object_layer_map[selected_region], obj)
 }
 
-/*
+
 tile_update_properties = function() {
-	var i=0;
-	var list=tile_layer_map[selected_region][selected_tile_layer]
-	while (i < ds_list_size(list)) {
+	var list=tilemap
+	var i=ds_list_size(list)-1;
+	while (i > 0) {
 		var data=list[| i]
 		if data==undefined {
 			ds_list_delete(list,i) 
 			continue
 		}
 		
-		var fetched=tilemap_get(tilemap,data[1],data[2])
-		show_debug_message($"checked: {data[0]} got: {fetched}")
+		var fetched=tilemap_get(tilemap_layer,data[1],data[2])
 		
 		if (data[0]!=fetched) { //If data does not match the tile at place
 			ds_list_delete(list, i) //remove if tile has changed
 			continue
 		}
-		i++;
+		i--;
 	}
 }
 
-place_object("oCollider",0,167,30,2)
-place_object("oPlayerSpawn",3,166)
+
+//object_place("oCollider",0,167*16,30*16,2)
+//object_place("oPlayerSpawn",3*16,166*16)

@@ -1,5 +1,5 @@
 #region Scaler drawing
-if array_length(selected_array)==1 {
+if array_length(selected_array)==1 && (selected_mode != DECO_MODE || (selected_mode == DECO_MODE && deco_mode_type!="tile")) {
 	var obj=object_layer_map[selected_region][| selected_array[0]]
 	var data=obj_data[$ obj[0]]
 	if (resizing != 1)
@@ -16,6 +16,27 @@ if array_length(selected_array)==1 {
 	else draw_sprite_ext(spr_JADE4scaler,3,obj[1]+(data.width*obj[3]),obj[2]+(data.height*obj[4]),1.5,1.5,0,c_white,1)
 }
 #endregion
+
+if (selected_mode == DECO_MODE && deco_mode_type=="tile") && array_length(selected_array) {
+	if !(selection_grab) {
+		var i=0
+		repeat(array_length(selected_array)) {
+			var tile = ds_list_find_value(tilemap,selected_array[i])
+			draw_rect(tile[1]*16,tile[2]*16,16,16,$ff5a2a,0.5)
+			i++;
+		}
+	} else {
+		var i=0
+		repeat(array_length(selected_array)) {
+			var tile = ds_list_find_value(tilemap,selected_array[i])
+			var x_diff = (tile[1]*16 - selection_grab_x)
+			var y_diff = (tile[2]*16 - selection_grab_y)
+			draw_tile(selected_layer.tileset_info[1],tile[0],0,floor((mouse_x+x_diff)/16)*16,floor((mouse_y+y_diff)/16)*16)
+			draw_rect(floor((mouse_x+x_diff)/16)*16,floor((mouse_y+y_diff)/16)*16,16,16,$ff5a2a,0.5)
+			i++;
+		}
+	}
+}
 
 #region Cursor Drawing
 //Draw object
@@ -44,7 +65,7 @@ if (not_on_gui) {
 						if _data != 0 {
 							var t_x = ((_data mod (t_width / 16)) * 16)
 							var t_y = (floor(_data / (t_width/16)) * 16)
-							draw_sprite_part_ext(tilesets[$ current_tileset][0], 0, t_x, t_y, 16, 16, ((gridx+i)*16-cam_x),((gridy+j)*16-cam_y), 1, 1, c_white, 0.25)	
+							draw_sprite_part_ext(tilesets[$ current_tileset][0], 0, t_x, t_y, 16, 16, (gridx+i)*16,(gridy+j)*16, 1, 1, c_white, 0.25)	
 						}
 						j++;
 					}

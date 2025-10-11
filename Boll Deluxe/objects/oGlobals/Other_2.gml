@@ -1,3 +1,5 @@
+pal_swap_init_system(shd_pal_swapper);
+
 if file_exists(game_save_id+"\keybinds.ini")
 {
 	var opstruct = LoadJSONFromFile(game_save_id+"\keybinds.ini")
