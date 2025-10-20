@@ -163,6 +163,23 @@ layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,
 	})
 });
 
+playtestButton = new JADEiconbutton(196,26,spr_JADEplaytestbutton,function() {
+	JADEdropdown(layeraddbutton.x,layeraddbutton.y+layeraddbutton.height,oGlobals._charmList, function(optname,ind) {
+		JADE_save();
+		global._playerChars=[oGlobals._charmList[ind]];
+		
+		global.nextlevel=game_save_id+"\save.jade" //the level the game will load
+		global.jade_testing = true;
+		
+		i = 0;
+		repeat(4) {
+			global.lives[i]=5
+			i++
+		}
+		room_goto(rGame)
+	})
+});
+
 tilepicker = new JADEtilepicker(1196,56, 228, 320)
 
 //Modes:

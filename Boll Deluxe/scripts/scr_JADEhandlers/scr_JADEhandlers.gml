@@ -845,6 +845,24 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 	static add = function(_item) {
 		show_debug_message(_item)
 		array_insert(listcontents, 0, _item)
+		var i=0;
+		var foundind=0;
+		var len=array_length(listcontents);
+		repeat (len) {
+			if is_instanceof(listcontents[i], JADElistunselectable) {
+				foundind=i;
+				break;
+			}
+			i++;
+		}
+		i=0;
+		repeat (len) {
+			if !is_instanceof(listcontents[i], JADElistunselectable) {
+				listcontents[i].layerdepth=(i-foundind)*100;
+				layer_depth(listcontents[i].my_layer,listcontents[i].layerdepth)
+			}
+			i++;
+		}
 	}
 	
 	static get_contents = function() {
@@ -982,11 +1000,12 @@ function JADElistunselectable(_name) constructor {
 
 function JADEtilelayer(_name,_tileset) constructor {
 	name = _name
+	layerdepth = 0;
 	tilemap = ds_list_create();
 	tileset = _tileset
 	tileset_info = oJADEController.tilesets[$ tileset]
 	sprite = tileset_info[0]
-	my_layer = layer_create(0,name)
+	my_layer = layer_create(layerdepth,name)
 	my_deco_layer = layer_tilemap_create(my_layer,0,0,tileset_info[1],ceil(room_width/16),ceil(room_height/16))
 	//layer_script_begin(my_layer, tile_layer_alpha_check);
 	//layer_script_end(my_layer, function() {shader_reset()});
@@ -994,14 +1013,16 @@ function JADEtilelayer(_name,_tileset) constructor {
 
 function JADEassetlayer(_name) constructor {
 	name = _name
-	my_layer = layer_create(0,name)
+	layerdepth = 0;
+	my_layer = layer_create(layerdepth,name)
 	my_deco_layer = my_layer
 }
 
 function JADEbackgroundlayer(_name,_sprite) constructor {
 	name = _name
 	sprite = _sprite
-	my_layer = layer_create(0,name)
+	layerdepth = 0;
+	my_layer = layer_create(layerdepth,name)
 	my_deco_layer = layer_background_create(my_layer,sprite)
 }
 

@@ -1572,6 +1572,7 @@
     {"id":{"name":"spr_JADElayericons","path":"sprites/spr_JADElayericons/spr_JADElayericons.yy",},},
     {"id":{"name":"spr_JADElistarrow","path":"sprites/spr_JADElistarrow/spr_JADElistarrow.yy",},},
     {"id":{"name":"spr_JADEnode","path":"sprites/spr_JADEnode/spr_JADEnode.yy",},},
+    {"id":{"name":"spr_JADEplaytestbutton","path":"sprites/spr_JADEplaytestbutton/spr_JADEplaytestbutton.yy",},},
     {"id":{"name":"spr_JADErotator","path":"sprites/spr_JADErotator/spr_JADErotator.yy",},},
     {"id":{"name":"spr_JADEselection","path":"sprites/spr_JADEselection/spr_JADEselection.yy",},},
     {"id":{"name":"spr_JADEtoolicons","path":"sprites/spr_JADEtoolicons/spr_JADEtoolicons.yy",},},
