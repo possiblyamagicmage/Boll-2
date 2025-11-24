@@ -67,8 +67,9 @@ function JADEsmallbuttons(_x, _y, _width, _height, spacing=8, is_toggle=true, in
 				} else {
 					//destroy my created gui, if i have one
 					selected_button=-1
-					instance_destroy(oJADEGUIpar)
+					instance_destroy(oJADEDropDown)
 				}
+				oJADEController.mbleftpress = false;
 				break;
 			}
 			i++;
@@ -90,6 +91,7 @@ function JADEiconbutton(_x, _y, _sprite, _func, is_toggle=true, inverted=false) 
 	button_toggle = is_toggle;
 	selected_button=0;
 	color_invert = inverted;
+	created_gui = noone;
 	
 	static draw = function() {
 		
@@ -130,8 +132,12 @@ function JADEiconbutton(_x, _y, _sprite, _func, is_toggle=true, inverted=false) 
 			} else {
 				//destroy my created gui, if i have one
 				selected_button=false
-				instance_destroy(oJADEGUIpar)
+				if (instance_exists(created_gui)) {
+					instance_destroy(created_gui);
+				}
+				instance_destroy(oJADEDropDown);
 			}
+			oJADEController.mbleftpress = false;
 		}
 	}
 	
@@ -194,7 +200,7 @@ function JADEtoolbar(_x, _y) constructor {
 }
 
 function JADEdropdown(_x,_y, names, func) {
-	instance_destroy(oJADEGUIpar)
+	instance_destroy(oJADEDropDown)
 	draw_set_font(global.rulerGold)
 	var inst=instance_create_depth(_x+3,_y+3,oJADEController.depth-1,oJADEDropDown)
 	var i=0;
@@ -715,7 +721,7 @@ function JADEnumberinput(_x, _y, _name, _var, _type_index, _min=NaN, _max=NaN) {
 	return _var
 }
 
-function JADEstringinput(_x, _y, _name, _var, _type_index) {
+function JADEstringinput(_x, _y, _name, _var, _type_index, _width=64) {
 	
 	var curs_x = window_mouse_get_x()
 	var curs_y = window_mouse_get_y()
@@ -727,14 +733,14 @@ function JADEstringinput(_x, _y, _name, _var, _type_index) {
 	draw_text(_x,_y+6, $"{_name}:")
 	var spacing = string_width($"{_name}:")+8
 	
-	draw_sprite_stretched(spr_JADEinputbox, 0,_x+spacing,_y,64,24)
+	draw_sprite_stretched(spr_JADEinputbox, 0,_x+spacing,_y,_width,24)
 	
 	if oJADEController.is_typing != _type_index
-		ScribblejrFitExt(_var,fa_left,fa_top,global.rulerGold,1,60,20).Draw(_x+2+spacing,_y+6)
+		ScribblejrFitExt(_var,fa_left,fa_middle,global.omiFont,1,_width-4,20).Draw(_x+2+spacing,_y+12)
 	else
-		ScribblejrFitExt(keyboard_string,fa_left,fa_top,global.rulerGold,1,60,20).Draw(_x+2+spacing,_y+6)
+		ScribblejrFitExt(keyboard_string,fa_left,fa_middle,global.omiFont,1,_width-4,20).Draw(_x+2+spacing,_y+12)
 	
-	var overinp = point_in_rectangle(curs_x,curs_y,_x+spacing,_y,_x+64+spacing,_y+24);
+	var overinp = point_in_rectangle(curs_x,curs_y,_x+spacing,_y,_x+_width+spacing,_y+24);
 
 	//start typing
 	if (mbleft) && (overinp) {
@@ -772,7 +778,6 @@ function JADEcheckbox(_x, _y, _name, _var) {
 	
 	var overinp = point_in_rectangle(curs_x,curs_y,_x+spacing,_y,_x+24+spacing,_y+24);
 	
-	//start typing
 	if (mbleft) && (overinp) {
 		return !bool(_var)
 	}
@@ -794,11 +799,10 @@ function JADEdropdownproperty(_x, _y, _name, _var, _index, obj_ind, _options, _n
 	var spacing = string_width($"{_name}:")+8
 	
 	draw_sprite_stretched(spr_JADEdropdownbox, 0,_x+spacing,_y,128,24)
-	ScribblejrFitExt(_names[array_get_index(_options,_var)],fa_left,fa_top,global.rulerGold,1,124,20).Draw(_x+2+spacing,_y+6)
+	ScribblejrFitExt(_names[array_get_index(_options,_var)],fa_left,fa_middle,global.omiFont,1,94,16).Draw(_x+4+spacing,_y+12)
 	
 	var overinp = point_in_rectangle(curs_x,curs_y,_x+spacing,_y,_x+128+spacing,_y+24);
 	
-	//start typing
 	if (mbleft) && (overinp) {
 		show_debug_message(inst)
 		show_debug_message(typeof(inst))
@@ -812,7 +816,7 @@ function JADEdropdownproperty(_x, _y, _name, _var, _index, obj_ind, _options, _n
 					oJADEController.property_object_index = -1;
 				})
 			} else {
-				instance_destroy(oJADEGUIpar,false)
+				instance_destroy(oJADEDropDown,false)
 				oJADEController.property_dropdown_index=-1;
 				oJADEController.property_object_index = -1;
 			}
@@ -869,6 +873,29 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		return listcontents;
 	}
 	
+	static update_depths = function() {
+		var foundind=0;
+		var i=0;
+		repeat(array_length(listcontents)) {
+			if is_instanceof(listcontents[i], JADElistunselectable) {
+				foundind=i;
+				break;
+			}
+			i++;
+		}
+		i=0;
+		repeat(array_length(listcontents)) {
+			var struct = listcontents[i]
+			if !is_instanceof(struct, JADElistunselectable) {
+				with(struct) {
+					var new_depth = (i-foundind)*100;
+					change_depth(new_depth);
+				}
+			}
+			i++;
+		}
+	}
+	
 	static draw = function() {
 		draw_text(x,y-16,"Layers")
 		
@@ -876,9 +903,7 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		
 		var curs_x = window_mouse_get_x()
 		var curs_y = window_mouse_get_y()
-		var mbleft = mouse_check_button_pressed(mb_left);
-		
-		var i=0;
+		var mbleftpress = mouse_check_button_pressed(mb_left);
 		
 		var prevscissor = gpu_get_scissor();
 		gpu_set_scissor(x,y,width,height);
@@ -888,23 +913,47 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		listwidth = 0;
 		listheight = 0;
 		
-		var over = point_in_rectangle(curs_x,curs_y,x,y,x+width,y+height);
+		var over_list = point_in_rectangle(curs_x,curs_y,x,y,x+width,y+height);
 		
 		draw_set_font(global.rulerGold)
+		var i=0;
 		repeat(array_length(listcontents)) { //this code is a fucking mess Im sorry.
 			var item = listcontents[i]
 			if !is_instanceof(item, JADElistunselectable) {
-				var over_button = point_in_rectangle(curs_x,curs_y,x+scroll_x,y+(24*i)+scroll_y,x+width+scroll_x,y+24+(24*i)+scroll_y) && over
-				if (mbleft) && (over_button) {
-					variable_instance_set(oJADEController, checkvar, item)
-					oJADEController.update_layer(item);
-					mbleft=0
+				var over_button = point_in_rectangle(curs_x,curs_y,x+scroll_x,y+(24*i)+scroll_y,x+width+scroll_x,y+24+(24*i)+scroll_y) && over_list
+				var over_up_arrow = point_in_rectangle(curs_x,curs_y,x+width-16+scroll_x,y+(24*i)+scroll_y,x+width-16+scroll_x+12,y+(24*i)+scroll_y+12) && over_list
+				var over_down_arrow = point_in_rectangle(curs_x,curs_y,x+width-16+scroll_x,y+(24*i)+scroll_y+13,x+width-16+scroll_x+12,y+(24*i)+scroll_y+24) && over_list
+				if (mbleftpress) {
+					if (over_up_arrow) {
+						array_delete(listcontents,i,1)
+						array_insert(listcontents,max(i-1,0),item)
+						update_depths();
+						mbleftpress=0
+					} else if (over_down_arrow) {
+						array_delete(listcontents,i,1)
+						array_insert(listcontents,i+1,item)
+						update_depths();
+						mbleftpress=0
+					} else if (over_button) {
+						variable_instance_set(oJADEController, checkvar, item)
+						oJADEController.update_layer(item);
+						if is_instanceof(item, JADEtilelayer) {
+							oJADEController.tilepicker.pan_x = 0;
+							oJADEController.tilepicker.pan_y = 0;
+						}
+						mbleftpress=0
+					}
 				}
-			
-				if (checkervalue!=-1) && (checkervalue.name == item.name) {
-					draw_rect(x+scroll_x,y+(24*i)+2+scroll_y,width,20,oJADEController.themeaccent2,1)
+				
+				var layer_selected = (checkervalue!=-1) && (checkervalue.name == item.name)
+				
+				if (layer_selected) {
+					draw_rect(x+scroll_x,y+(24*i)+1+scroll_y,width,22,oJADEController.themeaccent4,1,true)
+					draw_rect(x+scroll_x+1,y+(24*i)+2+scroll_y,width-2,20,oJADEController.themeaccent4,1,true)
 				}
-				else if (over_button) draw_rect(x+scroll_x,y+(24*i)+2+scroll_y,width,20,oJADEController.themeaccent4,1,true)
+				
+				
+				draw_sprite(spr_JADEinputscroll,0,x+width-16+scroll_x,y+(24*i)+scroll_y)
 				
 				var index=0;
 				if is_instanceof(item, JADEassetlayer) {
@@ -945,7 +994,7 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 			mwheel = keyboard_check(vk_down) - keyboard_check(vk_up)
 		}
 		
-		if (over) && (mwheel != 0) {
+		if (over_list) && (mwheel != 0) {
 			if !keyboard_check(vk_control) {
 				scroll_y+=12*-mwheel
 				scroll_y=clamp(scroll_y,-listheight,0)
@@ -961,7 +1010,7 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 			}
 		}
 		
-		if (mbleft) {
+		if (mbleftpress) {
 			if (over_vert_scrollbar) && (height/total_height != 1) {
 				if !is_scrolling_y {
 					mouse_offset_y = (curs_y - (y + handle_y))	
@@ -1003,12 +1052,23 @@ function JADEtilelayer(_name,_tileset) constructor {
 	layerdepth = 0;
 	tilemap = ds_list_create();
 	tileset = _tileset
-	tileset_info = oJADEController.tilesets[$ tileset]
+	tileset_info = global.tilesets[$ tileset]
 	sprite = tileset_info[0]
 	my_layer = layer_create(layerdepth,name)
 	my_deco_layer = layer_tilemap_create(my_layer,0,0,tileset_info[1],ceil(room_width/16),ceil(room_height/16))
 	//layer_script_begin(my_layer, tile_layer_alpha_check);
 	//layer_script_end(my_layer, function() {shader_reset()});
+	static change_depth = function(_depth) {
+		layerdepth = _depth;
+		layer_depth(my_layer,layerdepth);
+	}
+	
+	static update_tileset = function(_tileset) {
+		tileset = _tileset
+		tileset_info = global.tilesets[$ tileset]
+		sprite = tileset_info[0]
+		tilemap_tileset(my_deco_layer,tileset_info[1])
+	}
 }
 
 function JADEassetlayer(_name) constructor {
@@ -1016,6 +1076,10 @@ function JADEassetlayer(_name) constructor {
 	layerdepth = 0;
 	my_layer = layer_create(layerdepth,name)
 	my_deco_layer = my_layer
+	static change_depth = function(_depth) {
+		layerdepth = _depth;
+		layer_depth(my_layer,layerdepth);
+	}
 }
 
 function JADEbackgroundlayer(_name,_sprite) constructor {
@@ -1024,6 +1088,10 @@ function JADEbackgroundlayer(_name,_sprite) constructor {
 	layerdepth = 0;
 	my_layer = layer_create(layerdepth,name)
 	my_deco_layer = layer_background_create(my_layer,sprite)
+	static change_depth = function(_depth) {
+		layerdepth = _depth;
+		layer_depth(my_layer,layerdepth);
+	}
 }
 
 function JADEtilepicker(_x,_y,_width,_height) constructor {
@@ -1044,7 +1112,7 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 	tile_sel_last_y = 0;
 	
 	static draw = function() {
-		var tileset = oJADEController.tilesets[$ oJADEController.current_tileset]
+		var tileset = global.tilesets[$ oJADEController.current_tileset]
 		
 		draw_set_font(global.rulerGold)
 		draw_text(x+2,y-16,$"Tile Picker - {tileset[2]}")
@@ -1096,7 +1164,7 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 		var mbleft = mouse_check_button(mb_left);
 		var mbleftrel = !mbleft
 		
-		var tileset = oJADEController.tilesets[$ oJADEController.current_tileset]
+		var tileset = global.tilesets[$ oJADEController.current_tileset]
 		var t_size = 16 * tile_zoom
 		var t_width = sprite_get_width(tileset[0])
 		var t_height = sprite_get_height(tileset[0])

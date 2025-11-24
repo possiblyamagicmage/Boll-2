@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_TilesetMainDeco",
   "bboxMode":1,
   "bbox_bottom":287,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"32978404-5212-4559-89cd-c0ad5ee00458","name":"32978404-5212-4559-89cd-c0ad5ee00458","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"32978404-5212-4559-89cd-c0ad5ee00458","name":"32978404-5212-4559-89cd-c0ad5ee00458","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

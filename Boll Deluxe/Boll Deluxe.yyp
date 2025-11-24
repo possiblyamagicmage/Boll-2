@@ -2,7 +2,7 @@
   "$GMProject":"v1",
   "%Name":"Boll Deluxe",
   "AudioGroups":[
-    {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMAudioGroup":"v1","%Name":"audiogroup_default","exportDir":"","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
   ],
   "configs":{
     "children":[],
@@ -198,7 +198,10 @@
     {"$GMFolder":"","%Name":"Queues","folderPath":"folders/Vinyl/Queues.yy","name":"Queues","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Runtime Setup","folderPath":"folders/Vinyl/Runtime Setup.yy","name":"Runtime Setup","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
-  "ForcedPrefabProjectReferences":[],
+  "ForcedPrefabProjectReferences":[
+    {"link":"io.gamemaker.gm_filter_ripples-1.0.0","name":"io.gamemaker.gm_filter_ripples-1.0.0","path":"io.gamemaker.gm_filter_ripples-1.0.0.yyp",},
+    {"link":"io.gamemaker.sdfshaders-1.0.0","name":"io.gamemaker.sdfshaders-1.0.0","path":"io.gamemaker.sdfshaders-1.0.0.yyp",},
+  ],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"config.ini","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"config.ini","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"mario-basic.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/mario","name":"mario-basic.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -488,7 +491,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.13.1.193",
+    "IDEVersion":"2024.14.1.210",
   },
   "name":"Boll Deluxe",
   "resources":[
@@ -562,6 +565,7 @@
     {"id":{"name":"oJADEController","path":"objects/oJADEController/oJADEController.yy",},},
     {"id":{"name":"oJADEDropDown","path":"objects/oJADEDropDown/oJADEDropDown.yy",},},
     {"id":{"name":"oJADEGUIpar","path":"objects/oJADEGUIpar/oJADEGUIpar.yy",},},
+    {"id":{"name":"oJADELayerProperties","path":"objects/oJADELayerProperties/oJADELayerProperties.yy",},},
     {"id":{"name":"oJumpingPiranha","path":"objects/oJumpingPiranha/oJumpingPiranha.yy",},},
     {"id":{"name":"oKoopa","path":"objects/oKoopa/oKoopa.yy",},},
     {"id":{"name":"oKoopaRed","path":"objects/oKoopaRed/oKoopaRed.yy",},},
@@ -649,8 +653,6 @@
     {"id":{"name":"rGame","path":"rooms/rGame/rGame.yy",},},
     {"id":{"name":"rIntro","path":"rooms/rIntro/rIntro.yy",},},
     {"id":{"name":"rMainMenu","path":"rooms/rMainMenu/rMainMenu.yy",},},
-    {"id":{"name":"rWMEditor","path":"rooms/rWMEditor/rWMEditor.yy",},},
-    {"id":{"name":"rWorldMap","path":"rooms/rWorldMap/rWorldMap.yy",},},
     {"id":{"name":"__audioExtConfig","path":"scripts/__audioExtConfig/__audioExtConfig.yy",},},
     {"id":{"name":"__audioExtConstructors","path":"scripts/__audioExtConstructors/__audioExtConstructors.yy",},},
     {"id":{"name":"__audioExtError","path":"scripts/__audioExtError/__audioExtError.yy",},},
@@ -1562,7 +1564,9 @@
     {"id":{"name":"spr_JADEbg_screen","path":"sprites/spr_JADEbg_screen/spr_JADEbg_screen.yy",},},
     {"id":{"name":"spr_JADEcheckbox","path":"sprites/spr_JADEcheckbox/spr_JADEcheckbox.yy",},},
     {"id":{"name":"spr_JADEcursor","path":"sprites/spr_JADEcursor/spr_JADEcursor.yy",},},
+    {"id":{"name":"spr_JADEdeleteicon","path":"sprites/spr_JADEdeleteicon/spr_JADEdeleteicon.yy",},},
     {"id":{"name":"spr_JADEdropdownbox","path":"sprites/spr_JADEdropdownbox/spr_JADEdropdownbox.yy",},},
+    {"id":{"name":"spr_JADEediticon","path":"sprites/spr_JADEediticon/spr_JADEediticon.yy",},},
     {"id":{"name":"spr_JADEerase_overlay","path":"sprites/spr_JADEerase_overlay/spr_JADEerase_overlay.yy",},},
     {"id":{"name":"spr_JADEflagpole","path":"sprites/spr_JADEflagpole/spr_JADEflagpole.yy",},},
     {"id":{"name":"spr_JADEguibevel","path":"sprites/spr_JADEguibevel/spr_JADEguibevel.yy",},},
@@ -1718,8 +1722,6 @@
     {"roomId":{"name":"rMainMenu","path":"rooms/rMainMenu/rMainMenu.yy",},},
     {"roomId":{"name":"rEditor","path":"rooms/rEditor/rEditor.yy",},},
     {"roomId":{"name":"rGame","path":"rooms/rGame/rGame.yy",},},
-    {"roomId":{"name":"rWMEditor","path":"rooms/rWMEditor/rWMEditor.yy",},},
-    {"roomId":{"name":"rWorldMap","path":"rooms/rWorldMap/rWorldMap.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

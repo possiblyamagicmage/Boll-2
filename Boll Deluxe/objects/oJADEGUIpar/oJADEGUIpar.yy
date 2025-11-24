@@ -1,9 +1,7 @@
 {
   "$GMObject":"",
   "%Name":"oJADEGUIpar",
-  "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":77,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-  ],
+  "eventList":[],
   "managed":true,
   "name":"oJADEGUIpar",
   "overriddenProperties":[],

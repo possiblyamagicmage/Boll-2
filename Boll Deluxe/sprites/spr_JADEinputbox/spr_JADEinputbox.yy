@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_JADEinputbox",
   "bboxMode":0,
   "bbox_bottom":23,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"9ce4a848-63ec-4edf-9d4d-3c66e421b8ab","name":"9ce4a848-63ec-4edf-9d4d-3c66e421b8ab","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"9ce4a848-63ec-4edf-9d4d-3c66e421b8ab","name":"9ce4a848-63ec-4edf-9d4d-3c66e421b8ab","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -24,15 +24,15 @@
   "name":"spr_JADEinputbox",
   "nineSlice":{
     "$GMNineSliceData":"",
-    "bottom":3,
+    "bottom":4,
     "enabled":true,
     "guideColour":[4294902015,4294902015,4294902015,4294902015,],
     "highlightColour":1728023040,
     "highlightStyle":0,
-    "left":3,
+    "left":4,
     "resourceType":"GMNineSliceData",
     "resourceVersion":"2.0",
-    "right":3,
+    "right":5,
     "tileMode":[
       0,
       0,
@@ -40,7 +40,7 @@
       0,
       0,
     ],
-    "top":3,
+    "top":4,
   },
   "origin":0,
   "parent":{

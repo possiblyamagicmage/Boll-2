@@ -15,13 +15,11 @@ if !os_is_paused() && guiw>0 && guih>0 {
 	}
 }
 
-mbleftpress=mouse_check_button_pressed(mb_left)
-mbleftrel=mouse_check_button_released(mb_left)
-mbleft=mouse_check_button(mb_left)
-mbrightpress=mouse_check_button_pressed(mb_right)
-mbrightrel=mouse_check_button_released(mb_right)
-mbright=mouse_check_button(mb_right)
-mbmiddle = (mouse_check_button(mb_middle) || (keyboard_check(vk_space) && mouse_check_button(mb_left))) //this scroll wheel is Pissing me off... i'm the original        keywalker
+curs_x = window_mouse_get_x()
+curs_y = window_mouse_get_y()
+
+gridx = floor(mouse_x/current_grid_size) 
+gridy = floor(mouse_y/current_grid_size)
 
 #region GUI Input Handler
 if (mbleftpress) {
@@ -29,8 +27,11 @@ if (mbleftpress) {
 	modebuttons.update();
 	toolbarbuttons.update();
 	list_tabbuttons.update();
+	playtestbutton.update();
 	if selected_mode==DECO_MODE {
 		layeraddbutton.update();
+		layereditbutton.update();
+		layerdeletebutton.update();
 	}
 }
 
@@ -38,9 +39,6 @@ if (selected_mode == DECO_MODE && deco_mode_type == "tile") {
 	tilepicker.update();
 }
 #endregion
-
-curs_x=window_mouse_get_x()
-curs_y=window_mouse_get_y()
 
 #region Camera Panning
 if (not_on_gui) && (mouse_check_button_pressed(mb_middle)) {
@@ -63,12 +61,6 @@ if (mwheel == 0) {
 	mwheel = keyboard_check_direct(vk_down) - keyboard_check_direct(vk_up)
 }
 
-//var dir = (keyboard_check_pressed(vk_right) || mouse_check_button_pressed(mb_side1)) - (mouse_check_button_pressed(mb_side2) || keyboard_check_pressed(vk_left)) 
-
-//object_list_scroll_pos[selected_mode][current_cat]+=24*mwheel
-
-//object_list_scroll_pos[selected_mode][current_cat] = clamp(object_list_scroll_pos[selected_mode][current_cat], 0, (ds_list_size(jade_cats[selected_mode][current_cat])*32)-object_list_area_height)
-
 #region Camera Zooming
 if (mwheel != 0) && keyboard_check(vk_control) && (not_on_gui) {
 	zoom_goto += 0.125*mwheel
@@ -78,7 +70,7 @@ if (mwheel != 0) && keyboard_check(vk_control) && (not_on_gui) {
 zoom_goto=clamp(zoom_goto,0.125, 5)
 var oldzoom=zoom_level
 zoom_level=approach_val(zoom_level,zoom_goto,0.025)
-camera_set_view_size(camera, floor(1440*zoom_level), floor(810*zoom_level))
+camera_set_view_size(camera, floor(1296*zoom_level), floor(744*zoom_level))
 
 if (zoom_level!=oldzoom) {
 	cam_x = camera_get_view_x(view_camera[0])
@@ -86,8 +78,8 @@ if (zoom_level!=oldzoom) {
 	cam_w = camera_get_view_width(view_camera[0])
 	cam_h = camera_get_view_height(view_camera[0])
 	
-	var old_cam_w = floor(1440*oldzoom)
-	var old_cam_h = floor(810*oldzoom)
+	var old_cam_w = floor(1296*oldzoom)
+	var old_cam_h = floor(744*oldzoom)
 	cam_x += floor(old_cam_w/2 - cam_w/2) //+ ((zoom_x-guiw/2)/(zoom_level/(zoom_goto-zoom_level)))*mwheel
 	cam_y += floor(old_cam_h/2 - cam_h/2) //+ ((zoom_y-guih/2)/(zoom_level/(zoom_goto-zoom_level)))*mwheel
 	
@@ -99,14 +91,15 @@ if keyboard_check(vk_control) && (selected_mode != DECO_MODE || (selected_mode =
 	current_grid_size=1;
 } else current_grid_size=default_grid_size
 
-gridx = floor(mouse_x/current_grid_size) 
-gridy = floor(mouse_y/current_grid_size)
-
 droppedfiles=file_dropper_get_files(".jade")
 
 if array_length(droppedfiles) {
 	global.save_dir=droppedfiles[0]
 	JADE_load(droppedfiles[0])
+}
+
+if keyboard_check(vk_control) && keyboard_check_pressed(ord("S")) {
+	JADE_save();
 }
 
 if keyboard_check_pressed(vk_delete) {

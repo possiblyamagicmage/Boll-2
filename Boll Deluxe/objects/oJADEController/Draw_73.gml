@@ -55,8 +55,9 @@ if (not_on_gui) {
 		case DECO_MODE:
 		if (selected_tool == BRUSH_TOOL || selected_tool == FILL_TOOL) {
 			if deco_mode_type == "tile" {
-				var t_width = sprite_get_width(tilesets[$ current_tileset][0])
-				var t_height = sprite_get_height(tilesets[$ current_tileset][0])
+				var t_spr = global.tilesets[$ current_tileset][0]
+				var t_width = sprite_get_width(t_spr)
+				var t_height = sprite_get_height(t_spr)
 				var i=0;
 				repeat(tile_sel_width+1) {
 					var j=0;
@@ -65,7 +66,7 @@ if (not_on_gui) {
 						if _data != 0 {
 							var t_x = ((_data mod (t_width / 16)) * 16)
 							var t_y = (floor(_data / (t_width/16)) * 16)
-							draw_sprite_part_ext(tilesets[$ current_tileset][0], 0, t_x, t_y, 16, 16, (gridx+i)*16,(gridy+j)*16, 1, 1, c_white, 0.25)	
+							draw_sprite_part_ext(t_spr, 0, t_x, t_y, 16, 16, (gridx+i)*16,(gridy+j)*16, 1, 1, c_white, 0.25)	
 						}
 						j++;
 					}

@@ -57,7 +57,7 @@ function object_get_properties(obj){
 			break;
 		case oPipe:
 			properties = [
-				["image_angle", "Rotation Angle", 0, "dropdown", [0, 90, 180, 270], ["Up", "Left", "Down", "Right"]],
+				["image_angle", "Rotation Angle", 0, "dropdown", [0, 90, 180, 2], ["Up", "Left", "Down", "Right"]],
 				["warpname", "Warp Name:", "", "string_input", 0],
 				["warptarget", "Warp Target:", "", "string_input", 0]
 			]

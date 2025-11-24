@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_TilesetPipes",
   "bboxMode":0,
   "bbox_bottom":479,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"0d1ac29b-2c33-403e-af40-1ac5e30de2e9","name":"0d1ac29b-2c33-403e-af40-1ac5e30de2e9","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"0d1ac29b-2c33-403e-af40-1ac5e30de2e9","name":"0d1ac29b-2c33-403e-af40-1ac5e30de2e9","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

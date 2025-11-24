@@ -35,10 +35,8 @@ themeaccent3=scribble_rgb_to_bgr($3a4466)
 themeaccent4=scribble_rgb_to_bgr($67739a)
 themehighlight=c_white
 
-tilesets={}
 JADE_initializeobj();
 
-selected_tileset=0;
 current_tileset="tTilesetMain"
 deco_mode_type="tile";
 
@@ -87,6 +85,7 @@ tilemap_layer=-1;
 layerlist = new JADElayerlisthandler(8,56,192-24,640, "selected_layer") 
 layerlist.add(new JADElistunselectable("Objects"))
 array_push(layerlist.listcontents,new JADEtilelayer("Main Tiles", current_tileset))
+layerlist.update_depths();
 selected_layer=layerlist.listcontents[1]
 
 update_layer = function(_layer) {
@@ -132,7 +131,7 @@ layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,
 					}
 					i++;
 				}
-				oJADEController.layerlist.add(new JADEtilelayer(name,"tTilesetMain"))
+				layerlist.add(new JADEtilelayer(name,"tTilesetMain"))
 			break;
 			case 1:
 				var name = "New Layer 0"
@@ -144,7 +143,7 @@ layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,
 					}
 					i++;
 				}
-				oJADEController.layerlist.add(new JADEassetlayer(name))
+				layerlist.add(new JADEassetlayer(name))
 			break;
 			case 2:
 				var name = "New Layer 0"
@@ -156,31 +155,46 @@ layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,
 					}
 					i++;
 				}
-				oJADEController.layerlist.add(new JADEbackgroundlayer(name,spr_BGtest))
+				layerlist.add(new JADEbackgroundlayer(name,spr_BGtest))
 			break;
 		}
-		with(oJADEController) layeraddbutton.reset();
+		layerlist.update_depths();
+		layeraddbutton.reset();
 	})
 });
 
-playtestButton = new JADEiconbutton(196,26,spr_JADEplaytestbutton,function() {
-	JADEdropdown(layeraddbutton.x,layeraddbutton.y+layeraddbutton.height,oGlobals._charmList, function(optname,ind) {
-		JADE_save();
-		global._playerChars=[oGlobals._charmList[ind]];
+layerdeletebutton = new JADEiconbutton(layerlist.x+20,layerlist.y+layerlist.height+16,spr_JADEdeleteicon,function() {
+	layerlist.update_depths();
+	layerdeletebutton.reset();
+});
+
+layereditbutton = new JADEiconbutton(layerlist.x+40,layerlist.y+layerlist.height+16,spr_JADEediticon,function() {
+	var inst = instance_create_depth(guiw/2,guih/2,oJADEController.depth-2,oJADELayerProperties)
+	inst.selected_layer = selected_layer
+	layereditbutton.created_gui = inst;
+});
+
+playtestbutton = new JADEiconbutton(196,26+36,spr_JADEplaytestbutton,function() {
+	JADEdropdown(playtestbutton.x,playtestbutton.y+playtestbutton.height,oGlobals._charmList, function(optname,ind) {
+		if ind!=-1 {
+			JADE_save();
+			global._playerChars=[oGlobals._charmList[ind]];
 		
-		global.nextlevel=game_save_id+"\save.jade" //the level the game will load
-		global.jade_testing = true;
+			global.nextlevel=game_save_id+"\save.jade" //the level the game will load
+			global.jade_testing = true;
 		
-		i = 0;
-		repeat(4) {
-			global.lives[i]=5
-			i++
+			i = 0;
+			repeat(4) {
+				global.lives[i]=5
+				i++
+			}
+			room_goto(rGame)
 		}
-		room_goto(rGame)
+		playtestbutton.reset();
 	})
 });
 
-tilepicker = new JADEtilepicker(1196,56, 228, 320)
+tilepicker = new JADEtilepicker(1296-216-14,56, 220, 320)
 
 //Modes:
 //1: Objects
@@ -369,3 +383,5 @@ tile_update_properties = function() {
 
 //object_place("oCollider",0,167*16,30*16,2)
 //object_place("oPlayerSpawn",3*16,166*16)
+
+JADE_load();

@@ -11,7 +11,7 @@ global.freezeframe = false;
 global.camera_x = 0;
 global.animdat[0]=[];
 
-window_set_size(480*3,270*3);
+window_set_size(432*3,248*3);
 window_center();
 
 global._findDefine = function(_filedir){
