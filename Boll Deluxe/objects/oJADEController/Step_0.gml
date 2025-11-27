@@ -115,6 +115,8 @@ if keyboard_check_pressed(vk_delete) {
 		break;
 		case DECO_MODE:
 			if deco_mode_type == "tile" {
+				if !ds_exists(tilemap,ds_type_list) break;
+				
 				array_sort(selected_array,false)
 				var i=0;
 				repeat(array_length(selected_array)) {
@@ -128,6 +130,20 @@ if keyboard_check_pressed(vk_delete) {
 				}
 				selected_array=[];
 				tile_update_properties();
+			} else if deco_mode_type == "asset" {
+				if !ds_exists(selected_layer.assetmap,ds_type_list) break;
+				
+				array_sort(selected_array,false)
+				var i=0;
+				repeat(array_length(selected_array)) {
+					if !(selection_grab) {
+						var data=selected_layer.assetmap[| selected_array[i]]
+						layer_sprite_destroy(data[1])
+					}
+					ds_list_delete(selected_layer.assetmap, selected_array[i])
+					i++;
+				}
+				selected_array=[];
 			}
 		break;
 	}
@@ -145,24 +161,34 @@ if (mbleft && not_on_gui) {
 				case DECO_MODE:
 					switch(deco_mode_type) {
 						case "tile":
+							if !ds_exists(tilemap,ds_type_list) break;
+						
 							var i=0;
 							repeat(tile_sel_width+1) {
 								var j=0;
 								repeat(tile_sel_height+1) {
-									var data = tilemap_get_at_pixel(tilemap_layer, mouse_x+(i *16), mouse_y+(j *16)); //set tile at place
-									if tile_get_index(data) != current_tile_id[i][j] {
-										data = tile_set_index(data, current_tile_id[i][j])
-										data = tile_set_flip(data, 0)
-										data = tile_set_mirror(data, 0)
-										data = tile_set_rotate(data, 0)
-										tilemap_set(tilemap_layer, data, gridx + i, gridy + j);
-										ds_list_add(tilemap,[data,gridx+i,gridy+j]) //add tile  to list at place
+									//prevent trying to place out of bounds
+									if ((gridx + i) < tilemap_get_width(tilemap_layer)) && ((gridy + j) < tilemap_get_height(tilemap_layer)) && ((gridx + i) >= 0) && ((gridy + j) >= 0) {
+										var data = tilemap_get_at_pixel(tilemap_layer, mouse_x+(i *16), mouse_y+(j *16)); //set tile at place
+										if tile_get_index(data) != current_tile_id[i][j] {
+											data = tile_set_index(data, current_tile_id[i][j])
+											data = tile_set_flip(data, 0)
+											data = tile_set_mirror(data, 0)
+											data = tile_set_rotate(data, 0)
+											tilemap_set(tilemap_layer, data, gridx + i, gridy + j);
+											ds_list_add(tilemap,[data,gridx+i,gridy+j]) //add tile  to list at place
+										}
 									}
 									j++;
 								}
 								i++;
 							}
 							tile_update_properties();
+						break;
+						case "asset":
+							if (mbleftpress) && is_struct(selected_deco_obj) {
+								asset_place(selected_deco_obj.uuid,gridx*current_grid_size,gridy*current_grid_size,1,1)
+							}
 						break;
 					}
 				break;
@@ -176,10 +202,33 @@ if (mbleft && not_on_gui) {
 						ds_list_delete(object_layer_map[selected_region], obj-1)
 					}
 				break;
+				case DECO_MODE:
+					switch(deco_mode_type) {
+						case "tile":
+							var obj = check_colliding_tile(mouse_x,mouse_y)
+							if (obj) {
+								var tile = ds_list_find_value(tilemap,obj-1);
+								var data = tilemap_get(tilemap_layer, tile[1], tile[2]);
+								if tile_get_index(data)!= 0 {
+									data = tile_set_empty(data)
+									tilemap_set(tilemap_layer, data,  tile[1], tile[2]); //delete tile at place lol
+								}
+							}
+							tile_update_properties();
+						break;
+						case "asset":
+						var obj = check_colliding_asset(mouse_x,mouse_y)
+						if (obj) {
+							layer_sprite_destroy(selected_layer.assetmap[| obj-1][1])
+							ds_list_delete(selected_layer.assetmap, obj-1)
+						}
+						break;
+					}
+				break;
 			}
 		break;
 		case SELECT_TOOL:
-			if selected_mode != DECO_MODE || (selected_mode == DECO_MODE && deco_mode_type!="tile") {
+			if selected_mode == OBJECT_MODE {
 				#region object selection
 				if (mbleftpress) && !(resizing) {
 					//resizing
@@ -328,55 +377,147 @@ if (mbleft && not_on_gui) {
 					}
 				}
 			#endregion
-			} else {
+			} else if selected_mode == DECO_MODE {
 				#region tile selection 
 				if (mbleftpress) {
-					var draggingobject=false;
-					//select single object
-					var col = check_colliding_tile(mouse_x,mouse_y)
-					if (col) {
-						//TODO: move this to the mbrel section so you can drag select over unselected objects
-						if array_get_index(selected_array,col-1)==-1 {
-							if !keyboard_check(vk_shift) {
+					switch(deco_mode_type) {
+						case "tile": 
+							var draggingobject=false;
+							//select single object
+							var col = check_colliding_tile(mouse_x,mouse_y)
+							if (col) {
+								//TODO: move this to the mbrel section so you can drag select over unselected objects
+								if array_get_index(selected_array,col-1)==-1 {
+									if !keyboard_check(vk_shift) {
+										selected_array=[];
+									}
+									array_push(selected_array,col-1)
+									break;
+								} else if !keyboard_check(vk_shift) {
+									if !ds_exists(tilemap,ds_type_list) break;
+							
+									draggingobject = true;
+									selection_grab = true;
+									var i=0
+									repeat(array_length(selected_array)) {
+										var tile = ds_list_find_value(tilemap,selected_array[i]);
+										var data = tilemap_get(tilemap_layer, tile[1], tile[2]);
+										if tile_get_index(data)!= 0 {
+											data = tile_set_empty(data)
+											tilemap_set(tilemap_layer, data,  tile[1], tile[2]); //delete tile at place lol
+										}
+										i++;
+									}
+									selection_grab_x = gridx*current_grid_size;
+									selection_grab_y = gridy*current_grid_size;
+									break;
+								}
+							}
+				
+							//unselect all objects unless shift is held
+							if !keyboard_check(vk_shift) && !draggingobject {
 								selected_array=[];
 							}
-							array_push(selected_array,col-1)
-							break;
-						} else if !keyboard_check(vk_shift) {
-							draggingobject = true;
-							selection_grab = true;
-							var i=0
-							repeat(array_length(selected_array)) {
-								var tile = ds_list_find_value(tilemap,selected_array[i])
-								var data = tilemap_get(tilemap_layer, tile[1], tile[2]);
-								if tile_get_index(data)!= 0 {
-									data = tile_set_empty(data)
-									tilemap_set(tilemap_layer, data,  tile[1], tile[2]); //delete tile at place lol
+							selection_box=true
+							selection_box_x=mouse_x;
+							selection_box_y=mouse_y;
+						break;
+						case "asset":
+							var draggingobject=false;
+							//select single object
+							var col = check_colliding_asset(mouse_x,mouse_y)
+							if (col) {
+								//TODO: move this to the mbrel section so you can drag select over unselected objects
+								if array_get_index(selected_array,col-1)==-1 {
+									if !keyboard_check(vk_shift) {
+										selected_array=[];
+									}
+									array_push(selected_array,col-1)
+									break;
+								} else if !keyboard_check(vk_shift) {
+									if !ds_exists(selected_layer.assetmap,ds_type_list) break;
+							
+									draggingobject = true;
+									selection_grab = true;
+									selection_grab_x = gridx*current_grid_size;
+									selection_grab_y = gridy*current_grid_size;
+									break;
 								}
-								i++;
 							}
-							selection_grab_x = gridx*current_grid_size;
-							selection_grab_y = gridy*current_grid_size;
-							break;
-						}
-					}
 				
-					//unselect all objects unless shift is held
-					if !keyboard_check(vk_shift) && !draggingobject {
-						selected_array=[];
+							//unselect all objects unless shift is held
+							if !keyboard_check(vk_shift) && !draggingobject {
+								selected_array=[];
+							}
+							selection_box=true
+							selection_box_x=mouse_x;
+							selection_box_y=mouse_y;
+						break;
+						case "bg":
+							selected_array=[];
+							var draggingobject=false;
+							//select single object
+							var bg = selected_layer.selected_bg;
+							var _sprite = selected_layer.sprite;
+							var _width = sprite_get_width(_sprite);
+							var _height = sprite_get_height(_sprite);
+							var _x = selected_layer.off_x-sprite_get_xoffset(_sprite);
+							var _y = selected_layer.off_y-sprite_get_yoffset(_sprite);
+							if point_in_rectangle(mouse_x,mouse_y,_x,_y,_x+_width,_y+_height) {
+								//TODO: move this to the mbrel section so you can drag select over unselected objects
+								array_push(selected_array,selected_layer)
+								draggingobject = true;
+								selection_grab = true;
+								selection_grab_x = gridx*current_grid_size;
+								selection_grab_y = gridy*current_grid_size;
+							}
+							
+							if !(draggingobject) {
+								selection_box=true
+								selection_box_x=mouse_x;
+								selection_box_y=mouse_y;
+							}
+						break;
 					}
-					selection_box=true
-					selection_box_x=mouse_x;
-					selection_box_y=mouse_y;
 				}
 				#endregion
+				
+				if (deco_mode_type == "asset") && (selection_grab) {
+					var x_diff = (selection_grab_x-(gridx*current_grid_size));
+					var y_diff = (selection_grab_y-(gridy*current_grid_size));
+					if (x_diff!=0) || (y_diff!=0) {
+						var i=0;
+						repeat(array_length(selected_array)) {
+							var obj = selected_layer.assetmap[| selected_array[i]]
+							var objx = layer_sprite_get_x(obj[1])
+							var objy = layer_sprite_get_y(obj[1])
+							layer_sprite_x(obj[1],objx-x_diff)
+							layer_sprite_y(obj[1],objy-y_diff)
+							i++;
+						}
+						selection_grab_x = gridx*current_grid_size;
+						selection_grab_y = gridy*current_grid_size;
+					}
+				} else if (deco_mode_type == "bg") && (selection_grab) {
+					var x_diff = (selection_grab_x-(gridx*current_grid_size));
+					var y_diff = (selection_grab_y-(gridy*current_grid_size));
+					if (x_diff!=0) || (y_diff!=0) {
+						var obj = selected_layer.my_layer
+						selected_layer.off_x-=x_diff;
+						selected_layer.off_y-=y_diff;
+						layer_x(obj,selected_layer.off_x)
+						layer_y(obj,selected_layer.off_y)
+						selection_grab_x = gridx*current_grid_size;
+						selection_grab_y = gridy*current_grid_size;
+					}
+				}
 			}
 		break;
 	}
 }
 
 if (mbleftrel) {
-	if selected_mode != DECO_MODE || (selected_mode == DECO_MODE && deco_mode_type!="tile") {
+	if selected_mode == OBJECT_MODE {
 		if (selection_box) {
 			var box_w = (mouse_x - selection_box_x)
 			var box_h = (mouse_y - selection_box_y)
@@ -399,57 +540,137 @@ if (mbleftrel) {
 		selection_box = false;
 		selection_grab = false;
 		resizing = false;
-	} else {
-		if (selection_box) {
-			var box_w = (mouse_x - selection_box_x)
-			var box_h = (mouse_y - selection_box_y)
-			var box_x1 = floor(selection_box_x+min(box_w, 0))
-			var box_y1 = floor(selection_box_y+min(box_h, 0))
-			var box_x2 = floor(selection_box_x+min(box_w, 0)+abs(box_w))
-			var box_y2 = floor(selection_box_y+min(box_h, 0)+abs(box_h))
-			var i=0;
-			repeat(ds_list_size(tilemap)) {
-				var tile = tilemap[| i]
-				if rectangle_in_rectangle(box_x1,box_y1,box_x2,box_y2,tile[1]*16,tile[2]*16,tile[1]*16+16,tile[2]*16+16) {
-					if array_get_index(selected_array,i)==-1 {
-						array_push(selected_array,i)
+	} else if selected_mode == DECO_MODE {
+		switch(deco_mode_type) {
+			case "tile":
+				if (selection_box) {
+					if !ds_exists(tilemap,ds_type_list) exit;
+			
+					var box_w = (mouse_x - selection_box_x)
+					var box_h = (mouse_y - selection_box_y)
+					var box_x1 = floor(selection_box_x+min(box_w, 0))
+					var box_y1 = floor(selection_box_y+min(box_h, 0))
+					var box_x2 = floor(selection_box_x+min(box_w, 0)+abs(box_w))
+					var box_y2 = floor(selection_box_y+min(box_h, 0)+abs(box_h))
+					var i=0;
+					repeat(ds_list_size(tilemap)) {
+						var tile = tilemap[| i]
+						if rectangle_in_rectangle(box_x1,box_y1,box_x2,box_y2,tile[1]*16,tile[2]*16,tile[1]*16+16,tile[2]*16+16) {
+							if array_get_index(selected_array,i)==-1 {
+								array_push(selected_array,i)
+							}
+						}
+						i++;
+					}
+				} else if (selection_grab) {
+					if !ds_exists(tilemap,ds_type_list) exit;
+			
+					var i=0
+					var temp_select_array=[];
+					repeat(array_length(selected_array)) {
+						var tile = ds_list_find_value(tilemap,selected_array[i])
+						var x_diff = (tile[1]*16 - selection_grab_x)
+						var y_diff = (tile[2]*16 - selection_grab_y)
+						var new_y = floor((mouse_y+y_diff)/16)
+						var new_x = floor((mouse_x+x_diff)/16)
+						if (new_x < tilemap_get_width(tilemap_layer)) && (new_y < tilemap_get_height(tilemap_layer)) && (new_x >= 0) && (new_y >= 0) {
+							array_push(temp_select_array,[tile[0],new_x,new_y])
+							ds_list_set(tilemap,selected_array[i],[tile[0],new_x,new_y])
+							tilemap_set(tilemap_layer, tile[0], new_x, new_y);
+						}
+						i++;
+					}
+					tile_update_properties();
+					//since the tile update refreshes the ds list, 
+					//we must update our selected array to match the new positions
+					selected_array=[];
+					i=0;
+					repeat(ds_list_size(tilemap)) {
+						var tile = ds_list_find_value(tilemap,i)
+						var j=0;
+						repeat(array_length(temp_select_array)) {
+							if array_equals(temp_select_array[j],tile) {
+								array_push(selected_array,i)
+								break
+							}
+							j++;
+						}
+						i++;
 					}
 				}
-				i++;
-			}
-		} else if (selection_grab) {
-			var i=0
-			var temp_select_array=[];
-			repeat(array_length(selected_array)) {
-				var tile = ds_list_find_value(tilemap,selected_array[i])
-				var x_diff = (tile[1]*16 - selection_grab_x)
-				var y_diff = (tile[2]*16 - selection_grab_y)
-				var new_y = floor((mouse_y+y_diff)/16)
-				var new_x = floor((mouse_x+x_diff)/16)
-				array_push(temp_select_array,[tile[0],new_x,new_y])
-				ds_list_set(tilemap,selected_array[i],[tile[0],new_x,new_y])
-				tilemap_set(tilemap_layer, tile[0], new_x, new_y);
-				i++;
-			}
-			tile_update_properties();
-			//since the tile update refreshes the ds list, 
-			//we must update our selected array to match the new positions
-			selected_array=[];
-			i=0;
-			repeat(ds_list_size(tilemap)) {
-				var tile = ds_list_find_value(tilemap,i)
-				var j=0;
-				repeat(array_length(temp_select_array)) {
-					if array_equals(temp_select_array[j],tile) {
-						array_push(selected_array,i)
-						break
+			break;
+			case "asset":
+				if (selection_box) {
+					if !ds_exists(selected_layer.assetmap,ds_type_list) exit;
+					
+					var box_w = (mouse_x - selection_box_x)
+					var box_h = (mouse_y - selection_box_y)
+					var box_x1 = floor(selection_box_x+min(box_w, 0))
+					var box_y1 = floor(selection_box_y+min(box_h, 0))
+					var box_x2 = floor(selection_box_x+min(box_w, 0)+abs(box_w))
+					var box_y2 = floor(selection_box_y+min(box_h, 0)+abs(box_h))
+	
+					var i=0;
+					repeat(ds_list_size(selected_layer.assetmap)) {
+						var asset=selected_layer.assetmap[| i]
+						var data = obj_data[$ asset[0]]
+						var _sprite = asset_get_index(asset[0])
+						var _ax = layer_sprite_get_x(asset[1]) - sprite_get_xoffset(_sprite)
+						var _ay = layer_sprite_get_y(asset[1]) - sprite_get_yoffset(_sprite)
+						var _width = data.width
+						var _height = data.height
+						if rectangle_in_rectangle(box_x1,box_y1,box_x2,box_y2,_ax,_ay,_ax+_width,_ay+_height) {
+							if array_get_index(selected_array,i)==-1 {
+								array_push(selected_array,i)
+							}
+						}
+						i++;
 					}
-					j++;
 				}
-				i++;
-			}
+				selection_box = false;
+				selection_grab = false;
+				resizing = false;
+			break;
 		}
 		selection_box = false;
 		selection_grab = false;
 	} 
+}
+
+if (mbright) {
+	switch(selected_tool) {
+		case BRUSH_TOOL:
+			switch(selected_mode) {
+				case OBJECT_MODE:
+					var obj = check_colliding_object(mouse_x,mouse_y)
+					if (obj) {
+						ds_list_delete(object_layer_map[selected_region], obj-1)
+					}
+				break;
+				case DECO_MODE:
+					switch(deco_mode_type) {
+						case "tile":
+							var obj = check_colliding_tile(mouse_x,mouse_y)
+							if (obj) {
+								var tile = ds_list_find_value(tilemap,obj-1);
+								var data = tilemap_get(tilemap_layer, tile[1], tile[2]);
+								if tile_get_index(data)!= 0 {
+									data = tile_set_empty(data)
+									tilemap_set(tilemap_layer, data,  tile[1], tile[2]); //delete tile at place lol
+								}
+							}
+							tile_update_properties();
+						break;
+						case "asset":
+						var obj = check_colliding_asset(mouse_x,mouse_y)
+						if (obj) {
+							layer_sprite_destroy(selected_layer.assetmap[| obj-1][1])
+							ds_list_delete(selected_layer.assetmap, obj-1)
+						}
+						break;
+					}
+				break;
+			}
+		break;
+	}
 }

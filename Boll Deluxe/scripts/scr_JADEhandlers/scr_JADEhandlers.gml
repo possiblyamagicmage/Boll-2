@@ -122,7 +122,7 @@ function JADEiconbutton(_x, _y, _sprite, _func, is_toggle=true, inverted=false) 
 		var curs_x = window_mouse_get_x()
 		var curs_y = window_mouse_get_y()
 		
-		var over = point_in_rectangle(curs_x,curs_y,x-2,y-2,x+width+2,y+height+2)
+		var over = point_in_rectangle(curs_x,curs_y,x-2,y-2,x+width+2,y+height+2) && !collision_rectangle(x-2,y-2,x+width+2,y+height+2,oJADEDropDown,false,true)
 		
 		if over {
 			//if i havent already been selected
@@ -290,10 +290,161 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		while(array_length(currarr)) { //this code is a fucking mess Im sorry.
 			var item = currarr[0]
 			array_delete(currarr,0,1);
-			if (is_instanceof(item, JADEobj)) {
+			if (is_instanceof(item, JADEobj) || is_instanceof(item, JADEasset)) {
 				var over_button = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y) && over
 				if (mbleft) && (over_button) {
 					variable_instance_set(oJADEController, checkvar, item)
+					mbleft=0
+				}
+			
+				if (checkervalue!=-1) && (checkervalue.uuid == item.uuid) {
+					draw_rect(x+indent+scroll_x,y+(24*i)+2+scroll_y,width,20,oJADEController.themeaccent2,1)
+				}
+				else if (over_button) draw_rect(x+indent+scroll_x,y+(24*i)+2+scroll_y,width,20,oJADEController.themeaccent4,1,true)
+				
+				draw_rect(x+2+indent+scroll_x,y+24+(24*i)-1+scroll_y,width-4,2,oJADEController.themeaccent2,1) //divider
+				draw_text(x+24+indent+scroll_x,y+8+(24*i)+scroll_y, item.name)
+				
+				if (!array_length(currarr)) && array_length(prevarr) {
+					var temp=array_pop(prevarr)
+					array_copy(currarr,0,temp,0,array_length(temp))
+					indent=array_pop(prevind);
+					
+				}
+			} else if is_instanceof(item, JADElistcategory) {
+				var over_button = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y) && over
+				if (mbleft) && (over_button) {
+					item.collapse();
+					scroll_x=clamp(scroll_x,-listwidth,0)
+					mbleft=0
+				}
+				
+				draw_gui(x+4+indent+scroll_x,y+(24*i)+1+scroll_y,width-8,22,oJADEController.themeaccent4,1) //button
+				draw_text(x+8+24+indent+scroll_x,y+8+(24*i)+scroll_y,item.listname) //category name
+				draw_sprite(spr_JADElistarrow,item.collapsed,x+8+indent+scroll_x,y+4+(24*i)+scroll_y) //collapse arrow
+				
+				if !(item.collapsed) {
+					if array_length(currarr) {
+						array_push(prevarr,variable_clone(currarr))
+						array_push(prevind,indent);
+					}
+					currarr=[];
+					array_copy(currarr,0,item.listcontents,0,array_length(item.listcontents))
+					indent+=16;
+					listwidth+=16;
+				}
+			}
+			i++;
+			if i>(height/24) listheight+=24
+		}
+		gpu_set_scissor(prevscissor);
+		
+		//Scrollbars
+		var total_height=height+listheight
+		var total_width=width+listwidth
+		
+		var over_vert_scrollbar = point_in_rectangle(curs_x,curs_y,x+width,y,x+width+4+8,y+height);
+		var bar_height = max(6,(height/total_height)*height)
+		
+		var over_horizontal_scrollbar = point_in_rectangle(curs_x,curs_y,x,y+height,x+width,y+height+4+8);
+		var bar_width = max(6,(width/total_width)*width)
+		
+		draw_gui(x+width+4,y,6,height,oJADEController.themeaccent2,1) //vertical scrollbar bg
+		draw_gui(x+width+4,y+handle_y,6,bar_height,oJADEController.themeaccent4,1) //vertical scrollbar handle
+		
+		draw_gui(x,y+height+4,width,6,oJADEController.themeaccent2,1) //horizontal scrollbar bg
+		draw_gui(x+handle_x,y+height+4,bar_width,6,oJADEController.themeaccent4,1) //horizontal scrollbar handle
+		
+		var mwheel = mouse_wheel_down() - mouse_wheel_up();
+		if (mwheel == 0) {
+			mwheel = keyboard_check(vk_down) - keyboard_check(vk_up)
+		}
+		
+		if (over) && (mwheel != 0) {
+			if !keyboard_check(vk_control) {
+				scroll_y+=12*-mwheel
+				scroll_y=clamp(scroll_y,-listheight,0)
+				
+				if (listheight)
+				handle_y = -((height - bar_height) * scroll_y / (listheight))
+			} else {
+				scroll_x+=8*mwheel
+				scroll_x=clamp(scroll_x,-listwidth,0)
+				
+				if (listwidth)
+				handle_x = -((width - bar_width) * scroll_x / (listwidth))
+			}
+		}
+		
+		if (mbleft) {
+			if (over_vert_scrollbar) && (height/total_height != 1) {
+				if !is_scrolling_y {
+					mouse_offset_y = (curs_y - (y + handle_y))	
+				}
+				is_scrolling_y=true
+			} else if (over_horizontal_scrollbar) && (width/total_width != 1) {
+				if !is_scrolling_x {
+					mouse_offset_x = (curs_x - (x + handle_x))	
+				}
+				is_scrolling_x=true
+			}
+		}
+		
+		if (mouse_check_button_released(mb_left)) {
+			is_scrolling_x=0
+			is_scrolling_y=0
+		}
+		
+		if (is_scrolling_y) {
+			handle_y = curs_y - y - mouse_offset_y;
+			handle_y = clamp( handle_y, 0, height - bar_height);
+			
+			scroll_y = -((listheight) * handle_y / (height - bar_height));
+		} else if (is_scrolling_x) {
+			handle_x = curs_x - x - mouse_offset_x;
+			handle_x = clamp(handle_x, 0, width - bar_width);
+			
+			scroll_x = -((listwidth) * handle_x / (width - bar_width));
+		}
+	}
+}
+
+function JADEbglisthandler(_x, _y, _width, _height) : JADElisthandler(_x, _y, _width, _height, "") constructor {
+	
+	static draw = function() {
+		draw_rect(x,y,width,height,oJADEController.themeaccent3,1)
+		var prevarr=[];
+		var currarr=[];
+		var prevind=[];
+		
+		var curs_x = window_mouse_get_x()
+		var curs_y = window_mouse_get_y()
+		var mbleft = mouse_check_button_pressed(mb_left);
+		
+		array_copy(currarr,0,listcontents,0,array_length(listcontents));
+		var indent=0;
+		var i=0;
+		checkervalue=oJADEController.selected_layer.selected_bg
+		
+		var prevscissor = gpu_get_scissor();
+		gpu_set_scissor(x,y,width,height);
+		
+		listwidth = 0;
+		listheight = 0;
+		
+		var over = point_in_rectangle(curs_x,curs_y,x,y,x+width,y+height);
+		
+		draw_set_font(global.rulerGold)
+		while(array_length(currarr)) { //this code is a fucking mess Im sorry.
+			var item = currarr[0]
+			array_delete(currarr,0,1);
+			if (is_instanceof(item, JADEbackground)) {
+				var over_button = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y) && over
+				if (mbleft) && (over_button) {
+					with(oJADEController.selected_layer) {
+						selected_bg = item
+						update_background();
+					}
 					mbleft=0
 				}
 			
@@ -424,6 +575,35 @@ function JADEobj(_uuid, _sprite,_xoff,_yoff,_width,_height,_can_xscale,_can_ysca
 	sizey = _sizey;
 }
 
+function JADEasset(_uuid, _sprite,_xoff,_yoff,_width,_height,_can_xscale,_can_yscale,_name,_sizex,_sizey) constructor {
+	uuid = _uuid;
+	sprite = _sprite;
+	xoff = _xoff;
+	yoff = _yoff;
+	width = _width;
+	height = _height;
+	can_xscale = _can_xscale;
+	can_yscale = _can_yscale;
+	name = _name;
+	sizex = _sizex;
+	sizey = _sizey;
+}
+
+function JADEbackground(_uuid, _sprite, _xoff,_yoff,_width,_height,_tiled_h,_tiled_v,_parallax_x,_parallax_y,_attach_x,_attach_y,_name) constructor {
+	uuid = _uuid;
+	sprite = _sprite;
+	xoff = _xoff;
+	yoff = _yoff;
+	width = _width;
+	height = _height;
+	name = _name;
+	tiled_h = _tiled_h;
+	tiled_v = _tiled_v;
+	parallax_x = _parallax_x;
+	parallax_y = _parallax_y;
+	attach_x = _attach_x;
+	attach_y = _attach_y;
+}
 
 function JADEpropertylisthandler(_x, _y, _width, _height) constructor {
 	x=_x;
@@ -588,7 +768,12 @@ function JADEproperties() constructor {
 	property_data = {};
 	property_values = {};
 	static initProperties = function(obj) {
-		var objn = object_get_name(obj)
+		var objn;
+		if (object_exists(obj)) {
+			objn = object_get_name(obj)
+		} else if (sprite_exists(obj)) {
+			objn = sprite_get_name(obj)
+		}
 		property_data[$ objn]=[]
 		property_values[$ objn]=[];
 	}
@@ -848,7 +1033,7 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 	
 	static add = function(_item) {
 		show_debug_message(_item)
-		array_insert(listcontents, 0, _item)
+		array_push(listcontents, _item)
 		var i=0;
 		var foundind=0;
 		var len=array_length(listcontents);
@@ -897,6 +1082,8 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 	}
 	
 	static draw = function() {
+		draw_set_font(global.rulerGold)
+		
 		draw_text(x,y-16,"Layers")
 		
 		draw_rect(x,y,width,height,oJADEController.themeaccent3,1)
@@ -915,7 +1102,6 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		
 		var over_list = point_in_rectangle(curs_x,curs_y,x,y,x+width,y+height);
 		
-		draw_set_font(global.rulerGold)
 		var i=0;
 		repeat(array_length(listcontents)) { //this code is a fucking mess Im sorry.
 			var item = listcontents[i]
@@ -937,15 +1123,32 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 					} else if (over_button) {
 						variable_instance_set(oJADEController, checkvar, item)
 						oJADEController.update_layer(item);
+						oJADEController.selected_array = [];
 						if is_instanceof(item, JADEtilelayer) {
-							oJADEController.tilepicker.pan_x = 0;
-							oJADEController.tilepicker.pan_y = 0;
+							with(oJADEController) {
+								deco_mode_type = "tile";
+								tilepicker.pan_x = 0;
+								tilepicker.pan_y = 0;
+								current_tile_id = -1
+								current_tile_id = []
+								current_tile_id[0][0] = 0
+								tile_sel_height = 0
+								tile_sel_width = 0
+							}
+						} else if is_instanceof(item, JADEassetlayer) {
+							with(oJADEController) {
+								deco_mode_type = "asset";
+							}
+						} else if is_instanceof(item, JADEbackgroundlayer) {
+							with(oJADEController) {
+								deco_mode_type = "bg";
+							}
 						}
 						mbleftpress=0
 					}
 				}
 				
-				var layer_selected = (checkervalue!=-1) && (checkervalue.name == item.name)
+				var layer_selected = (checkervalue!=noone) && (checkervalue.name == item.name)
 				
 				if (layer_selected) {
 					draw_rect(x+scroll_x,y+(24*i)+1+scroll_y,width,22,oJADEController.themeaccent4,1,true)
@@ -1069,28 +1272,90 @@ function JADEtilelayer(_name,_tileset) constructor {
 		sprite = tileset_info[0]
 		tilemap_tileset(my_deco_layer,tileset_info[1])
 	}
+	
+	static cleanup = function() {
+		ds_list_destroy(tilemap)
+		layer_tilemap_destroy(my_deco_layer)
+		layer_destroy(my_layer)
+	}
 }
 
 function JADEassetlayer(_name) constructor {
 	name = _name
 	layerdepth = 0;
+	assetmap = ds_list_create();
 	my_layer = layer_create(layerdepth,name)
 	my_deco_layer = my_layer
+	parallax_x = 0;
+	parallax_y = 0;
+	
 	static change_depth = function(_depth) {
 		layerdepth = _depth;
 		layer_depth(my_layer,layerdepth);
 	}
+	
+	static cleanup = function() {
+		ds_list_destroy(assetmap)
+		layer_destroy(my_layer)
+	}
 }
 
-function JADEbackgroundlayer(_name,_sprite) constructor {
+function JADEbackgroundlayer(_name, _background) constructor {
 	name = _name
-	sprite = _sprite
+	selected_bg = _background
+	parallax_x = 0;
+	parallax_y = 0;
+	tiled_h = 0;
+	tiled_v = 0;
+	attach_x = 0;
+	attach_y = 0;
+	if is_struct(selected_bg) {
+		sprite = selected_bg.sprite;
+		parallax_x = selected_bg.parallax_x;
+		parallax_y = selected_bg.parallax_y;
+		tiled_h = selected_bg.tiled_h;
+		tiled_v = selected_bg.tiled_v;
+		attach_x = selected_bg.attach_x;
+		attach_y = selected_bg.attach_y;
+	} else sprite = spr_BGtest
 	layerdepth = 0;
 	my_layer = layer_create(layerdepth,name)
 	my_deco_layer = layer_background_create(my_layer,sprite)
+	off_x = 0;
+	off_y = 0;
+	var height = sprite_get_height(sprite)
+	off_y = room_height-height;
+	layer_y(my_layer,off_y);
+	
+	static update_background = function() {
+		if is_struct(selected_bg) {
+			sprite = selected_bg.sprite;
+			parallax_x = selected_bg.parallax_x;
+			parallax_y = selected_bg.parallax_y;
+			tiled_h = selected_bg.tiled_h;
+			tiled_v = selected_bg.tiled_v;
+			attach_x = selected_bg.attach_x;
+			attach_y = selected_bg.attach_y;
+		} else sprite = spr_BGtest;
+		var height = sprite_get_height(sprite)
+		var width = sprite_get_height(sprite)
+		off_y = clamp(off_y,sprite_get_yoffset(sprite),room_height-height-sprite_get_yoffset(sprite))
+		off_x = clamp(off_x,sprite_get_xoffset(sprite),room_width-width-sprite_get_xoffset(sprite))
+		layer_x(my_layer,off_x);
+		layer_y(my_layer,off_y);
+		layer_background_sprite(my_deco_layer, sprite)
+		layer_background_htiled(my_deco_layer, tiled_h)
+		layer_background_vtiled(my_deco_layer, tiled_v)
+	}
+	
 	static change_depth = function(_depth) {
 		layerdepth = _depth;
 		layer_depth(my_layer,layerdepth);
+	}
+	
+	static cleanup = function() {
+		layer_background_destroy(my_deco_layer)
+		layer_destroy(my_layer)
 	}
 }
 

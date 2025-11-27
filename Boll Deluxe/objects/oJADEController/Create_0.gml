@@ -4,7 +4,7 @@
 #macro SELECT_TOOL 0 //region, object, background, node
 #macro BRUSH_TOOL 1 //object, tile, background
 #macro FILL_TOOL 2 //object, tile
-#macro ERASE_TOOL 3 //object, tile, background, node
+#macro ERASE_TOOL 3 //object, tile, background, nodet
 #macro PICKER_TOOL 4 //object, tile, background
 #macro REFERENCE_TOOL 5 //object, tile, background, node
 #macro ROTATE_TOOL 6 //tile, background
@@ -79,12 +79,12 @@ topbuttons.add("Region", function() {
 
 });
 
-selected_layer=-1
+selected_layer=noone
 tilemap=-1;
 tilemap_layer=-1;
 layerlist = new JADElayerlisthandler(8,56,192-24,640, "selected_layer") 
 layerlist.add(new JADElistunselectable("Objects"))
-array_push(layerlist.listcontents,new JADEtilelayer("Main Tiles", current_tileset))
+layerlist.add(new JADEtilelayer("Main Tiles", current_tileset))
 layerlist.update_depths();
 selected_layer=layerlist.listcontents[1]
 
@@ -105,7 +105,7 @@ update_layer = function(_layer) {
 	deco_mode_type=type;
 }
 
-modebuttons = new JADEsmallbuttons(272,4,86,16,8)
+modebuttons = new JADEsmallbuttons(272,4,86,16,8,false)
 modebuttons.add("Object Mode", function() {
 	selected_mode = OBJECT_MODE
 });
@@ -118,7 +118,7 @@ modebuttons.add("Gizmo Mode", function() {
 });
 
 layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,spr_JADEaddicon,function() {
-	JADEdropdown(layeraddbutton.x,layeraddbutton.y+layeraddbutton.height,["Add Tile Layer", "Add Asset Layer", "Add Background Layer"], function(optname,ind) {
+	JADEdropdown(layeraddbutton.x,layeraddbutton.y-56,["Add Tile Layer", "Add Asset Layer", "Add Background Layer"], function(optname,ind) {
 		show_debug_message(ind)
 		switch(ind) {
 			case 0:
@@ -155,7 +155,7 @@ layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,
 					}
 					i++;
 				}
-				layerlist.add(new JADEbackgroundlayer(name,spr_BGtest))
+				layerlist.add(new JADEbackgroundlayer(name,-1))
 			break;
 		}
 		layerlist.update_depths();
@@ -164,8 +164,14 @@ layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,
 });
 
 layerdeletebutton = new JADEiconbutton(layerlist.x+20,layerlist.y+layerlist.height+16,spr_JADEdeleteicon,function() {
+	selected_layer.cleanup();
+	array_delete(layerlist.listcontents,array_get_index(layerlist.listcontents,selected_layer),1);
+	delete selected_layer;
+	selected_layer = noone;
+	instance_destroy(oJADELayerProperties);
 	layerlist.update_depths();
 	layerdeletebutton.reset();
+	deco_mode_type="";
 });
 
 layereditbutton = new JADEiconbutton(layerlist.x+40,layerlist.y+layerlist.height+16,spr_JADEediticon,function() {
@@ -340,11 +346,32 @@ check_colliding_object = function(_x,_y) {
 }
 
 check_colliding_tile = function(_x, _y) {
+	if !ds_exists(tilemap,ds_type_list) exit;
+	
 	var i=0;
 	repeat(ds_list_size(tilemap)) {
 		var tile=tilemap[| i]
 		var tilesetinf = tileset_get_info(selected_layer.tileset_info[1])
 		if point_in_rectangle(_x,_y,tile[1]*16,tile[2]*16,tile[1]*16+tilesetinf.tile_width,tile[2]*16+tilesetinf.tile_height) {
+			return i+1
+		}
+		i++;
+	}
+}
+
+check_colliding_asset = function(_x, _y) {
+	if !ds_exists(selected_layer.assetmap,ds_type_list) exit;
+	
+	var i=0;
+	repeat(ds_list_size(selected_layer.assetmap)) {
+		var asset=selected_layer.assetmap[| i]
+		var data = obj_data[$ asset[0]]
+		var _sprite = asset_get_index(asset[0])
+		var _ax = layer_sprite_get_x(asset[1]) - sprite_get_xoffset(_sprite)
+		var _ay = layer_sprite_get_y(asset[1]) - sprite_get_yoffset(_sprite)
+		var _width = data.width
+		var _height = data.height
+		if point_in_rectangle(_x,_y,_ax,_ay,_ax+_width,_ay+_height) {
 			return i+1
 		}
 		i++;
@@ -359,23 +386,43 @@ object_place = function(_uuid, _x, _y, _xscale, _yscale) {
 	ds_list_add(object_layer_map[selected_region], obj)
 }
 
+asset_place = function(_uuid, _x, _y, _xscale, _yscale, _layer=selected_layer) {
+	var data = obj_data[$ _uuid];
+	var inst = layer_sprite_create(_layer.my_layer,_x+data.xoff,_y+data.yoff,asset_get_index(_uuid));
+	layer_sprite_xscale(inst,_xscale);
+	layer_sprite_yscale(inst,_yscale);
+	layer_sprite_speed(inst, 0);
+	var obj = [_uuid, inst];
+	obj[3] = properties.getDefaultValues(_uuid);
+	//add other data stuff here later
+	ds_list_add(_layer.assetmap, obj);
+	show_debug_message(_uuid);
+}
+
 
 tile_update_properties = function() {
+	if !ds_exists(tilemap,ds_type_list) exit;
+	
 	var list=tilemap
-	var i=ds_list_size(list)-1;
+	var size = ds_list_size(list)
+	var i=size-1;
 	while (i > 0) {
 		var data=list[| i]
-		if data==undefined {
-			ds_list_delete(list,i) 
+		
+		if is_undefined(data) {
+			ds_list_delete(list,i)
+			i--;
 			continue
 		}
-		
+
 		var fetched=tilemap_get(tilemap_layer,data[1],data[2])
 		
 		if (data[0]!=fetched) { //If data does not match the tile at place
 			ds_list_delete(list, i) //remove if tile has changed
-			continue
+		} else if (tile_get_empty(data[0])) {
+			ds_list_delete(list, i) //remove if tile is empty
 		}
+		
 		i--;
 	}
 }

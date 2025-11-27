@@ -14,15 +14,15 @@ draw_rect(0,56,192,guih-56,themeaccent1,1) //left side
 not_on_gui=
 !point_in_rectangle(curs_x,curs_y,0,0,guiw,32+24)&&
 !point_in_rectangle(curs_x,curs_y,0,24,guiw,32)&&
-!point_in_rectangle(curs_x,curs_y,guiw-240,24,guiw,guih-24)&&
-!point_in_rectangle(curs_x,curs_y,0,56,192,guih-56)
+!point_in_rectangle(curs_x,curs_y,guiw-240,24,guiw,guih)&&
+!point_in_rectangle(curs_x,curs_y,0,56,192,guih)
 
 topbuttons.draw();
 modebuttons.draw();
 toolbarbuttons.draw();
 playtestbutton.draw();
 
-if (selected_mode != DECO_MODE) || (selected_mode == DECO_MODE && deco_mode_type != "tile") {
+if (selected_mode != DECO_MODE) {
 	list_tabbuttons.draw();
 	
 	if !properties_tab_active {
@@ -31,10 +31,12 @@ if (selected_mode != DECO_MODE) || (selected_mode == DECO_MODE && deco_mode_type
 		propertylist.draw(selected_array);
 	}
 } else {
-	tilepicker.draw();
-}
-
-if selected_mode == DECO_MODE {
+	switch(deco_mode_type) {
+		case "tile": tilepicker.draw() break;
+		case "asset": decolist.draw() break;
+		case "bg": bglist.draw() break;
+	}
+	
 	layerlist.draw();
 	layeraddbutton.draw();
 	layerdeletebutton.draw();

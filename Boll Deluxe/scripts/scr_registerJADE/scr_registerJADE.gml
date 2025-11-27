@@ -14,7 +14,8 @@ function JADE_initializeobj() {
 	obj_data = {};
 	properties = new JADEproperties()
 	objectlist = new JADElisthandler(1296-216-14,56, 216, 640, "selected_obj")
-	decolist = new JADElisthandler(1296-216-14,56, 216, 640, "selected_obj")
+	decolist = new JADElisthandler(1296-216-14,56, 216, 640, "selected_deco_obj")
+	bglist = new JADEbglisthandler(1296-216-14,56, 216, 480)
 	propertylist = new JADEpropertylisthandler(1296-216-14,56, 216, 640);
 	
 	list_tabbuttons=new JADEsmallbuttons(1296-216-14,38,96,20,8,false, true)
@@ -43,6 +44,21 @@ function JADE_initializeobj() {
 	registerobj(oMonitor, spr_monitor, 8, 8, 16, 16, false, false, blockcategory, "Monitor")
 	
 	objectlist.add(blockcategory) //we added the items to the category, but we still need to apply the category to the main list
+	
+	//ASSETS
+	registerasset(spr_bigwidetree, 8, 16, false, false, decolist, "Big Wide Tree")
+	registerasset(spr_grass2, 0, 16, false, false, decolist, "2-Wide Grass")
+	registerasset(spr_grass3, 8, 16, false, false, decolist, "3-Wide Grass")
+	registerasset(spr_grass4, 0, 16, false, false, decolist, "4-Wide Grass")
+	registerasset(spr_palmtree, 8, 16, false, false, decolist, "Palm Tree")
+	registerasset(spr_palmtree2, 8, 16, false, false, decolist, "Palm Tree (2)")
+	registerasset(spr_bigflower, 8, 16, false, false, decolist, "Big Flower")
+	
+	//BACKGROUNDS
+	registerbackground(spr_plains_bg_hills, 0, 0, bglist,"Plains (Hills)",true,false,25,0,false,true)
+	registerbackground(spr_plains_bg_hills2, 0, 0, bglist,"Plains (Front Hills)",true,false,40,0,false,true)
+	registerbackground(spr_plains_bg_sky, 0, 0, bglist,"Plains (Sky)",true,false,0,0)
+	registerbackground(spr_plains_bg_clouds, 0, 0, bglist,"Plains (Clouds)",true,false,10,0)
 }
 
 function WM_initializeobj() {	
@@ -80,7 +96,33 @@ function registerobj(uuid,_sprite,_xoff,_yoff,_width,_height,_can_xscale,_can_ys
 		properties.initProperties(uuid)
 		_list.add(obj_data[$ _id])
 	} else {
-		show_debug_message($"JADE object {object_get_name(uuid)} has already been initialized! Ignoring...")
+		show_debug_message($"JADE object {_id} has already been initialized! Ignoring...")
+	}
+}
+
+function registerasset(_sprite,_xoff,_yoff,_can_xscale,_can_yscale,_list,_name,_sizex=1,_sizey=1) {
+	var _id=sprite_get_name(_sprite)
+	if is_undefined(obj_data[$ _id]) {
+		var _width = sprite_get_width(_sprite);
+		var _height = sprite_get_height(_sprite);
+		obj_data[$ _id]=new JADEasset(_id,_sprite,_xoff,_yoff,_width,_height,_can_xscale,_can_yscale,_name,_sizex,_sizey)
+		properties.initProperties(_sprite)
+		_list.add(obj_data[$ _id])
+	} else {
+		show_debug_message($"JADE object {_id} has already been initialized! Ignoring...")
+	}
+}
+
+function registerbackground(_sprite,_xoff,_yoff,_list,_name,_tiled_h=false,_tiled_v=false,_parallax_x=0,_parallax_y=0,_attach_x=false,_attach_y=false) {
+	var _id=sprite_get_name(_sprite)
+	if is_undefined(obj_data[$ _id]) {
+		var _width = sprite_get_width(_sprite);
+		var _height = sprite_get_height(_sprite);
+		obj_data[$ _id]=new JADEbackground(_id,_sprite,_xoff,_yoff,_width,_height,_tiled_h,_tiled_v,_parallax_x,_parallax_y,_attach_x,_attach_y,_name)
+		properties.initProperties(_sprite)
+		_list.add(obj_data[$ _id])
+	} else {
+		show_debug_message($"JADE object {_id} has already been initialized! Ignoring...")
 	}
 }
 

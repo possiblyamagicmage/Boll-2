@@ -1,6 +1,7 @@
 //Functions for JADE object properties.
 //Properties are formatted as a 2d array [[Property Name, Display Name, Default Value, Input Type, Bounds / List of Values]]
 //TODO: Probably only save the third value of these to the object and just look up these arrays when changing / loading them lmao
+/////DEPRECATED keeping here so we can copy them over to the new system in scr_registerJADE!!!!
 
 function object_get_properties(obj){
 	var properties = [];

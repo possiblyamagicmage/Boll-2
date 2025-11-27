@@ -1,5 +1,5 @@
 #region Scaler drawing
-if array_length(selected_array)==1 && (selected_mode != DECO_MODE || (selected_mode == DECO_MODE && deco_mode_type!="tile")) {
+if array_length(selected_array)==1 && (selected_mode != DECO_MODE) {
 	var obj=object_layer_map[selected_region][| selected_array[0]]
 	var data=obj_data[$ obj[0]]
 	if (resizing != 1)
@@ -17,24 +17,42 @@ if array_length(selected_array)==1 && (selected_mode != DECO_MODE || (selected_m
 }
 #endregion
 
-if (selected_mode == DECO_MODE && deco_mode_type=="tile") && array_length(selected_array) {
-	if !(selection_grab) {
-		var i=0
-		repeat(array_length(selected_array)) {
-			var tile = ds_list_find_value(tilemap,selected_array[i])
-			draw_rect(tile[1]*16,tile[2]*16,16,16,$ff5a2a,0.5)
-			i++;
-		}
-	} else {
-		var i=0
-		repeat(array_length(selected_array)) {
-			var tile = ds_list_find_value(tilemap,selected_array[i])
-			var x_diff = (tile[1]*16 - selection_grab_x)
-			var y_diff = (tile[2]*16 - selection_grab_y)
-			draw_tile(selected_layer.tileset_info[1],tile[0],0,floor((mouse_x+x_diff)/16)*16,floor((mouse_y+y_diff)/16)*16)
-			draw_rect(floor((mouse_x+x_diff)/16)*16,floor((mouse_y+y_diff)/16)*16,16,16,$ff5a2a,0.5)
-			i++;
-		}
+if (selected_mode == DECO_MODE && array_length(selected_array)) {
+	switch(deco_mode_type) {
+		case "tile":
+			if !(selection_grab) {
+				var i=0
+				repeat(array_length(selected_array)) {
+					var tile = ds_list_find_value(tilemap,selected_array[i])
+					draw_rect(tile[1]*16,tile[2]*16,16,16,$ff5a2a,0.5)
+					i++;
+				}
+			} else {
+				var i=0
+				repeat(array_length(selected_array)) {
+					var tile = ds_list_find_value(tilemap,selected_array[i])
+					var x_diff = (tile[1]*16 - selection_grab_x)
+					var y_diff = (tile[2]*16 - selection_grab_y)
+					draw_tile(selected_layer.tileset_info[1],tile[0],0,floor((mouse_x+x_diff)/16)*16,floor((mouse_y+y_diff)/16)*16)
+					draw_rect(floor((mouse_x+x_diff)/16)*16,floor((mouse_y+y_diff)/16)*16,16,16,$ff5a2a,0.5)
+					i++;
+				}
+			}
+		break;
+		case "asset":
+			var i=0
+			repeat(array_length(selected_array)) {
+				var asset=selected_layer.assetmap[| selected_array[i]]
+				var data = obj_data[$ asset[0]]
+				var _sprite = asset_get_index(asset[0])
+				var _ax = layer_sprite_get_x(asset[1]) - sprite_get_xoffset(_sprite)
+				var _ay = layer_sprite_get_y(asset[1]) - sprite_get_yoffset(_sprite)
+				var _width = data.width
+				var _height = data.height
+				draw_rect(_ax,_ay,_width,_height,$ff5a2a,0.5)
+				i++;
+			}
+		break;
 	}
 }
 
@@ -54,27 +72,39 @@ if (not_on_gui) {
 		break;
 		case DECO_MODE:
 		if (selected_tool == BRUSH_TOOL || selected_tool == FILL_TOOL) {
-			if deco_mode_type == "tile" {
-				var t_spr = global.tilesets[$ current_tileset][0]
-				var t_width = sprite_get_width(t_spr)
-				var t_height = sprite_get_height(t_spr)
-				var i=0;
-				repeat(tile_sel_width+1) {
-					var j=0;
-					repeat(tile_sel_height+1) {
-						var _data = current_tile_id[i][j]
-						if _data != 0 {
-							var t_x = ((_data mod (t_width / 16)) * 16)
-							var t_y = (floor(_data / (t_width/16)) * 16)
-							draw_sprite_part_ext(t_spr, 0, t_x, t_y, 16, 16, (gridx+i)*16,(gridy+j)*16, 1, 1, c_white, 0.25)	
+			switch(deco_mode_type) {
+				case "tile":
+					var t_spr = global.tilesets[$ current_tileset][0]
+					var t_width = sprite_get_width(t_spr)
+					var t_height = sprite_get_height(t_spr)
+					var i=0;
+					repeat(tile_sel_width+1) {
+						var j=0;
+						repeat(tile_sel_height+1) {
+							var _data = current_tile_id[i][j]
+							if _data != 0 {
+								var t_x = ((_data mod (t_width / 16)) * 16)
+								var t_y = (floor(_data / (t_width/16)) * 16)
+								draw_sprite_part_ext(t_spr, 0, t_x, t_y, 16, 16, (gridx+i)*16,(gridy+j)*16, 1, 1, c_white, 0.25)	
+							}
+							j++;
 						}
-						j++;
+						i++;
 					}
-					i++;
-				}
+				break;
+				case "asset":
+					var obj = selected_deco_obj
+					var drawx = gridx*current_grid_size
+					var drawy = gridy*current_grid_size
+					if (is_struct(obj)) {
+						draw_sprite_ext(obj.sprite,0,drawx+obj.xoff,drawy+obj.yoff,(1*obj.sizex),(1*obj.sizey),0,c_white,0.5);
+					}
+				break;
 			}
 		}
 		break;
 	}
 }
 #endregion
+
+if keyboard_check_pressed(vk_f5) show_debug_message(selected_array)

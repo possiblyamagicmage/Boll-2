@@ -1,3 +1,16 @@
+cam_x = camera_get_view_x(view_camera[0])
+cam_y = camera_get_view_y(view_camera[0])
+
+//Draw selected background outline
+if (selected_mode == DECO_MODE && deco_mode_type = "bg" && is_struct(selected_layer)) {
+	var _sprite = selected_layer.sprite;
+	var _width = sprite_get_width(_sprite)/zoom_level;
+	var _height = sprite_get_height(_sprite)/zoom_level;
+	var _x = (selected_layer.off_x-sprite_get_xoffset(_sprite)-cam_x)/zoom_level;
+	var _y = (selected_layer.off_y-sprite_get_yoffset(_sprite)-cam_y)/zoom_level;
+	draw_rect(_x,_y,_width,_height,$54b9fb,1,true)
+}
+
 if (not_on_gui) {
 	if (selected_tool == SELECT_TOOL) {
 		//Selection Tool mass-select box
