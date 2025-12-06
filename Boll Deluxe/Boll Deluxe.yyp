@@ -1579,6 +1579,7 @@
     {"id":{"name":"spr_JADEdropdownbox","path":"sprites/spr_JADEdropdownbox/spr_JADEdropdownbox.yy",},},
     {"id":{"name":"spr_JADEediticon","path":"sprites/spr_JADEediticon/spr_JADEediticon.yy",},},
     {"id":{"name":"spr_JADEerase_overlay","path":"sprites/spr_JADEerase_overlay/spr_JADEerase_overlay.yy",},},
+    {"id":{"name":"spr_JADEexiticon","path":"sprites/spr_JADEexiticon/spr_JADEexiticon.yy",},},
     {"id":{"name":"spr_JADEflagpole","path":"sprites/spr_JADEflagpole/spr_JADEflagpole.yy",},},
     {"id":{"name":"spr_JADEguibevel","path":"sprites/spr_JADEguibevel/spr_JADEguibevel.yy",},},
     {"id":{"name":"spr_JADEicons","path":"sprites/spr_JADEicons/spr_JADEicons.yy",},},

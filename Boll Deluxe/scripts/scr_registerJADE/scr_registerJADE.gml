@@ -14,6 +14,7 @@ function JADE_initializeobj() {
 	obj_data = {};
 	properties = new JADEproperties()
 	objectlist = new JADElisthandler(1296-216-14,56, 216, 640, "selected_obj")
+	gizmolist = new JADElisthandler(1296-216-14,56, 216, 640, "selected_obj")
 	decolist = new JADElisthandler(1296-216-14,56, 216, 640, "selected_deco_obj")
 	bglist = new JADEbglisthandler(1296-216-14,56, 216, 480)
 	propertylist = new JADEpropertylisthandler(1296-216-14,56, 216, 640);
@@ -44,6 +45,13 @@ function JADE_initializeobj() {
 	registerobj(oMonitor, spr_monitor, 8, 8, 16, 16, false, false, blockcategory, "Monitor")
 	
 	objectlist.add(blockcategory) //we added the items to the category, but we still need to apply the category to the main list
+	
+	//NODE MODE
+	registerobj(oCameraRegion, spr_cameraregion, 0, 0, 16, 16, false, false, gizmolist, "Camera Region")
+	registerobj(oCameraBoundary, spr_cameraboundary, 0, 0, 16, 16, false, false, gizmolist, "Camera Boundary")
+	registerobj(oActivationRegion, spr_activationregion, 0, 0, 16, 16, false, false, gizmolist, "Activation Region")
+	registerobj(oDeactivationRegion, spr_deactivationregion, 0, 0, 16, 16, false, false, gizmolist, "Deactivation Regions")
+	registerobj(oDeathPit, spr_deathpit, 0, 0, 16, 16, false, false, gizmolist, "Death Pit")
 	
 	//ASSETS
 	registerasset(spr_bigwidetree, 8, 16, false, false, decolist, "Big Wide Tree")
@@ -130,27 +138,66 @@ function JADE_save(file=game_save_id+"\save.jade") {
 	file_delete(file)
 	show_debug_message($"Saving JADE file to: {file}")
 	var struct = {};
-	var tilelayers = layerlist.listcontents;
-	var tilearr = [];
+	var layers = layerlist.listcontents;
+	var layerarr = [];
 	var i=0;
-	repeat(array_length(tilelayers)) {
-		var _layer = tilelayers[i];
+	repeat(array_length(layers)) {
+		var _layer = layers[i];
 		if !is_instanceof(_layer, JADElistunselectable) {
-			var tile_layer_contents = []; //wow!
-			var j=0;
-			repeat(ds_list_size(_layer.tilemap)) {
-				array_push(tile_layer_contents,_layer.tilemap[| j])
-				j++;
+			if (is_instanceof(_layer, JADEtilelayer)) { 
+				var tile_layer_contents = []; //wow!
+				var j=0;
+				repeat(ds_list_size(_layer.tilemap)) {
+					array_push(tile_layer_contents,_layer.tilemap[| j])
+					j++;
+				}
+				var _arr = ["TILE",_layer.tileset,_layer.name,_layer.layerdepth,tile_layer_contents]
+				array_push(layerarr,_arr);
+			} else if (is_instanceof(_layer, JADEassetlayer)) {
+				var asset_layer_contents = []; //wow!
+				var j=0;
+				repeat(ds_list_size(_layer.assetmap)) {
+					var uuid = _layer.assetmap[| j][0]
+					var obj = _layer.assetmap[| j][1]
+					var _x = layer_sprite_get_x(obj);
+					var _y = layer_sprite_get_y(obj);
+					var _xscale = layer_sprite_get_xscale(obj);
+					var _yscale = layer_sprite_get_yscale(obj);
+					var arr = [uuid,_x,_y,_xscale,_yscale]
+					array_push(asset_layer_contents,arr)
+					j++;
+				}
+				var _arr = ["ASSET",_layer.name,_layer.layerdepth,_layer.parallax_x,_layer.parallax_y,asset_layer_contents]
+				array_push(layerarr,_arr);
 			}
-			var _arr = [_layer.tileset,_layer.name,_layer.tileset,_layer.layerdepth,tile_layer_contents]
-			array_push(tilearr,_arr);
 		} else {
 			var _arr = ["MAIN",_layer.name]
-			array_push(tilearr,_arr);
+			array_push(layerarr,_arr);
 		}
 		i++;
 	}
-	struct[$ "tile_layers"]=tilearr;
+	//region count, change later
+	var obj_arr = [];
+	var node_arr = [];
+	i=0
+	repeat(1) {
+		obj_arr[i]=[];
+		var j=0;
+		repeat(ds_list_size(object_layer_map[i])) {
+			array_push(obj_arr[i], object_layer_map[i][| j])
+			j++;
+		}
+		node_arr[i]=[];
+		j=0;
+		repeat(ds_list_size(node_layer_map[i])) {
+			array_push(node_arr[i], node_layer_map[i][| j])
+			j++;
+		}
+		i++;
+	}
+	struct[$ "objects"] = obj_arr;
+	struct[$ "node_objects"] = node_arr;
+	struct[$ "layers"]=layerarr;
 	struct[$ "version"]=JADE_VERSION
 	show_debug_message(struct)
 	var _json=json_stringify(struct); //compile all saved things
@@ -169,34 +216,69 @@ function JADE_load(file=game_save_id+"\save.jade") {
 	var save_file = buffer_decompress(loaded)
 	var level_data = json_parse(buffer_read(save_file,buffer_string))
 	if (level_data[$ "version"]==JADE_VERSION) {
-		var tilelayers = level_data[$ "tile_layers"]
-		layerlist.listcontents = [];
-		var len=array_length(tilelayers);
-		var i=len-1;
+		var layers = level_data[$ "layers"]
+		layerlist.wipe();
+		var len=array_length(layers);
+		var i=0;
 		repeat(len) {
-			var _layer_contents = tilelayers[i];
+			var _layer_contents = layers[i];
 			
 			var _layer;
 			
 			if (_layer_contents[0]!="MAIN") {
-				_layer = new JADEtilelayer(_layer_contents[1],_layer_contents[0])
+				if (_layer_contents[0] == "TILE") {
+					_layer = new JADEtilelayer(_layer_contents[2],_layer_contents[1])
 				
-				var tile_layer_contents = _layer_contents[4]
+					var tile_layer_contents = _layer_contents[4]
 				
-				var j=0;
-				repeat(array_length(tile_layer_contents)) {
-					ds_list_add(_layer.tilemap, tile_layer_contents[j])
-					tilemap_set(_layer.my_deco_layer, tile_layer_contents[j][0], tile_layer_contents[j][1], tile_layer_contents[j][2]);
-					j++;
+					var j=0;
+					repeat(array_length(tile_layer_contents)) {
+						ds_list_add(_layer.tilemap, tile_layer_contents[j])
+						tilemap_set(_layer.my_deco_layer, tile_layer_contents[j][0], tile_layer_contents[j][1], tile_layer_contents[j][2]);
+						j++;
+					}
+				} else if (_layer_contents[0] == "ASSET") {
+					_layer = new JADEassetlayer(_layer_contents[1])
+				
+					var asset_layer_contents = _layer_contents[5]
+				
+					var j=0;
+					repeat(array_length(asset_layer_contents)) {
+						var obj = asset_layer_contents[j]
+						var data = obj_data[$ obj[0]];
+						asset_place(obj[0],obj[1]-data.xoff,obj[2]-data.yoff,obj[3],obj[4],_layer)
+						j++;
+					}
+				} else if (_layer_contents[0] == "BACK") {
+					
 				}
 			} else {
-				_layer = new JADElistunselectable("Objects")
+				_layer = new JADElistunselectable(_layer_contents[1])
 			}
 			
 			layerlist.add(_layer);
-			i--;
+			i++;
 		}
 		layerlist.update_depths();
+		//region count, change laters
+		var objects = level_data[$ "objects"]
+		var node_objects = level_data[$ "node_objects"]
+		i=0
+		repeat(array_length(objects)) {
+			ds_list_clear(object_layer_map[i])
+			ds_list_clear(node_layer_map[i])
+			var j=0;
+			repeat(array_length(objects[i])) {
+				ds_list_add(object_layer_map[i], objects[i][j])
+				j++;
+			}
+			j=0;
+			repeat(array_length(node_objects[i])) {
+				ds_list_add(node_layer_map[i], node_objects[i][j])
+				j++;
+			}
+			i++;
+		}
 	}
 	buffer_delete(loaded)
 	buffer_delete(save_file)
@@ -205,7 +287,7 @@ function JADE_load(file=game_save_id+"\save.jade") {
 
 function tile_layer_alpha_check() {
 	//This makes the tile layer transparent if you arent in tile mode by using layer scripts
-	if oJADEController.selected_mode!=DECO_MODE || layer!=oJADEController.selected_layer.my_layer {
+	if (oJADEController.selected_mode!=DECO_MODE || layer!=oJADEController.selected_layer.my_layer) {
 		shader_set(shd_alpha)
 		var alpha = shader_get_uniform(shd_alpha, "alpha");
 		shader_set_uniform_f(alpha,0.33)

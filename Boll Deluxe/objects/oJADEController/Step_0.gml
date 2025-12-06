@@ -32,11 +32,18 @@ if (mbleftpress) {
 		layeraddbutton.update();
 		layereditbutton.update();
 		layerdeletebutton.update();
+		if (deco_mode_type == "bg") {
+			bgalignbuttons.update();
+		}
 	}
 }
 
-if (selected_mode == DECO_MODE && deco_mode_type == "tile") {
-	tilepicker.update();
+if (selected_mode == DECO_MODE) {
+	switch(deco_mode_type) {
+		case "tile":
+			tilepicker.update();
+		break;
+	}
 }
 #endregion
 
@@ -99,16 +106,27 @@ if array_length(droppedfiles) {
 }
 
 if keyboard_check(vk_control) && keyboard_check_pressed(ord("S")) {
-	JADE_save();
+	if (global.save_dir != "") {
+		//savetextdur=60;
+		JADE_save(global.save_dir)
+	} else {
+		var file = get_save_filename_ext("JADE File|*.jade", "", $"{working_directory}\mods\\level\\", "Save Level");
+		if string_length(file) != 0 { 
+			//savetextdur=60;
+			global.save_dir=file
+			JADE_save(file)
+		}
+	}
 }
 
 if keyboard_check_pressed(vk_delete) {
 	switch(selected_mode) {
 		case OBJECT_MODE:
+		case NODE_MODE:
 			array_sort(selected_array,false)
 			var i=0;
 			repeat(array_length(selected_array)) {
-				ds_list_delete(object_layer_map[selected_region], selected_array[i])
+				ds_list_delete(object_map, selected_array[i])
 				i++;
 			}
 			selected_array=[];
@@ -154,6 +172,7 @@ if (mbleft && not_on_gui) {
 		case BRUSH_TOOL:
 			switch(selected_mode) {
 				case OBJECT_MODE:
+				case NODE_MODE:
 					if is_struct(selected_obj) && !check_colliding_object(mouse_x,mouse_y) {
 						object_place(selected_obj.uuid,gridx*current_grid_size,gridy*current_grid_size,1,1);
 					}
@@ -197,9 +216,10 @@ if (mbleft && not_on_gui) {
 		case ERASE_TOOL:
 			switch(selected_mode) {
 				case OBJECT_MODE:
+				case NODE_MODE:
 					var obj = check_colliding_object(mouse_x,mouse_y)
 					if (obj) {
-						ds_list_delete(object_layer_map[selected_region], obj-1)
+						ds_list_delete(object_map, obj-1)
 					}
 				break;
 				case DECO_MODE:
@@ -228,12 +248,12 @@ if (mbleft && not_on_gui) {
 			}
 		break;
 		case SELECT_TOOL:
-			if selected_mode == OBJECT_MODE {
+			if (selected_mode == OBJECT_MODE || selected_mode == NODE_MODE) {
 				#region object selection
 				if (mbleftpress) && !(resizing) {
 					//resizing
 					if array_length(selected_array)==1 {
-						var obj=object_layer_map[selected_region][| selected_array[0]]
+						var obj=object_map[| selected_array[0]]
 						var data=obj_data[$ obj[0]]
 						//top left
 						if point_in_rectangle(mouse_x,mouse_y,obj[1]-4,obj[2]-4,obj[1]+2,obj[2]+2) {
@@ -316,7 +336,7 @@ if (mbleft && not_on_gui) {
 					if (x_diff!=0) || (y_diff!=0) {
 						var i=0;
 						repeat(array_length(selected_array)) {
-							var obj = object_layer_map[selected_region][| selected_array[i]]
+							var obj = object_map[| selected_array[i]]
 							obj[1]-=x_diff;
 							obj[2]-=y_diff
 							i++;
@@ -328,7 +348,7 @@ if (mbleft && not_on_gui) {
 			
 				if (resizing) {
 					if array_length(selected_array)==1 {
-						var obj = object_layer_map[selected_region][| selected_array[0]]
+						var obj = object_map[| selected_array[0]]
 						var data = obj_data[$ obj[0]]
 						var x_diff = (resizing_x-(gridx*current_grid_size));
 						var y_diff = (resizing_y-(gridy*current_grid_size));
@@ -513,11 +533,26 @@ if (mbleft && not_on_gui) {
 				}
 			}
 		break;
+		case NODE_TOOL:
+			if (mbleftpress) {
+				if !(drawing_node) {
+					var col = check_colliding_object(mouse_x,mouse_y,object_layer_map[selected_region])
+					if (col) {
+						var obj = object_layer_map[selected_region][| col-1]
+						draw_node_x = obj[1];
+						draw_node_y = obj[2];
+						drawing_node = col;
+					}
+				} else {
+					
+				}
+			}
+		break;
 	}
 }
 
 if (mbleftrel) {
-	if selected_mode == OBJECT_MODE {
+	if (selected_mode == OBJECT_MODE || selected_mode == NODE_MODE) {
 		if (selection_box) {
 			var box_w = (mouse_x - selection_box_x)
 			var box_h = (mouse_y - selection_box_y)
@@ -526,8 +561,8 @@ if (mbleftrel) {
 			var box_x2 = floor(selection_box_x+min(box_w, 0)+abs(box_w))
 			var box_y2 = floor(selection_box_y+min(box_h, 0)+abs(box_h))
 			var i=0;
-			repeat(ds_list_size(object_layer_map[selected_region])) {
-				var obj = object_layer_map[selected_region][| i]
+			repeat(ds_list_size(object_map)) {
+				var obj = object_map[| i]
 				var data = obj_data[$ obj[0]]
 				if rectangle_in_rectangle(box_x1,box_y1,box_x2,box_y2,obj[1],obj[2],obj[1]+data.width*obj[3],obj[2]+data.height*obj[4]) {
 					if array_get_index(selected_array,i)==-1 {
@@ -642,9 +677,10 @@ if (mbright) {
 		case BRUSH_TOOL:
 			switch(selected_mode) {
 				case OBJECT_MODE:
+				case NODE_MODE:
 					var obj = check_colliding_object(mouse_x,mouse_y)
 					if (obj) {
-						ds_list_delete(object_layer_map[selected_region], obj-1)
+						ds_list_delete(object_map, obj-1)
 					}
 				break;
 				case DECO_MODE:
@@ -671,6 +707,9 @@ if (mbright) {
 					}
 				break;
 			}
+		break;
+		case NODE_TOOL:
+			drawing_node = -1;
 		break;
 	}
 }

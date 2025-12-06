@@ -1,6 +1,6 @@
 #region Scaler drawing
 if array_length(selected_array)==1 && (selected_mode != DECO_MODE) {
-	var obj=object_layer_map[selected_region][| selected_array[0]]
+	var obj=object_map[| selected_array[0]]
 	var data=obj_data[$ obj[0]]
 	if (resizing != 1)
 	draw_sprite(spr_JADE4scaler,0,obj[1],obj[2])
@@ -61,6 +61,7 @@ if (selected_mode == DECO_MODE && array_length(selected_array)) {
 if (not_on_gui) {
 	switch(selected_mode) {
 		case OBJECT_MODE:
+		case NODE_MODE:
 		if (selected_tool == BRUSH_TOOL || selected_tool == FILL_TOOL) {
 			var obj = selected_obj
 			var drawx = gridx*current_grid_size
@@ -76,7 +77,6 @@ if (not_on_gui) {
 				case "tile":
 					var t_spr = global.tilesets[$ current_tileset][0]
 					var t_width = sprite_get_width(t_spr)
-					var t_height = sprite_get_height(t_spr)
 					var i=0;
 					repeat(tile_sel_width+1) {
 						var j=0;
@@ -106,5 +106,9 @@ if (not_on_gui) {
 	}
 }
 #endregion
+
+if (drawing_node) {
+	
+}
 
 if keyboard_check_pressed(vk_f5) show_debug_message(selected_array)

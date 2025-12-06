@@ -1,5 +1,5 @@
 selected_layer = noone;
-image_xscale = 720;
+image_xscale = 320;
 image_yscale = 405;
 
 x -= image_xscale/2;
@@ -11,6 +11,11 @@ tilesetlist=[
 "tTilesetMainDeco",
 "tTilesetWorld5",
 ]
+
+exitbutton = new JADEiconbutton(x+image_xscale-16,y+1,spr_JADEexiticon, function() {
+	instance_destroy(oJADELayerProperties);
+	oJADEController.layereditbutton.reset();
+});
 
 //auto generation the list of names for dropdown, dont touch!
 tilesetnames=[];

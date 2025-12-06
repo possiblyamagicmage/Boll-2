@@ -10,9 +10,8 @@
 #macro ROTATE_TOOL 6 //tile, background
 #macro MIRROR_TOOL 7 //tile, background
 #macro FLIP_TOOL 8 //tile, background
-#macro COLOR_TOOL 9 //tile, background
-#macro NODE_TOOL 10 //node
-#macro ROTATOR_TOOL 11 //node
+#macro NODE_TOOL 9 //node
+#macro ROTATOR_TOOL 10 //node
 
 selected_mode=OBJECT_MODE;
 selected_toolbar=0;
@@ -51,6 +50,11 @@ topbuttons.add("File", function() {
 			break;
 			case 1:
 			//open file
+			var file = get_open_filename_ext("JADE File|*.jade", "", working_directory, "Load Level");
+			if string_length(file) != 0 {
+				global.save_dir=file
+				JADE_load(file)
+			}
 			break;
 			case 2:
 			//open recent file
@@ -107,14 +111,40 @@ update_layer = function(_layer) {
 
 modebuttons = new JADEsmallbuttons(272,4,86,16,8,false)
 modebuttons.add("Object Mode", function() {
+	selected_deco_obj = -1;
+	toolbarbuttons.set(toolbar[0])
+	if (selected_mode != OBJECT_MODE) {
+		selected_obj = -1;
+		selected_tool = toolbarbuttons.buttons[0];
+	}
 	selected_mode = OBJECT_MODE
+	object_map = object_layer_map[selected_region]
 });
 modebuttons.add("Deco Mode", function() {
+	if is_instanceof(oJADEController.selected_layer,JADEtilelayer) {
+		toolbarbuttons.set(toolbar[1])
+	} else if is_instanceof(oJADEController.selected_layer,JADEbackgroundlayer) {
+		toolbarbuttons.set(toolbar[2])
+	} else if is_instanceof(oJADEController.selected_layer,JADEassetlayer) {
+		toolbarbuttons.set(toolbar[3])
+	}
+	if (selected_mode != DECO_MODE) {
+		selected_obj = -1;
+		selected_tool = toolbarbuttons.buttons[0];
+	}
 	selected_mode = DECO_MODE
 	update_layer(oJADEController.selected_layer)
+	selected_obj = -1;
 });
 modebuttons.add("Gizmo Mode", function() {
+	selected_deco_obj = -1;
+	toolbarbuttons.set(toolbar[4])
+	if (selected_mode != NODE_MODE) {
+		selected_obj = -1;
+		selected_tool = toolbarbuttons.buttons[0];
+	}
 	selected_mode = NODE_MODE
+	object_map = node_layer_map[selected_region]
 });
 
 layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,spr_JADEaddicon,function() {
@@ -164,6 +194,11 @@ layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,
 });
 
 layerdeletebutton = new JADEiconbutton(layerlist.x+20,layerlist.y+layerlist.height+16,spr_JADEdeleteicon,function() {
+	if !(is_struct(selected_layer)) {
+		layerdeletebutton.reset();
+		exit;
+	}
+	
 	selected_layer.cleanup();
 	array_delete(layerlist.listcontents,array_get_index(layerlist.listcontents,selected_layer),1);
 	delete selected_layer;
@@ -175,6 +210,11 @@ layerdeletebutton = new JADEiconbutton(layerlist.x+20,layerlist.y+layerlist.heig
 });
 
 layereditbutton = new JADEiconbutton(layerlist.x+40,layerlist.y+layerlist.height+16,spr_JADEediticon,function() {
+	if !(is_struct(selected_layer)) {
+		layereditbutton.reset();
+		exit;
+	}
+	
 	var inst = instance_create_depth(guiw/2,guih/2,oJADEController.depth-2,oJADELayerProperties)
 	inst.selected_layer = selected_layer
 	layereditbutton.created_gui = inst;
@@ -202,6 +242,23 @@ playtestbutton = new JADEiconbutton(196,26+36,spr_JADEplaytestbutton,function() 
 
 tilepicker = new JADEtilepicker(1296-216-14,56, 220, 320)
 
+bgalignbuttons = new JADEsmallbuttons(1296-216-14,550,52,16,8,false,false,true)
+bgalignbuttons.add("Align X", function() {
+	with(selected_layer) {
+		off_x = other.cam_x+(other.cam_w/2)-(selected_bg.width/2);
+		layer_x(my_layer,off_x);
+	}
+	bgalignbuttons.reset();
+});
+
+bgalignbuttons.add("Align Y", function() {
+	with(selected_layer) {
+		off_y = other.cam_y+(other.cam_h/2)-(selected_bg.height/2);
+		layer_y(my_layer,off_y);
+	}
+	bgalignbuttons.reset();
+});
+
 //Modes:
 //1: Objects
 //2: Tiles
@@ -226,13 +283,7 @@ toolbar[1][6]=FLIP_TOOL
 toolbar[1][7]=REFERENCE_TOOL
 //Background
 toolbar[2][0]=SELECT_TOOL
-toolbar[2][1]=BRUSH_TOOL
-toolbar[2][2]=ERASE_TOOL
-toolbar[2][3]=PICKER_TOOL
-toolbar[2][4]=MIRROR_TOOL
-toolbar[2][5]=FLIP_TOOL
-toolbar[2][6]=COLOR_TOOL
-toolbar[2][7]=REFERENCE_TOOL
+toolbar[2][1]=REFERENCE_TOOL
 //Asset
 toolbar[3][0]=SELECT_TOOL
 toolbar[3][1]=BRUSH_TOOL
@@ -240,14 +291,13 @@ toolbar[3][2]=ERASE_TOOL
 toolbar[3][3]=PICKER_TOOL
 toolbar[3][4]=MIRROR_TOOL
 toolbar[3][5]=FLIP_TOOL
-toolbar[3][6]=COLOR_TOOL
 toolbar[3][7]=REFERENCE_TOOL
 //Node
 toolbar[4][0]=SELECT_TOOL
 toolbar[4][1]=BRUSH_TOOL
-toolbar[4][2]=NODE_TOOL
-toolbar[4][3]=ROTATOR_TOOL
-toolbar[4][4]=ERASE_TOOL
+toolbar[4][2]=ERASE_TOOL
+toolbar[4][3]=NODE_TOOL
+toolbar[4][4]=ROTATOR_TOOL
 toolbar[4][5]=REFERENCE_TOOL
 
 toolbarbuttons = new JADEtoolbar(196,26)
@@ -294,6 +344,7 @@ fill_circle = false
 selected_region = 0;
 object_layer_map[0] = ds_list_create();
 node_layer_map[0] = ds_list_create();
+object_map = object_layer_map[0];
 
 gotoroom=rGame
 
@@ -331,17 +382,15 @@ property_object_index = -1;
 
 pressed_dropdown = false;
 
-check_colliding_object = function(_x,_y) {
-	if (selected_mode == OBJECT_MODE) {
-		var i=0;
-		repeat(ds_list_size(object_layer_map[selected_region])) {
-			var obj=object_layer_map[selected_region][| i]
-			var data = obj_data[$ obj[0]]
-			if point_in_rectangle(_x,_y,obj[1],obj[2],obj[1]+(data.width*obj[3])-1,obj[2]+(data.height*obj[4])-1) {
-				return i+1
-			}
-			i++;
+check_colliding_object = function(_x,_y,_map=object_map) {
+	var i=0;
+	repeat(ds_list_size(_map)) {
+		var obj=_map[| i]
+		var data = obj_data[$ obj[0]]
+		if point_in_rectangle(_x,_y,obj[1],obj[2],obj[1]+(data.width*obj[3])-1,obj[2]+(data.height*obj[4])-1) {
+			return i+1
 		}
+		i++;
 	}
 }
 
@@ -383,7 +432,7 @@ object_place = function(_uuid, _x, _y, _xscale, _yscale) {
 	var data = obj_data[$ obj[0]]
 	obj[5] = properties.getDefaultValues(_uuid);
 	//add other data stuff here later
-	ds_list_add(object_layer_map[selected_region], obj)
+	ds_list_add(object_map, obj)
 }
 
 asset_place = function(_uuid, _x, _y, _xscale, _yscale, _layer=selected_layer) {
@@ -396,7 +445,6 @@ asset_place = function(_uuid, _x, _y, _xscale, _yscale, _layer=selected_layer) {
 	obj[3] = properties.getDefaultValues(_uuid);
 	//add other data stuff here later
 	ds_list_add(_layer.assetmap, obj);
-	show_debug_message(_uuid);
 }
 
 

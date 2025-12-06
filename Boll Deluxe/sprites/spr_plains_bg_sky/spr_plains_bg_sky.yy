@@ -2,7 +2,7 @@
   "$GMSprite":"v2",
   "%Name":"spr_plains_bg_sky",
   "bboxMode":0,
-  "bbox_bottom":247,
+  "bbox_bottom":255,
   "bbox_left":0,
   "bbox_right":63,
   "bbox_top":0,
@@ -16,7 +16,7 @@
   ],
   "gridX":0,
   "gridY":0,
-  "height":248,
+  "height":256,
   "HTile":false,
   "layers":[
     {"$GMImageLayer":"","%Name":"a500e987-19c7-4304-b024-3b62f68e07e5","blendMode":0,"displayName":"default","isLocked":false,"name":"a500e987-19c7-4304-b024-3b62f68e07e5","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},

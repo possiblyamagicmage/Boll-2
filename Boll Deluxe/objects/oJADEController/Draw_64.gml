@@ -26,7 +26,11 @@ if (selected_mode != DECO_MODE) {
 	list_tabbuttons.draw();
 	
 	if !properties_tab_active {
-		objectlist.draw();
+		if selected_mode == OBJECT_MODE {
+			objectlist.draw();
+		} else if selected_mode == NODE_MODE {
+			gizmolist.draw();
+		}
 	} else {
 		propertylist.draw(selected_array);
 	}
@@ -34,7 +38,10 @@ if (selected_mode != DECO_MODE) {
 	switch(deco_mode_type) {
 		case "tile": tilepicker.draw() break;
 		case "asset": decolist.draw() break;
-		case "bg": bglist.draw() break;
+		case "bg": 
+			bglist.draw() 
+			bgalignbuttons.draw()
+		break;
 	}
 	
 	layerlist.draw();

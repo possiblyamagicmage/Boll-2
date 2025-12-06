@@ -2,7 +2,7 @@ function draw_gui(_x, _y, w, h, color, alpha, outline=false){
 	draw_sprite_stretched_ext(spr_JADEguibevel,outline,_x,_y,w,h,color,alpha)
 }
 
-function JADEsmallbuttons(_x, _y, _width, _height, spacing=8, is_toggle=true, inverted=false) constructor {
+function JADEsmallbuttons(_x, _y, _width, _height, spacing=8, is_toggle=true, inverted=false, _vertical=false) constructor {
 	x = _x;
     y = _y;
 	width = _width;
@@ -14,6 +14,7 @@ function JADEsmallbuttons(_x, _y, _width, _height, spacing=8, is_toggle=true, in
 	button_toggle = is_toggle;
 	selected_button=-1;
 	color_invert = inverted;
+	vertical = _vertical;
 	
 	static add = function(name, func) {
 		array_push(buttons, name)
@@ -28,7 +29,20 @@ function JADEsmallbuttons(_x, _y, _width, _height, spacing=8, is_toggle=true, in
 		
 		var i=0;
 		repeat(array_length(buttons)) {
-			var over = point_in_rectangle(curs_x,curs_y,x+(width+button_spacing)*i,y,x+width+(width+button_spacing)*i,y+height) && !instance_exists(oJADEGUIpar)
+			var _x1,_x2,_y1,_y2;
+			if !(vertical) {
+				_x1 = x+(width+button_spacing)*i
+				_y1 = y
+				_x2 = x+width+(width+button_spacing)*i
+				_y2 = y+height
+			} else {
+				_x1 = x
+				_y1 = y+(height+button_spacing)*i
+				_x2 = x+width
+				_y2 = y+height+(height+button_spacing)*i
+			}
+			
+			var over = point_in_rectangle(curs_x,curs_y,_x1,_y1,_x2,_y2)
 			
 			if !color_invert
 			var buttoncolor = oJADEController.themeaccent3
@@ -43,8 +57,8 @@ function JADEsmallbuttons(_x, _y, _width, _height, spacing=8, is_toggle=true, in
 				buttoncolor = oJADEController.themeaccent4
 			}
 			
-			draw_gui(x+(width+button_spacing)*i,y,width,height,buttoncolor, 1)
-			drawstruct[i].Draw(x+2+(width+button_spacing)*i,y+height/2+3)
+			draw_gui(_x1,_y1,width,height,buttoncolor, 1)
+			drawstruct[i].Draw(_x1+2,_y1+height/2+3)
 			i++;
 		}
 	}
@@ -56,7 +70,20 @@ function JADEsmallbuttons(_x, _y, _width, _height, spacing=8, is_toggle=true, in
 		
 		var i=0;
 		repeat(array_length(buttons)) {
-			var over = point_in_rectangle(curs_x,curs_y,x+(width+button_spacing)*i,y,x+width+(width+button_spacing)*i,y+height)
+			var _x1,_x2,_y1,_y2;
+			if !(vertical) {
+				_x1 = x+(width+button_spacing)*i
+				_y1 = y
+				_x2 = x+width+(width+button_spacing)*i
+				_y2 = y+height
+			} else {
+				_x1 = x
+				_y1 = y+(height+button_spacing)*i
+				_x2 = x+width
+				_y2 = y+height+(height+button_spacing)*i
+			}
+			
+			var over = point_in_rectangle(curs_x,curs_y,_x1,_y1,_x2,_y2)
 			
 			var myfunc = funcs[i]
 			if over {
@@ -92,13 +119,14 @@ function JADEiconbutton(_x, _y, _sprite, _func, is_toggle=true, inverted=false) 
 	selected_button=0;
 	color_invert = inverted;
 	created_gui = noone;
+	over = false;
 	
 	static draw = function() {
 		
 		var curs_x = window_mouse_get_x()
 		var curs_y = window_mouse_get_y()
 		
-		var over = point_in_rectangle(curs_x,curs_y,x-2,y-2,x+width+2,y+height+2) && !instance_exists(oJADEGUIpar)
+		var over = point_in_rectangle(curs_x,curs_y,x-2,y-2,x+width+2,y+height+2) && !collision_rectangle(x-2,y-2,x+width+2,y+height+2,oJADEDropDown,false,true)
 			
 		if !color_invert
 		var buttoncolor = oJADEController.themeaccent3
@@ -154,6 +182,7 @@ function JADEtoolbar(_x, _y) constructor {
 	spacing=8;
 	
 	static set = function(arr) {
+		buttons = [];
 		buttons = arr;		
 	}
 	
@@ -632,7 +661,7 @@ function JADEpropertylisthandler(_x, _y, _width, _height) constructor {
 		listheight = 0;
 		
 		if array_length(objarr) {
-			var obj = oJADEController.object_layer_map[oJADEController.selected_region][| objarr[0]]
+			var obj = oJADEController.object_map[| objarr[0]]
 			var arr = oJADEController.properties.property_data[$ obj[0]]
 			var arrvar = oJADEController.properties.property_values[$ obj[0]]
 			var data = oJADEController.obj_data[$ obj[0]]
@@ -755,7 +784,7 @@ function JADEpropertylisthandler(_x, _y, _width, _height) constructor {
 	static updatefromdropdown = function(ind, propind, objind) {
 		if ind==-1 exit;
 		
-		var obj = oJADEController.object_layer_map[oJADEController.selected_region][| objind]
+		var obj = oJADEController.object_map[| objind]
 		var arr = oJADEController.properties.property_data[$ obj[0]]
 		var arrvar = oJADEController.properties.property_values[$ obj[0]]
 		var item = arr[propind]
@@ -849,9 +878,9 @@ function JADEnumberinput(_x, _y, _name, _var, _type_index, _min=NaN, _max=NaN) {
 	draw_sprite(spr_JADEinputscroll, 0, _x+48+spacing,_y)
 	
 	if oJADEController.is_typing != _type_index
-		ScribblejrFitExt(_var,fa_left,fa_top,global.rulerGold,1,44,20).Draw(_x+2+spacing,_y+6)
+		ScribblejrFitExt(_var,fa_left,fa_top,global.rulerGold,1,40,20).Draw(_x+4+spacing,_y+6)
 	else
-		ScribblejrFitExt(keyboard_string,fa_left,fa_top,global.rulerGold,1,44,20).Draw(_x+2+spacing,_y+6)
+		ScribblejrFitExt(keyboard_string,fa_left,fa_top,global.rulerGold,1,40,20).Draw(_x+4+spacing,_y+6)
 	
 	var overtop = point_in_rectangle(curs_x,curs_y,_x+48+spacing,_y,_x+48+12+spacing,_y+12);
 	var overbot = point_in_rectangle(curs_x,curs_y,_x+48+spacing,_y+12,_x+48+12+spacing,_y+24);
@@ -921,9 +950,9 @@ function JADEstringinput(_x, _y, _name, _var, _type_index, _width=64) {
 	draw_sprite_stretched(spr_JADEinputbox, 0,_x+spacing,_y,_width,24)
 	
 	if oJADEController.is_typing != _type_index
-		ScribblejrFitExt(_var,fa_left,fa_middle,global.omiFont,1,_width-4,20).Draw(_x+2+spacing,_y+12)
+		ScribblejrFitExt(_var,fa_left,fa_middle,global.omiFont,1,_width-8,20).Draw(_x+4+spacing,_y+12)
 	else
-		ScribblejrFitExt(keyboard_string,fa_left,fa_middle,global.omiFont,1,_width-4,20).Draw(_x+2+spacing,_y+12)
+		ScribblejrFitExt(keyboard_string,fa_left,fa_middle,global.omiFont,1,_width-8,20).Draw(_x+4+spacing,_y+12)
 	
 	var overinp = point_in_rectangle(curs_x,curs_y,_x+spacing,_y,_x+_width+spacing,_y+24);
 
@@ -1081,6 +1110,20 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		}
 	}
 	
+	static wipe = function() {
+		var i=0;
+		repeat(array_length(listcontents)) {
+			var struct = listcontents[i]
+			if !is_instanceof(struct, JADElistunselectable) {
+				with(struct) {
+					cleanup();
+				}
+			}
+			i++;
+		}
+		listcontents = [];
+	}
+	
 	static draw = function() {
 		draw_set_font(global.rulerGold)
 		
@@ -1134,14 +1177,17 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 								current_tile_id[0][0] = 0
 								tile_sel_height = 0
 								tile_sel_width = 0
+								toolbarbuttons.set(toolbar[1])
 							}
 						} else if is_instanceof(item, JADEassetlayer) {
 							with(oJADEController) {
 								deco_mode_type = "asset";
+								toolbarbuttons.set(toolbar[3])
 							}
 						} else if is_instanceof(item, JADEbackgroundlayer) {
 							with(oJADEController) {
 								deco_mode_type = "bg";
+								toolbarbuttons.set(toolbar[2])
 							}
 						}
 						mbleftpress=0
@@ -1259,8 +1305,8 @@ function JADEtilelayer(_name,_tileset) constructor {
 	sprite = tileset_info[0]
 	my_layer = layer_create(layerdepth,name)
 	my_deco_layer = layer_tilemap_create(my_layer,0,0,tileset_info[1],ceil(room_width/16),ceil(room_height/16))
-	//layer_script_begin(my_layer, tile_layer_alpha_check);
-	//layer_script_end(my_layer, function() {shader_reset()});
+	layer_script_begin(my_layer, tile_layer_alpha_check);
+	layer_script_end(my_layer, function() {shader_reset()});
 	static change_depth = function(_depth) {
 		layerdepth = _depth;
 		layer_depth(my_layer,layerdepth);
@@ -1288,6 +1334,8 @@ function JADEassetlayer(_name) constructor {
 	my_deco_layer = my_layer
 	parallax_x = 0;
 	parallax_y = 0;
+	layer_script_begin(my_layer, tile_layer_alpha_check);
+	layer_script_end(my_layer, function() {shader_reset()});
 	
 	static change_depth = function(_depth) {
 		layerdepth = _depth;
@@ -1326,6 +1374,8 @@ function JADEbackgroundlayer(_name, _background) constructor {
 	var height = sprite_get_height(sprite)
 	off_y = room_height-height;
 	layer_y(my_layer,off_y);
+	layer_script_begin(my_layer, tile_layer_alpha_check);
+	layer_script_end(my_layer, function() {shader_reset()});
 	
 	static update_background = function() {
 		if is_struct(selected_bg) {
@@ -1343,6 +1393,12 @@ function JADEbackgroundlayer(_name, _background) constructor {
 		off_x = clamp(off_x,sprite_get_xoffset(sprite),room_width-width-sprite_get_xoffset(sprite))
 		layer_x(my_layer,off_x);
 		layer_y(my_layer,off_y);
+		layer_background_sprite(my_deco_layer, sprite)
+		layer_background_htiled(my_deco_layer, tiled_h)
+		layer_background_vtiled(my_deco_layer, tiled_v)
+	}
+	
+	static update_settings = function() {
 		layer_background_sprite(my_deco_layer, sprite)
 		layer_background_htiled(my_deco_layer, tiled_h)
 		layer_background_vtiled(my_deco_layer, tiled_v)
