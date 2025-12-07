@@ -34,6 +34,8 @@ function JADE_initializeobj() {
 	registerobj(oPlayerSpawn, spr_spawner, 8, 8, 16, 16, false, false, objectlist, "Player Spawn")
 	registerobj(oCollider, spr_collider, 0, 0, 16, 16, true, true, objectlist, "Collider")
 	registerobj(oSlopeCollider, spr_slopesolid, 0, 0, 16, 16, true, true, objectlist, "Slope Collider")
+	registerobj(oSemilider, spr_semilider, 0, 0, 16, 16, true, true, objectlist, "Semisolid")
+	registerobj(oSemiSlope, spr_slopesemi, 0, 0, 16, 16, true, true, objectlist, "Semisolid Slope")
 	
 	var blockcategory = new JADElistcategory("Blocks")
 	registerobj(oBrick, spr_brick, 8, 8, 16, 16, false, false, blockcategory, "Brick Block")
@@ -47,6 +49,21 @@ function JADE_initializeobj() {
 	registerobj(oMonitor, spr_monitor, 8, 8, 16, 16, false, false, blockcategory, "Monitor")
 	
 	objectlist.add(blockcategory) //we added the items to the category, but we still need to apply the category to the main list
+	
+	var stagecomp = new JADElistcategory("Stage Components")
+	
+	registerobj(oPipe, spr_pipe, 0, 0, 32, 32, false, false, stagecomp, "Pipe")
+	registerobj(oCheckpoint, spr_checkpoint, -21, -28, 16, 16, false, false, stagecomp, "Checkpoint")
+	registerobj(oFlagpole, spr_JADEflagpole, 8, 160, 48, 160, false, false, stagecomp, "Flag Pole")
+	registerobj(oMysteryOrb, spr_mysteryorb, 8, 8, 16, 16, false, false, stagecomp, "Mystery Orb")
+	
+	objectlist.add(stagecomp)
+	
+	var test = new JADElistcategory("Test")
+	
+	registerobj(oHardBlock, spr_pipe, 0, 0, 16, 16, false, false, test, "Hard Block")
+	
+	objectlist.add(test)
 	
 	//NODE MODE
 	registerobj(oCameraRegion, spr_cameraregion, 0, 0, 16, 16, false, false, gizmolist, "Camera Region")

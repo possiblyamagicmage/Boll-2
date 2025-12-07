@@ -166,7 +166,21 @@ function JADEiconbutton(_x, _y, _sprite, _func, is_toggle=true, inverted=false) 
 				instance_destroy(oJADEDropDown);
 			}
 			oJADEController.mbleftpress = false;
+			oJADEController.mbleft = false;
 		}
+	}
+	
+	static checkoverlap = function() {
+		var curs_x = window_mouse_get_x()
+		var curs_y = window_mouse_get_y()
+		
+		var over = point_in_rectangle(curs_x,curs_y,x-2,y-2,x+width+2,y+height+2) && !collision_rectangle(x-2,y-2,x+width+2,y+height+2,oJADEDropDown,false,true)
+		
+		if over {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	static reset = function() {
@@ -342,10 +356,11 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 				}
 			} else if is_instanceof(item, JADElistcategory) {
 				var over_button = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y) && over
+				draw_rectangle(x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y,true)
 				if (mbleft) && (over_button) {
-					item.collapse();
+					item.collapsed = false;
 					scroll_x=clamp(scroll_x,-listwidth,0)
-					mbleft=0
+					mbleft=0;
 				}
 				
 				draw_gui(x+4+indent+scroll_x,y+(24*i)+1+scroll_y,width-8,22,oJADEController.themeaccent4,1) //button

@@ -11,12 +11,6 @@ draw_rect(0,24,guiw,32,themeaccent2,1) //tool top bar
 draw_rect(guiw-240,24,240,guih-24,themeaccent1,1) //right side
 draw_rect(0,56,192,guih-56,themeaccent1,1) //left side
 
-not_on_gui=
-!point_in_rectangle(curs_x,curs_y,0,0,guiw,32+24)&&
-!point_in_rectangle(curs_x,curs_y,0,24,guiw,32)&&
-!point_in_rectangle(curs_x,curs_y,guiw-240,24,guiw,guih)&&
-!point_in_rectangle(curs_x,curs_y,0,56,192,guih)
-
 topbuttons.draw();
 modebuttons.draw();
 toolbarbuttons.draw();

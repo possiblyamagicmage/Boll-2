@@ -1576,6 +1576,7 @@
     {"id":{"name":"spr_iciclesolid","path":"sprites/spr_iciclesolid/spr_iciclesolid.yy",},},
     {"id":{"name":"spr_icydonutblock","path":"sprites/spr_icydonutblock/spr_icydonutblock.yy",},},
     {"id":{"name":"spr_itembox","path":"sprites/spr_itembox/spr_itembox.yy",},},
+    {"id":{"name":"spr_itemboxoverlay","path":"sprites/spr_itemboxoverlay/spr_itemboxoverlay.yy",},},
     {"id":{"name":"spr_JADE4scaler","path":"sprites/spr_JADE4scaler/spr_JADE4scaler.yy",},},
     {"id":{"name":"spr_JADEaddicon","path":"sprites/spr_JADEaddicon/spr_JADEaddicon.yy",},},
     {"id":{"name":"spr_JADEbg_grid","path":"sprites/spr_JADEbg_grid/spr_JADEbg_grid.yy",},},

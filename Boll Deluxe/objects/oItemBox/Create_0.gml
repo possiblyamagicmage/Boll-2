@@ -6,9 +6,6 @@ hidden=false;
 eject=false;
 lose_amount=true;
 
-
-if content=="multicoins" amount=12
-
 times_hit = 0;
 image_hit = spr_emptybox
 image_exausted = spr_emptybox

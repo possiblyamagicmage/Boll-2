@@ -22,6 +22,13 @@ gridx = floor(mouse_x/current_grid_size)
 gridy = floor(mouse_y/current_grid_size)
 
 #region GUI Input Handler
+not_on_gui=
+!point_in_rectangle(curs_x,curs_y,0,0,guiw,32+24)&&
+!point_in_rectangle(curs_x,curs_y,0,24,guiw,32)&&
+!point_in_rectangle(curs_x,curs_y,guiw-240,24,guiw,guih)&&
+!point_in_rectangle(curs_x,curs_y,0,56,192,guih)&&
+!playtestbutton.checkoverlap();
+
 if (mbleftpress) {
 	topbuttons.update();
 	modebuttons.update();
