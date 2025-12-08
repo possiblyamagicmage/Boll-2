@@ -375,15 +375,15 @@ tile_layers_visible = true;
 asset_layers_visible = true;
 bg_layers_visible = true;
 
-objectvisibility = new JADEiconbutton(1296-240-96,36,spr_JADElayerobjectvisibility, function() {
+objectvisibility = new JADEiconbutton(1296-240-96,26+36,spr_JADElayerobjectvisibility, function() {
 	objects_visible = !objects_visible
 }, true, false, true)
 
-gizmovisibility = new JADEiconbutton(1296-240-78,36,spr_JADElayergizmovisibility, function() {
+gizmovisibility = new JADEiconbutton(1296-240-78,26+36,spr_JADElayergizmovisibility, function() {
 	gizmos_visible = !gizmos_visible
 }, true, false, true)
 
-tilelayervisibility = new JADEiconbutton(1296-240-60,36,spr_JADElayertilevisibility, function() {
+tilelayervisibility = new JADEiconbutton(1296-240-60,26+36,spr_JADElayertilevisibility, function() {
 	tile_layers_visible = !tile_layers_visible
 	with(layerlist) {
 		var i=0;
@@ -397,7 +397,7 @@ tilelayervisibility = new JADEiconbutton(1296-240-60,36,spr_JADElayertilevisibil
 	}
 }, true, false, true)
 
-assetlayervisibility = new JADEiconbutton(1296-240-42,36,spr_JADElayerassetvisibility, function() {
+assetlayervisibility = new JADEiconbutton(1296-240-42,26+36,spr_JADElayerassetvisibility, function() {
 	asset_layers_visible = !asset_layers_visible
 	with(layerlist) {
 		var i=0;
@@ -411,7 +411,7 @@ assetlayervisibility = new JADEiconbutton(1296-240-42,36,spr_JADElayerassetvisib
 	}
 }, true, false, true)
 
-bglayervisibility = new JADEiconbutton(1296-240-24,36,spr_JADElayerbgvisibility, function() {
+bglayervisibility = new JADEiconbutton(1296-240-24,26+36,spr_JADElayerbgvisibility, function() {
 	bg_layers_visible = !bg_layers_visible
 	with(layerlist) {
 		var i=0;
