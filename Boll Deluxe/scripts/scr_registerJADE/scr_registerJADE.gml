@@ -429,6 +429,10 @@ function JADE_load(file=game_save_id+"\save.jade") {
 			}
 			j=0;
 			repeat(array_length(node_objects[i])) {
+				if array_length(node_objects[i][j]) < 9 {
+					node_objects[i][j][8] = 1;
+					node_objects[i][j][9] = 1;
+				}
 				ds_list_add(node_layer_map[i], node_objects[i][j])
 				j++;
 			}
