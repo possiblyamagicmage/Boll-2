@@ -50,20 +50,35 @@ topbuttons.add("File", function() {
 			break;
 			case 1:
 			//open file
-			var file = get_open_filename_ext("JADE File|*.jade", "", working_directory, "Load Level");
-			if string_length(file) != 0 {
-				global.save_dir=file
-				JADE_load(file)
-			}
+				var file = get_open_filename_ext("JADE File|*.jade", "", working_directory, "Load Level");
+				if string_length(file) != 0 {
+					global.save_dir=file
+					JADE_load(file)
+				}
 			break;
 			case 2:
 			//open recent file
 			break;
 			case 3:
-			//save file
+				if (global.save_dir != "") {
+					//savetextdur=60;
+					JADE_save(global.save_dir)
+				} else {
+					var file = get_save_filename_ext("JADE File|*.jade", "", $"{working_directory}\mods\\level\\", "Save Level");
+					if string_length(file) != 0 { 
+						//savetextdur=60;
+						global.save_dir=file
+						JADE_save(file)
+					}
+				}
 			break;
 			case 4:
-			//save file as
+				var file = get_save_filename_ext("JADE File|*.jade", "", $"{working_directory}\mods\\level\\", "Save Level");
+				if string_length(file) != 0 { 
+					//savetextdur=60;
+					global.save_dir=file
+					JADE_save(file)
+				}
 			break;
 			case 5:
 			//exit editor
