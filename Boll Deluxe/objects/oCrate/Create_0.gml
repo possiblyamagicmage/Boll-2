@@ -1,5 +1,6 @@
 // Inherit the parent event
 event_inherited();
+content="coin"
 delete blockHit;
 blockHit = new Signal();
 
