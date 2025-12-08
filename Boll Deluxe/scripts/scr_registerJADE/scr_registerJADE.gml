@@ -65,6 +65,10 @@ function JADE_initializeobj() {
 	properties.addDropdown(oCrate, "Content", "content", "coin", ["Single Coin", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom"], ["coin", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
 	blockcategory.add(containers);
 	
+	var liquids = new JADElistcategory("Liquids")
+	registerobj(oWater, spr_water, 0, 0, 16, 16, true, true, containers, "Water",false,0.25,0.5)
+	blockcategory.add(liquids);
+	
 	registerobj(oBrick, spr_brick, 8, 8, 16, 16, true, false, blockcategory, "Brick Block")
 	registerobj(oHardBlock, spr_hardblock, 0, 0, 16, 16, false, false, blockcategory, "Hard Block")
 	registerobj(oFlipblock, spr_flipblock, 8, 8, 16, 16, false, false, blockcategory, "Flip Block")
@@ -188,13 +192,26 @@ function JADE_initializeobj() {
 	registerobj(oDeathPit, spr_deathpit, 0, 0, 16, 16, false, false, gizmolist, "Death Pit")
 	
 	//ASSETS
-	registerasset(spr_bigwidetree, 8, 16, false, false, decolist, "Big Wide Tree")
-	registerasset(spr_grass2, 0, 16, false, false, decolist, "2-Wide Grass")
-	registerasset(spr_grass3, 8, 16, false, false, decolist, "3-Wide Grass")
-	registerasset(spr_grass4, 0, 16, false, false, decolist, "4-Wide Grass")
-	registerasset(spr_palmtree, 8, 16, false, false, decolist, "Palm Tree")
-	registerasset(spr_palmtree2, 8, 16, false, false, decolist, "Palm Tree (2)")
-	registerasset(spr_bigflower, 8, 16, false, false, decolist, "Big Flower")
+	var w1deco = new JADElistcategory("Floragrande Gardens")
+	registerasset(spr_grass2, 0, 16, false, false, w1deco, "2-Wide Grass")
+	registerasset(spr_grass3, 8, 16, false, false, w1deco, "3-Wide Grass")
+	registerasset(spr_grass4, 0, 16, false, false, w1deco, "4-Wide Grass")
+	registerasset(spr_bigwidetree, 8, 16, false, false, w1deco, "Big Wide Tree")
+	registerasset(spr_palmtree, 8, 16, false, false, w1deco, "Palm Tree")
+	registerasset(spr_palmtree2, 8, 16, false, false, w1deco, "Palm Tree (2)")
+	registerasset(spr_bigflower, 8, 16, false, false, w1deco, "Big Flower")
+	decolist.add(w1deco)
+	
+	var w5deco = new JADElistcategory("Frigid Dark")
+	registerasset(spr_grass2snowy, 0, 16, false, false, w5deco, "2-Wide Grass (Snowy)")
+	registerasset(spr_grass3snowy, 8, 16, false, false, w5deco, "3-Wide Grass (Snowy)")
+	registerasset(spr_grass4snowy, 0, 16, false, false, w5deco, "4-Wide Grass (Snowy)")
+	registerasset(spr_sprucetree, 8, 16, false, false, w5deco, "Spruce Tree")
+	registerasset(spr_bigwidetreesnowy, 8, 16, false, false, w5deco, "Big Wide Tree (Snowy)")
+	registerasset(spr_cherryspruce, 8, 16, false, false, w5deco, "Cherry Tree (Spruce)")
+	registerasset(spr_pinkcrystalbig, 8, 16, false, false, w5deco, "Crystal (Pink, Big)")
+	registerasset(spr_greencrystaltiny, 8, 16, false, false, w5deco, "Crystal (Green, Tiny)")
+	decolist.add(w5deco)
 	
 	//BACKGROUNDS
 	registerbackground(spr_plains_bg_hills, 0, 0, bglist,"Plains (Hills)",true,false,25,0,false,true)
