@@ -10,7 +10,7 @@
   "compression":1,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":65.604,
+  "duration":65.60401,
   "exportDir":"",
   "name":"mus_overworld_FG_loop",
   "parent":{

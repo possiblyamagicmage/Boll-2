@@ -3,5 +3,6 @@
 
 VinylStopAll() //prevent old music from playing
 
-fgMusic=VinylPlay("overworld bgm FG", true, 0.2);
-bgMusic=VinylPlay("overworld bgm BG", true, 0.2);
+fgMusic=VinylPlay("frigid dark bgm", true, 0.2);
+//bgMusic=VinylPlay("overworld bgm BG", true, 0.2);
+bgMusic=-1;

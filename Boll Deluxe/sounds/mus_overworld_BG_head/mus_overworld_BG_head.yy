@@ -10,7 +10,7 @@
   "compression":1,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":1.597,
+  "duration":1.5970068,
   "exportDir":"",
   "name":"mus_overworld_BG_head",
   "parent":{
