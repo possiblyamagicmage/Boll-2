@@ -22,12 +22,19 @@ gridx = floor(mouse_x/current_grid_size)
 gridy = floor(mouse_y/current_grid_size)
 
 #region GUI Input Handler
+var on_dropdown = false;
+with(oJADEGUIpar) {
+	if (point_in_rectangle(window_mouse_get_x(),window_mouse_get_y(),bbox_left,bbox_top,bbox_right-1,bbox_bottom-1))
+	on_dropdown = true;
+}
+
 not_on_gui=
 !point_in_rectangle(curs_x,curs_y,0,0,guiw,32+24)&&
 !point_in_rectangle(curs_x,curs_y,0,24,guiw,32)&&
 !point_in_rectangle(curs_x,curs_y,guiw-240,24,guiw,guih)&&
 !point_in_rectangle(curs_x,curs_y,0,56,192,guih)&&
-!playtestbutton.checkoverlap();
+!playtestbutton.checkoverlap()&&
+!on_dropdown
 
 if (mbleftpress) {
 	topbuttons.update();

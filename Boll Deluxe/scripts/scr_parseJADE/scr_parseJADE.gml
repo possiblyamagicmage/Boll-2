@@ -34,7 +34,7 @@ function parse_level(dir=game_save_id+"\save.jade") {
 						}
 					} else if (_layer_contents[0] == "ASSET") {
 						_layer = {}
-						_layer[$ "my_layer"] = layer_create(_layer_contents[1],_layer_contents[2])
+						_layer[$ "my_layer"] = layer_create(_layer_contents[2],_layer_contents[1])
 						_layer[$ "my_deco_layer"] = _layer.my_layer
 						_layer.parallax_x = _layer_contents[3]
 						_layer.parallax_y = _layer_contents[4]
