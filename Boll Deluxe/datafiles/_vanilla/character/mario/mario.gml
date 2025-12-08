@@ -268,15 +268,11 @@ if (state == "pound") && !(piped) && !(stun) {
 	if (grounded) && (pound_timer <= 0) {
 		var blocklist=ds_list_create();
 		var num=collision_line_list(x-hit_sizex,y+hit_sizey+vsp+2,x+hit_sizex,y+hit_sizey+vsp+2, oHittable, false, true, blocklist, true)
-		show_debug_message("got to this part")
 		
 		if (num > 0) {
-			show_debug_message("got to this part 4")
 			found_block = false;
 			var i = 0;
-			show_debug_message("got to this part 5")
 			while (i < num) {
-				show_debug_message("got to this part 2")
 				var blockcoll=ds_list_find_value(blocklist, i)
 				if !(blockcoll.no_hit) && (pounding_block == true) && (blockcoll.amount != 0) {
 					found_block=true;
@@ -285,7 +281,6 @@ if (state == "pound") && !(piped) && !(stun) {
 					}
 				}
 				i += 1;
-				show_debug_message("got to this part 3")
 			}
 			pounding_block = false
 		}

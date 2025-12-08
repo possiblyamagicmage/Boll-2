@@ -1087,8 +1087,6 @@ function JADEdropdownproperty(_x, _y, _name, _var, _index, obj_ind, _options, _n
 	var overinp = point_in_rectangle(curs_x,curs_y,_x+spacing,_y,_x+128+spacing,_y+24);
 	
 	if (mbleft) && (overinp) {
-		show_debug_message(inst)
-		show_debug_message(typeof(inst))
  		if !instance_exists(inst){
 			if oJADEController.property_dropdown_index!=_index {
 				oJADEController.property_dropdown_index = _index
@@ -1130,7 +1128,6 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 	is_scrolling_y=0;
 	
 	static add = function(_item) {
-		show_debug_message(_item)
 		array_push(listcontents, _item)
 		var i=0;
 		var foundind=0;
@@ -1571,7 +1568,6 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 		//select single tile/start tile dragging
 		if (over) {
 			if (mbleftpress && !tile_drag) {
-				show_debug_message("go!")
 				with(oJADEController) {
 					current_tile_id = -1
 					current_tile_id = []
