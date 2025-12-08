@@ -128,7 +128,7 @@ layerlist.add(new JADEtilelayer("Main Tiles", current_tileset))
 layerlist.update_depths();
 
 update_layer = function(_layer) {
-	var type="tile"
+	var type=""
 	if is_instanceof(_layer,JADEtilelayer) {
 		current_tileset = _layer.tileset
 		var info = tileset_get_info(_layer.tileset_info[1])
@@ -136,6 +136,7 @@ update_layer = function(_layer) {
 		current_grid_size = default_grid_size
 		tilemap=_layer.tilemap
 		tilemap_layer=_layer.my_deco_layer
+		type = "tile";
 	} else if is_instanceof(_layer, JADEassetlayer) {
 		type="asset";
 	} else if is_instanceof(_layer, JADEbackgroundlayer) {
