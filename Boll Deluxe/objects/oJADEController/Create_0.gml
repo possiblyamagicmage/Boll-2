@@ -76,7 +76,7 @@ topbuttons.add("File", function() {
 			case 1:
 			//open file
 				var file = get_open_filename_ext("JADE File|*.jade", "", working_directory, "Load Level");
-				if string_length(file) != 0 {
+				if string_length(file) != 0 && (filename_ext(file) == ".jade") {
 					global.save_dir=file
 					JADE_load(file)
 				}

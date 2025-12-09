@@ -120,8 +120,10 @@ if keyboard_check(vk_control) && (selected_mode != DECO_MODE || (selected_mode =
 droppedfiles=file_dropper_get_files(".jade")
 
 if array_length(droppedfiles) {
-	global.save_dir=droppedfiles[0]
-	JADE_load(droppedfiles[0])
+	if ((filename_ext(droppedfiles[0]) == ".jade") ) {
+		global.save_dir=droppedfiles[0]
+		JADE_load(droppedfiles[0])
+	}
 }
 
 if keyboard_check(vk_control) && keyboard_check_pressed(ord("S")) {
@@ -620,6 +622,10 @@ if (mbleft && not_on_gui) {
 						selection_grab = false;
 						var width = sprite_get_width(reference_sprite)
 						var height = sprite_get_height(reference_sprite)
+						//16384x16384 is the max texture page size, and higher and the sprite will glitch out
+						if (width > 16384) || (height > 16384) {
+							show_message($"WARNING:\nReference Image width or height is greater than max texture page size (16384)! Glitches may occur.\n(Width: {width}, Height: {height})")
+						}
 						reference_sprite_x = cam_x+(cam_w/2)-(width/2);
 						reference_sprite_y = cam_y+(cam_h/2)-(height/2);
 						reference_sprite_element = layer_sprite_create(reference_sprite_layer,reference_sprite_x,reference_sprite_y,reference_sprite)
