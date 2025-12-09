@@ -2,7 +2,7 @@
   "$GMSprite":"v2",
   "%Name":"spr_w5mountain_bg_hills",
   "bboxMode":0,
-  "bbox_bottom":95,
+  "bbox_bottom":127,
   "bbox_left":0,
   "bbox_right":445,
   "bbox_top":12,
@@ -12,21 +12,21 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"v1","%Name":"0ff5cb56-d0b0-459a-aede-dcc1ac7adbdd","name":"0ff5cb56-d0b0-459a-aede-dcc1ac7adbdd","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"d24da079-8ba8-4fac-ba6c-4d9ba0f200b1","name":"d24da079-8ba8-4fac-ba6c-4d9ba0f200b1","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
-  "height":96,
+  "height":128,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"bcf0405c-2e04-41c0-aefd-fe15654b06de","blendMode":0,"displayName":"default","isLocked":false,"name":"bcf0405c-2e04-41c0-aefd-fe15654b06de","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"5f499308-f0db-4e7f-9448-314c4cbb03d5","blendMode":0,"displayName":"default","isLocked":false,"name":"5f499308-f0db-4e7f-9448-314c4cbb03d5","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"spr_w5mountain_bg_hills",
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"World 5",
-    "path":"folders/Sprites/Backgrounds/World 5.yy",
+    "name":"Mountains",
+    "path":"folders/Sprites/Backgrounds/World 5/Mountains.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
@@ -69,8 +69,8 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"0ff5cb56-d0b0-459a-aede-dcc1ac7adbdd","path":"sprites/spr_w5mountain_bg_hills/spr_w5mountain_bg_hills.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"a96a80da-e18a-41eb-af30-8d9b69ac9899","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"d24da079-8ba8-4fac-ba6c-4d9ba0f200b1","path":"sprites/spr_w5mountain_bg_hills/spr_w5mountain_bg_hills.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"dde8d3a4-f858-4711-a8ed-c4bd61fea4f5","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

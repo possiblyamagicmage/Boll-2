@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"World 5",
-    "path":"folders/Sprites/Backgrounds/World 5.yy",
+    "name":"Mountains",
+    "path":"folders/Sprites/Backgrounds/World 5/Mountains.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

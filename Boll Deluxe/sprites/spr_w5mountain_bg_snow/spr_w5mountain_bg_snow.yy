@@ -2,7 +2,7 @@
   "$GMSprite":"v2",
   "%Name":"spr_w5mountain_bg_snow",
   "bboxMode":0,
-  "bbox_bottom":111,
+  "bbox_bottom":143,
   "bbox_left":0,
   "bbox_right":383,
   "bbox_top":9,
@@ -12,21 +12,21 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"v1","%Name":"c61dde8a-9ed0-4d23-8041-389c475af669","name":"c61dde8a-9ed0-4d23-8041-389c475af669","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"93248741-d3f3-41a8-a09d-bb0a7d3a3060","name":"93248741-d3f3-41a8-a09d-bb0a7d3a3060","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
-  "height":112,
+  "height":144,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"2b8392f0-f704-4a21-b486-490f5afb3e4b","blendMode":0,"displayName":"default","isLocked":false,"name":"2b8392f0-f704-4a21-b486-490f5afb3e4b","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"fa02062c-55b2-4a44-ba18-e8d328617268","blendMode":0,"displayName":"default","isLocked":false,"name":"fa02062c-55b2-4a44-ba18-e8d328617268","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"spr_w5mountain_bg_snow",
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"World 5",
-    "path":"folders/Sprites/Backgrounds/World 5.yy",
+    "name":"Mountains",
+    "path":"folders/Sprites/Backgrounds/World 5/Mountains.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
@@ -69,8 +69,8 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"c61dde8a-9ed0-4d23-8041-389c475af669","path":"sprites/spr_w5mountain_bg_snow/spr_w5mountain_bg_snow.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"0a7b2458-6ea8-4f87-8a9b-b1ea1ddc2898","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"93248741-d3f3-41a8-a09d-bb0a7d3a3060","path":"sprites/spr_w5mountain_bg_snow/spr_w5mountain_bg_snow.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"483e2baa-0050-4209-84c8-76a9f7ef4f72","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

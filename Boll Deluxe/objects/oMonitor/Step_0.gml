@@ -8,3 +8,5 @@ if (physics_enabled) {
 
 	player_collision()
 }
+
+image_index=floor(global.roomTimer/4)

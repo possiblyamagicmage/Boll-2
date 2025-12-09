@@ -67,7 +67,7 @@ if (selected_mode == DECO_MODE) {
 #endregion
 
 #region Camera Panning
-if (not_on_gui) && (mouse_check_button_pressed(mb_middle)) {
+if (not_on_gui) && (mbmiddle) {
 	view_grab=1 
 	view_grabx=curs_x
 	view_graby=curs_y
@@ -734,14 +734,22 @@ if (mbright) {
 				case DECO_MODE:
 					switch(deco_mode_type) {
 						case "tile":
-							var obj = check_colliding_tile(mouse_x,mouse_y)
-							if (obj) {
-								var tile = ds_list_find_value(tilemap,obj-1);
-								var data = tilemap_get(tilemap_layer, tile[1], tile[2]);
-								if tile_get_index(data)!= 0 {
-									data = tile_set_empty(data)
-									tilemap_set(tilemap_layer, data,  tile[1], tile[2]); //delete tile at place lol
+							var i=0;
+							repeat(tile_sel_width+1) {
+								var j=0;
+								repeat(tile_sel_height+1) {
+									//prevent trying to place out of bounds
+									if ((gridx + i) < tilemap_get_width(tilemap_layer)) && ((gridy + j) < tilemap_get_height(tilemap_layer)) && ((gridx + i) >= 0) && ((gridy + j) >= 0) {
+										var data = tilemap_get_at_pixel(tilemap_layer, mouse_x+(i *16), mouse_y+(j *16)); //set tile at place
+										if tile_get_index(data) != 0 {
+											data = tile_set_empty(data)
+											tilemap_set(tilemap_layer, data, gridx + i, gridy + j);
+											ds_list_add(tilemap,[data, gridx+i, gridy+j]) //add tile  to list at place
+										}
+									}
+									j++;
 								}
+								i++;
 							}
 							tile_update_properties();
 						break;

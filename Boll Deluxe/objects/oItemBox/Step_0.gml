@@ -16,9 +16,11 @@ if (going) {
 		flash=max(flash-1,0)
 		image_index=sign(flash)
 	} else image_index=1
-	
-	image_speed=0;
-} else image_speed=1;
+} else {
+	if (amount) {
+		image_index=floor(global.roomTimer/4)
+	}
+}
 
 reduce_timer=max(reduce_timer-1,0)
 
