@@ -67,13 +67,13 @@ if (selected_mode == DECO_MODE) {
 #endregion
 
 #region Camera Panning
-if (not_on_gui) && (mbmiddle) {
+if (not_on_gui) && (mbmiddlepress) {
 	view_grab=1 
 	view_grabx=curs_x
 	view_graby=curs_y
 	initial_viewx = cam_x
 	initial_viewy = cam_y
-} else if !mbmiddle {
+} else if !(mbmiddlerel) {
 	view_grab=0
 }
 
