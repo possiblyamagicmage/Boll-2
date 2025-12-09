@@ -17,6 +17,12 @@ selected_mode=OBJECT_MODE;
 selected_toolbar=0;
 selected_tool=SELECT_TOOL;
 
+reference_sprite = -1;
+reference_sprite_element = -1;
+reference_sprite_x = 0;
+reference_sprite_y = 0;
+reference_sprite_layer = layer_create(1000,"__JADEreferencesprite");
+
 camera = view_camera[0]
 
 camera_set_view_pos(camera,0,room_height-camera_get_view_height(camera))
@@ -401,7 +407,7 @@ tilelayervisibility = new JADEiconbutton(1296-240-60,26+36,spr_JADElayertilevisi
 			}
 			i++;
 		}
-		if is_struct(oJADEController.selected_layer) && selected_mode == DECO_MODE
+		if is_struct(oJADEController.selected_layer) && oJADEController.selected_mode == DECO_MODE
 		layer_set_visible(oJADEController.selected_layer.my_layer, true)
 	}
 }, true, false, true)
@@ -418,7 +424,7 @@ assetlayervisibility = new JADEiconbutton(1296-240-42,26+36,spr_JADElayerassetvi
 			}
 			i++;
 		}
-		if is_struct(oJADEController.selected_layer) && selected_mode == DECO_MODE
+		if is_struct(oJADEController.selected_layer) && oJADEController.selected_mode == DECO_MODE
 		layer_set_visible(oJADEController.selected_layer.my_layer, true)
 	}
 }, true, false, true)
@@ -435,7 +441,7 @@ bglayervisibility = new JADEiconbutton(1296-240-24,26+36,spr_JADElayerbgvisibili
 			}
 			i++;
 		}
-		if is_struct(oJADEController.selected_layer) && selected_mode == DECO_MODE
+		if is_struct(oJADEController.selected_layer) && oJADEController.selected_mode == DECO_MODE
 		layer_set_visible(oJADEController.selected_layer.my_layer, true)
 	}
 }, true, false, true)

@@ -611,6 +611,43 @@ if (mbleft && not_on_gui) {
 				}
 			}
 		break;
+		case REFERENCE_TOOL:
+			if (mbleftpress) {
+				if (reference_sprite == -1) {
+					var file = get_open_filename_ext("PNG File|*.png", "", working_directory, "Load Reference Image");
+					if string_length(file) != 0 {
+						reference_sprite = sprite_add(file,0,false,false,0,0);
+						selection_grab = false;
+						var width = sprite_get_width(reference_sprite)
+						var height = sprite_get_height(reference_sprite)
+						reference_sprite_x = cam_x+(cam_w/2)-(width/2);
+						reference_sprite_y = cam_y+(cam_h/2)-(height/2);
+						reference_sprite_element = layer_sprite_create(reference_sprite_layer,reference_sprite_x,reference_sprite_y,reference_sprite)
+					}
+				} else {
+					var width = sprite_get_width(reference_sprite)
+					var height = sprite_get_height(reference_sprite)
+					if (point_in_rectangle(mouse_x,mouse_y,reference_sprite_x,reference_sprite_y,reference_sprite_x+width,reference_sprite_y+height)) {
+						selection_grab = true;
+						selection_grab_x = gridx*current_grid_size;
+						selection_grab_y = gridy*current_grid_size;
+					}
+				}
+			}
+			
+			if (selection_grab) && (sprite_exists(reference_sprite)) {
+				var x_diff = (selection_grab_x-(gridx*current_grid_size));
+				var y_diff = (selection_grab_y-(gridy*current_grid_size));
+				if (x_diff!=0) || (y_diff!=0) {
+					reference_sprite_x-=x_diff;
+					reference_sprite_y-=y_diff
+					selection_grab_x = gridx*current_grid_size;
+					selection_grab_y = gridy*current_grid_size;
+					layer_sprite_x(reference_sprite_element,reference_sprite_x)
+					layer_sprite_y(reference_sprite_element,reference_sprite_y)
+				}
+			}
+		break;
 	}
 }
 
@@ -718,6 +755,10 @@ if (mbleftrel) {
 		selection_grab = false;
 		resizing = false;
 	} 
+	
+	if (selected_tool == REFERENCE_TOOL) {
+		selection_grab = false;
+	}
 }
 
 if (mbright) {
@@ -782,6 +823,12 @@ if (mbright) {
 		break;
 		case NODE_TOOL:
 			drawing_node = -1;
+		break;
+		case REFERENCE_TOOL:
+			if (layer_sprite_exists(reference_sprite_layer,reference_sprite_element)) layer_sprite_destroy(reference_sprite_element);
+			if (sprite_exists(reference_sprite)) sprite_delete(reference_sprite);
+			reference_sprite = -1;
+			selection_grab = false;
 		break;
 	}
 }

@@ -1006,7 +1006,15 @@ function JADEnumberinput(_x, _y, _name, _var, _type_index, _min=NaN, _max=NaN) {
 	
 	if (keyboard_check_pressed(vk_enter)) && (oJADEController.is_typing == _type_index) {
 		oJADEController.is_typing = -1;
-		return unreal(string_digits(keyboard_string),_var)
+		if (_min!=NaN) && (_max!=NaN) {
+			return clamp(unreal(keyboard_string,_var),_min,_max)
+		} else if (_min!=NaN) {
+			return max(unreal(keyboard_string,_var),_min)
+		} else if (_max!=NaN) {
+			return min(unreal(keyboard_string,_var),_max)
+		} else {
+			return unreal(keyboard_string,_var)
+		}
 	}
 	
 	return _var
@@ -1176,12 +1184,18 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 			var struct = listcontents[i]
 			if !is_instanceof(struct, JADElistunselectable) {
 				with(struct) {
-					var new_depth = (i-foundind)*100;
+					var new_depth = (i-foundind+2)*100;
 					change_depth(new_depth);
 				}
 			}
 			i++;
 		}
+		
+		layer_depth(oJADEController.reference_sprite_layer, (i+3)*100)
+		layer_depth(layer_get_id("BG_ScreenGrid"),(i+4)*100)
+		layer_depth(layer_get_id("BG_Grid"),(i+5)*100)
+		layer_depth(layer_get_id("BG_WaveGrid"),(i+6)*100)
+		layer_depth(layer_get_id("BG_Color"),(i+7)*100)
 	}
 	
 	static wipe = function() {

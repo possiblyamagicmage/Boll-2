@@ -104,6 +104,15 @@ if (not_on_gui) {
 		}
 		break;
 	}
+	
+	//reference tool sprite outline
+	if (selected_tool == REFERENCE_TOOL) && sprite_exists(reference_sprite) {
+		var width = sprite_get_width(reference_sprite)
+		var height = sprite_get_height(reference_sprite)
+		if (point_in_rectangle(mouse_x,mouse_y,reference_sprite_x,reference_sprite_y,reference_sprite_x+width,reference_sprite_y+height)) {
+			draw_rect(reference_sprite_x,reference_sprite_y,width,height,$54b9fb,1,true);
+		}
+	}
 }
 #endregion
 
