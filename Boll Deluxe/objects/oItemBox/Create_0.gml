@@ -23,8 +23,11 @@ blockFinished.Connect( self, function() {
 });
 
 blockBumpFinished.Connect( self, function() {
-	if (hit!=0) {
+	if (hit != 0) {
 		event_user(1);
+		if (eject != 0) {
+			no_hit = true;
+		}
 	}
 });
 

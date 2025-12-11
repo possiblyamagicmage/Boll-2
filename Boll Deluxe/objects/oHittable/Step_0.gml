@@ -44,6 +44,8 @@ if (hit != 0)
 			hitNegative = false;
 			dummyTimer = dummyTimerReset;
 			if (eject != 0) {
+				sprite_index = image_hit;
+				image_index = 0;
 				eject_pause = 30;
 				going = true;
 			}

@@ -13,9 +13,11 @@ if (hidden) {
 
 if (going) {
 	if !(amount) {
-		flash=max(flash-1,0)
-		image_index=sign(flash)
-	} else image_index=1
+		flash = max(flash-1,0)
+		image_index = sign(flash)
+	} else {
+		image_index = 1
+	}
 } else {
 	if (amount) {
 		image_index=floor(global.roomTimer/4)
