@@ -1,3 +1,5 @@
+window_enable_borderless_fullscreen(false);
+window_set_fullscreen(false);
 window_set_size(432*3,248*3)
 display_set_gui_size(432*3,248*3)
 surface_resize(application_surface, 432*3, 248*3);

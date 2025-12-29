@@ -1,10 +1,5 @@
 egg = "0"
 
-window_set_cursor(cr_none)
-
-#macro RESOLUTION_X 432
-#macro RESOLUTION_Y 248
-
 ysc = 0
 xsc = 0
 hsp = 10

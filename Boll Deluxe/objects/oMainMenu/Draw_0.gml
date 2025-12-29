@@ -42,6 +42,50 @@ switch (crMenu) {
 		draw_text_scribble(_xPos+selectArrowWidthtrans+2,round(selectArrowYtrans),"[spr_rulergold][c_yellow][fa_middle][fa_left]<<");
 	break;
 	
+	case "settings":
+		draw_text_scribble(_xPos,16,$"{_startStr}SETTINGS");
+	
+		var scalestr = $"Window Scale:\n{temp_settings.resolution_scale}x"
+		var fullscreentype;
+		switch(temp_settings.fullscreen_type) {
+			case 0: fullscreentype = "None" break;
+			case 1: fullscreentype = "Windowed Borderless" break;
+			case 2: fullscreentype = "Legacy Fullscreen" break;
+		}
+		var fullscr = $"Fullscreen:\n{fullscreentype}"
+		var mastervol = $"Master Volume:\n{round(temp_settings.master_vol*100)}%"
+		var musicvol = $"Music Volume:\n{round(temp_settings.music_vol*100)}%"
+		var soundvol = $"Sound Volume:\n{round(temp_settings.sound_vol*100)}%"
+		_displayOPS = [scalestr, fullscr, mastervol, musicvol, soundvol, "Keybinds", "Apply Changes"];
+		var _yPos = (_rmHei/2)-(32*(array_length(_displayOPS)-1)/2)+24;
+		var i=0;
+		repeat (array_length(_displayOPS)) { // Looping through options to draw them on screen
+			var color = "[c_white]"
+			
+			if (option=i) {
+				selectArrowY = _yPos
+				color = "[c_yellow]"
+			}
+			
+			draw_text_scribble(_xPos,_yPos,$"{_startStr}{color}{_displayOPS[i]}");
+			
+			i++;
+			if (i<5) {
+				_yPos+=32;
+			} else {
+				_yPos+=24;
+			}
+		}
+		
+		selectArrowYtrans = lerp(selectArrowYtrans,selectArrowY,0.25);
+		
+		selectArrowWidth = string_width(_displayOPS[option])/2
+		selectArrowWidthtrans = lerp(selectArrowWidthtrans,selectArrowWidth,0.25);
+		
+		draw_text_scribble(_xPos-selectArrowWidthtrans-2,round(selectArrowYtrans),"[spr_rulergold][c_yellow][fa_middle][fa_right]>>");
+		draw_text_scribble(_xPos+selectArrowWidthtrans+2,round(selectArrowYtrans),"[spr_rulergold][c_yellow][fa_middle][fa_left]<<");
+	break;
+	
 	case "levelselectm":
 		var _startStr = "[spr_omifont][fa_center][fa_left]";
 		draw_text_scribble(_rmWid/2,16,$"[spr_rulergold][fa_center][fa_middle]SELECT LEVEL")
@@ -82,7 +126,7 @@ switch (crMenu) {
 		draw_text_scribble(_rmWid/2,16,$"{_startStr}KEYBINDS")
 
 		var _binds = ["right","left","up","down","a","b","c"];
-		_displayOPS = ["Right","Left","Up","Down","A","B","C","Reset"];
+		_displayOPS = ["Right","Left","Up","Down","A","B","C","Reset Bindings"];
 		var _yPos = (_rmHei/2)-(16*(array_length(_displayOPS)-1)/2),
 			_bindShow = "";
 		var i=0;

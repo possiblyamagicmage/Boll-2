@@ -29,17 +29,68 @@ if (!optionLock) {
 
 	switch (crMenu) {
 		case "mainmenu":
-			optMAX = 4;
+			optMAX = 3;
 			if (akey) {
 				switch option {
 					case 0: crMenu="levelselectm" option=0 break;
-					case 1: crMenu="keybindsm" option=0 break;
+					case 1: crMenu="settings" option=0 break;
 					case 2: global.save_dir="" room_goto(rEditor) option=0 break;
 					//case 3: global.save_dir="" room_goto(rWMEditor) option=0 break;
-					case 3: room_goto(rIntro) option=0 break;
-					case 4: game_end(); break;
+					//case 3: room_goto(rIntro) option=0 break;
+					case 3: game_end(); break;
 				}
 				safe = 1
+			}
+		break
+		
+		case "settings":
+			optMAX = 6;
+			if (akey) {
+				switch option {
+					case 5:
+						crMenu="keybindsm" option=0
+					break;
+					case 6: 
+						var oldscale = global.settings[$ "fullscreen_type"]
+						
+						global.settings[$ "resolution_scale"] = temp_settings.resolution_scale
+						global.settings[$ "fullscreen_type"] = temp_settings.fullscreen_type
+						global.settings[$ "master_vol"] = temp_settings.master_vol
+						global.settings[$ "music_vol"] = temp_settings.music_vol
+						global.settings[$ "sound_vol"] = temp_settings.sound_vol
+						
+						if (!global.settings[$ "fullscreen_type"]) {
+							window_enable_borderless_fullscreen(false);
+							window_set_fullscreen(false);
+							if global.settings[$ "resolution_scale"]!=oldscale {
+								window_set_size(432*global.settings[$ "resolution_scale"],248*global.settings[$ "resolution_scale"]);
+								window_center();
+							}
+						} else {
+							if (global.settings[$ "fullscreen_type"] == 1) window_enable_borderless_fullscreen(true);
+							else window_enable_borderless_fullscreen(false);
+							window_set_fullscreen(true);
+						}
+						
+						VinylMasterSetGain(global.settings[$ "master_vol"])
+						VinylMixSetGain("music", global.settings[$ "music_vol"])
+						VinylMixSetGain("sound effects", global.settings[$ "sound_vol"])
+					break;
+				}
+				safe = 1
+			}
+			if (left || right) {
+				switch (option) {
+					case 0: temp_settings.resolution_scale = clamp(temp_settings.resolution_scale + floor(right - left),1,5) break;
+					case 1: temp_settings.fullscreen_type = clamp(temp_settings.fullscreen_type + floor(right - left),0,2) break;
+					case 2: temp_settings.master_vol = clamp(temp_settings.master_vol + (floor(right - left)/20),0,2) break;
+					case 3: temp_settings.music_vol = clamp(temp_settings.music_vol + (floor(right - left)/20),0,2) break;
+					case 4: temp_settings.sound_vol = clamp(temp_settings.sound_vol + (floor(right - left)/20),0,2) break;
+				}
+			}
+			if (bkey) {
+				backAmenu("mainmenu");
+				temp_settings = global.settings;
 			}
 		break
 	
@@ -75,7 +126,9 @@ if (!optionLock) {
 					input_profile_reset_bindings(INPUT_AUTO_PROFILE_FOR_KEYBOARD);
 				}
 			}
-			if (bkey) backAmenu("mainmenu");
+			if (bkey) {
+				backAmenu("settings");
+			}
 		break
 	}
 }

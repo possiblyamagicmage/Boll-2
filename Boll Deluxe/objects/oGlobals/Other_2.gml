@@ -1,17 +1,44 @@
 pal_swap_init_system(shd_pal_swapper);
 
-if file_exists(game_save_id+"\keybinds.ini")
+window_set_cursor(cr_none)
+
+#macro RESOLUTION_X 432
+#macro RESOLUTION_Y 248
+
+global.settings = {};
+
+global.settings[$ "resolution_scale"] = min(floor(display_get_width()/RESOLUTION_X),floor(display_get_height()/RESOLUTION_Y))
+global.settings[$ "fullscreen_type"] = 0
+global.settings[$ "master_vol"] = 1
+global.settings[$ "music_vol"] = 1
+global.settings[$ "sound_vol"] = 1
+global.settings[$ "keybinds"] = input_player_export()
+
+if file_exists(game_save_id+"\settings.ini")
 {
-	var opstruct = LoadJSONFromFile(game_save_id+"\keybinds.ini")
+	global.settings = LoadJSONFromFile(game_save_id+"\settings.ini")
+	var opstruct = global.settings[$ "keybinds"]
 	if input_player_verify(opstruct) input_player_import(opstruct);
-	else SaveStringToFile(game_save_id+"\keybinds.ini",input_player_export())
 }
+
+if (!global.settings[$ "fullscreen_type"]) {
+	window_enable_borderless_fullscreen(false);
+	window_set_fullscreen(false);
+	window_set_size(432*global.settings[$ "resolution_scale"],248*global.settings[$ "resolution_scale"]);
+	window_center();
+} else {
+	if (global.settings[$ "fullscreen_type"] == 1) window_enable_borderless_fullscreen(true);
+	else window_enable_borderless_fullscreen(false);
+	window_set_fullscreen(true);
+}
+						
+VinylMasterSetGain(global.settings[$ "master_vol"])
+VinylMixSetGain("music", global.settings[$ "music_vol"])
+VinylMixSetGain("sound effects", global.settings[$ "sound_vol"])
+
 global.roomTimer = 0;
 global.freezeframe = false;
 global.animdat[0]=[];
-
-window_set_size(432*3,248*3);
-window_center();
 
 //application_surface_draw_enable(false); 
 
@@ -45,9 +72,6 @@ global._findDefine = function(_filedir){
 	show_debug_message("DONE READING... going away")
 	return _list
 }
-
-
-//var lol = global._findDefine($"{working_directory}\\_vanilla\\character\\testcharm\\testcharm.gml")
 
 global._loopThrough = function(_lookfor, _filedir) { //Function to go through and collect string from specific parts of the GML file
 	var _code		=file_text_open_read(_filedir);

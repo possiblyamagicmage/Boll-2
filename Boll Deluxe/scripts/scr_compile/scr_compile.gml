@@ -4,10 +4,6 @@ function compile_code(){
 	var def_names = []
 	var	found_folders = []
 	
-	show_debug_message("BEGIN SCRIPT COMPLATION...")
-	
-	show_debug_message("LETS DO IT AGAIN!!")
-	
 	var _folder = file_find_first($"{working_directory}\\_vanilla\\character\\*", fa_directory)
 	while(_folder != "") {
 		
@@ -58,7 +54,6 @@ function compile_code(){
 			
 			show_debug_message("END SCRIPT EXTRACT IN FILE " + _file);
 			_file = file_find_next();
-
 		}
 		
 		show_debug_message("END SCRIPT COMPILE IN FOLDER " + found_folders[j]);
@@ -137,6 +132,7 @@ function import_sheets() {
 		}
 		show_debug_message(global.player_spritelists[i])
 		i++;
+		
 	}
 	oGameManager.PlayerColl.FinishBatch();
 	show_debug_message("Sprites have finished being compiled")
@@ -197,7 +193,6 @@ function compile_level_scripts(){
 			
 			show_debug_message("END SCRIPT EXTRACT IN FILE " + _file);
 			_file = file_find_next();
-
 		}
 		
 		show_debug_message("END SCRIPT COMPILE IN FOLDER " + found_folders[j]);
@@ -264,12 +259,12 @@ function compile_object_scripts(){
 			
 			show_debug_message("END SCRIPT EXTRACT IN FILE " + _file);
 			_file = file_find_next();
-
 		}
 		
 		show_debug_message("END SCRIPT COMPILE IN FOLDER " + found_folders[j]);
 		_file = file_find_close();
 		j++;
+		
 	}
 	
 	show_debug_message("Scripts have finished being compiled")

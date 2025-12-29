@@ -1637,6 +1637,7 @@
     {"id":{"name":"spr_largesambalookr","path":"sprites/spr_largesambalookr/spr_largesambalookr.yy",},},
     {"id":{"name":"spr_largesambayell","path":"sprites/spr_largesambayell/spr_largesambayell.yy",},},
     {"id":{"name":"spr_livesfont","path":"sprites/spr_livesfont/spr_livesfont.yy",},},
+    {"id":{"name":"spr_loader","path":"sprites/spr_loader/spr_loader.yy",},},
     {"id":{"name":"spr_longbrick","path":"sprites/spr_longbrick/spr_longbrick.yy",},},
     {"id":{"name":"spr_longitembox","path":"sprites/spr_longitembox/spr_longitembox.yy",},},
     {"id":{"name":"spr_longitemboxJADE","path":"sprites/spr_longitemboxJADE/spr_longitemboxJADE.yy",},},

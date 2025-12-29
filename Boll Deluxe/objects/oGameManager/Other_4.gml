@@ -4,6 +4,7 @@ repeat (1000) {
 	global.channelid[i]=0
 	i++;
 }
+
 PlayerColl=new Collage("Players", 4096, 4096, false, 1, true)
 CustomColl=new Collage("Custom", 4096, 4096, false, 1, true)
 import_sheets();
