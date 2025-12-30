@@ -133,11 +133,21 @@ global.VinylConfigSON = [
             mus_overworld_BG_loop,
 			mus_overworld_FG_head,
             mus_overworld_FG_loop,
-			mus_frigiddark_head,
-			mus_frigiddark_tail,
+			{
+				sound: mus_frigiddark_head,
+				gain: 2
+			},
+			{
+				sound: mus_frigiddark_tail,
+				gain: 2
+			},
 			mus_gameover,
 			mus_editor_head,
 			mus_editor_loop,
+			{
+				sound: mus_menu,
+				gain: 0.2
+			},
         ],
     },
 	{
@@ -166,92 +176,74 @@ global.VinylConfigSON = [
     {
 		mix: "sound effects",
 		members: [
-			snd_itemappear, //items
 			{
 				sound: snd_itemappear,
 				gain: 0.25
 			},
-			snd_blockbump, //objects
 			{
 				sound: snd_blockbump,
 				gain: 0.5
 			},
-			snd_blockbreak,
 			{
 				sound: snd_blockbreak,
 				gain: 0.5
 			},
-			snd_hardblockbreak,
 			{
 				sound: snd_hardblockbreak,
 				gain: 0.8
 			},
-			snd_shootblockshoot,
 			{
 				sound: snd_shootblockshoot,
 				gain: 0.5
 			},
-			snd_shootblockbreak,
 			{
 				sound: snd_shootblockbreak,
 				gain: 0.5
 			},
-			snd_checkpoint,
 			{
 				sound: snd_checkpoint,
 				gain: 0.4
 			},
-			snd_enemycannon, //hazards
 			{
 				sound: snd_enemycannon,
 				gain: 0.3
 			},
-			snd_enemycannonfast,
 			{
 				sound: snd_enemycannonfast,
 				gain: 0.3
 			},
-			snd_enemyexplode,
 			{
 				sound: snd_enemyexplode,
 				gain: 0.5
 			},
-			snd_enemybigexplode,
 			{
 				sound: snd_enemybigexplode,
 				gain: 0.5
 			},
-			snd_fireball,
 			{
 				sound: snd_fireball,
 				gain: 0.5
 			},
-            snd_powerup,
             {
                 sound: snd_powerup,
                 gain: 0.5
             },
-            snd_1up,
             {
                 sound: snd_1up,
                 gain: 0.4
             },
-			snd_pipe,
 			{
 				sound: snd_pipe,
 				gain: 0.5
 			},
-			snd_switch,
 			{
 				sound: snd_switch,
 				gain: 0.5
 			},
-			snd_enemykick,
 			{
 				sound: snd_enemykick,
 				gain: 0.5
 			},
-			snd_enemystomp,
 			{
 				sound: snd_enemystomp,
 				gain: 0.5

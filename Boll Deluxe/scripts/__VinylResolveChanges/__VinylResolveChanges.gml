@@ -45,6 +45,7 @@ function __VinylResolveChanges(_replace, _oldSoundNameArray = undefined, _oldPat
         switch(instanceof(_pattern))
         {
             case "__VinylClassPatternSound":
+            case "__VinylClassPatternExternal":
                 var _sound = _pattern.__sound;
                 
                 var _j = 0;
@@ -67,7 +68,7 @@ function __VinylResolveChanges(_replace, _oldSoundNameArray = undefined, _oldPat
                 var _j = 0;
                 repeat(array_length(_voiceToStructArray))
                 {
-                    if (_voiceToStructArray[_j].__pattern == _pattern)
+                    if (_voiceToStructArray[_j][$ "__pattern"] == _pattern)
                     {
                         array_push(_toUpdateArray, _voiceToStructArray[_j]);
                     }
@@ -80,7 +81,20 @@ function __VinylResolveChanges(_replace, _oldSoundNameArray = undefined, _oldPat
                 var _j = 0;
                 repeat(array_length(_voiceUpdateArray))
                 {
-                    if (_voiceUpdateArray[_j].__pattern == _pattern)
+                    if (_voiceUpdateArray[_j][$ "__pattern"] == _pattern)
+                    {
+                        array_push(_toUpdateArray, _voiceUpdateArray[_j]);
+                    }
+                    
+                    ++_j;
+                }
+            break;
+            
+            case "__VinylClassPatternAbstract":
+                var _j = 0;
+                repeat(array_length(_voiceUpdateArray))
+                {
+                    if (_voiceUpdateArray[_j][$ "__pattern"] == _pattern)
                     {
                         array_push(_toUpdateArray, _voiceUpdateArray[_j]);
                     }
@@ -114,6 +128,19 @@ function __VinylResolveChanges(_replace, _oldSoundNameArray = undefined, _oldPat
                 _pattern.__maxPriority = -infinity;
             break;
             
+            case "__VinylClassQueueTemplate":
+                var _j = 0;
+                repeat(array_length(_voiceUpdateArray))
+                {
+                    if (_voiceUpdateArray[_j][$ "__templateName"] == _pattern)
+                    {
+                        array_push(_toUpdateArray, _voiceUpdateArray[_j]);
+                    }
+                    
+                    ++_j;
+                }
+            break;
+            
             default:
                 __VinylError("Unhandled first-tier update struct, instanceof = \"", instanceof(_pattern), "\"");
             break;
@@ -138,6 +165,7 @@ function __VinylResolveChanges(_replace, _oldSoundNameArray = undefined, _oldPat
             case "__VinylClassVoiceHLT":
             case "__VinylClassVoiceBlend":
             case "__VinylClassVoiceQueue":
+            case "__VinylClassVoiceAbstract":
                 _voice.__UpdateFromPattern();
             break;
             

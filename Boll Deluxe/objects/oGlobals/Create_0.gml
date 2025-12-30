@@ -150,25 +150,7 @@ GMLspeak.interface.compileFlags.checkForVariables = true;
 		GMLspeak.interface.exposeConstant("VINYL_DEFAULT_MIX", VINYL_DEFAULT_MIX);
 		GMLspeak.interface.exposeConstant("VINYL_NO_MIX", VINYL_NO_MIX);
 	#endregion
-	
-	#region AudioExt
-		GMLspeak.interface.exposeFunction("audioExtOggAddStream", audioExtOggAddStream);
-		GMLspeak.interface.exposeFunction("audioExtOggGetNames", audioExtOggGetNames);
-		GMLspeak.interface.exposeFunction("audioExtOggRemove", audioExtOggRemove);
-		GMLspeak.interface.exposeFunction("audioExtOggScan", audioExtOggScan);
-		GMLspeak.interface.exposeFunction("audioExtSoundExists", audioExtSoundExists);
-		GMLspeak.interface.exposeFunction("audioExtSoundGet", audioExtSoundGet);
-		GMLspeak.interface.exposeFunction("audioExtSoundGetSoundID", audioExtSoundGetSoundID);
-		GMLspeak.interface.exposeFunction("audioExtSoundIsLoaded", audioExtSoundIsLoaded);
-		GMLspeak.interface.exposeFunction("audioExtSoundLoad", audioExtSoundLoad);
-		GMLspeak.interface.exposeFunction("audioExtSoundUnload", audioExtSoundUnload);
-		GMLspeak.interface.exposeFunction("audioExtSoundRemove", audioExtSoundRemove);
-		GMLspeak.interface.exposeFunction("audioExtWavAddFile", audioExtWavAddFile);
-		GMLspeak.interface.exposeFunction("audioExtWavGetNames", audioExtWavGetNames);
-		GMLspeak.interface.exposeFunction("audioExtWavRemove", audioExtWavRemove);
-		GMLspeak.interface.exposeFunction("audioExtWavScan", audioExtWavScan);
-	#endregion
-	
+
 	#region Scribble & Scribble Jr
 		GMLspeak.interface.exposeFunction("ScribblejrAttachSpritefont", ScribblejrAttachSpritefont);
 		GMLspeak.interface.exposeFunction("ScribblejrCacheFontInfo", ScribblejrCacheFontInfo);

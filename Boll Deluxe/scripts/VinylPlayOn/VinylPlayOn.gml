@@ -17,16 +17,15 @@
 /// @param [gain=1]
 /// @param [pitch=1]
 /// @param [duckerName]
-/// @param [duckPriority=0]
+/// @param [duckPriority]
 
 function VinylPlayOn(_emitter, _pattern, _loop = undefined, _gain = 1, _pitch = 1, _duckerName = undefined, _duckPrio = undefined)
 {
-    static _soundDict   = __VinylSystem().__soundDict;
     static _patternDict = __VinylSystem().__patternDict;
     
     if (is_handle(_pattern))
     {
-        __VinylEnsurePatternSound(_pattern).__Play(_emitter, _loop, _gain, _pitch, _duckerName, _duckPrio);
+        return __VinylEnsurePatternSound(_pattern).__Play(_emitter, _loop, _gain, _pitch, _duckerName, _duckPrio);
     }
     else if (is_string(_pattern))
     {

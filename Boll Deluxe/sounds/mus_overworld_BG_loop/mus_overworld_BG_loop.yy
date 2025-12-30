@@ -10,7 +10,7 @@
   "compression":1,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":65.604,
+  "duration":0.0,
   "exportDir":"",
   "name":"mus_overworld_BG_loop",
   "parent":{

@@ -248,36 +248,34 @@ function skin_animationdata(slot,name,list) {
 
 function init_sounds() {
 	var dir=$"{working_directory}\\_vanilla\\character\\{charmName}\\sfx\\"
-	audioExtWavScan(dir)
-	audioExtOggScan(dir)
 	var i=0;
 	repeat (array_length(sound_list)) {
-		if file_exists(dir+$"{charmName}{sound_list[i]}.wav") || file_exists(dir+$"{charmName}{sound_list[i]}.ogg") {
-			var snd=audioExtSoundGet($"{charmName}{sound_list[i]}")
-			VinylSetupSound(audioExtSoundGetSoundID(snd))
+		if file_exists(dir+$"{charmName}{sound_list[i]}.wav") {
+			VinylSetupExternal(dir+$"{charmName}{sound_list[i]}.wav",$"{charmName}{sound_list[i]}",1,1,false,"sound effects")
 			
-			if (string(checkSnd) = "{ length : 0 }") { // lame ass hack, check above function for info
-				show_debug_message($"Found sound ID: {charmName}{sound_list[i]}, but failed to load it?")
-			} else {
-				show_debug_message($"Loaded sound ID: {charmName}{sound_list[i]}")
-			}
+			show_debug_message($"Loaded WAV sound ID: {charmName}{sound_list[i]}")
+		} else if file_exists(dir+$"{charmName}{sound_list[i]}.ogg") {
+			VinylSetupExternal(dir+$"{charmName}{sound_list[i]}.ogg",$"{charmName}{sound_list[i]}",1,1,false,"sound effects")
+			
+			show_debug_message($"Loaded OGG sound ID: {charmName}{sound_list[i]}")
 		} else {
 			show_debug_message($"Failed to load sound ID: {charmName}{sound_list[i]}, is your file missing?")
 		}
+		i++;
 	}
 }
 
 function playsfx(sound,pitch=1,loop=0,gain=0.5) {
-	if audioExtSoundExists(sound) {
-		var snd=audioExtSoundGet(sound)
-		VinylPlay(audioExtSoundGetSoundID(snd),loop,gain,pitch)
+	if VinylPatternExists(sound) {
+		VinylPlay(sound,loop,gain,pitch)
+	} else {
+		show_debug_message($"Attempted to play sound ID {sound} but it doesn't exist!")
 	}
 }
 
 function stopsfx(sound) {
-	if audioExtSoundExists(sound) {
-		var snd=audioExtSoundGet(sound)
-		VinylStop(audioExtSoundGetSoundID(snd))
+	if VinylPatternExists(sound) && VinylPatternIsPlaying(sound) {
+		VinylPatternStop(sound)
 	}
 }
 

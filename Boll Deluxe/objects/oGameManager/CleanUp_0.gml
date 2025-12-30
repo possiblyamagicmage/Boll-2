@@ -12,6 +12,15 @@ CustomColl.Clear();
 CustomColl.Destroy();
 delete CustomColl;
 
-audioExtSoundClear()
 VinylMixVoicesStop("music")
 VinylMixVoicesStop("sound effects")
+with(oPlayer) {
+	var dir=$"{working_directory}\\_vanilla\\character\\{charmName}\\sfx\\"
+	var i=0;
+	repeat (array_length(sound_list)) {
+		if VinylPatternExists($"{charmName}{sound_list[i]}") {
+			VinylUnloadExternal($"{charmName}{sound_list[i]}")
+		}
+		i++;
+	}
+}

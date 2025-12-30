@@ -1,8 +1,5 @@
 // Feather disable all
 
-#macro __VINYL_VERSION  "6.0.9"
-#macro __VINYL_DATE     "2024-07-22"
-
 #macro __VINYL_RUNNING_FROM_IDE  (GM_build_type == "run")
 
 #macro __VINYL_DEFAULT_DUCK_RATE_OF_GAIN  1
@@ -10,25 +7,17 @@
 //Whether to show the frame number in debug messages
 #macro __VINYL_DEBUG_SHOW_FRAMES  false
 
-enum __VINYL_HLT_STATE
-{
-    __HEAD,
-    __LOOP,
-    __TAIL,
-}
+#macro __VINYL_HLT_STATE_HEAD  0
+#macro __VINYL_HLT_STATE_LOOP  1
+#macro __VINYL_HLT_STATE_TAIL  2
 
-enum VINYL_QUEUE
-{
-    DONT_LOOP,
-    LOOP_EACH,
-    LOOP_ON_LAST,
-}
+#macro __VINYL_BLEND_MODE_MANUAL  0
+#macro __VINYL_BLEND_MODE_FACTOR  1
+#macro __VINYL_BLEND_MODE_CURVE   2
 
-enum __VINYL_DUCK
-{
-    __DO_NOTHING,
-    __STOP,
-}
+#macro __VINYL_ABSTRACT_VOICE  0xFF00_0000_0000
+
+#macro __VINYL_HIGH_PRESSURE_THRESHOLD  100
 
 __VinylSystem();
 function __VinylSystem()
@@ -41,19 +30,36 @@ function __VinylSystem()
     {
         if (__VINYL_DEBUG_SHOW_FRAMES) __frame = 0;
         
-        __VinylTrace("Welcome to Vinyl! This is version ", __VINYL_VERSION, ", ", __VINYL_DATE);
-        if (__VINYL_RUNNING_FROM_IDE) global.Vinyl = self;
+        __VinylTrace("Welcome to Vinyl! This is version ", VINYL_VERSION, ", ", VINYL_DATE, " (GM version ", GM_runtime_version, ")");
+        if (__VINYL_RUNNING_FROM_IDE)
+        {
+            __VinylTrace("Running from IDE");
+            global.Vinyl = self;
+        }
+        
+        if (VINYL_SET_LISTENER_ORIENTATION)
+        {
+            if (__VINYL_RUNNING_FROM_IDE) __VinylTrace("Setting listener orientation");
+            audio_listener_set_orientation(0,   0, 0, 1,   0, -1, 0);
+        }
+        
+        if (VINYL_AUDIO_FALLOFF_MODEL != undefined)
+        {
+            if (__VINYL_RUNNING_FROM_IDE) __VinylTrace("Setting listener model to ", VINYL_AUDIO_FALLOFF_MODEL);
+            audio_falloff_set_model(VINYL_AUDIO_FALLOFF_MODEL);
+        }
         
         __toUpdateArray = VINYL_LIVE_EDIT? [] : undefined;
         __importingJSON = false;
         
         //Lookup dictionaries for sound/pattern/mix definitions.
-        __soundDict    = {};
-        __patternDict  = {};
-        __mixDict      = {};
-        __metadataDict = {};
+        __soundDict         = {};
+        __patternDict       = {};
+        __mixDict           = {};
+        __metadataDict      = {};
+        __queueTemplateDict = {};
         
-        __compiledSoundArray = [];
+        __emitterMap = ds_map_create();
         
         //Array of mixes that need updating every frame
         __mixArray = [];
@@ -63,13 +69,15 @@ function __VinylSystem()
         //instead of a struct because struct_remove_from_hash() doesn't exist yet and it's easier
         //to incrementally 
         __voiceToStructMap = ds_map_create();
-        __voiceToStructLastKey = undefined;
         
         //Contains structs that describe callbacks to be executed when a voice stops playing.
         __callbackArray = [];
         
         __duckerDict  = {};
         __duckerArray = [];
+        
+        __voiceToEmitterMap     = ds_map_create();
+        __volatileEmitterArray  = [];
         
         //An array of voices that are in the lookup dictionary. This will never include HLT voices
         //as they are managed in the update array (see below). Blend voices will automatically be
@@ -87,10 +95,14 @@ function __VinylSystem()
         __nullVoice = {};
         with(__nullVoice)
         {
-            __IsPlaying    = function() { return false; };
-            __SetLocalGain = function() {};
-            __FadeOut      = function() {};
-            __SetMixGain   = function() {};
+            __IsPlaying         = function() { return false; };
+            __GetAsset          = function() { return -1; };
+            __GetGameMakerVoice = function() { return undefined; };
+            __SetLocalGain      = function() {};
+            __SetLocalPitch     = function() {};
+            __FadeOut           = function() {};
+            __SetMixGain        = function() {};
+            __SetMixPitch       = function() {};
         }
         
         //Set the master gain to 1. The actual gain value we pass into GameMaker's native function
@@ -114,11 +126,13 @@ function __VinylSystem()
         //Set up an update function that executes one every frame forever.
         time_source_start(time_source_create(time_source_global, 1, time_source_units_frames, function()
         {
-            static _voiceToStructMap = __voiceToStructMap;
-            static _callbackArray    = __callbackArray;
-            static _bootSetupTimer   = 0;
-            static _bootSetupPath    = VINYL_LIVE_EDIT? filename_dir(GM_project_filename) + "/scripts/__VinylConfigJSON/__VinylConfigJSON.gml" : undefined;
-            static _bootSetupHash    = undefined;
+            static _voiceToStructMap     = __voiceToStructMap;
+            static _voiceToEmitterMap    = __voiceToEmitterMap;
+            static _volatileEmitterArray = __volatileEmitterArray;
+            static _callbackArray        = __callbackArray;
+            static _bootSetupTimer       = 0;
+            static _bootSetupPath        = VINYL_LIVE_EDIT? filename_dir(GM_project_filename) + "/scripts/__VinylConfigJSON/__VinylConfigJSON.gml" : undefined;
+            static _bootSetupHash        = undefined;
             
             if (__VINYL_DEBUG_SHOW_FRAMES) __frame++;
             
@@ -166,7 +180,10 @@ function __VinylSystem()
                                 __VinylTrace("Warning! Failed to read GML");
                             }
                             
-                            buffer_delete(_buffer);
+                            if (buffer_exists(_buffer))
+                            {
+                                buffer_delete(_buffer);
+                            }
                             
                             if (is_struct(_gml))
                             {
@@ -219,15 +236,58 @@ function __VinylSystem()
                 ++_i;
             }
             
-            //Clean up voice-to-struct ds_map
-            var _voice = (__voiceToStructLastKey == undefined)? ds_map_find_first(_voiceToStructMap) : ds_map_find_next(_voiceToStructMap, __voiceToStructLastKey);
-            __voiceToStructLastKey = _voice;
+            //Figure out how much work we need to do to keep the system from overloading
+            var _pressure = min(1, VinylGetSystemPressure());
             
-            var _voice = ds_map_find_first(_voiceToStructMap);
-            if ((_voice != undefined) && (not _voiceToStructMap[? _voice].__IsPlaying()))
+            //Clean up voice-to-struct ds_map
+            static _voiceToStructLastVoice = undefined;
+            var _map = _voiceToStructMap;
+            var _voice = _voiceToStructLastVoice;
+            repeat(lerp(1, ds_map_size(_map), _pressure))
             {
-                ds_map_delete(_voiceToStructMap, _voice);
+                var _voice = (_voice == undefined)? ds_map_find_first(_map) : ds_map_find_next(_map, _voice);
+                var _struct = _map[? _voice];
+                if ((_voice != undefined) && (not is_instanceof(_struct, __VinylClassVoiceQueue)) && (not _struct.__IsPlaying()))
+                {
+                    ds_map_delete(_map, _voice);
+                }
             }
+            _voiceToStructLastVoice = _voice;
+            
+            //Clean up voice-to-emitter ds_map
+            static _voiceToEmitterLastVoice = undefined;
+            var _map = _voiceToEmitterMap;
+            var _voice = _voiceToEmitterLastVoice;
+            repeat(lerp(1, ds_map_size(_map), _pressure))
+            {
+                var _voice = (_voice == undefined)? ds_map_find_first(_map) : ds_map_find_next(_map, _voice);
+                if ((_voice != undefined) && (not VinylIsPlaying(_voice)))
+                {
+                    ds_map_delete(_map, _voice);
+                }
+            }
+            _voiceToEmitterLastVoice = _voice;
+            
+            //Free volatile emitter as necessary. We don't need to iterate over every single volatile emitter all at once
+            static _volatileEmitterIndex = 0;
+            var _array = _volatileEmitterArray;
+            var _length = array_length(_array);
+            var _index = _volatileEmitterIndex;
+            repeat(lerp(min(1, _length), _length, _pressure))
+            {
+                _index = (_index + 1) mod _length;
+                with(_array[_index])
+                {
+                    if (not VinylIsPlaying(__voice))
+                    {
+                        audio_emitter_free(__emitter);
+                        array_delete(_array, _index, 1);
+                        --_length;
+                    }
+                }
+            }
+            _volatileEmitterIndex = _index;
+            
             
             //Check for callback execution
             var _i = 0;

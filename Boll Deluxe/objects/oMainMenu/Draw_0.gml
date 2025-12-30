@@ -87,7 +87,7 @@ switch (crMenu) {
 	break;
 	
 	case "levelselectm":
-		var _startStr = "[spr_omifont][fa_center][fa_left]";
+		var _startStr = "[spr_omifont][fa_middle][fa_left]";
 		draw_text_scribble(_rmWid/2,16,$"[spr_rulergold][fa_center][fa_middle]SELECT LEVEL")
 	
 		_displayOPS = global.levellist;
@@ -113,8 +113,7 @@ switch (crMenu) {
 			selectArrowWidth = string_width(_displayOPS[option])/2
 			selectArrowWidthtrans = lerp(selectArrowWidthtrans,selectArrowWidth,0.25);
 		
-			draw_text_scribble(_xPos-selectArrowWidthtrans-2,round(selectArrowYtrans),"[spr_rulergold][c_yellow][fa_middle][fa_right]>>");
-			draw_text_scribble(_xPos+selectArrowWidthtrans+2,round(selectArrowYtrans),"[spr_rulergold][c_yellow][fa_middle][fa_left]<<");
+			draw_text_scribble(_xPos-2,round(selectArrowYtrans)+2,"[spr_rulergold][c_yellow][fa_middle][fa_right]>>");
 		}
 	break;
 	

@@ -1,6 +1,6 @@
 #define datalist
 spriteEvents=split_string("idle,walk,run,wait,lookUp,crouchIdle,crouchWalk,crouchJump,crouchFall,crouchFireToss,crouchBonk,crouchFireToss,victory,hurt,dead,brake,jump,fall,bonk,runJump,runJumpFall,doubleJump,doubleJumpFall,doubleJumpBonk,wallSlide,wallJump,groundPound,groundPoundFall,slopeSlide,carryIdle,carryWalk,carryRun,carryLookUp,carryJump,carryFall,carryBonk,carrySpinJump,carrySpinJumpFall,carryCrouchIdle,carryCrouchWalk,carryCrouchJump,carryCrouchFall,carryCrouchBonk,carryKick,carryAirKick,roll,swim,swimPaddle,carrySwim,carryPaddle,spinJump,spinJumpFall,pushing,balancing,dive,bellySlide,fireToss,electrocute,gateClimbing,flagPole,hang,monkeyBars,boarding,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
-sound_list=split_string("select,damage,die,jump,win,step,bonk",",");
+sound_list=split_string("die,dive,fireball,flip,jump,kick,pound,rollout,select,skid,spin,spinbounce,spinjump,stomp,swim,wallkick",",");
 
 #define create
 slopesliding = 0;
@@ -37,56 +37,56 @@ deadtimer=0;
 deadgo=0;
 swim=0;
 
-	//we do this in create because its a function, and we only need to do it once
-	#region Water Handling Setup
-	water = function() {
-	
-	grav = defaultgrav / 5
-	no_move = false
-	steep_slope = false
-	move_lock = false
-	accel = 0.05
-	fastaccel = 0.05
-	if (grounded) {
-	maxspd = 0.98
-	} else {
-		maxspd = 1.52	
-	}
-	
-	xsc = esign(move, xsc)
-	
-	
-	component_gravity_coneyor()
-	
-	if grounded {
-		vsp = 0
-	}
-	//fric = fric * friction_mult;
-	
-	#region Swimming
-		if (apress) {
-			grounded = false
-			var v_move = (down - up)
-			if (vsp > 0 || down) {
-				vsp = 0;
-			}
-			vsp -= 1.1 - (0.5 * bool(down)) + (0.6 * bool(up))
-			vsp = max(vsp, -1.5 - (0.8 * bool(up)));
-			playsfx(charmName+"swim",1,0,1)
-			swim=24
+//we do this in create because its a function, and we only need to do it once
+#region Water Handling Setup
+water = function() {
+
+grav = defaultgrav / 5
+no_move = false
+steep_slope = false
+move_lock = false
+accel = 0.05
+fastaccel = 0.05
+if (grounded) {
+maxspd = 0.98
+} else {
+	maxspd = 1.52	
+}
+
+xsc = esign(move, xsc)
+
+
+component_gravity_coneyor()
+
+if grounded {
+	vsp = 0
+}
+//fric = fric * friction_mult;
+
+#region Swimming
+	if (apress) {
+		grounded = false
+		var v_move = (down - up)
+		if (vsp > 0 || down) {
+			vsp = 0;
 		}
-	#endregion
-	
-	was_in_water = true
-	
-	player_movement();
-	basic_step_move();
-	post_wall();
-	
-	swim = max(0, swim-1)
-	
+		vsp -= 1.1 - (0.5 * bool(down)) + (0.6 * bool(up))
+		vsp = max(vsp, -1.5 - (0.8 * bool(up)));
+		playsfx(charmName+"swim",1,0,1)
+		swim=24
 	}
-	#endregion
+#endregion
+
+was_in_water = true
+
+player_movement();
+basic_step_move();
+post_wall();
+
+swim = max(0, swim-1)
+
+}
+#endregion
 
 #define stop
 hsp = 0;

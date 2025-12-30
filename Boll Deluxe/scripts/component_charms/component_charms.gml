@@ -30,7 +30,7 @@ function component_mario_skid(){
 		if (!skidding) {
 			skiddir = esign(move,xsc)
 			dusttimer = 0;
-			playsfx(charmName+"skid",1,1,0.75)
+			skidsfx=playsfx(charmName+"skid",1,1,0.75)
 		}
 		skidding = 1;
 	}
