@@ -172,6 +172,7 @@ function JADE_initializeobj() {
 	registerobj(oBillBlaster, spr_billblasterJADE, 0, 0, 16, 32, false, true, enemies, "Bullet Bill Blaster")
 	properties.addNumberInput(oBillBlaster, "Timer Offset", "timer_offset", 0, true)
 	registerobj(oBanzaiBlaster, spr_banzaiblasterJADE, 32, 32, 64, 64, false, true, enemies, "Banzai Bill Blaster")
+	registerobj(oShyGuy, spr_shyguy, 8, 8, 16, 16, false, false, enemies, "Shy Guy")
 	registerobj(oIceSnifit, spr_icesnifit, 8, 8, 16, 16, false, false, enemies, "Ice Snifit")
 	registerobj(oPolarBear, spr_polarbear, 8, 8, 16, 16, false, false, enemies, "Polar Bear")
 	properties.addNumberInput(oPolarBear, "Balloon Height", "bheight", 4, true)

@@ -29,8 +29,8 @@
   "nineSlice":null,
   "origin":9,
   "parent":{
-    "name":"Shy Guys",
-    "path":"folders/Sprites/Enemies/Shy Guys.yy",
+    "name":"Ice Snifit",
+    "path":"folders/Sprites/Enemies/Shy Guys/Ice Snifit.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

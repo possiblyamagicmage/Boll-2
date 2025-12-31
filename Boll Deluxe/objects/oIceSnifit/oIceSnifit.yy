@@ -7,7 +7,6 @@
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":10,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":2,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"oIceSnifit",
@@ -21,8 +20,8 @@
     "path":"folders/Objects/Enemies/Shy Guys.yy",
   },
   "parentObjectId":{
-    "name":"oEnemy",
-    "path":"objects/oEnemy/oEnemy.yy",
+    "name":"oShyGuy",
+    "path":"objects/oShyGuy/oShyGuy.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -42,8 +41,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_icesnifit_walk",
-    "path":"sprites/spr_icesnifit_walk/spr_icesnifit_walk.yy",
+    "name":"spr_icesnifit",
+    "path":"sprites/spr_icesnifit/spr_icesnifit.yy",
   },
   "spriteMaskId":{
     "name":"spr_goombawalk",

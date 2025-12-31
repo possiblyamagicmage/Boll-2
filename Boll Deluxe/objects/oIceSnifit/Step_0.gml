@@ -1,8 +1,6 @@
 // Inherit the parent event
 event_inherited();
 
-stun=max(stun-1,0);
-
 cooldowntimer=max(cooldowntimer-1,0);
 
 if !(stun) && !(blowing) && !(cooldowntimer) && check_rectangle_in_hitbox(x-((hit_sizex+90)*xsc),y-hit_sizey-16,x,y+hit_sizey,oPlayer) && !(revving) {
@@ -19,11 +17,4 @@ if (revving) {
 		blowing=true
 		blowtimer=90;
 	}
-}
-
-if !(stun) && !(revving) && !(blowing) && (!didstun) {
-	constantspd=0.5
-	hp=2
-	cooldowntimer=60
-	didstun=true;
 }

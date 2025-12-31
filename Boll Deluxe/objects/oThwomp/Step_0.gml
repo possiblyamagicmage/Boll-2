@@ -48,7 +48,7 @@ if (state == 1) {
 		exit;
 	} else {
 		var _list = ds_list_create();
-		var _num = check_hitbox_on_hitbox_list(bbox_left,bbox_top,bbox_right-1,bbox_bottom-1, oEnemy, _list) ;
+		var _num = check_hitbox_on_hitbox_list(id, oEnemy, _list);
 
 		if (_num > 0) {
 			var i=0;
