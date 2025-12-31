@@ -20,7 +20,7 @@ function player_interactions(){
 				
 				make_particle(pImpact,enemy.x+enemy.xsc,enemy.y,2)
 				
-				increase_combo(_x,_y);
+				increase_combo(enemy.x,enemy.y);
 			}
 		}
 	}

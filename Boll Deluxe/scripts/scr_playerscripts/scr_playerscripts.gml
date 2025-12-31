@@ -520,7 +520,7 @@ function increase_combo(_x,_y) {
 	VinylPlay(snd_enemykick,false,1,0.9+(stompCombo/10))
 			
 	if (stompCombo>=8)
-	give_lives(pNum, x, y)
+	give_lives(pNum, _x, _y)
 	else
-	instance_create_depth(x,y,5,pScoreText,{image_index : stompCombo})
+	instance_create_depth(_x,_y,5,pScoreText,{image_index : stompCombo})
 }
