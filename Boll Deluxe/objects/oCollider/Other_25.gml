@@ -1,3 +1,3 @@
 if (slippery) {
-	my_friction = 0.33;
+	my_friction = 0.5;
 }
