@@ -21,21 +21,22 @@ var enemy=check_hitbox_on_hitbox(id,oEnemy)
 if (enemy) { //make sure shell is actually colliding with an enemy before trying to kill the enemy it collided with???
 	if (in_shell) && (abs(hsp)) {
 		if !(enemy.unshellable) {
-			enemy.killtype="spin";
-			enemy.killhsp = sign(hsp);
-			instance_create_depth(x+hit_sizex*xsc,y,2,pImpact)
-			enemy.hp-=1;
-			if (kickedplayer==noone) || (kickedplayer.object_index != oPlayer) 
-			kickedplayer=nearestplayer()
+			if (enemy.phaseid==noone || enemy.phaseid.id!=id) {
+				instance_create_depth(x+hit_sizex*xsc,y,2,pImpact)
 			
-			kickCombo=min(kickCombo+1,8)
-			VinylPlay(snd_enemykick,false,1,0.9+(kickCombo/10))
+				enemy.enemyShelled.Emit(id, kickedplayer);
 			
-			if (kickCombo==8)
-			give_lives(kickedplayer.pNum, x + (hit_sizex / 2), y - 8)
-			else
-			instance_create_depth(enemy.x,enemy.y,5,pScoreText,{image_index : kickCombo})
-				
+				if (kickedplayer==noone) || (kickedplayer.object_index != oPlayer) 
+				kickedplayer=nearestplayer()
+			
+				kickCombo=min(kickCombo+1,8)
+				VinylPlay(snd_enemykick,false,1,0.9+(kickCombo/10))
+			
+				if (kickCombo==8)
+				give_lives(kickedplayer.pNum, x + (hit_sizex / 2), y - 8)
+				else
+				instance_create_depth(enemy.x,enemy.y,5,pScoreText,{image_index : kickCombo})
+			}
 		} else {
 			instance_destroy();
 			killtype="spin";

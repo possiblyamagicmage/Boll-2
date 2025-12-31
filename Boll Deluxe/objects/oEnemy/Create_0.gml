@@ -1,18 +1,11 @@
-///CHANGE THESE IN VARIABLE DEFINITIONS
-//hp, how many times the player can stomp/damage them, could be useful for things like rexes, or some weird crazy bosses.
-//kidhp, how many kid bullets it takes to kill the enemy
-//damage_on_contact, this already exists, will hurt the player if they collide with it at all, making it impossible to kill, unless you have a star. if its = 2 it would be invincible to stars aswell.
-//no_stomping, this makes it so that the enemy doesnt lose hp/die when being stomped, so it would make it kinda act like an ant trooper from 3d world
-//edgeturn, this basically just makes it turn on an edge like a red koopa/goombrat
-//defaultgrav, gravity
-//hsp, horizontal speed
-//vsp, vertical speed
-//polyfloor, hit the "floor" of a polygon
+///CHANGE STUFF IN VARIABLE DEFINITIONS TO TWEAK BASIC ENEMY BEHAVIORS!
 enemyStomped = new Signal();
 enemyCollidePlayer = new Signal();
 enemyFireballed = new Signal();
 enemyKilled = new Signal();
 enemyTurnAround = new Signal();
+enemyShelled = new Signal();
+enemyRolledInto = new Signal();
 grav=defaultgrav
 _direction = -1
 rot=0
@@ -104,4 +97,24 @@ enemyTurnAround.Connect( self, function() {
 	_direction *= -1;
 	turning = 10;
 	prevsprite_index=sprite_index
+});
+
+enemyShelled.Connect( self, function(hit_obj, kick_p) {
+	killtype = "spin";
+	killhsp = sign(hit_obj.hsp);
+	phaseid=hit_obj;
+	phase_leeway=7;
+	hp-=1;
+});
+
+enemyRolledInto.Connect( self, function(hit_p) {
+	hp-= 1
+	vsp=-4;
+	phaseid=id
+	phase_leeway=7;
+	killdir= esign(x-x,1)
+	killhsp= max(abs(hit_p.hsp)/1.75,2)
+	xsc= esign(hit_p.hsp,hit_p.xsc)
+	killvsp= -max(2,abs(hit_p.hsp)/1.5)
+	killtype= "spin"
 });

@@ -1,19 +1,36 @@
 function player_interactions(){
 	if (piped) exit
 	
-	var enemystomp=check_rectangle_in_hitbox(x-hit_sizex,y+hit_sizey+1,x+hit_sizex,y+hit_sizey+1, oEnemy)
-	if (enemystomp) && (enemystomp.phaseid==noone || enemystomp.phaseid.id!=id) && !(enemystomp.damage_on_contact) && !(enemystomp.no_stomping) && !grounded && vsp > 0  {
-		if !(hurt) && !(dead) 
-		enemystomp.enemyStomped.Emit(id);
+	if (state != "frozen") {
+		var enemystomp=check_rectangle_in_hitbox(x-hit_sizex,y+hit_sizey+1,x+hit_sizex,y+hit_sizey+1, oEnemy)
+		if (enemystomp) && (enemystomp.phaseid==noone || enemystomp.phaseid.id!=id) && !(enemystomp.damage_on_contact) && !(enemystomp.no_stomping) && !grounded && vsp > 0  {
+			if !(hurt) && !(dead) 
+			enemystomp.enemyStomped.Emit(id);
+		} else {
+			var enemy=check_hitbox_on_hitbox(id, oEnemy)
+			if (enemy) && (enemy.phaseid==noone || enemy.phaseid.id!=id) && !(hurt) && !(dead) {
+				enemy.enemyCollidePlayer.Emit(id);
+			}
+		}
 	} else {
 		var enemy=check_hitbox_on_hitbox(id, oEnemy)
 		if (enemy) && (enemy.phaseid==noone || enemy.phaseid.id!=id) && !(hurt) && !(dead) {
-			enemy.enemyCollidePlayer.Emit(id);
+			if !(enemy.unshellable) {
+				make_particle(pImpact,enemy.x+enemy.xsc,enemy.y,2)
+				VinylPlay(snd_enemykick)
+				enemy.hp-=1
+				enemy.phaseid=id
+				enemy.killdir= esign(enemy.x-x,1)
+				enemy.killhsp= max(abs(hsp)/1.75,2)
+				enemy.xsc= esign(hsp,xsc)
+				enemy.killvsp= -max(2,abs(hsp)/1.5)
+				enemy.killtype="spin"
+			}
 		}
 	}
 	
-	var spring = collision_line(x-hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey, oTerrainSpring, false, true)
-	if (spring) && !(hurt) && !(dead)  {
+	var spring = collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oTerrainSpring, false, true)
+	if (spring) && !(hurt) && !(dead) && !(sprung)  {
 		switch(spring.image_angle) {
 			case 0:
 			vsp=min(-spring.spring_power,vsp) //dont set vsp if it exceeds power
@@ -49,7 +66,10 @@ function player_interactions(){
 		} else {
 			VinylPlay(snd_terrainspring)
 		}
+		sprung=5;
 	}
+	
+	sprung = max(sprung-1,0);
 	
 	var amp = collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oAmp, false, true)
 	if (amp) && !(electrocuted) && !(hurt) && !(dead) {

@@ -34,7 +34,7 @@ if check_collision_line(x+(hit_sizex+1)*-xsc, y+(hit_sizey-2),x+(hit_sizex+1)*-x
 if (enemycoll) {
 	var coll = check_rectangle_in_hitbox(x+(hit_sizex+1)*-xsc,y+hit_sizey-3,x+(hit_sizex+1)*-xsc,y-hit_sizey+3,oEnemy)
 	
-	if (coll) && !(coll.in_shell) && (coll.enemycoll) {
+	if (coll) && (coll.enemycoll) {
 		enemyTurnAround.Emit();
 		with(coll) if (xsc!=other.xsc) enemyTurnAround.Emit();
 	}

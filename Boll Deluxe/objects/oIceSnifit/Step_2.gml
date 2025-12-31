@@ -8,7 +8,7 @@ if (blowing) {
 		repeat(num) {
 			var pl = list[| i]
 			with(pl) {
-				if !(dead) && !(hurt) {
+				if !(dead) && !(hurt) && !(state == "frozen") && !(piped) {
 					hsp=-3*other.xsc
 					gsp=-3*other.xsc
 				

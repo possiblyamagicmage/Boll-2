@@ -1,4 +1,3 @@
-y-=16
 switch(image_angle) {
 	case 90:
 	case 180:

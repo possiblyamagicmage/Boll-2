@@ -2,7 +2,7 @@ event_inherited();
 //in_shell: If this variable is 0, the koopa should be walking. Otherwise, it should stay in its shell
 //shell_time: Variable for setting the timer the koopa has upon being stomped to get back up
 in_shell = 0;
-shell_time = 60*5;
+shell_time = 60*8.5;
 no_stomping = 0;
 shell_move = true
 can_break_bricks = true
@@ -32,6 +32,7 @@ enemyStomped.Connect( self, function(hit_p) {
 				phaseid=hit_p
 				phase_leeway=7;
 			}
+			event_user(0);
 		}
 		with(hit_p) {
 			stompCombo=min(stompCombo+1,8)
@@ -62,12 +63,13 @@ enemyCollidePlayer.Connect( self, function(hit_p) {
 			with (hit_p) {
 				instance_create_depth(x+hit_sizex*xsc,other.y,2,pImpact)
 			}
-				constantspd = 4;
+			constantspd = 4;
 			_direction = sign(x-phaseid.x) 
 			shell_move = true
 			in_shell = shell_time
 			no_stomping = false
 			kickedplayer = hit_p
+			enemycoll=false;
 		}
 	}
 });
