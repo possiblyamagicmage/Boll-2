@@ -8,6 +8,8 @@ blockHit.Connect( self, function(hit_p, obj) {
     
 	flip_time = 300;
 	image_speed = abs(hit);
+	no_hit = true
+	no_collide = true
 	//hit = hit_p;
 	//dy = -1 * hit;
 	//obj.vsp = 2;

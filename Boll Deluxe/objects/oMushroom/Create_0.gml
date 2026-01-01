@@ -12,6 +12,7 @@ hit_sizex = 6
 hit_sizey = 6
 phase_leeway = 0;
 phaseid = noone;
+colangle = 0;
 
 collision_array=[oCollider, oEnemyGround];
 
