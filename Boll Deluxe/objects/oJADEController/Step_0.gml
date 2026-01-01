@@ -271,6 +271,7 @@ if (mbleft && not_on_gui && !disable_tool) {
 									data = tile_set_empty(data)
 									tilemap_set(tilemap_layer, data,  tile[1], tile[2]); //delete tile at place lol
 								}
+								ds_list_delete(tilemap, obj-1)
 							}
 							tile_update_properties();
 						break;
