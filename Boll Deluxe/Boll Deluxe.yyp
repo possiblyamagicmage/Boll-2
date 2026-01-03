@@ -1544,6 +1544,7 @@
     {"id":{"name":"spr_brick","path":"sprites/spr_brick/spr_brick.yy",},},
     {"id":{"name":"spr_bulletbill","path":"sprites/spr_bulletbill/spr_bulletbill.yy",},},
     {"id":{"name":"spr_buzzybeetle_walk","path":"sprites/spr_buzzybeetle_walk/spr_buzzybeetle_walk.yy",},},
+    {"id":{"name":"spr_buzzyshell_kick","path":"sprites/spr_buzzyshell_kick/spr_buzzyshell_kick.yy",},},
     {"id":{"name":"spr_buzzyshell_wake","path":"sprites/spr_buzzyshell_wake/spr_buzzyshell_wake.yy",},},
     {"id":{"name":"spr_buzzyshell","path":"sprites/spr_buzzyshell/spr_buzzyshell.yy",},},
     {"id":{"name":"spr_cameraboundary","path":"sprites/spr_cameraboundary/spr_cameraboundary.yy",},},

@@ -1,7 +1,15 @@
 if global.paused exit
 
 //if (ceiling == noone) {
+
+
+if (statehax[state]()) {
+	if (state == 1) {
+		hsp = esign(x - oPlayer.x, -1) * 4;
+	}
 	event_inherited();
+}
+
 //} else {
 //	y = ceiling.bbox_bottom + ((bbox_bottom - bbox_top) / 2);
 	

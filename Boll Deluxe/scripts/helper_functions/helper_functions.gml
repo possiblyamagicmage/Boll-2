@@ -19,6 +19,9 @@
 // the target FPS threshold
 // ideally, the uncapped FPS should *never* drop below this
 #macro FPS_TARGET 300
+//
+// gets the height of the bounding box, used by oBuzzyBeetle
+#macro bbox_height (bbox_bottom - bbox_top)
 
 global.camera_x = 0;
 global.camera_y = 0;
