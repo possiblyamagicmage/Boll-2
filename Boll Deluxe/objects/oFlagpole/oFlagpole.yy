@@ -10,8 +10,8 @@
   "name":"oFlagpole",
   "overriddenProperties":[],
   "parent":{
-    "name":"Items",
-    "path":"folders/Objects/Items.yy",
+    "name":"Objects",
+    "path":"folders/Objects/Objects.yy",
   },
   "parentObjectId":null,
   "persistent":false,
