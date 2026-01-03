@@ -164,9 +164,9 @@ function JADE_initializeobj() {
 	
 	registerobj(oGoomba, spr_goombawalk, 8, 8, 16, 16, false, false, enemies, "Goomba")
 	registerobj(oGoombrat, spr_goombratwalk, 8, 8, 16, 16, false, false, enemies, "Goombrat")
-	registerobj(oKoopa, spr_koopawalk_g, 8, 8, 16, 16, false, false, enemies, "Koopa Troopa (Green)")
-	registerobj(oKoopaRed, spr_koopawalk_r, 8, 8, 16, 16, false, false, enemies, "Koopa Troopa (Red)")
-	registerobj(oKoopaYellow, spr_koopawalk_y, 8, 8, 16, 16, false, false, enemies, "Koopa Troopa (Yellow)")
+	registerobj(oKoopa, spr_koopawalk_g, 8, 12, 16, 16, false, false, enemies, "Koopa Troopa (Green)")
+	registerobj(oKoopaRed, spr_koopawalk_r, 8, 12, 16, 16, false, false, enemies, "Koopa Troopa (Red)")
+	registerobj(oKoopaYellow, spr_koopawalk_y, 8, 12, 16, 16, false, false, enemies, "Koopa Troopa (Yellow)")
 	registerobj(oKoopaSkating, spr_koopawalk_skate, 8, 12, 16, 16, false, false, enemies, "Koopa Troopa (Skating)")
 	registerobj(oBuzzyBeetle, spr_buzzybeetle_walk, 8, 8, 16, 16, false, false, enemies, "Buzzy Beetle")
 	registerobj(oPiranhaPlant, spr_piranhaplant, -4, 8, 16, 16, false, false, enemies, "Piranha Plant")
