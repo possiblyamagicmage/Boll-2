@@ -313,9 +313,7 @@ function init_player() {
 
 function draw_player() {
 	//if (flash) exit
-	var yoff=0;
-	
-	if (state == "frozen") yoff=8
+	var yoff=(12-hit_sizey);
 	
 	var spr=oGameManager.PlayerColl.GetImageInfo(get_spriteindex())
 	if CollageImageExists(spr) {
@@ -323,7 +321,7 @@ function draw_player() {
 			spr, 
 			floor(frame),
 			floor(x) - (lengthdir_x(offset_x,(sprite_angle-90)*xsc)) * -xsc, 
-			floor(y) - (lengthdir_y(offset_y,(sprite_angle-90)*ysc) - dy - (6) - (12-hit_sizey) - yoff) * -ysc,
+			floor(y) - (lengthdir_y(offset_y,(sprite_angle-90)*ysc) - dy - (6) - yoff) * -ysc,
 			xsc,
 			ysc,
 			sprite_angle*xsc,

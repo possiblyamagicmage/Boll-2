@@ -31,23 +31,32 @@ function player_interactions(){
 			case 0:
 			vsp=min(-spring.spring_power,vsp) //dont set vsp if it exceeds power
 			grounded = false
-			sig.Emit("sprung")
+			sig.Emit("sprung_up")
 			break;
 			
 			case 180:
 			vsp=max(spring.spring_power,vsp)
+			sig.Emit("sprung_down")
 			break;
 			
 			case 90:
 			hsp=min(-spring.spring_power,hsp)
 			if (grounded) gsp=hsp
+			
+			if (state!="frozen")
 			xsc = -1
+			
+			sig.Emit("sprung_side")
 			break;
 			
 			case 270:
 			hsp=max(spring.spring_power,hsp)
 			if (grounded) gsp=hsp
+			
+			if (state!="frozen")
 			xsc = 1
+			
+			sig.Emit("sprung_side")
 			break;
 		}
 		spring.image_speed=1

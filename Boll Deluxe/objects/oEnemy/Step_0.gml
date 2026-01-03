@@ -9,15 +9,28 @@ if !on_screen(32,32) && !origin_on_screen(xstart,ystart,32,32) {
 	instance_activate_region(x-activation_region_width, y-activation_region_width, activation_region_width*2, activation_region_height*2, true)
 }
 
+onceiling = check_collision_line(x-hit_sizex+hsp,y-hit_sizey-6,x+hit_sizex+hsp,y-hit_sizey-6,COL_TOP)
+
 if !(in_shell) && (edgeturn) && (grounded)
 {
-	if !check_collision_rectangle(x + (-xsc * (hit_sizex+1)),y,x + (-xsc * (hit_sizex-4)),y+hit_sizey+16, COL_BOTTOM) {
-		if !(turned) {
-			turned=1
-			enemyTurnAround.Emit();
+	if !(attach_to_ceiling) {
+		if !check_collision_rectangle(x + (-xsc * (hit_sizex+1)),y,x + (-xsc * (hit_sizex-4)),y+hit_sizey+16, COL_BOTTOM) {
+			if !(turned) {
+				turned=1
+				enemyTurnAround.Emit();
+			}
+		} else {
+			turned=0
 		}
 	} else {
-		turned=0
+		if !check_collision_rectangle(x + (-xsc * (hit_sizex+1)),y,x + (-xsc * (hit_sizex-4)),y-hit_sizey-16, COL_TOP) {
+			if !(turned) {
+				turned=1
+				enemyTurnAround.Emit();
+			}
+		} else {
+			turned=0
+		}
 	}
 }
 
@@ -50,15 +63,30 @@ if !check_rectangle_in_hitbox(x+(hit_sizex+1)*-xsc,y+hit_sizey-3,x+(hit_sizex+1)
 	flipped = 0;
 }
 
-if !grounded
-{
-	vsp=min(vsp+grav,4);
-} else {
-	if walker {
-		gsp = constantspd * _direction
+if !(attach_to_ceiling) {
+	if !grounded
+	{
+		vsp=min(vsp+grav,4);
+	} else {
+		if walker {
+			gsp = constantspd * _direction
+		}
+		vsp = gsp * -dsin(colangle)
+		hsp = gsp * dcos(colangle)
 	}
-	vsp = gsp * -dsin(colangle)
-	hsp = gsp * dcos(colangle)
+} else {
+	grav=-defaultgrav;
+	
+	if !(onceiling) {
+		attach_to_ceiling=false;
+		grav=defaultgrav
+	} else {
+		if walker {
+			gsp = constantspd * _direction
+		}
+		vsp = gsp * -dsin(colangle)
+		hsp = gsp * dcos(colangle)
+	}
 }
 
 var shootblock=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey,oShootBlock,false,true)

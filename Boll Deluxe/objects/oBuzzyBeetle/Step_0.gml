@@ -1,24 +1,26 @@
-if global.paused exit
+// Inherit the parent event
+event_inherited();
 
-//if (ceiling == noone) {
+var pl = nearestplayer();
 
-
-if (statehax[state]()) {
-	if (state == 1) {
-		hsp = esign(x - oPlayer.x, -1) * 4;
+if (pl && attach_to_ceiling) {
+	var dist = abs(pl.x-x);
+	
+	if (dist <= 32) {
+		attach_to_ceiling = false;
+		grav = defaultgrav;
+		in_shell = shell_time;
+		constantspd = 0;
+		hsp = 0;
+		ceiling_falling=true;
+		_direction = esign(pl.x-x,xsc);
 	}
-	event_inherited();
 }
 
-//} else {
-//	y = ceiling.bbox_bottom + ((bbox_bottom - bbox_top) / 2);
-	
-//	if collision_rectangle(x - 64,y,x+64,room_height,oPlayer,false,true) {
-//		ceiling = noone;
-//		in_shell = true;
-//		shell_time = 240;
-//		hsp = 0;
-//		gsp = esign(x - oPlayer.x, -1) * 4;
-//		sprite_index = spr_buzzyshell;
-//	}
-//}
+if (ceiling_falling && grounded) {
+	ceiling_falling = false;
+	constantspd = 3.5;
+	enemycoll = false;
+	no_stomping = false
+	shell_move = true
+}

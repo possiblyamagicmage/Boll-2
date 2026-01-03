@@ -1,6 +1,10 @@
 event_inherited();
 //in_shell: If this variable is 0, the koopa should be walking. Otherwise, it should stay in its shell
 //shell_time: Variable for setting the timer the koopa has upon being stomped to get back up
+start_hit_sizex = 6;
+start_hit_sizey = 10;
+hit_sizex = start_hit_sizex;
+hit_sizey = start_hit_sizey;
 in_shell = 0;
 shell_time = 60*8.5;
 no_stomping = 0;
@@ -61,7 +65,7 @@ enemyCollidePlayer.Connect( self, function(hit_p) {
 			with (hit_p) {
 				instance_create_depth(x+hit_sizex*xsc,other.y,2,pImpact)
 			}
-			constantspd = 4;
+			constantspd = 3.5;
 			_direction = sign(x-phaseid.x) 
 			shell_move = true
 			in_shell = shell_time
@@ -79,6 +83,6 @@ enemyTurnAround.Connect( self, function() {
 });
 
 koopaEscapeShell.Connect( self, function() {
-	hit_sizex = 10;
-	hit_sizey = 10;
+	hit_sizex = start_hit_sizex;
+	hit_sizey = start_hit_sizey;
 });

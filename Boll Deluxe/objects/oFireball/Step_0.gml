@@ -49,7 +49,7 @@ while check_collision_dot(x,y+hit_sizey, COL_BOTTOM) {
 var enemy=check_hitbox_on_hitbox(id,oEnemy)
 if (enemy) {
 	with (enemy) {
-		if can_fireball {
+		if (can_fireball) {
 			enemyFireballed.Emit(other.id,other.owner);
 		}
 	}

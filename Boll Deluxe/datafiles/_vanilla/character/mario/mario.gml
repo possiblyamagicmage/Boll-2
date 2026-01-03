@@ -805,7 +805,7 @@ spinjump = false
 stun = false;
 wallkick = false;
 
-#define sprung
+#define sprung_up
 if state != "frozen" {
 	state = "jump";
 }

@@ -28,8 +28,8 @@
   "nineSlice":null,
   "origin":9,
   "parent":{
-    "name":"Enemies",
-    "path":"folders/Sprites/Enemies.yy",
+    "name":"Buzzy Beetle",
+    "path":"folders/Sprites/Enemies/Buzzy Beetle.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
