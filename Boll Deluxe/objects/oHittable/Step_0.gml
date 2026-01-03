@@ -19,7 +19,7 @@ if (hit != 0)
 				}
 			}
 		}
-		depth=default_depth-10;
+		depth=-2;
 	} else {
 		if !hitNegative {
 			dy = approach_val(dy, -1 * -hit, 2);

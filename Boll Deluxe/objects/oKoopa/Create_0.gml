@@ -24,7 +24,7 @@ enemyStomped.Connect( self, function(hit_p) {
 			if !in_shell {
 				constantspd = 0;
 				enemycoll=true;
-				y += 6; //Pulling the shell to the ground
+				y += (start_hit_sizey-6); //Pulling the shell to the ground
 				in_shell = shell_time;
 				no_stomping = true
 				shell_move = false
@@ -85,4 +85,5 @@ enemyTurnAround.Connect( self, function() {
 koopaEscapeShell.Connect( self, function() {
 	hit_sizex = start_hit_sizex;
 	hit_sizey = start_hit_sizey;
+	y -= (start_hit_sizey-6)
 });

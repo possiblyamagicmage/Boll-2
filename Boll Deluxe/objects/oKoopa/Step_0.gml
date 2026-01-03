@@ -7,9 +7,9 @@ if (in_shell) {
 		no_dam = true
 		in_shell--; //Decreases the time for the koopa to get up
 		if (!in_shell) {
-			y -= 9; 
 			constantspd = 0.5 
 			no_stomping = false
+			koopaEscapeShell.Emit();
 		} //Gets the Koopa to pull itself from the ground and continue walking in the direction the shell is facing
 	}
 }
