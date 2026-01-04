@@ -264,11 +264,11 @@ if (state == "pound") && !(piped) && !(stun) {
 	
 	//hittable block collision
 	if (grounded) && (pound_timer <= 0) {
+		found_block = false;
 		var blocklist=ds_list_create();
 		var num=collision_line_list(x-hit_sizex,y+hit_sizey+vsp+2,x+hit_sizex,y+hit_sizey+vsp+2, oHittable, false, true, blocklist, true)
-		
+
 		if (num > 0) {
-			found_block = false;
 			var i = 0;
 			while (i < num) {
 				var blockcoll=ds_list_find_value(blocklist, i)

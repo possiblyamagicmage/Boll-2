@@ -472,6 +472,7 @@
     {"$GMIncludedFile":"","%Name":"Roboto-Regular.ttf","CopyToMask":-1,"filePath":"datafiles/fonts","name":"Roboto-Regular.ttf","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"INTLIB_README.txt","CopyToMask":-1,"filePath":"datafiles","name":"INTLIB_README.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"licenses.txt","CopyToMask":-1,"filePath":"datafiles","name":"licenses.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"blocks issue testing.jade","CopyToMask":-1,"filePath":"datafiles/mods/level","name":"blocks issue testing.jade","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"hiddenwalltest.jade","CopyToMask":-1,"filePath":"datafiles/mods/level","name":"hiddenwalltest.jade","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"nekonessetiletest.jade","CopyToMask":-1,"filePath":"datafiles/mods/level","name":"nekonessetiletest.jade","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"slopeworld.jade","CopyToMask":-1,"filePath":"datafiles/mods/level","name":"slopeworld.jade","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
