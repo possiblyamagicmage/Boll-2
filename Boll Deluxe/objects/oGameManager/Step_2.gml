@@ -1,3 +1,16 @@
+var i=0;
+repeat(array_length(hidden_tile_layers)) {
+	var _layer = hidden_tile_layers[i]
+	if !(_layer.touched) {
+		_layer.my_alpha=min(_layer.my_alpha+0.05,1);
+	} else {
+		_layer.my_alpha=max(_layer.my_alpha-0.05,0.25);
+	}
+	i++;
+}
+
+///ACTIVATION vvvv
+
 if !surface_exists(HUDsurface) {
 	HUDsurface=surface_create(camera_get_view_width(view_camera[0]),camera_get_view_height(view_camera[0]))
 }

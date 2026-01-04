@@ -1254,7 +1254,7 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 			var struct = listcontents[i]
 			if !is_instanceof(struct, JADElistunselectable) {
 				with(struct) {
-					var new_depth = (i-foundind+2)*100;
+					var new_depth = (i-foundind)*100;
 					change_depth(new_depth);
 				}
 			}
@@ -1506,8 +1506,9 @@ function JADEtilelayer(_name,_tileset) constructor {
 	sprite = tileset_info[0]
 	my_layer = layer_create(layerdepth,name)
 	my_deco_layer = layer_tilemap_create(my_layer,0,0,tileset_info[1],ceil(room_width/16),ceil(room_height/16))
+	hide_behavior = false;
 	layer_script_begin(my_layer, tile_layer_alpha_check);
-	layer_script_end(my_layer, function() {shader_reset()});
+	layer_script_end(my_layer, tile_layer_alpha_end);
 	static change_depth = function(_depth) {
 		layerdepth = _depth;
 		layer_depth(my_layer,layerdepth);
@@ -1536,7 +1537,7 @@ function JADEassetlayer(_name) constructor {
 	parallax_x = 0;
 	parallax_y = 0;
 	layer_script_begin(my_layer, tile_layer_alpha_check);
-	layer_script_end(my_layer, function() {shader_reset()});
+	layer_script_end(my_layer, tile_layer_alpha_end);
 	
 	static change_depth = function(_depth) {
 		layerdepth = _depth;
@@ -1580,7 +1581,7 @@ function JADEbackgroundlayer(_name, _background) constructor {
 	off_y = room_height-height;
 	layer_y(my_layer,off_y);
 	layer_script_begin(my_layer, tile_layer_alpha_check);
-	layer_script_end(my_layer, function() {shader_reset()});
+	layer_script_end(my_layer, tile_layer_alpha_end);
 	
 	static update_background = function() {
 		if is_struct(selected_bg) {

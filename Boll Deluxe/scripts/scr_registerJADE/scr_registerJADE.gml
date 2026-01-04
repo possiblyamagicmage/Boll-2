@@ -350,7 +350,7 @@ function JADE_save(file=game_save_id+"\save.jade") {
 					array_push(tile_layer_contents,_layer.tilemap[| j])
 					j++;
 				}
-				var _arr = ["TILE",_layer.tileset,_layer.name,_layer.layerdepth,tile_layer_contents]
+				var _arr = ["TILE",_layer.tileset,_layer.name,_layer.layerdepth,tile_layer_contents,_layer.hide_behavior]
 				array_push(layerarr,_arr);
 			} else if (is_instanceof(_layer, JADEassetlayer)) {
 				var asset_layer_contents = []; //wow!
@@ -434,7 +434,11 @@ function JADE_load(file=game_save_id+"\save.jade") {
 			if (_layer_contents[0]!="MAIN") {
 				if (_layer_contents[0] == "TILE") {
 					_layer = new JADEtilelayer(_layer_contents[2],_layer_contents[1])
-				
+					
+					if (array_length(_layer_contents) > 5) {
+						_layer.hide_behavior = _layer_contents[5]
+					}
+					
 					var tile_layer_contents = _layer_contents[4]
 				
 					var j=0;
@@ -526,10 +530,26 @@ function JADE_load(file=game_save_id+"\save.jade") {
 }
 
 function tile_layer_alpha_check() {
-	//This makes the tile layer transparent if you arent in tile mode by using layer scripts
-	if (oJADEController.selected_mode!=DECO_MODE || oJADEController.selected_layer == noone || layer!=oJADEController.selected_layer.my_layer) {
-		shader_set(shd_alpha)
-		var alpha = shader_get_uniform(shd_alpha, "alpha");
-		shader_set_uniform_f(alpha,0.33)
+	if (event_type == ev_draw)
+    {
+        if (event_number == ev_draw_normal)
+        {
+			//This makes the tile layer transparent if you arent in tile mode by using layer scripts
+			if (oJADEController.selected_mode!=DECO_MODE || oJADEController.selected_layer == noone || layer!=oJADEController.selected_layer.my_layer) {
+				shader_set(shd_alpha)
+				var alpha = shader_get_uniform(shd_alpha, "alpha");
+				shader_set_uniform_f(alpha,0.33)
+			}
+		}
 	}
+}
+
+function tile_layer_alpha_end() {
+	if (event_type == ev_draw)
+    {
+        if (event_number == ev_draw_normal)
+        {
+            shader_reset();
+        }
+    }
 }

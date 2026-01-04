@@ -17,3 +17,5 @@ fadeprog = 0.0
 fadein = false
 
 enable_app_surf_redraw = false
+
+hidden_tile_layers = [];

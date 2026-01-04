@@ -24,6 +24,14 @@ function parse_level(dir=game_save_id+"\save.jade") {
 						_layer = {}
 						_layer[$ "my_layer"] = layer_create(_layer_contents[3],_layer_contents[2])
 						_layer[$ "my_deco_layer"] = layer_tilemap_create(_layer.my_layer,0,0,global.tilesets[$ _layer_contents[1]][1],ceil(room_width/16),ceil(room_height/16))
+						_layer[$ "my_alpha"] = 1;
+						_layer[$ "touched"] = false;
+						
+						if (array_length(_layer_contents) > 5) && (_layer_contents[5]) {
+							layer_script_begin(_layer.my_layer, tile_layer_hidden_wall);
+							layer_script_end(_layer.my_layer, tile_layer_alpha_end);
+							array_push(oGameManager.hidden_tile_layers,_layer)
+						}
 						
 						var tile_layer_contents = _layer_contents[4]
 				
@@ -78,7 +86,7 @@ function parse_level(dir=game_save_id+"\save.jade") {
 				} else {
 					switch(_layer_contents[1]) {
 						case "Piping Objects":
-							oGameManager.piping_object_depth = 100*(i+2)
+							oGameManager.piping_object_depth = 100*i
 						break;
 					}
 				}
@@ -186,4 +194,25 @@ function parse_level(dir=game_save_id+"\save.jade") {
 	buffer_delete(loaded)
 	buffer_delete(save_file)
 	show_debug_message($"Successfully loaded JADE level from: {file}!")
+}
+
+function tile_layer_hidden_wall() {
+	if (event_type == ev_draw)
+    {
+        if (event_number == ev_draw_normal)
+        {
+			var hidden_layers = oGameManager.hidden_tile_layers
+			var i=0;
+			repeat(array_length(hidden_layers)) {
+				var _layer = hidden_layers[i]
+				if (layer == _layer.my_layer) && (_layer.my_alpha < 1) {
+					shader_set(shd_alpha)
+					var alpha = shader_get_uniform(shd_alpha, "alpha");
+					shader_set_uniform_f(alpha,_layer.my_alpha)
+					break;
+				}
+				i++;
+			}
+		}
+	}
 }

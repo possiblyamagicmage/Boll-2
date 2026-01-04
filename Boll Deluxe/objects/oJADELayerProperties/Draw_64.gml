@@ -30,6 +30,8 @@ if is_instanceof(selected_layer, JADEtilelayer) {
 		
 	draw_sprite(selected_layer.sprite,0,x,y+86)
 	gpu_set_scissor(scissor);
+	
+	selected_layer.hide_behavior = JADEcheckbox(x,y+96+256,"Hidden Wall Behavior", selected_layer.hide_behavior)
 }
 
 if is_instanceof(selected_layer, JADEassetlayer) {
