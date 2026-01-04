@@ -1,0 +1,1 @@
+draw_sprite_stretched(sprite_index,image_index,x-global.camera_x,y-global.camera_y,width,height)

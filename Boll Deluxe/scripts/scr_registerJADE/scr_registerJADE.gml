@@ -211,6 +211,13 @@ function JADE_initializeobj() {
 	
 	objectlist.add(stagecomp);
 	
+	var npcs = new JADElistcategory("NPCs")
+	
+	registerobj(oNPCparent, spr_collider_poly, 0, 0, 16, 16, false, false, npcs, "Blank NPC")
+	properties.addStringInput(oNPCparent, "Text", "text", "Hello World!");
+	
+	objectlist.add(npcs)
+	
 	//NODE MODE
 	registerobj(oCameraRegion, spr_cameraregion, 0, 0, 16, 16, false, false, gizmolist, "Camera Region")
 	properties.addNumberInput(oCameraRegion, "Nudge X", "nudge_x", 0, false)
@@ -242,6 +249,7 @@ function JADE_initializeobj() {
 	registerasset(spr_cherryspruce, 8, 16, false, false, w5deco, "Cherry Tree (Spruce)")
 	registerasset(spr_pinkcrystalbig, 8, 16, false, false, w5deco, "Crystal (Pink, Big)")
 	registerasset(spr_greencrystaltiny, 8, 16, false, false, w5deco, "Crystal (Green, Tiny)")
+	registerasset(spr_engravement, 32, 64, false, false, w5deco, "Engravement")
 	decolist.add(w5deco)
 	
 	//BACKGROUNDS
