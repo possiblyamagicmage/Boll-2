@@ -18,13 +18,13 @@ wait_timer = 0;
 dusttimer = 0;
 spindashTotal = 0;
 //topspd = 3.5;
-grav = 0.15
+grav = 0.19
 defaultgrav = grav
 grow = 0;
 state = "";
 control_lock = 0;
-dropdash_spd = 4;
-max_dropdash_spd = 7;
+dropdash_spd = 4.75;
+max_dropdash_spd = 8;
 dropdash = 0;
 dropdash_timer = 0;
 real_sprite_angle = 0;
@@ -40,6 +40,10 @@ wallrunperiod=0;
 
 dead=0;
 deadtimer=0;
+
+rollup_factor = (0.078125 / 2)
+rolldown_factor = (0.3125 / 2)
+nonroll_factor = 0.105
 
 #define step_begin
 
@@ -97,8 +101,11 @@ if (state == "jump" || state == "roll" || state == "spindash") && (size != "mini
 	hit_sizey = 6
 }
 
-topspd = 3 + ((size != "basic" || size != "mini") * 0.5);
-maxspd = 10;
+topspd = 3 + ((size != "mini") * 0.5);
+maxspd = 11;
+if (state == "roll"){
+	maxspd = 9;
+}
 
 if !(control_lock > 0 || state == "wallrun" || electrocuted || walljump) {
 	no_move = false
@@ -114,11 +121,6 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 	// Fall off platform
 	if (!grounded) {
 		component_gravity_coneyor()
-		
-		if (vsp < 0 && vsp > -2 ) {
-			hsp -= hsp / 32
-		}
-		
 		// Switch direction
 		//add more checks here to prevent left/right changing direction
 		var _move = 0
@@ -175,13 +177,19 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 		#endregion
 		
 		//handles slope influence
-		if (state == "roll") && !(piped) {
-			player_slide_sonic(0.125, true, 0.078125 / 2, 0.3125 / 2);
-		}
-		
-		if (steep_slope) && (state == "" || state == "crouch" || state == "spindash") { //slide down steep slopes
-			gsp -= (0.225 * dsin(colangle))
-			no_move = 1
+		if (!(piped)) {
+			if (state == "roll") {
+				player_slide_sonic(nonroll_factor, true, rollup_factor, rolldown_factor);
+			}
+			
+			if (steep_slope) { //slide down steep slopes
+				gsp -= (0.225 * dsin(colangle))
+				no_move = 1
+			} else {
+				if (state != "roll") && !(piped) {
+					player_slide_sonic(nonroll_factor, false, rollup_factor, rolldown_factor);
+				}
+			}
 		}
 	}
 }
@@ -189,8 +197,8 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 #region Jumping
 if (state == "jump") && !(piped) {
 	slopesliding = 0
-	if (!akey && vsp < -2 && !canstopjump) {//Make player jump lower when jump is released
-		vsp = -2;
+	if (!akey && vsp < -2.6 && !canstopjump) {//Make player jump lower when jump is released
+		vsp = -2.6;
 	}
 	
 	if (cpress && dropdash == 0) {
@@ -212,7 +220,7 @@ if (state == "jump") && !(piped) {
 }
 
 if (state == "" || state == "roll") && (apress) && (canjump > 0) && !(piped) {
-	component_sonic_start_jump(4.7)
+	component_sonic_start_jump(5.2)
 }
 #endregion
 
@@ -496,7 +504,6 @@ canstopjump = false;
 if state!="wallrun" && state!="frozen" {
 	state = "";
 }
-vsp = 0;
 bonk = 0;
 gsp = hsp
 
@@ -516,32 +523,14 @@ i.vspeed= -0.1;
 i.gravity= -0.02;
 
 //landing speed lol
-if (colangle < 0) {
-	colangle += 360
-}
-
-if (colangle >= 24 && colangle <= 90)
+if (abs(colangle) >= 24 && abs(colangle) <= 90)
 {
-    if (colangle >= 45)
+    if (abs(colangle) >= 45)
 	{
 		if (abs(hsp) <= abs(vsp)) {
 			gsp = vsp * -sign(dsin(colangle))
 		}
 		
-	}else{
-		if (abs(hsp) <= abs(vsp/2)) {
-			gsp = vsp * 0.5 * -sign(dsin(colangle))
-		}
-	}
-}
-
-if (colangle <= 336 && colangle >= 270)
-{
-	if (colangle <= 315)
-	{
-		if (abs(hsp) <= abs(vsp)) {
-			gsp = vsp * -sign(dsin(colangle))
-		}
 	}else{
 		if (abs(hsp) <= abs(vsp/2)) {
 			gsp = vsp * 0.5 * -sign(dsin(colangle))

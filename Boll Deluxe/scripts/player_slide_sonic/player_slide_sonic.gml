@@ -8,13 +8,11 @@ function player_slide_sonic(slope_influence, rolling, roll_up_influence = 0, rol
 	if grounded {
 		if !rolling {
 			slope = slope_influence
-			if sign(gsp) !=	sign(dsin(colangle)) {
-				gsp -= (slope * dsin(colangle))
-			} else {
-				if(angle > 50 && angle < 360-50) {
-					gsp -= (slope * dsin(colangle))
-				}
+			var factor = slope * dsin(colangle)
+			if (gsp != 0 && abs(factor) > 0.05078125) {
+				gsp -= factor
 			}
+			
 		} else {
 			if sign(gsp) !=	sign(dsin(colangle)) {
 				slope = roll_down_influence

@@ -159,8 +159,6 @@ function component_sonic_skid(){
 		}
 	}
 	else{
-		show_debug_message(_move)
-		show_debug_message(-sign(gsp))
 		if ((abs(gsp) > 2.24) && (_move == -sign(gsp)) && grounded) {
 			skidding=1
 			skiddir=sign(gsp)
