@@ -69,9 +69,13 @@ enemyShelled.Connect( self, function(hit_obj, kick_p) {
 });
 
 enemyRolledInto.Connect( self, function(hit_p) {
+	vsp=-4;
+	grounded=false;
 	stun=60*7.5;
 	didstun=false;
 	hsp=0;
 	constantspd=0;
 	overridexsc=true;
+	phaseid=hit_p;
+	phase_leeway=5;
 });

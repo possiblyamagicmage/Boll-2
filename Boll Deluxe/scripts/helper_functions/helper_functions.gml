@@ -384,3 +384,13 @@ function get_morph_cost()
 function in_water() {
 	return bool(collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey,oWater,false,true));
 }
+
+function get_setting(_setting) {
+	_setting = string(_setting)
+	return global.settings[$ _setting]
+}
+
+function set_setting(_setting, _val) {
+	_setting = string(_setting)
+	global.settings[$ _setting]= _val
+}
