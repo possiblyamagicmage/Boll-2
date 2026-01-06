@@ -396,5 +396,5 @@ function set_setting(_setting, _val) {
 }
 
 function within(val,a,b) {
-	return (val <= a) && (val >= b)
+	return (val >= a) && (val <= b)
 }

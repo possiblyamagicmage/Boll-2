@@ -438,8 +438,6 @@ if (left || right) && (state == "" || state == "jump") && !slopesliding && !pipe
 	xsc = esign(move, xsc)
 }
 
-component_common_timer_values()
-
 poundjump=max(0,poundjump-1)
 firing=max(0,firing-1)
 

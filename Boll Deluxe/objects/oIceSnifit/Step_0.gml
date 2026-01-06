@@ -9,11 +9,15 @@ if (pl) && !(stun) && !(blowing) && !(cooldowntimer) && (abs(pl.x-x) <= 96) && (
 	revving=true;
 	revtimer=50;
 	constantspd=0;
-	_direction = esign(-(pl.x-x),xsc);
-	xsc = _direction;
+	var olddir = _direction;
+	var newdir = esign(pl.x-x,-xsc);
+	if (olddir != newdir) {
+		enemyTurnAround.Emit();
+		xsc=-_direction;
+	}
 }
 
-if (revving) {
+if (revving) && !(turning) {
 	revtimer=max(revtimer-1,0)
 	
 	if !(revtimer) {

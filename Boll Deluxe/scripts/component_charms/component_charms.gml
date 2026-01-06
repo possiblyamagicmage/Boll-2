@@ -336,8 +336,3 @@ function component_get_ground_friction() {
 		}
 	}
 }
-
-function component_common_timer_values(){
-	
-}
-	

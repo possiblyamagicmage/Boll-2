@@ -87,7 +87,6 @@ GMLspeak.interface.compileFlags.checkForVariables = true;
 		GMLspeak.interface.exposeFunction("make_particle", make_particle);
 		GMLspeak.interface.exposeFunction("increase_combo", increase_combo);
 		
-		GMLspeak.interface.exposeFunction("component_common_timer_values", component_common_timer_values);
 		GMLspeak.interface.exposeFunction("component_get_ground_friction", component_get_ground_friction);
 		GMLspeak.interface.exposeFunction("component_gravity_coneyor", component_gravity_coneyor);
 		GMLspeak.interface.exposeFunction("component_mario_crouch", component_mario_crouch);
