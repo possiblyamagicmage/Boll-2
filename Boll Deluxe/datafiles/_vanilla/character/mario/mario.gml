@@ -24,6 +24,7 @@ pounding_block = false;
 walljump = false;
 firing = 0;
 crouch = false;
+topspd = 0;
 invincible_type = 0; //0 is off, 1 is hurt frames and 2 is invincibility
 invincible_timer = 0;
 found_block = false;
@@ -124,7 +125,22 @@ switch (size) {
 	} break
 }
 
-maxspd = 2 + runvar - (1.25*(crouch && grounded))
+//ajust topspeed based on slope direction and value
+var slope_value = (0.5 * dsin(colangle))
+if (sign(gsp) != sign(dsin(colangle))){
+	slope_value = 0 - slope_value
+}
+if (!grounded || steep_slope || slopesliding) {
+	slope_value = 0
+}
+
+var base_top = 2
+if (crouch && grounded) {
+	base_top = 0.5
+}
+
+topspd = base_top + runvar + (base_top * slope_value)
+maxspd = 9
 
 #region PreventMovement
 var no_move_prev = no_move;
@@ -224,6 +240,7 @@ if (state == "" || state == "jump" || state == "dive") && !piped && !electrocute
 			stopsfx(charmName+"skid")
 			skidding=0
 		}
+		
 	} else {
 		
 		crouch=component_mario_crouch();
@@ -243,6 +260,19 @@ if (state == "" || state == "jump" || state == "dive") && !piped && !electrocute
 	
 		//maximum speed when sliding, infulence when sliding, influence on steep slopes, add steep influence while sliding?
 		player_slide(12.5, 0.225, 0.32, false);
+		
+		//mario's going to fast friction. (outside of normal top speed)
+		//this makes it work more like mario world
+		//while still having a total speed cap
+		if (!slopesliding && !no_move){
+			if (abs(gsp) > topspd){
+				if (gsp > 0){
+					gsp = min(topspd, gsp - ((fric * 2.24) * friction_mult))
+				}else{
+					gsp = max(-topspd, gsp + ((fric * 2.24) * friction_mult))
+				}
+			}
+		}
 		
 		//skidding
 		component_mario_skid()
@@ -477,7 +507,7 @@ if (state == "") {
 		}
 	} else {
 		wait_timer = 0
-		if (abs(hsp) < 0.25) {
+		if (move == 0) {
 			if !(is_grabbing) {
 				spriteEvent="crouchIdle"
 			} else {
@@ -791,7 +821,7 @@ if (state == "pound") {
 	show_debug_message(colslope);
 	if colslope != 0 {
 		slopesliding = 1
-		gsp = (-8 * dsin(colangle)) 
+		gsp = (-6 * dsin(colangle)) 
 	}
 	playsfx(charmName+"stomp");
 } else if state != "frozen"{

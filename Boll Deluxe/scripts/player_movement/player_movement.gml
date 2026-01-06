@@ -9,17 +9,20 @@ function player_movement(){
 	
 	if (move != 0) && !(steep_slope || no_move || move_lock)
 	{	
-		//dont walk up a slope if its too steep to walk on!
-
+		//dont walk up a slope if its too steep to walk on
 		
 		if grounded {
-			var signmatch = check_signs_matching_zero(gsp, move);
+			var signmatch = (sign(gsp) == sign(move))
 			var accel_real = ((skidding) ? skid_accel : ((signmatch) ? accel : fastaccel));
-			gsp += (move * (accel_real*friction_mult));
+			if ((signmatch && abs(gsp) < topspd) || !signmatch) {
+				gsp += (move * accel_real);
+			}
 		}else {
-			var signmatch = check_signs_matching(hsp, move);
+			var signmatch = (sign(hsp) == sign(move))
 			var accel_real = ((signmatch) ? accel : fastaccel);
-			hsp += (move * accel_real);
+			if ((signmatch && abs(hsp) < topspd) || !signmatch) {
+				hsp += (move * accel_real);
+			}
 		}
 		
 	}
@@ -43,6 +46,12 @@ function player_movement(){
 		pollenated = false;
 		vsp = gsp * -dsin(colangle)
 		hsp = gsp * dcos(colangle)
+	} else {
+		if (abs(hsp) > topspd) {
+			if (vsp < 0 && vsp > -2 ) {
+				hsp -= hsp / 32
+			}
+		}
 	}
 	
 	if (pollenated) {

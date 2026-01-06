@@ -235,9 +235,9 @@ function component_sonic_roll(){
 	fric = 0.0234375
 
 	if (sign(gsp) == -1){
-		gsp = min(0, gsp + fric)
+		gsp = min(0, gsp + (fric* friction_mult))
 	}else{
-		gsp = max(0, gsp - fric)
+		gsp = max(0, gsp - (fric* friction_mult))
 	}
 	
 	
@@ -319,9 +319,9 @@ function component_sonic_standing(){
 		if (grounded) {
 		
 			if (sign(gsp) = -1){
-				gsp = min(0, gsp + fric)
+				gsp = min(0, gsp + (fric * friction_mult) )
 			}else{
-				gsp = max(0, gsp - fric)
+				gsp = max(0, gsp - (fric * friction_mult) )
 			}
 		}
 	}

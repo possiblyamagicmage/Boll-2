@@ -43,7 +43,7 @@ deadtimer=0;
 
 rollup_factor = (0.078125 / 2)
 rolldown_factor = (0.3125 / 2)
-nonroll_factor = 0.105
+nonroll_factor = (0.105 / 2)
 
 #define step_begin
 
@@ -61,17 +61,18 @@ if (grounded) {
 }
 
 #region Start Wallrunning
-if (move!=0) && (vsp < 0) && (state!="wallrun") && (abs(wallrunstored_gsp) > 1) {
+var _move = (right-left) 
+if (_move!=0) && (vsp < 0) && (state!="wallrun") && (abs(wallrunstored_gsp) > 1) {
 	//wall sliding
 	var coll=check_collision_line(x+((hit_sizex+4)*xsc),y-((hit_sizey-2)*ysc),x+((hit_sizex+4)*xsc),y-((hit_sizey-2)*ysc),COL_WALL)
 	if (!grounded)
 	{
 		if (coll)
 		{
-			storeddir=move;
+			storeddir=_move;
 			var maxsp = 8;
 			var minsp = 4;
-			yvol=median(abs(wallrunstored_hsp), minsp, maxsp) //get amount of upward velocity calculated from horizontal AND vertical speed
+			yvol=clamp(abs(wallrunstored_hsp), minsp, maxsp) //get amount of upward velocity calculated from horizontal AND vertical speed
 			state = "wallrun"
 			no_move=true;
 			wallrunperiod=5;
@@ -107,7 +108,7 @@ if (state == "roll"){
 	maxspd = 9;
 }
 
-if !(control_lock > 0 || state == "wallrun" || electrocuted || walljump) {
+if !(control_lock > 0 || state == "wallrun" || electrocuted || walljump || steep_slope) {
 	no_move = false
 }
 
@@ -184,7 +185,6 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 			
 			if (steep_slope) { //slide down steep slopes
 				gsp -= (0.225 * dsin(colangle))
-				no_move = 1
 			} else {
 				if (state != "roll") && !(piped) {
 					player_slide_sonic(nonroll_factor, false, rollup_factor, rolldown_factor);
@@ -220,7 +220,8 @@ if (state == "jump") && !(piped) {
 }
 
 if (state == "" || state == "roll") && (apress) && (canjump > 0) && !(piped) {
-	component_sonic_start_jump(5.2)
+	var speed_bonus = min((abs(hsp) / 5) * 0.3, 1.3)
+	component_sonic_start_jump(5.2 + speed_bonus)
 }
 #endregion
 

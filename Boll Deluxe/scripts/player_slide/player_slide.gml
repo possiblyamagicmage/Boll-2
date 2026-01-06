@@ -1,16 +1,14 @@
 function player_slide(max_speed, slide_influence, steep_influence, do_steep_while_slide) {
 	static slope_timer = 0
 	if (steep_slope) {
-		if !slopesliding {
-			//Only make this happen if you're going against the slope.
-			
-			if !(colangle>=90 && colslope<0) && !(colangle<=90 && colslope>0){			
-				gsp -= (steep_influence * dsin(colangle))
-				no_move = 1
-			}
+		if !slopesliding {		
+			gsp -= (steep_influence * dsin(colangle))
+			no_move = 1
 		}
-		//slopesliding = 1;
-	} else if (down && ceil(abs(colslope))) {
+		if (down && !slopesliding) {
+			slopesliding = 1;	
+		}
+	} else if (down && colslope != 0 && !slopesliding) {
 		slopesliding = 1;
 	}
 	
@@ -18,6 +16,7 @@ function player_slide(max_speed, slide_influence, steep_influence, do_steep_whil
 		gsp -= (slide_influence * dsin(colangle))
 		crouch=1
 		no_move = 1;
+		topspd = max_speed;
 		maxspd = max_speed;
 		
 		if (abs(hsp) < 0.05) {
