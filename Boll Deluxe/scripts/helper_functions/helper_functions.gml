@@ -394,3 +394,7 @@ function set_setting(_setting, _val) {
 	_setting = string(_setting)
 	global.settings[$ _setting]= _val
 }
+
+function within(val,a,b) {
+	return (val <= a) && (val >= b)
+}

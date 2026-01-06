@@ -214,10 +214,10 @@ function component_sonic_start_jump(startingJumpValue = 6) {
 	
 	state = "jump"
 	grounded = false
-	colangle = colangle * 0.9
+	colangle = colangle * 0.5
 	vsp = -startingJumpValue
 	
-	var vd=point_direction(0,0,hsp,vsp)+point_direction(0,0,1,colslope)
+	var vd=point_direction(0,0,hsp,vsp)+colangle
     var vm=point_distance(0,0,hsp,vsp)
     hsp=lengthdir_x(vm,vd)
     vsp=lengthdir_y(vm,vd)

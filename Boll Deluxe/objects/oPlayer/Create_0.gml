@@ -12,7 +12,7 @@ sig.Connect( self, function(str_var) {
 
 grabbed_obj = noone;
 is_grabbing = false;
-input_enable = false
+input_enable = true;
 ///// GENERAL /////
 
 pNum = 0; //player number (P1, P2, etc.)

@@ -3,7 +3,7 @@ event_inherited();
 
 if (blowing) {
 	var list = ds_list_create();
-	var num = check_rectangle_in_hitbox_list(x-((hit_sizex+64)*xsc),y-16,x,y+16,oPlayer,list)
+	var num = check_rectangle_in_hitbox_list(x-((hit_sizex+64)*xsc),y-16,x-((hit_sizex+8)*xsc),y+16,oPlayer,list)
 	if (num > 0) {
 		var foundplayer = false;
 		var i=0;
@@ -22,6 +22,8 @@ if (blowing) {
 							y-=1
 						}
 						frozen_health = 5
+						other.phaseid = id;
+						other.phase_leeway = 5;
 					}
 				}
 			}

@@ -1591,7 +1591,6 @@
     {"id":{"name":"spr_enemygroundsemi","path":"sprites/spr_enemygroundsemi/spr_enemygroundsemi.yy",},},
     {"id":{"name":"spr_engravement","path":"sprites/spr_engravement/spr_engravement.yy",},},
     {"id":{"name":"spr_fireball","path":"sprites/spr_fireball/spr_fireball.yy",},},
-    {"id":{"name":"spr_fireballblend","path":"sprites/spr_fireballblend/spr_fireballblend.yy",},},
     {"id":{"name":"spr_fireflower","path":"sprites/spr_fireflower/spr_fireflower.yy",},},
     {"id":{"name":"spr_flagFromPole","path":"sprites/spr_flagFromPole/spr_flagFromPole.yy",},},
     {"id":{"name":"spr_flipblock","path":"sprites/spr_flipblock/spr_flipblock.yy",},},

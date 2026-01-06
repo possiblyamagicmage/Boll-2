@@ -1151,7 +1151,6 @@
     {"name":"spr_enemyground","order":10,"path":"sprites/spr_enemyground/spr_enemyground.yy",},
     {"name":"spr_enemygroundsemi","order":11,"path":"sprites/spr_enemygroundsemi/spr_enemygroundsemi.yy",},
     {"name":"spr_engravement","order":8,"path":"sprites/spr_engravement/spr_engravement.yy",},
-    {"name":"spr_fireballblend","order":1,"path":"sprites/spr_fireballblend/spr_fireballblend.yy",},
     {"name":"spr_fireflower","order":4,"path":"sprites/spr_fireflower/spr_fireflower.yy",},
     {"name":"spr_flagFromPole","order":49,"path":"sprites/spr_flagFromPole/spr_flagFromPole.yy",},
     {"name":"spr_flipblockeyes","order":1,"path":"sprites/spr_flipblockeyes/spr_flipblockeyes.yy",},

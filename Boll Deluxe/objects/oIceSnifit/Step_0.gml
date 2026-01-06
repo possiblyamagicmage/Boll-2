@@ -3,10 +3,14 @@ event_inherited();
 
 cooldowntimer=max(cooldowntimer-1,0);
 
-if !(stun) && !(blowing) && !(cooldowntimer) && check_rectangle_in_hitbox(x-((hit_sizex+90)*xsc),y-hit_sizey-16,x,y+hit_sizey,oPlayer) && !(revving) {
+var pl=nearestplayer()
+
+if (pl) && !(stun) && !(blowing) && !(cooldowntimer) && (abs(pl.x-x) <= 96) && (within(pl.y,y-16,y+16)) && !(revving) {
 	revving=true;
 	revtimer=50;
 	constantspd=0;
+	_direction = esign(-(pl.x-x),xsc);
+	xsc = _direction;
 }
 
 if (revving) {
