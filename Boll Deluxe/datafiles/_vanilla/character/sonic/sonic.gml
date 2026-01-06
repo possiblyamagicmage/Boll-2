@@ -528,15 +528,11 @@ if (abs(colangle) >= 24 && abs(colangle) <= 90)
 {
     if (abs(colangle) >= 45)
 	{
-		if (abs(hsp) <= abs(vsp)) {
-			gsp = vsp * -sign(dsin(colangle))
-		}
-		
+		gsp = (hsp + (vsp * -sign(dsin(colangle)) / 2))
 	}else{
-		if (abs(hsp) <= abs(vsp/2)) {
-			gsp = vsp * 0.5 * -sign(dsin(colangle))
-		}
+		gsp = (hsp + (vsp * -sign(dsin(colangle)) / 3.5))
 	}
+	gsp = min(abs(gsp), 5.25) * sign(gsp)
 }
 
 if (dropdash && dropdash_timer >= 18) {
