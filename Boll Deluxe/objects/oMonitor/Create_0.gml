@@ -21,7 +21,13 @@ blockHit = new Signal();
 blockHit.Connect( self, function(hit_p, obj) {
 	var i=instance_create_depth(x,y,0,oMonitorPopup)
 	i.itemfr = monitor_frame
-	i.player = obj
+	if (obj.object_index == oPlayer) {
+		i.player = obj
+	} else if (obj.object_index == oKoopa) || object_is_ancestor(obj.object_index,oKoopa) {
+		if (in_shell) {
+			i.player = obj.kickedplayer
+		}
+	}
 	VinylPlay(snd_monitor)
 	instance_create_depth(x,y,0,pSmoke)
 	instance_create_depth(x,y,0,pBrokenMonitor)
