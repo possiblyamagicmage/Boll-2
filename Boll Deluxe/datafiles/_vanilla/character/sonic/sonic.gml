@@ -597,7 +597,7 @@ if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 		VinylPlay(snd_enemykick)
 		signal_emit(coll.enemyRolledInto, id);
 		increase_combo(coll.x,coll.y);
-	} 
+	}
 }
 
 
