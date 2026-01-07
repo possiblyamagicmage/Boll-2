@@ -5,7 +5,7 @@ cooldowntimer=max(cooldowntimer-1,0);
 
 var pl=nearestplayer()
 
-if (pl) && !(stun) && !(blowing) && !(cooldowntimer) && (abs(pl.x-x) <= 96) && (within(pl.y,y-24,y+24)) && !(revving) {
+if (pl) && !(stun) && !(blowing) && !(cooldowntimer) && (abs(pl.x-x) <= 192) && (within(pl.y,y-64,y+64)) && !(revving) {
 	revving=true;
 	revtimer=50;
 	constantspd=0;
