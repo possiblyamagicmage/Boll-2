@@ -1,20 +1,21 @@
 function player_interactions(){
-	if (piped) exit
+	if (piped) || (hurt) || (dead)  exit
 	
 	if (state != "frozen") {
-		var enemystomp=check_rectangle_in_hitbox(x-hit_sizex,y+hit_sizey+1,x+hit_sizex,y+hit_sizey+1, oEnemy)
-		if (enemystomp) && (enemystomp.phaseid==noone || enemystomp.phaseid.id!=id) && !(enemystomp.damage_on_contact) && !(enemystomp.no_stomping) && !grounded && vsp > 0  {
-			if !(hurt) && !(dead) 
+		var enemystomp=check_rectangle_in_hitbox(x-hit_sizex,y,x+hit_sizex,y+hit_sizey+vsp, oEnemy)
+		if (enemystomp) && (enemystomp.phaseid==noone || enemystomp.phaseid.id!=id) && !(enemystomp.damage_on_contact) && !(enemystomp.no_stomping) && !(grounded) && (vsp > 0) && (within(y+hit_sizey+vsp,(enemystomp.y-hit_sizey)-1,(enemystomp.y-hit_sizey)+2)) {
 			enemystomp.enemyStomped.Emit(id);
+			enemystomp.phaseid=id;
+			enemystomp.phase_leeway=3;
 		} else {
 			var enemy=check_hitbox_on_hitbox(id, oEnemy)
-			if (enemy) && (enemy.phaseid==noone || enemy.phaseid.id!=id) && !(hurt) && !(dead) {
+			if (enemy) && (enemy.phaseid==noone || enemy.phaseid.id!=id) {
 				enemy.enemyCollidePlayer.Emit(id);
 			}
 		}
 	} else {
 		var enemy=check_hitbox_on_hitbox(id, oEnemy)
-		if (enemy) && (enemy.phaseid==noone || enemy.phaseid.id!=id) && !(hurt) && !(dead) {
+		if (enemy) && (enemy.phaseid==noone || enemy.phaseid.id!=id) {
 			if !(enemy.unshellable) {
 				enemy.enemyRolledInto.Emit(id);
 				

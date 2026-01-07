@@ -2,7 +2,7 @@ event_inherited();
 //in_shell: If this variable is 0, the koopa should be walking. Otherwise, it should stay in its shell
 //shell_time: Variable for setting the timer the koopa has upon being stomped to get back up
 start_hit_sizex = 6;
-start_hit_sizey = 10;
+start_hit_sizey = 8;
 hit_sizex = start_hit_sizex;
 hit_sizey = start_hit_sizey;
 in_shell = 0;
