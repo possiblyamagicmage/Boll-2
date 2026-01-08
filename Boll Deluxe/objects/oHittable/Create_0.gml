@@ -28,12 +28,23 @@ blockFinished = new Signal();
 
 blockHit.Connect( self, function(hit_p, obj) {
 
+	if (going) {
+		blockBumpFinished.Emit();
+	}
+
 	hit = hit_p;
 	dy = -1 * hit;
 	going = true;
 	
 	if (amount) {
 		sprite_index = image_hit
+	}
+	
+	if (lose_amount) {
+		amount = max(amount - 1,0);
+		if (amount == 0) {
+			eject = 0;
+		}
 	}
 	
 	var _list = ds_list_create();

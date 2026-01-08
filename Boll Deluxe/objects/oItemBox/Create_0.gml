@@ -22,12 +22,7 @@ blockFinished.Connect( self, function() {
 });
 
 blockBumpFinished.Connect( self, function() {
-	if (hit != 0) {
-		event_user(1);
-		if (eject != 0) {
-			no_hit = true;
-		}
-	}
+	event_user(1);
 });
 
 blockHit.Connect( self, function(hit_p, obj) {
@@ -38,7 +33,7 @@ blockHit.Connect( self, function(hit_p, obj) {
 	event_user(2);
 	hidden = false;
 	visible = 1;
-	if (content != "multicoins") {
+	if (content != "multicoins") && !(amount) {
 		no_hit = true;
 	}
 	if !(amount) {

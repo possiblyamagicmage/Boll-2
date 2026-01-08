@@ -28,13 +28,7 @@ if (hit != 0)
 				hitNegative = true;
 		} else {
 			blockBumpFinished.Emit();
-			if (lose_amount) {
-				amount = max(amount - 1,0);
-				if (amount == 0) {
-					eject = 0;
-				}
-			}
-			if (!(amount) || !(lose_amount)) && (eject == 0) {
+			if (!amount && lose_amount) && (eject == 0) {
 				blockFinished.Emit();
 			} else {
 				sprite_index = image_normal;	

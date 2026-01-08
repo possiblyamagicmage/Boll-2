@@ -172,7 +172,7 @@ function player_collision(shoveOutOfWalls=true,auto_coords=true,l=0,r=0,t=0,b=0,
 	if !grounded && vsp < 0 {
 		if (check_collision_line(posx+right, posy+top, posx+left, posy+top, COL_TOP)) {
 			//corner clipping
-			if !check_collision_line(posx+(right/2)-1, posy+top, posx+(left*2), posy+top-2, COL_TOP) { //left push
+			if !check_collision_line(posx+(right/2), posy+top, posx+(left*2), posy+top-2, COL_TOP) { //left push
 				while(check_collision_line(posx+right, posy+top, posx+left, posy+top-2, COL_TOP)) {
 					x--;
 					posx=x;
@@ -183,7 +183,7 @@ function player_collision(shoveOutOfWalls=true,auto_coords=true,l=0,r=0,t=0,b=0,
 				}
 				loop_count=0
 				nobonk=true;
-			} else if !check_collision_line(posx+(left/2)+1, posy+top, posx+(right*2), posy+top-2, COL_TOP) { //right push
+			} else if !check_collision_line(posx+(left/2), posy+top, posx+(right*2), posy+top-2, COL_TOP) { //right push
 				while(check_collision_line(posx+left, posy+top, posx+right, posy+top-2, COL_TOP)) {
 					x++;
 					posx=x;
