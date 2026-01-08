@@ -11,6 +11,27 @@ if (in_shell) {
 			no_stomping = false
 			koopaEscapeShell.Emit();
 		} //Gets the Koopa to pull itself from the ground and continue walking in the direction the shell is facing
+	} else {
+		var blocklist=ds_list_create();
+		var num=collision_line_list(x+(hit_sizex*-xsc)+hsp,y-(hit_sizey-2),x+(hit_sizex*-xsc)+hsp,y+(hit_sizey-2),oHittable, false, true, blocklist, true)
+
+		var found_block=false;
+		if (num > 0) {
+			var i=0;
+			repeat (num) {
+				var blockcoll=ds_list_find_value(blocklist, i)
+				if !(blockcoll.no_hit) && (blockcoll.amount != 0) {
+					if (blockcoll.hit == 0) {
+						found_block=true;
+						blockcoll.blockHit.Emit(-1, id)
+					}
+				}
+				i++;
+			}
+			if (found_block) {
+				enemyTurnAround.Emit();
+			}
+		}
 	}
 }
 
@@ -41,27 +62,6 @@ if (enemy) { //make sure shell is actually colliding with an enemy before trying
 			instance_destroy();
 			killtype="spin";
 		}
-	}
-}
-
-var blocklist=ds_list_create();
-var num=collision_line_list(x+(hit_sizex*-xsc)+hsp,y-(hit_sizey-2),x+(hit_sizex*-xsc)+hsp,y+(hit_sizey-2),oHittable, false, true, blocklist, true)
-
-var found_block=false;
-if (num > 0) {
-	var i=0;
-	repeat (num) {
-		var blockcoll=ds_list_find_value(blocklist, i)
-		if !(blockcoll.no_hit) && (blockcoll.amount != 0) {
-			if (blockcoll.hit == 0) {
-				found_block=true;
-				blockcoll.blockHit.Emit(-1, id)
-			}
-		}
-		i++;
-	}
-	if (found_block) {
-		enemyTurnAround.Emit();
 	}
 }
 		
