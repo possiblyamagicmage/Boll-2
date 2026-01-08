@@ -32,6 +32,8 @@ if (in_shell) {
 				enemyTurnAround.Emit();
 			}
 		}
+		
+		ds_list_destroy(blocklist);
 	}
 }
 
@@ -64,7 +66,5 @@ if (enemy) { //make sure shell is actually colliding with an enemy before trying
 		}
 	}
 }
-		
-ds_list_destroy(blocklist);
 
 event_user(0);
