@@ -148,6 +148,8 @@ global.VinylConfigSON = [
 				sound: mus_menu,
 				gain: 0.2
 			},
+			mus_starman_head,
+			mus_starman_tail,
         ],
     },
 	{
@@ -171,6 +173,12 @@ global.VinylConfigSON = [
         hlt: "editor bgm",
         head: mus_editor_head,
         loop: mus_editor_loop,
+       
+    },
+	{
+        hlt: "starman bgm",
+        head: mus_starman_head,
+        loop: mus_starman_tail,
        
     },
     {

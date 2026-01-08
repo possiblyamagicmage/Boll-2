@@ -1073,6 +1073,8 @@
     {"name":"mus_overworld_BG_head","order":2,"path":"sounds/mus_overworld_BG_head/mus_overworld_BG_head.yy",},
     {"name":"mus_overworld_BG_loop","order":3,"path":"sounds/mus_overworld_BG_loop/mus_overworld_BG_loop.yy",},
     {"name":"mus_overworld_FG_loop","order":1,"path":"sounds/mus_overworld_FG_loop/mus_overworld_FG_loop.yy",},
+    {"name":"mus_starman_head","order":5,"path":"sounds/mus_starman_head/mus_starman_head.yy",},
+    {"name":"mus_starman_tail","order":6,"path":"sounds/mus_starman_tail/mus_starman_tail.yy",},
     {"name":"snd_1up","order":3,"path":"sounds/snd_1up/snd_1up.yy",},
     {"name":"snd_blockbreak","order":1,"path":"sounds/snd_blockbreak/snd_blockbreak.yy",},
     {"name":"snd_checkpoint","order":8,"path":"sounds/snd_checkpoint/snd_checkpoint.yy",},

@@ -139,7 +139,7 @@ if (crouch && grounded) {
 	base_top = 0.5
 }
 
-topspd = base_top + runvar + (base_top * slope_value)
+topspd = base_top + runvar + (base_top * slope_value) + ((invincible_type == 2) / 1.25);
 maxspd = 9
 
 #region PreventMovement
@@ -756,8 +756,12 @@ grow = 60;
 
 #define star
 VinylPlay(asset_get_index("snd_powerup"));
+with (oGameManager) {
+	event_user(2);
+}
 invincible_type = 2;                                                                               
 invincible_timer = 510;
+
 
 #define 1up
 give_lives(pNum, x + (hit_sizex / 2), y - 8)

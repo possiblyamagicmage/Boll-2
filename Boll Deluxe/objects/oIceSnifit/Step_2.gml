@@ -10,7 +10,7 @@ if (blowing) {
 		repeat(num) {
 			var pl = list[| i]
 			with(pl) {
-				if !(dead) && !(hurt) && !(state == "frozen") && !(piped) {
+				if !(dead) && !(hurt) && !(state == "frozen") && !(piped) && !(invincible_type == 2) {
 					hsp=-3*other.xsc
 					gsp=-3*other.xsc
 				
