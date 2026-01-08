@@ -88,6 +88,8 @@ topbuttons.add("File", function() {
 				
 				object_place("oCollider",0,169*16,30,2)
 				object_place("oPlayerSpawn",3*16,168*16,1,1)
+				
+				selected_array = [];
 			break;
 			case 1:
 			//open file
