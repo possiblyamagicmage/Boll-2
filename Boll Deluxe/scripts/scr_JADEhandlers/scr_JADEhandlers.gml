@@ -1212,6 +1212,7 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 	mouse_offset_y = 0;
 	is_scrolling_x=0;
 	is_scrolling_y=0;
+	grabbed_layer = -1;
 	
 	static add = function(_item) {
 		array_push(listcontents, _item)
@@ -1291,6 +1292,8 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		var curs_x = window_mouse_get_x()
 		var curs_y = window_mouse_get_y()
 		var mbleftpress = mouse_check_button_pressed(mb_left);
+		var mbrightpress = mouse_check_button_pressed(mb_right);
+		var mbright = mouse_check_button(mb_right);
 		
 		var prevscissor = gpu_get_scissor();
 		gpu_set_scissor(x,y,width,height);
@@ -1394,6 +1397,12 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 					}
 				}
 				
+				if (mbrightpress) {
+					if (over_button) {
+						grabbed_layer = i;
+					}
+				}
+				
 				var layer_selected = (checkervalue!=noone) && (checkervalue.name == item.name)
 				
 				if (layer_selected) {
@@ -1420,6 +1429,29 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 			
 			i++;
 			if i>(height/24) listheight+=24
+		}
+		
+		if (grabbed_layer!=-1) {
+			var i=0;
+			repeat(array_length(listcontents)+1) { //this code is a fucking mess Im sorry.
+				var over_button = point_in_rectangle(curs_x,curs_y,x+scroll_x,y+(24*i)+scroll_y-8,x+width+scroll_x,y+(24*i)+scroll_y+8) && over_list
+			
+				if (over_button) {
+					if !(mbright) && (i!=grabbed_layer+1) {
+						var insertion=i;
+						var item = listcontents[grabbed_layer];
+						array_delete(listcontents,grabbed_layer,1)
+						if (i>grabbed_layer) insertion-=1
+						array_insert(listcontents,clamp(insertion,0,array_length(listcontents)),item)
+						grabbed_layer=-1;
+						break;
+					}
+					
+					draw_rect(x+scroll_x,y+(24*i)+scroll_y-1,width,2,$54b9fb,1)
+					break;
+				}
+				i++;
+			}
 		}
 		gpu_set_scissor(prevscissor);
 		
