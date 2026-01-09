@@ -95,6 +95,11 @@ topbuttons.add("File", function() {
 				object_place("oPlayerSpawn",3*16,168*16,1,1)
 				
 				selected_array = [];
+				
+				current_tile_id = [];
+				current_tile_id[0][0] = 0;
+				tile_sel_width = 0;
+				tile_sel_height = 0;
 			break;
 			case 1:
 			//open file
@@ -579,8 +584,6 @@ current_tile_id[0][0] = 0
 tile_drag = false;
 tile_sel_width = 0
 tile_sel_height = 0
-tile_sel_last_x = 0
-tile_sel_last_y = 0
 tile_fill_last_x = 0
 tile_fill_last_y = 0
 tile_fill = false

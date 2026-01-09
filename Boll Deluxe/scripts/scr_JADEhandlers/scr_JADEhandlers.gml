@@ -1788,6 +1788,9 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 		var mbleftpress = mouse_check_button_pressed(mb_left);
 		var mbleft = mouse_check_button(mb_left);
 		var mbleftrel = !mbleft
+		var mbrightpress = mouse_check_button_pressed(mb_right);
+		var mbmiddlepress = (mouse_check_button_pressed(mb_middle) || (keyboard_check(vk_space) && mouse_check_button_pressed(mb_left)))
+		var mbmiddlerel = (mouse_check_button_released(mb_middle) || (keyboard_check(vk_space) && mouse_check_button_released(mb_left)) || (keyboard_check_released(vk_space) && mouse_check_button(mb_left)))
 		
 		var tileset = global.tilesets[$ oJADEController.current_tileset]
 		var t_size = 16 * tile_zoom
@@ -1800,7 +1803,7 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 		
 		//select single tile/start tile dragging
 		if (over) {
-			if (mbleftpress && !tile_drag) {
+			if (mbleftpress && !tile_drag) && !(keyboard_check(vk_space)) {
 				with(oJADEController) {
 					current_tile_id = -1
 					current_tile_id = []
@@ -1814,7 +1817,19 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 				tile_drag = true
 			}
 			
-			if (mouse_check_button_pressed(mb_middle)) {
+			if (mbrightpress) {
+				with(oJADEController) {
+					current_tile_id = [];
+					current_tile_id[0][0] = 0;
+					tile_sel_width = 0;
+					tile_sel_height = 0;
+				}
+				tile_sel_last_x = 0
+				tile_sel_last_y = 0
+				tile_drag = false
+			}
+			
+			if (mbmiddlepress) {
 				start_pan_x=curs_x;
 				start_pan_y=curs_y;
 				initial_pan_x=pan_x;
@@ -1823,7 +1838,7 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 			}
 		}
 		
-		if !mouse_check_button(mb_middle) {
+		if (mbmiddlerel) {
 			panning = false;
 		}
 		
@@ -1839,6 +1854,7 @@ function JADEtilepicker(_x,_y,_width,_height) constructor {
 		
 		//complete tile dragging
 		if (mbleftrel && tile_drag) {
+			current_tile_id = [];
 			with(oJADEController) {
 				var i=0;
 				repeat(tile_sel_width+1) {
