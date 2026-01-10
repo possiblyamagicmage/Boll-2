@@ -70,7 +70,7 @@ function player_interactions(){
 			break;
 		}
 		spring.image_speed=1
-		spring.image_index=0;
+		spring.image_index=1;
 		if (spring.object_index == oPollenFlower) {
 			pollenated=true
 			if !part_system_exists(pollenPart) {

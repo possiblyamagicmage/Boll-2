@@ -846,6 +846,7 @@ runjump = 0;
 crouch = false
 slopesliding = false
 canstopjump = true
+stun = false
 
 #define enemy_stomped
 if (state != "groundpound") {
