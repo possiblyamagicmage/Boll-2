@@ -1,9 +1,11 @@
 if !(visible) {
-	respawn_timer=max(respawn_timer-1,0);
+	respawn_timer = max(respawn_timer-1,0);
 	
 	if !(respawn_timer) {
+		grow=1
+		image_yscale = 0
+		image_xscale = 0
 		visible=1
-		no_collide = false;
 	}
 	
 	if !on_screen_xy(32,32) && !origin_on_screen(xstart,ystart,32,32) {
@@ -15,6 +17,17 @@ if !(visible) {
 }
 
 if !visible exit;
+
+if grow {
+	if (image_yscale < 1) {
+		image_yscale += 0.05
+		image_xscale = image_yscale
+	} else {
+		grow = 0
+		no_collide = false;
+	}
+	exit;
+}
 
 if (can_fall) {
 	if !(fallgo) && check_rectangle_in_hitbox(x-4,y-4,x+20,y+255,oPlayer) {

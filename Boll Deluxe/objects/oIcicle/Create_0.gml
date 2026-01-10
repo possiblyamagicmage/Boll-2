@@ -5,6 +5,7 @@ slippery = true
 my_friction = 0.5;
 semi = true;
 can_fall = true;
+grow = 0;
 
 hsp = 0;
 vsp = 0;
