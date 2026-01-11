@@ -19,7 +19,7 @@
   "height":480,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"62691f4d-d8af-4f5b-a0f6-85085250e31b","blendMode":0,"displayName":"default","isLocked":false,"name":"62691f4d-d8af-4f5b-a0f6-85085250e31b","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"379f4aea-9c87-4d02-b312-51be6ca36ff1","blendMode":0,"displayName":"pasteLayer","isLocked":false,"name":"379f4aea-9c87-4d02-b312-51be6ca36ff1","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"spr_TilesetPipes",
   "nineSlice":null,

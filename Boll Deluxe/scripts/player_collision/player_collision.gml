@@ -64,9 +64,6 @@ function player_poly_collision()
 }
 
 function basic_step_move(iterations = 2){
-    var true_hsp = hsp
-    var true_vsp = vsp
-    
     repeat(iterations) {
         x += hsp /iterations
         y += vsp /iterations

@@ -239,7 +239,6 @@ if (state == "jump") && !(piped) && !(hurt) && (state!="frozen") {
 	slopesliding = 0
 	
 	if (apress && vsp >= -2.6 && !activebound) {
-		boundjump = min(2, boundjump + 1);
 		activebound = true;
 		vsp = 8;
 		hsp = (hsp / 2);
@@ -606,6 +605,7 @@ if (activebound) {
 	activebound = false;
 	grounded = false;
 	state = "jump"
+	boundjump = min(2, boundjump + 1);
 } else {
 	boundjump = 0;
 }
