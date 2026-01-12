@@ -370,7 +370,8 @@ if (state == "jump" || state == "") && !(grounded) && !piped && !(stun) {
 }
 
 if ((state == "" || state=="crouch") && !hurt && !stun && apress && canjump > 0 && !spinjump) && !piped && !(underwater) {
-	grounded = false
+	grounded = false;
+	starmanjump = false;
 	state = "jump"
 	vsp = -(4.65+(clamp(abs(hsp)/3.14,0.5,1.7) * 1.2)+(bool(poundjump)+0.5)); //preform the actual jump
 	
@@ -380,7 +381,7 @@ if ((state == "" || state=="crouch") && !hurt && !stun && apress && canjump > 0 
 		runjump=true
 	}
 	
-	if (invincible_type) == 2 {
+	if (invincible_type == 2) {
 		starmanjump = true;
 		runjump = false;
 	}
@@ -856,16 +857,18 @@ canstopjump = false
 spinjump = false
 stun = false;
 wallkick = false;
+starmanjump = false;
 
 #define sprung_up
 if state != "frozen" {
 	state = "jump";
 }
 runjump = 0;
-crouch = false
-slopesliding = false
-canstopjump = true
-stun = false
+crouch = false;
+slopesliding = false;
+canstopjump = true;
+stun = false;
+starmanjump = false;
 
 #define enemy_stomped
 if (state != "groundpound") {
