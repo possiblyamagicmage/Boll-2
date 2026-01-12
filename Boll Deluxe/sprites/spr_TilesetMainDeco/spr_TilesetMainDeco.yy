@@ -44,8 +44,8 @@
   },
   "origin":0,
   "parent":{
-    "name":"Tilesets",
-    "path":"folders/Sprites/Tilesets.yy",
+    "name":"World 1",
+    "path":"folders/Sprites/Tilesets/World 1.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

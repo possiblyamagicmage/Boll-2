@@ -10,6 +10,7 @@ global.tilesets[$ "tTilesetPipes"]=[spr_TilesetPipes, tTilesetPipes, "Pipe Tiles
 global.tilesets[$ "tTilesetMainDeco"]=[spr_TilesetMainDeco, tTilesetMainDeco, "Floragrande Decoration"]
 global.tilesets[$ "tTilesetWorld5"]=[spr_TilesetWorld5, tTilesetWorld5, "Frigid Dark Tiles"]
 global.tilesets[$ "tTilesetWorld5Deco"]=[spr_TilesetWorld5Deco, tTilesetWorld5Deco, "Frigid Dark Decoration"]
+global.tilesets[$ "tTilesetPipesW5"]=[spr_TilesetPipesW5, tTilesetPipesW5, "Pipe Tiles (Frigid Dark)"]
 global.tilesets[$ "tTilesetBowserLand"]=[spr_TilesetBowserLand, tTilesetBowserLand, "Bowser Land Tiles"]
 
 global.musiclist={}
@@ -209,6 +210,8 @@ function JADE_initializeobj() {
 	properties.addCheckbox(oCheckpoint, "Flip", "dir", false)
 	registerobj(oFlagpole, spr_JADEflagpole, 8, 160, 48, 160, false, false, stagecomp, "Flag Pole")
 	registerobj(oMysteryOrb, spr_mysteryorb, 8, 8, 16, 16, false, false, stagecomp, "Mystery Orb")
+	registerobj(oSnowboardRamp, spr_snowboard, 0, 0, 64, 32, false, false, stagecomp, "Snowboard Ramp")
+	properties.addCheckbox(oSnowboardRamp, "Flipped", "hflip", false)
 	
 	objectlist.add(stagecomp);
 	

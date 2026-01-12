@@ -1,13 +1,13 @@
 {
   "$GMTileSet":"v1",
-  "%Name":"tTilesetPipes",
+  "%Name":"tTilesetPipesW5",
   "autoTileSets":[],
   "macroPageTiles":{
     "SerialiseHeight":0,
     "SerialiseWidth":0,
     "TileSerialiseData":[],
   },
-  "name":"tTilesetPipes",
+  "name":"tTilesetPipesW5",
   "out_columns":24,
   "out_tilehborder":2,
   "out_tilevborder":2,
@@ -18,8 +18,8 @@
   "resourceType":"GMTileSet",
   "resourceVersion":"2.0",
   "spriteId":{
-    "name":"spr_TilesetPipes",
-    "path":"sprites/spr_TilesetPipes/spr_TilesetPipes.yy",
+    "name":"spr_TilesetPipesW5",
+    "path":"sprites/spr_TilesetPipesW5/spr_TilesetPipesW5.yy",
   },
   "spriteNoExport":false,
   "textureGroupId":{
