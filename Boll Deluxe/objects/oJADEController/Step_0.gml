@@ -799,6 +799,14 @@ if (mbleft && not_on_gui && !disable_tool) {
 				}
 			}
 		break;
+		case SPAWN_TOOL:
+			if (selected_mode == OBJECT_MODE) {
+				if (mbleftpress) {
+					spawnpoint_x = gridx*current_grid_size
+					spawnpoint_y = gridy*current_grid_size
+				}
+			}
+		break;
 	}
 }
 
@@ -1035,6 +1043,14 @@ if (mbright) {
 			if (sprite_exists(reference_sprite)) sprite_delete(reference_sprite);
 			reference_sprite = -1;
 			selection_grab = false;
+		break;
+		case SPAWN_TOOL:
+			if (selected_mode == OBJECT_MODE) {
+				if (mbrightpress) {
+					testpoint_x = gridx*current_grid_size
+					testpoint_y = gridy*current_grid_size
+				}
+			}
 		break;
 	}
 }

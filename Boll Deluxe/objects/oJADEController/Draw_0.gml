@@ -26,6 +26,8 @@ if (objects_visible || selected_mode == OBJECT_MODE) {
 		}
 		i++;
 	}
+	draw_sprite_ext(spr_spawner, 1, testpoint_x + 8, testpoint_y + 8, 1, 1, 0, c_white, alpha);
+	draw_sprite_ext(spr_spawner, 0, spawnpoint_x + 8, spawnpoint_y + 8, 1, 1, 0, c_white, alpha);
 }
 
 if (gizmos_visible || selected_mode == NODE_MODE) {

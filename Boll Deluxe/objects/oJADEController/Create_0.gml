@@ -13,6 +13,7 @@
 #macro NODE_TOOL 9
 #macro ROTATOR_TOOL 10
 #macro LINK_TOOL 11
+#macro SPAWN_TOOL 12
 
 gridx=0;
 gridy=0;
@@ -92,7 +93,10 @@ topbuttons.add("File", function() {
 				layerlist.update_depths();
 				
 				object_place("oCollider",0,169*16,30,2)
-				object_place("oPlayerSpawn",3*16,168*16,1,1)
+				spawnpoint_x = 3 * 16;
+				spawnpoint_y = 168 * 16;
+				testpoint_x = 2 * 16;
+				testpoint_y = 168 * 16;
 				
 				selected_array = [];
 				
@@ -516,6 +520,7 @@ toolbar[0][1]=BRUSH_TOOL
 toolbar[0][2]=ERASE_TOOL
 toolbar[0][3]=PICKER_TOOL
 toolbar[0][4]=REFERENCE_TOOL
+toolbar[0][5]=SPAWN_TOOL
 //Tile
 toolbar[1][0]=SELECT_TOOL
 toolbar[1][1]=BRUSH_TOOL
@@ -751,6 +756,10 @@ tile_update_properties = function() {
 
 
 object_place("oCollider",0,169*16,30,2)
-object_place("oPlayerSpawn",3*16,168*16,1,1)
+//object_place("oPlayerSpawn",3*16,168*16,1,1) //Don't do that. (turned into spawn tool)
+spawnpoint_x = 3 * 16;
+spawnpoint_y = 168 * 16;
+testpoint_x = 2 * 16;
+testpoint_y = 168 * 16;
 
 JADE_load();

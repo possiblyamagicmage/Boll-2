@@ -50,7 +50,7 @@ function JADE_initializeobj() {
 	});
 	list_tabbuttons.selected_button=0
 	
-	registerobj(oPlayerSpawn, spr_spawner, 8, 8, 16, 16, false, false, objectlist, "Player Spawn")
+	//registerobj(oPlayerSpawn, spr_spawner, 8, 8, 16, 16, false, false, objectlist, "Player Spawn") //Replaced with spawn tool
 	registerobj(oCollider, spr_collider, 0, 0, 16, 16, true, true, objectlist, "Collider", true)
 	properties.addCheckbox(oCollider, "Is Slippery", "slippery", false)
 	registerobj(oSlopeCollider, spr_slopesolid, 0, 0, 16, 16, true, true, objectlist, "Slope Collider", true)
@@ -404,10 +404,12 @@ function JADE_save(file=game_save_id+"\save.jade") {
 		}
 		i++;
 	}
+	
 	struct[$ "objects"] = obj_arr;
 	struct[$ "node_objects"] = node_arr;
 	struct[$ "layers"]=layerarr;
 	struct[$ "version"]=JADE_VERSION
+	struct[$ "spawnpoints"] = [spawnpoint_x, spawnpoint_y, testpoint_x, testpoint_y];
 	show_debug_message(struct)
 	var _json=json_stringify(struct); //compile all saved things
 	var save_file = buffer_create(string_byte_length(_json), buffer_grow, 1);
@@ -430,6 +432,7 @@ function JADE_load(file=game_save_id+"\save.jade") {
 		var len=array_length(layers);
 		var i=0;
 		var foundpipinglayer = false;
+		var spawnpoints = [];
 		repeat(len) {
 			var _layer_contents = layers[i];
 			
@@ -513,7 +516,15 @@ function JADE_load(file=game_save_id+"\save.jade") {
 					objects[i][j][10] = [];
 					objects[i][j][11] = [2,0,false,false,false,true];
 				}
-				ds_list_add(object_layer_map[i], objects[i][j])
+				if (objects[i][j][0] == "oPlayerSpawn") { //lame conversion to spawn tool
+					spawnpoints = [
+						objects[i][j][1],
+						objects[i][j][2],
+						objects[i][j][1],
+						objects[i][j][2]
+					]
+				} else
+					ds_list_add(object_layer_map[i], objects[i][j])
 				j++;
 			}
 			j=0;
@@ -527,6 +538,14 @@ function JADE_load(file=game_save_id+"\save.jade") {
 			}
 			i++;
 		}
+		
+		if (!is_undefined(level_data[$ "spawnpoints"]))
+			spawnpoints = level_data[$ "spawnpoints"];
+		
+		spawnpoint_x = spawnpoints[0];
+		spawnpoint_y = spawnpoints[1];
+		testpoint_x = spawnpoints[2];
+		testpoint_y = spawnpoints[3];
 	}
 	buffer_delete(loaded)
 	buffer_delete(save_file)

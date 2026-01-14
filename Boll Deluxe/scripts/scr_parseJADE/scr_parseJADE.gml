@@ -13,6 +13,7 @@ function parse_level(dir=game_save_id+"\save.jade") {
 		if (jadeversion == JADE_VERSION) {
 			var layers = level_data[$ "layers"]
 			var len=array_length(layers);
+			var spawnpoints = array_create(4, 0);
 			var i=0;
 			repeat(len) {
 				var _layer_contents = layers[i];
@@ -102,41 +103,48 @@ function parse_level(dir=game_save_id+"\save.jade") {
 				repeat(array_length(objects[i])) {
 					var data = objects[i][j]
 					var objn = asset_get_index(data[0])
-					var obj = instance_create_depth(data[1], data[2], 0, objn)
-					if instance_exists(obj) {
-						obj.image_xscale=data[3]*data[8]
-						obj.image_yscale=data[4]*data[9]
-						obj.xstart+=data[6]*obj.image_xscale;
-						obj.ystart+=data[7]*obj.image_yscale;
-						obj.x=obj.xstart
-						obj.y=obj.ystart
+					if (objn == oPlayerSpawn) {
+						spawnpoints[0] = data[1]
+						spawnpoints[1] = data[2]
+						spawnpoints[2] = data[1]
+						spawnpoints[3] = data[2]
+					} else {
+						var obj = instance_create_depth(data[1], data[2], 0, objn)
+						if instance_exists(obj) {
+							obj.image_xscale=data[3]*data[8]
+							obj.image_yscale=data[4]*data[9]
+							obj.xstart+=data[6]*obj.image_xscale;
+							obj.ystart+=data[7]*obj.image_yscale;
+							obj.x=obj.xstart
+							obj.y=obj.ystart
 						
-						if (array_length(data)) > 10 {
-							if array_length(data[10]) {
-								var temparr = []
-								array_copy(temparr,0,data[10],0,array_length(data[11]))
-								variable_instance_set(obj, "pathing", temparr);
-								if is_array(data[11]) {
-									variable_instance_set(obj, "pathspd", data[11][0]);
-									variable_instance_set(obj, "pathnum", data[11][1]);
-									variable_instance_set(obj, "pathcanrev", data[11][2]);
-									variable_instance_set(obj, "pathcanfall", data[11][3]);
-									variable_instance_set(obj, "pathdraw", data[11][4]);
-									variable_instance_set(obj, "pathstarted", data[11][5]);
-								}	
+							if (array_length(data)) > 10 {
+								if array_length(data[10]) {
+									var temparr = []
+									array_copy(temparr,0,data[10],0,array_length(data[11]))
+									variable_instance_set(obj, "pathing", temparr);
+									if is_array(data[11]) {
+										variable_instance_set(obj, "pathspd", data[11][0]);
+										variable_instance_set(obj, "pathnum", data[11][1]);
+										variable_instance_set(obj, "pathcanrev", data[11][2]);
+										variable_instance_set(obj, "pathcanfall", data[11][3]);
+										variable_instance_set(obj, "pathdraw", data[11][4]);
+										variable_instance_set(obj, "pathstarted", data[11][5]);
+									}	
+								}
 							}
-						}
 						
 						
 						
-						//object variables
-						var g=0
-						repeat(array_length(data[5])) {
-							var propertydata = data[5][g]
-							if variable_instance_exists(obj, propertydata[0]) {
-								variable_instance_set(obj, propertydata[0], propertydata[1])
+							//object variables
+							var g=0
+							repeat(array_length(data[5])) {
+								var propertydata = data[5][g]
+								if variable_instance_exists(obj, propertydata[0]) {
+									variable_instance_set(obj, propertydata[0], propertydata[1])
+								}
+								g++;
 							}
-							g++;
 						}
 					}
 					j++;
@@ -188,6 +196,17 @@ function parse_level(dir=game_save_id+"\save.jade") {
 				i++;
 			}
 		}
+		
+		if (!is_undefined(level_data[$ "spawnpoints"])) {
+			spawnpoints = level_data[$ "spawnpoints"];
+		}
+		
+		if (global.jade_testing) {
+			instance_create_depth(spawnpoints[2], spawnpoints[3], 0, oPlayerSpawn);		
+		} else {
+			instance_create_depth(spawnpoints[0], spawnpoints[1], 0, oPlayerSpawn);
+		}
+							
 	}
 	instance_activate_all()
 	with(all) {event_user(15)}
