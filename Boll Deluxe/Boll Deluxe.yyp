@@ -1693,6 +1693,8 @@
     {"id":{"name":"spr_jumpingpiranhafall","path":"sprites/spr_jumpingpiranhafall/spr_jumpingpiranhafall.yy",},},
     {"id":{"name":"spr_jumpingpiranhafly","path":"sprites/spr_jumpingpiranhafly/spr_jumpingpiranhafly.yy",},},
     {"id":{"name":"spr_koopahitbox","path":"sprites/spr_koopahitbox/spr_koopahitbox.yy",},},
+    {"id":{"name":"spr_koopapopout_g","path":"sprites/spr_koopapopout_g/spr_koopapopout_g.yy",},},
+    {"id":{"name":"spr_koopapopout_skate","path":"sprites/spr_koopapopout_skate/spr_koopapopout_skate.yy",},},
     {"id":{"name":"spr_koopashellflip_g","path":"sprites/spr_koopashellflip_g/spr_koopashellflip_g.yy",},},
     {"id":{"name":"spr_koopashellflip_r","path":"sprites/spr_koopashellflip_r/spr_koopashellflip_r.yy",},},
     {"id":{"name":"spr_koopashellflip_skate","path":"sprites/spr_koopashellflip_skate/spr_koopashellflip_skate.yy",},},

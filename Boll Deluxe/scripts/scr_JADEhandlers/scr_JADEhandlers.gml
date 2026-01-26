@@ -77,7 +77,7 @@ function JADEsmallbuttons(_x, _y, _width, _height, spacing=8, is_toggle=true, in
 				_x2 = x+width+(width+button_spacing)*i
 				_y2 = y+height
 			} else {
-				_x1 = xjade
+				_x1 = x
 				_y1 = y+(height+button_spacing)*i
 				_x2 = x+width
 				_y2 = y+height+(height+button_spacing)*i

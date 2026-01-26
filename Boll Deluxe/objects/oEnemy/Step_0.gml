@@ -53,16 +53,6 @@ if (enemycoll) {
 	}
 }
 
-if (turning) {
-	turning=max(0,turning-1)
-	flipped = 0;
-}
-event_user(0); //animation controller
-
-if !check_rectangle_in_hitbox(x+(hit_sizex+1)*-xsc,y+hit_sizey-3,x+(hit_sizex+1)*-xsc,y-hit_sizey+3,oEnemy) && !check_collision_line(x+(hit_sizex+1)*-xsc,y+hit_sizey-3,x+(hit_sizex+1)*-xsc,y-hit_sizey+3,COL_WALL) {
-	flipped = 0;
-}
-
 if !(attach_to_ceiling) {
 	if !grounded
 	{
@@ -107,3 +97,21 @@ player_collision();
 
 if !(overridexsc)
 if gsp != 0 && (hp > 0) xsc=-esign(gsp,-1)
+
+
+event_user(0); //animation controller
+if (turning) {
+	image_speed = 0;
+	turning=max(0,turning-1)
+	if !(turning) {
+		image_speed = 1
+	}
+	flipped = 0;
+	xsc = -turnxsc;
+	
+	image_index = (turning > 5)
+}
+
+if !check_rectangle_in_hitbox(x+(hit_sizex+1)*-xsc,y+hit_sizey-3,x+(hit_sizex+1)*-xsc,y-hit_sizey+3,oEnemy) && !check_collision_line(x+(hit_sizex+1)*-xsc,y+hit_sizey-3,x+(hit_sizex+1)*-xsc,y-hit_sizey+3,COL_WALL) {
+	flipped = 0;
+}

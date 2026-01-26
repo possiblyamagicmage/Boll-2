@@ -6,11 +6,10 @@ if (in_shell) {
 	if (!shell_move) {
 		no_dam = true
 		in_shell--; //Decreases the time for the koopa to get up
-		if (!in_shell) {
-			constantspd = 0.5 
-			no_stomping = false
-			koopaEscapeShell.Emit();
-		} //Gets the Koopa to pull itself from the ground and continue walking in the direction the shell is facing
+		if !(in_shell) {
+			getup_timer = getup_timer_max;
+			no_stomping = false;
+		}
 	} else {
 		var blocklist=ds_list_create();
 		var num=collision_line_list(x+(hit_sizex*-xsc)+hsp,y-(hit_sizey-2),x+(hit_sizex*-xsc)+hsp,y+(hit_sizey-2),oHittable, false, true, blocklist, true)
@@ -34,6 +33,14 @@ if (in_shell) {
 		}
 		
 		ds_list_destroy(blocklist);
+	}
+}
+
+if (getup_timer) {
+	getup_timer--;
+	if !(getup_timer) {
+		constantspd = 0.5;
+		koopaEscapeShell.Emit();
 	}
 }
 

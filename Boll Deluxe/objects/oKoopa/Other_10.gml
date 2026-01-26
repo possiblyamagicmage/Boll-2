@@ -9,10 +9,12 @@ if (in_shell) {
 		image_speed =1;
 	}
 } else {
-	if !(turning) {
-		sprite_index = spr_koopawalk_g;
-	} else {
+	if (turning) {
 		sprite_index = spr_koopaturn_g;
+	} else if (getup_timer) {
+		sprite_index = spr_koopapopout_g;
+	} else {
+		sprite_index = spr_koopawalk_g;
+		image_speed = 1;
 	}
-	image_speed = 1;
 }

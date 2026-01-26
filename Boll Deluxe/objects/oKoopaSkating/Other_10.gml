@@ -6,13 +6,15 @@ if (in_shell) {
 		if (hsp==0) image_index = 0;
 	} else {
 		sprite_index = spr_koopashellwake_skate;
-		image_speed =1;
+		image_speed = 1;
 	}
 } else {
-	if !(turning) {
-		sprite_index = spr_koopawalk_skate;
-	} else {
+	if (turning) {
 		sprite_index = spr_koopaturn_skate;
+	} else if (getup_timer) {
+		sprite_index = spr_koopapopout_skate;
+	} else {
+		sprite_index = spr_koopawalk_skate;
 	}
 	image_speed = 1;
 }

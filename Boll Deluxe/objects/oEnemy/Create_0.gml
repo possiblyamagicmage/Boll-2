@@ -36,6 +36,7 @@ killvsp=-3;
 piped = false
 grounded = false
 overridexsc = false
+turnxsc = 1;
 
 hit_sizex = 6
 hit_sizey = 6
@@ -92,6 +93,7 @@ enemyFireballed.Connect( self, function(proj, hit_p) {
 });
 
 enemyTurnAround.Connect( self, function() {
+	turnxsc = xsc;
 	_direction *= -1;
 	turning = 10;
 	prevsprite_index=sprite_index

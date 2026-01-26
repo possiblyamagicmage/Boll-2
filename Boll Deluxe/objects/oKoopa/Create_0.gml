@@ -13,6 +13,9 @@ can_break_bricks = true
 kickedplayer = noone;
 kickCombo = 0;
 
+getup_timer_max = 30;
+getup_timer = 0;
+
 koopaEscapeShell = new Signal();
 
 delete enemyStomped;
@@ -83,5 +86,5 @@ enemyTurnAround.Connect( self, function() {
 koopaEscapeShell.Connect( self, function() {
 	hit_sizex = start_hit_sizex;
 	hit_sizey = start_hit_sizey;
-	y -= (start_hit_sizey-6)
+	y -= (start_hit_sizey-6);
 });

@@ -1239,6 +1239,8 @@
     {"name":"spr_jumpingpiranhafall","order":1,"path":"sprites/spr_jumpingpiranhafall/spr_jumpingpiranhafall.yy",},
     {"name":"spr_jumpingpiranhafly","order":2,"path":"sprites/spr_jumpingpiranhafly/spr_jumpingpiranhafly.yy",},
     {"name":"spr_koopahitbox","order":3,"path":"sprites/spr_koopahitbox/spr_koopahitbox.yy",},
+    {"name":"spr_koopapopout_g","order":5,"path":"sprites/spr_koopapopout_g/spr_koopapopout_g.yy",},
+    {"name":"spr_koopapopout_skate","order":5,"path":"sprites/spr_koopapopout_skate/spr_koopapopout_skate.yy",},
     {"name":"spr_koopashellflip_g","order":2,"path":"sprites/spr_koopashellflip_g/spr_koopashellflip_g.yy",},
     {"name":"spr_koopashellflip_r","order":2,"path":"sprites/spr_koopashellflip_r/spr_koopashellflip_r.yy",},
     {"name":"spr_koopashellflip_skate","order":2,"path":"sprites/spr_koopashellflip_skate/spr_koopashellflip_skate.yy",},
