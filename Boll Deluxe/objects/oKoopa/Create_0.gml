@@ -13,7 +13,7 @@ can_break_bricks = true
 kickedplayer = noone;
 kickCombo = 0;
 
-getup_timer_max = 45;
+getup_timer_max = 35;
 getup_timer = 0;
 
 koopaEscapeShell = new Signal();
