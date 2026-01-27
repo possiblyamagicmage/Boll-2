@@ -29,7 +29,7 @@
   ],
   "name":"spr_koopashellspin_skate",
   "nineSlice":null,
-  "origin":9,
+  "origin":4,
   "parent":{
     "name":"Skating",
     "path":"folders/Sprites/Enemies/Koopas/Skating.yy",
@@ -100,7 +100,7 @@
     "visibleRange":null,
     "volume":1.0,
     "xorigin":9,
-    "yorigin":9,
+    "yorigin":8,
   },
   "swatchColours":null,
   "swfPrecision":0.5,
