@@ -24,6 +24,9 @@ selected_mode=OBJECT_MODE;
 selected_toolbar=0;
 selected_tool=SELECT_TOOL;
 
+undoarray = [];
+redoarray = [];
+
 reference_sprite = -1;
 reference_sprite_element = -1;
 reference_sprite_x = 0;
@@ -71,16 +74,8 @@ topbuttons.add("File", function() {
 			//new file
 				global.save_dir=""
 				instance_destroy(oJADELayerProperties)
-				var i=0;
-				repeat(1) {
-					ds_list_clear(object_layer_map[i])
-					i++;
-				}
-				i=0
-				repeat(1) {
-					ds_list_clear(node_layer_map[i])
-					i++;
-				}
+				ds_list_clear(object_layer_map)
+				ds_list_clear(node_layer_map)
 				
 				current_tileset="tTilesetMain"
 				deco_mode_type="";
@@ -233,7 +228,7 @@ modebuttons.add("Object Mode", function() {
 		}
 	}
 	selected_mode = OBJECT_MODE
-	object_map = object_layer_map[selected_region]
+	object_map = object_layer_map
 });
 modebuttons.add("Deco Mode", function() {
 	drawing_node = -1;
@@ -321,7 +316,7 @@ modebuttons.add("Gizmo Mode", function() {
 		}
 	}
 	selected_mode = NODE_MODE
-	object_map = node_layer_map[selected_region]
+	object_map = node_layer_map
 });
 
 modebuttons.selected_button = 0;
@@ -594,9 +589,9 @@ tile_fill_last_y = 0
 tile_fill = false
 
 selected_region = 0;
-object_layer_map[0] = ds_list_create();
-node_layer_map[0] = ds_list_create();
-object_map = object_layer_map[0];
+object_layer_map = ds_list_create();
+node_layer_map = ds_list_create();
+object_map = object_layer_map;
 
 gotoroom=rGame
 
@@ -713,16 +708,6 @@ asset_place = function(_uuid, _x, _y, _xscale, _yscale, _layer=selected_layer) {
 	layer_sprite_yscale(inst,_yscale);
 	layer_sprite_speed(inst, 0);
 	var obj = [_uuid, inst];
-	var arr = properties.getDefaultValues(_uuid)
-	obj[2] = [];
-	var o=0;
-	repeat (o < array_length(arr)) { //god Damn.
-		if is_array(arr[o]) {
-			obj[2][o] = array_create(1,0)
-			array_copy(obj[2][o],0,arr[o],0,array_length(arr[o]))
-		}
-		o++;
-	}
 	//add other data stuff here later
 	ds_list_add(_layer.assetmap, obj);
 }
@@ -755,6 +740,35 @@ tile_update_properties = function() {
 	}
 }
 
+jade_undo = function() {
+	if !array_length(undoarray) exit;
+	
+	var undo = array_pop(undoarray)
+	switch(typeof(undo[0])) {
+		case "ref":
+			if (ds_exists(undo[0], ds_type_list)) {
+				array_push(redoarray, [undo[0], ds_list_write(undo[0])]);
+				ds_list_read(undo[0],undo[1])
+			}
+		break;
+		case "struct":
+			with(undo[0]) {
+				import_contents(undo[1]);
+			}
+		break;
+	}
+	show_debug_message(undoarray)
+}
+
+jade_redo = function() {
+	if !array_length(redoarray) exit;
+	
+	var redo = array_pop(redoarray)
+	if ds_exists(redo[0], ds_type_list) {
+		array_push(undoarray, [redo[0], ds_list_write(redo[0])]);
+		ds_list_read(redo[0],redo[1])
+	}
+}
 
 object_place("oCollider",0,169*16,30,2)
 //object_place("oPlayerSpawn",3*16,168*16,1,1) //Don't do that. (turned into spawn tool)

@@ -1683,6 +1683,24 @@ function JADEtilelayer(_name,_tileset) constructor {
 		layer_tilemap_destroy(my_deco_layer)
 		layer_destroy(my_layer)
 	}
+	
+	static export_contents = function() {
+		return ds_list_write(tilemap);
+	}
+	
+	static import_contents = function(str) {
+		tilemap_clear(my_deco_layer, 0);
+		if !(ds_exists(tilemap,ds_type_list)) {
+			tilemap = ds_list_create();
+		}
+		ds_list_read(tilemap, str);
+		var i=0;
+		repeat(ds_list_size(tilemap)) {
+			var arr = tilemap[| i];
+			tilemap_set(my_deco_layer, arr[0], arr[1], arr[2]);
+			i++;
+		}
+	}
 }
 
 function JADEassetlayer(_name) constructor {
@@ -1704,6 +1722,50 @@ function JADEassetlayer(_name) constructor {
 	static cleanup = function() {
 		ds_list_destroy(assetmap)
 		layer_destroy(my_layer)
+	}
+	
+	static export_contents = function() {
+		var return_list = ds_list_create();
+		var i=0;
+		repeat(ds_list_size(assetmap)) {
+			var asset = assetmap[| i];
+			var arr = [asset[0], layer_sprite_get_x(asset[1]), layer_sprite_get_y(asset[1]), layer_sprite_get_xscale(asset[1]), layer_sprite_get_yscale(asset[1])]
+			ds_list_add(return_list,arr);
+			i++;
+		}
+		var return_str = ds_list_write(return_list);
+		ds_list_destroy(return_list);
+		return return_str;
+	}
+	
+	static import_contents = function(str) {
+		if (ds_exists(assetmap,ds_type_list)) {
+			var i=0;
+			repeat(ds_list_size(assetmap)) {
+				var asset = assetmap[| i];
+				layer_sprite_destroy(asset[1]);
+				i++;
+			}
+			ds_list_clear(assetmap);
+		} else {
+			assetmap = ds_list_create();
+		}
+		
+		var templist = ds_list_create();
+		ds_list_read(templist, str);
+		var i=0;
+		repeat(ds_list_size(templist)) {
+			var arr = templist[| i];
+			var inst = layer_sprite_create(my_layer,arr[1],arr[2],asset_get_index(arr[0]));
+			layer_sprite_xscale(inst,arr[3]);
+			layer_sprite_yscale(inst,arr[4]);
+			layer_sprite_speed(inst, 0);
+			var obj = [arr[0], inst];
+			//add other data stuff here later
+			ds_list_add(assetmap, obj);
+			i++;
+		}
+		ds_list_destroy(templist);
 	}
 }
 
@@ -1944,7 +2006,7 @@ function JADEnodepropertylisthandler(_x, _y, _width, _height) : JADEpropertylist
 		listheight = 0;
 		
 		if (objarr>=0) {
-			var obj = oJADEController.object_layer_map[oJADEController.selected_region][| objarr]
+			var obj = oJADEController.object_layer_map[| objarr]
 			var pthspdprop = {};
 			pthspdprop.type = "number_input";
 			pthspdprop.name = "Path Speed";
@@ -2088,7 +2150,7 @@ function JADErotatorpropertylisthandler(_x, _y, _width, _height) : JADEpropertyl
 		listheight = 0;
 		
 		if (objarr>=0) {
-			var obj = oJADEController.object_layer_map[oJADEController.selected_region][| objarr]
+			var obj = oJADEController.object_layer_map[| objarr]
 			var chainamount = {};
 			chainamount.type = "number_input";
 			chainamount.name = "Amount of Chains";

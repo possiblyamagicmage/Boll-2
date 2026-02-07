@@ -425,20 +425,17 @@ function JADE_save(file=game_save_id+"\save.jade") {
 	var obj_arr = [];
 	var node_arr = [];
 	i=0
-	repeat(1) {
-		obj_arr[i]=[];
-		var j=0;
-		repeat(ds_list_size(object_layer_map[i])) {
-			array_push(obj_arr[i], object_layer_map[i][| j])
-			j++;
-		}
-		node_arr[i]=[];
-		j=0;
-		repeat(ds_list_size(node_layer_map[i])) {
-			array_push(node_arr[i], node_layer_map[i][| j])
-			j++;
-		}
-		i++;
+	obj_arr[i]=[];
+	var j=0;
+	repeat(ds_list_size(object_layer_map[i])) {
+		array_push(obj_arr[i], object_layer_map[i][| j])
+		j++;
+	}
+	node_arr[i]=[];
+	j=0;
+	repeat(ds_list_size(node_layer_map[i])) {
+		array_push(node_arr[i], node_layer_map[i][| j])
+		j++;
 	}
 	
 	struct[$ "objects"] = obj_arr;
@@ -542,37 +539,34 @@ function JADE_load(file=game_save_id+"\save.jade") {
 		//region count, change laters
 		var objects = level_data[$ "objects"]
 		var node_objects = level_data[$ "node_objects"]
+		ds_list_clear(object_layer_map)
+		ds_list_clear(node_layer_map)
 		i=0
-		repeat(array_length(objects)) {
-			ds_list_clear(object_layer_map[i])
-			ds_list_clear(node_layer_map[i])
-			var j=0;
-			repeat(array_length(objects[i])) {
-				if array_length(objects[i][j]) < 11 {
-					objects[i][j][10] = [];
-					objects[i][j][11] = [2,0,false,false,false,true];
-				}
-				if (objects[i][j][0] == "oPlayerSpawn") { //lame conversion to spawn tool
-					spawnpoints = [
-						objects[i][j][1],
-						objects[i][j][2],
-						objects[i][j][1],
-						objects[i][j][2]
-					]
-				} else
-					ds_list_add(object_layer_map[i], objects[i][j])
-				j++;
+		var j=0;
+		repeat(array_length(objects[i])) {
+			if array_length(objects[i][j]) < 11 {
+				objects[i][j][10] = [];
+				objects[i][j][11] = [2,0,false,false,false,true];
 			}
-			j=0;
-			repeat(array_length(node_objects[i])) {
-				if array_length(node_objects[i][j]) < 11 {
-					node_objects[i][j][10] = [];
-					node_objects[i][j][11] = [2,0,false,false,false,true];
-				}
-				ds_list_add(node_layer_map[i], node_objects[i][j])
-				j++;
+			if (objects[i][j][0] == "oPlayerSpawn") { //lame conversion to spawn tool
+				spawnpoints = [
+					objects[i][j][1],
+					objects[i][j][2],
+					objects[i][j][1],
+					objects[i][j][2]
+				]
+			} else
+				ds_list_add(object_layer_map, objects[i][j])
+			j++;
+		}
+		j=0;
+		repeat(array_length(node_objects[i])) {
+			if array_length(node_objects[i][j]) < 11 {
+				node_objects[i][j][10] = [];
+				node_objects[i][j][11] = [2,0,false,false,false,true];
 			}
-			i++;
+			ds_list_add(node_layer_map, node_objects[i][j])
+			j++;
 		}
 		
 		if (!is_undefined(level_data[$ "spawnpoints"]))

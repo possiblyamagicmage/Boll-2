@@ -140,19 +140,29 @@ if array_length(droppedfiles) {
 	}
 }
 
-if keyboard_check(vk_control) && keyboard_check_pressed(ord("S")) {
-	if (global.save_dir != "") {
-		displaytextdur=120;
-		JADE_save(global.save_dir)
-		displaytext=$"Successfully saved JADE file!"
-	} else {
-		var file = get_save_filename_ext("JADE File|*.jade", "", $"{working_directory}\mods\\level\\", "Save Level");
-		if string_length(file) != 0 { 
+if keyboard_check(vk_control) {
+	if (keyboard_check_pressed(ord("S"))) {
+		if (global.save_dir != "") {
 			displaytextdur=120;
-			global.save_dir=file
-			JADE_save(file)
-			displaytext=$"Successfully saved JADE file as {filename_name(global.save_dir)}!"
+			JADE_save(global.save_dir)
+			displaytext=$"Successfully saved JADE file!"
+		} else {
+			var file = get_save_filename_ext("JADE File|*.jade", "", $"{working_directory}\mods\\level\\", "Save Level");
+			if string_length(file) != 0 { 
+				displaytextdur=120;
+				global.save_dir=file
+				JADE_save(file)
+				displaytext=$"Successfully saved JADE file as {filename_name(global.save_dir)}!"
+			}
 		}
+	}
+	
+	if (keyboard_check_pressed(ord("Z"))) {
+		jade_undo();
+	}
+	
+	if (keyboard_check_pressed(ord("Y"))) {
+		jade_redo();
 	}
 }
 
@@ -218,7 +228,7 @@ if keyboard_check(vk_control) && keyboard_check_pressed(ord("C")) {
 			var i=0;
 			repeat(array_length(selected_array)) {
 				var temparr = [];
-				array_push(temparr,object_layer_map[selected_region][| i])
+				array_push(temparr,object_map[| i])
 				i++;
 			}
 			clipboard.contents = temparr;
@@ -264,7 +274,6 @@ if keyboard_check(vk_control) && keyboard_check_pressed(ord("C")) {
 	}
 }
 
-
 if (mbleft && not_on_gui && !disable_tool) {
 	switch(selected_tool) {
 		case BRUSH_TOOL:
@@ -272,6 +281,11 @@ if (mbleft && not_on_gui && !disable_tool) {
 				case OBJECT_MODE:
 				case NODE_MODE:
 					if is_struct(selected_obj) && !check_colliding_object(mouse_x,mouse_y) {
+						if (mbleftpress) {
+							redoarray = [];
+							array_push(undoarray,[object_map, ds_list_write(object_map)]);
+						}
+						
 						object_place(selected_obj.uuid,gridx*current_grid_size,gridy*current_grid_size,1,1);
 					}
 				break;
@@ -279,7 +293,11 @@ if (mbleft && not_on_gui && !disable_tool) {
 					switch(deco_mode_type) {
 						case "tile":
 							if !ds_exists(tilemap,ds_type_list) break;
-						
+							
+							if (mbleftpress) {
+								redoarray = [];
+								array_push(undoarray,[selected_layer, selected_layer.export_contents()])
+							}
 							var i=0;
 							repeat(tile_sel_width+1) {
 								var j=0;
@@ -300,10 +318,11 @@ if (mbleft && not_on_gui && !disable_tool) {
 								}
 								i++;
 							}
-							tile_update_properties();
 						break;
 						case "asset":
 							if (mbleftpress) && is_struct(selected_deco_obj) {
+								redoarray = [];
+								array_push(undoarray,[selected_layer, selected_layer.export_contents()])
 								asset_place(selected_deco_obj.uuid,gridx*current_grid_size,gridy*current_grid_size,1,1)
 							}
 						break;
@@ -318,6 +337,7 @@ if (mbleft && not_on_gui && !disable_tool) {
 					var obj = check_colliding_object(mouse_x,mouse_y)
 					if (obj) {
 						ds_list_delete(object_map, obj-1)
+						i_did_a_thing = true;
 					}
 				break;
 				case DECO_MODE:
@@ -334,12 +354,14 @@ if (mbleft && not_on_gui && !disable_tool) {
 								ds_list_delete(tilemap, obj-1)
 							}
 							tile_update_properties();
+							i_did_a_thing = true;
 						break;
 						case "asset":
 						var obj = check_colliding_asset(mouse_x,mouse_y)
 						if (obj) {
 							layer_sprite_destroy(selected_layer.assetmap[| obj-1][1])
 							ds_list_delete(selected_layer.assetmap, obj-1)
+							i_did_a_thing = true;
 						}
 						break;
 					}
@@ -725,15 +747,15 @@ if (mbleft && not_on_gui && !disable_tool) {
 		case NODE_TOOL:
 			if (mbleftpress) {
 				if (drawing_node==-1) {
-					var col = check_colliding_object(mouse_x,mouse_y,object_layer_map[selected_region])
+					var col = check_colliding_object(mouse_x,mouse_y,object_layer_map)
 					if (col) {
-						var obj = object_layer_map[selected_region][| col-1]
+						var obj = object_layer_map[| col-1]
 						draw_node_x = obj[1];
 						draw_node_y = obj[2];
 						drawing_node = col-1;
 					}
 				} else {
-					var obj = object_layer_map[selected_region][| drawing_node]
+					var obj = object_layer_map[| drawing_node]
 					var rounded_x = (ceil((gridx*current_grid_size-8)/current_grid_size)*current_grid_size)+8;
 					var rounded_y = (ceil((gridy*current_grid_size-8)/current_grid_size)*current_grid_size)+8;
 					array_push(obj[10],[rounded_x,rounded_y])
@@ -743,15 +765,15 @@ if (mbleft && not_on_gui && !disable_tool) {
 		case ROTATOR_TOOL:
 			if (mbleftpress) {
 				if (drawing_rotator==-1) {
-					var col = check_colliding_object(mouse_x,mouse_y,object_layer_map[selected_region])
+					var col = check_colliding_object(mouse_x,mouse_y,object_layer_map)
 					if (col) {
-						var obj = object_layer_map[selected_region][| col-1]
+						var obj = object_layer_map[| col-1]
 						draw_node_x = obj[1];
 						draw_node_y = obj[2];
 						drawing_rotator = col-1;
 					}
 				} else {
-					var obj = object_layer_map[selected_region][| drawing_rotator]
+					var obj = object_layer_map[| drawing_rotator]
 					var rounded_x = (ceil((gridx*current_grid_size-8)/current_grid_size)*current_grid_size)+8;
 					var rounded_y = (ceil((gridy*current_grid_size-8)/current_grid_size)*current_grid_size)+8;
 					array_push(obj[12],[rounded_x,rounded_y])
@@ -812,6 +834,7 @@ if (mbleft && not_on_gui && !disable_tool) {
 
 if (mbleftrel) {
 	if (selected_mode == OBJECT_MODE || selected_mode == NODE_MODE) {
+		
 		if (selection_box) {
 			var box_w = (mouse_x - selection_box_x)
 			var box_h = (mouse_y - selection_box_y)
@@ -1021,7 +1044,7 @@ if (mbright) {
 		break;
 		case NODE_TOOL:
 			if (mbrightpress) && (drawing_node!=-1) {
-				var obj = object_layer_map[selected_region][| drawing_node]
+				var obj = object_layer_map[| drawing_node]
 				var i=0;
 				var len = array_length(obj[10])
 				var deleted_node = false;

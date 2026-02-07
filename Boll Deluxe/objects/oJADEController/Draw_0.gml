@@ -12,8 +12,8 @@ draw_rect(-2, -2, room_width+4, room_height+4, c_white, 0.75, true)
 
 if (objects_visible || selected_mode == OBJECT_MODE) {
 	var i=0;
-	repeat(ds_list_size(object_layer_map[selected_region])) {
-		var obj=object_layer_map[selected_region][| i]
+	repeat(ds_list_size(object_layer_map)) {
+		var obj=object_layer_map[| i]
 		var data = obj_data[$ obj[0]]
 		var alpha=1;
 		if (selected_mode != OBJECT_MODE && selected_tool != NODE_TOOL) alpha=0.5;
@@ -32,8 +32,8 @@ if (objects_visible || selected_mode == OBJECT_MODE) {
 
 if (gizmos_visible || selected_mode == NODE_MODE) {
 	var i=0;
-	repeat(ds_list_size(node_layer_map[selected_region])) {
-		var obj=node_layer_map[selected_region][| i]
+	repeat(ds_list_size(node_layer_map)) {
+		var obj=node_layer_map[| i]
 		var data=obj_data[$ obj[0]]
 		var alpha=1;
 		if (selected_mode != NODE_MODE || selected_tool == NODE_TOOL) alpha=0.5;
@@ -46,7 +46,7 @@ if (gizmos_visible || selected_mode == NODE_MODE) {
 }
 
 if (drawing_node != -1) {
-	var obj = object_layer_map[selected_region][| drawing_node]
+	var obj = object_layer_map[| drawing_node]
 	
 	var len = array_length(obj[10])
 	
