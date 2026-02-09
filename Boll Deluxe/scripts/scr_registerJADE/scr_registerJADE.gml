@@ -427,14 +427,14 @@ function JADE_save(file=game_save_id+"\save.jade") {
 	i=0
 	obj_arr[i]=[];
 	var j=0;
-	repeat(ds_list_size(object_layer_map[i])) {
-		array_push(obj_arr[i], object_layer_map[i][| j])
+	repeat(ds_list_size(object_layer_map)) {
+		array_push(obj_arr[i], object_layer_map[| j])
 		j++;
 	}
 	node_arr[i]=[];
 	j=0;
-	repeat(ds_list_size(node_layer_map[i])) {
-		array_push(node_arr[i], node_layer_map[i][| j])
+	repeat(ds_list_size(node_layer_map)) {
+		array_push(node_arr[i], node_layer_map[| j])
 		j++;
 	}
 	
@@ -443,7 +443,6 @@ function JADE_save(file=game_save_id+"\save.jade") {
 	struct[$ "layers"]=layerarr;
 	struct[$ "version"]=JADE_VERSION
 	struct[$ "spawnpoints"] = [spawnpoint_x, spawnpoint_y, testpoint_x, testpoint_y];
-	show_debug_message(struct)
 	var _json=json_stringify(struct); //compile all saved things
 	var save_file = buffer_create(string_byte_length(_json), buffer_grow, 1);
 	buffer_write(save_file, buffer_string, _json); //save compilation into a buffer
