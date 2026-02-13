@@ -136,6 +136,7 @@ function JADE_initializeobj() {
 	registerobj(oPoisonShroom, spr_poisonmushroom, 8, 8, 16, 16, false, false, items, "Poison Mushroom", true)
 	registerobj(oFrozenItem, spr_frozenitem, 8, 8, 16, 16, false, false, items, "Frozen Item")
 	properties.addDropdown(oFrozenItem, "Content", "content", "coin", ["Single Coin", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Mystery Orb"], ["coin", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "mysteryorb"])
+	registerobj(oGrabBlock, spr_grabblock, 8, 8, 16, 16, true, false, items, "Grab Block", true)
 	
 	objectlist.add(items);
 	

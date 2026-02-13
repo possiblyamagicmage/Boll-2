@@ -28,8 +28,7 @@ function player_interactions(){
 			if !(enemy.unshellable) {
 				enemy.enemyRolledInto.Emit(id);
 				
-				make_particle(pImpact,enemy.x+enemy.xsc,enemy.y,2)
-				show_debug_message("test!");
+				make_particle(pImpact,enemy.x+enemy.xsc,enemy.y,2);
 				
 				increase_combo(enemy.x,enemy.y);
 			}

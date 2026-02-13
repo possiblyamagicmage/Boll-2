@@ -38,6 +38,7 @@ dead=0
 deadtimer=0;
 deadgo=0;
 swim=0;
+kick=0;
 
 //we do this in create because its a function, and we only need to do it once
 #region Water Handling Setup
@@ -452,14 +453,15 @@ if (left || right) && (state == "" || state == "jump") && !slopesliding && !pipe
 	xsc = esign(move, xsc)
 }
 
-poundjump=max(0,poundjump-1)
-firing=max(0,firing-1)
+poundjump=max(0,poundjump-1);
+firing=max(0,firing-1);
 
-runvar = approach_val(runvar,run,0.05)
+runvar = approach_val(runvar,run,0.05);
 damagespecial = max(0, pound_severity);
 
-bonk=max(0,bonk-1)	
-grow = max(0, (grow - 1));
+bonk=max(0,bonk-1);
+grow=max(0,grow-1);
+kick=max(0,kick-1);
 
 #define step_end
 
@@ -654,6 +656,14 @@ if (state == "jump") {
 	
 	if (wallkick){
 		spriteEvent="wallJump"
+	}
+}
+
+if (kick) {
+	if (grounded) {
+		spriteEvent="carryKick"
+	} else {
+		spriteEvent="carryAirKick"
 	}
 }
 
@@ -973,3 +983,6 @@ stopsfx(charmName+"skid")
 
 #define on_freeze
 stopsfx(charmName+"skid")
+
+#define throw_object
+kick=12;

@@ -74,7 +74,6 @@ grounded = false;
 dead = 0;
 finish = 0;
 posed = 0;
-carrying = 0;
 run=0;
 bonk=0;
 collflags = 0; // collision flags

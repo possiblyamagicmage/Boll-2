@@ -1,33 +1,23 @@
 function player_grab(){
     if (bkey && grabbed_obj == noone) {
-        var awesome = collision_line(x,y,x +((hit_sizex + 2) * xsc),y, oGrabable, false, true) 
-        if (awesome && variable_instance_exists(awesome, "grabbed")) {
-            grabbed_obj = awesome
+        var grabbing = collision_line(x, y, x + (hit_sizex*xsc)+hsp+(2*move), y, oGrabbable, false, true) 
+        if (grabbing) {
+            grabbed_obj = grabbing
 			is_grabbing = true
-            awesome.grabbed = true
+            grabbing.grabbed = true
         }
     }
     
     if (grabbed_obj != noone) {
-        grabbed_obj.x = x + (12 * xsc)
+        grabbed_obj.x = x + (12 * xsc) - (1 * xsc == -1)
         grabbed_obj.y = y
         grabbed_obj.grabbed = true
 		is_grabbing = true
         
         if (!bkey) {
-            if (up) {
-                grabbed_obj.vsp = -6
-                grabbed_obj.hsp = hsp
-            } else if (down) {
-                grabbed_obj.vsp = 0
-                grabbed_obj.hsp = 0
-				grabbed_obj.bounce=false
-            } else {
-                grabbed_obj.vsp = -1
-                grabbed_obj.hsp = (xsc * 3)
-            }
+            grabbed_obj.onThrown.Emit(id);
+			sig.Emit("throw_object");
             
-            grabbed_obj.grabbed = false
             grabbed_obj = noone
 			is_grabbing = false
         }
