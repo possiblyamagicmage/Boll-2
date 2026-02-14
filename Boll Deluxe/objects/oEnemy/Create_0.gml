@@ -38,6 +38,7 @@ piped = false
 grounded = false
 overridexsc = false
 no_turn_anim = false;
+no_slope_influence = false;
 turnxsc = 1;
 
 hit_sizex = 6

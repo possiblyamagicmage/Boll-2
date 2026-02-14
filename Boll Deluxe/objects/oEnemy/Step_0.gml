@@ -65,8 +65,10 @@ if !(attach_to_ceiling) {
 		if walker {
 			gsp = constantspd * _direction
 		}
-		vsp = gsp * -dsin(colangle)
-		hsp = gsp * dcos(colangle)
+		if !(no_slope_influence) {
+			vsp = gsp * -dsin(colangle)
+			hsp = gsp * dcos(colangle)
+		}
 	}
 } else {
 	grav=-defaultgrav;
@@ -78,8 +80,10 @@ if !(attach_to_ceiling) {
 		if walker {
 			gsp = constantspd * _direction
 		}
-		vsp = gsp * -dsin(colangle)
-		hsp = gsp * dcos(colangle)
+		if !(no_slope_influence) {
+			vsp = gsp * -dsin(colangle)
+			hsp = gsp * dcos(colangle)
+		}
 	}
 }
 

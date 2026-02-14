@@ -23,7 +23,7 @@ switch(behavior_mode) {
 	break;
 	case bumptyBehaviors.flying_mode:
 		timer = max(timer-1,0);
-		y=ystart+sin((timer-90)/8)*4;
+		y=ystart+wave_val(-8,8,1.5);
 		
 		if !(turning) {
 			xsc=-esign(hsp,xsc);
@@ -56,6 +56,7 @@ switch(behavior_mode) {
 						timer = 8;
 						vsp = -4; //jump
 						constantspd = 2.5;
+						jumped = true;
 						grounded = false;
 						state++;
 					break;
@@ -99,10 +100,12 @@ switch(behavior_mode) {
 if (sliding) {
 	walker = false;
 	no_turn_anim = true;
+	no_slope_influence = true;
 	if (grounded) {
 		hsp = approach_val(hsp, 0, 0.01);
 		if (abs(hsp) <= 0.2) {
 			no_turn_anim = false;
+			no_slope_influence = false;
 			walker = true;
 			if (behavior_mode == bumptyBehaviors.jumping_mode) {
 				state++;
@@ -116,5 +119,6 @@ if (sliding) {
 
 if (grounded) {
 	bumped = false;
+	jumped = false;
 	gsp = hsp
 }

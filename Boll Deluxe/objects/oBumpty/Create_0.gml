@@ -14,6 +14,8 @@ goingdown = false;
 
 bumped = false;
 
+jumped = false;
+
 looking_around = false;
 
 enum bumptyBehaviors {
