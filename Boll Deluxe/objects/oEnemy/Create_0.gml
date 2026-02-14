@@ -53,8 +53,51 @@ image_yscale=1;
 depth=4;
 sprindex_prev = sprite_index;
 
-// boxpoly setup
-setup_box_poly(id);
+thrown = false;
+carry_player = noone;
+grabbed = false;
+can_grab = false;
+
+onThrown = new Signal();
+onPickup = new Signal();
+
+onPickup.Connect( self, function(carry_p) {
+	carry_player = carry_p;
+	phaseid = carry_p;
+	phase_leeway = 8;
+	grounded = false;
+});
+
+onThrown.Connect( self, function(thrown_p) {
+	var ypos = y;
+	var loops = 0;
+	while(check_collision_line(x-hit_sizex,ypos+hit_sizey,x+hit_sizex-1,ypos+hit_sizey,COL_FLOOR)) {
+		y--;
+		ypos=y;
+		loops++;
+		if (loops > 100) break;
+	}
+	
+	carry_player = thrown_p;
+	if (carry_player.up) {
+        vsp = -6
+        hsp = carry_player.hsp
+		grounded=false;
+		make_particle(pImpact,x,y,2)
+		VinylPlay(snd_enemykick)
+    } else if (carry_player.down) {
+        vsp = 0
+        hsp = 0
+    } else {
+        vsp = -1
+		hsp = (carry_player.xsc * 3)
+		make_particle(pImpact,x,y,2)
+		VinylPlay(snd_enemykick)
+	}
+	
+	grabbed = false;
+	thrown = true;
+});
 
 enemyStomped.Connect( self, function(hit_p) {
 	if (!no_stomping) {

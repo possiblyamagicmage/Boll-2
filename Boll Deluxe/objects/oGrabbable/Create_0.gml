@@ -5,29 +5,45 @@ gsp = 0;
 grounded = false;
 grav = 0.2;
 bounce = false;
-hit_sizex = 8;
-hit_sizey = 8;
 collision_array = [oCollider]
 
+depth=10;
+
 thrown = false;
-thrown_player = noone;
+carry_player = noone;
 grabbed = false;
 grab_delay = 0;
 
 onThrown = new Signal();
+onPickup = new Signal();
+
+onPickup.Connect( self, function(carry_p) {
+	no_collide = true;
+	carry_player = carry_p;
+});
 
 onThrown.Connect( self, function(thrown_p) {
-	thrown_player = thrown_p;
-	if (thrown_player.up) {
+	carry_player = thrown_p;
+	
+	var ypos = y;
+	var loops = 0;
+	while(check_collision_line((x-sprite_width/2),(ypos-sprite_height/2),x+sprite_width/2,ypos+(sprite_height/2)-1,COL_FLOOR)) {
+		y--;
+		ypos=y;
+		loops++;
+		if (loops > 100) break;
+	}
+	
+	if (carry_player.up) {
         vsp = -6
-        hsp = thrown_player.hsp
-    } else if (thrown_player.down) {
+        hsp = carry_player.hsp
+    } else if (carry_player.down) {
         vsp = 0
         hsp = 0
 		bounce = false
     } else {
         vsp = -1
-		hsp = (thrown_player.xsc * 3)
+		hsp = (carry_player.xsc * 3)
     }
 	
 	make_particle(pImpact,x,y,2)

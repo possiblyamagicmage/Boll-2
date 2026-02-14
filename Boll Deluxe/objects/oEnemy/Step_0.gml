@@ -2,6 +2,8 @@ if global.paused exit
 
 //grounded=false
 
+if !(grabbed) {
+
 if !on_screen(32,32) && !origin_on_screen(xstart,ystart,32,32) {
 	x = xstart
 	y = ystart
@@ -36,7 +38,7 @@ if !(in_shell) && (edgeturn) && (grounded)
 
 var steely=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oBigSteely, true, true)
 
-if (steely) && (abs(steely.hsp)>0) {
+if (steely) && (abs(steely.hsp)>0 || abs(steely.vsp)>0) {
 	hp=0
 }
 
@@ -54,10 +56,12 @@ if (enemycoll) {
 }
 
 if !(attach_to_ceiling) {
-	if !grounded
+	if !(grounded)
 	{
 		vsp=min(vsp+grav,4);
 	} else {
+		thrown = false;
+		carry_player = noone;
 		if walker {
 			gsp = constantspd * _direction
 		}
@@ -97,6 +101,12 @@ player_collision();
 
 if !(overridexsc) && !(in_shell)
 if gsp != 0 && (hp > 0) xsc=-esign(gsp,-1)
+
+} else {
+	if instance_exists(carry_player) {
+		xsc=-carry_player.xsc;
+	}
+}
 
 prevsprite_index = sprite_index
 event_user(0); //animation controller

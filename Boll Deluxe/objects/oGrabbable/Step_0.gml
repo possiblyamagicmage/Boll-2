@@ -8,6 +8,7 @@ if !(grabbed) {
     
     if (grounded) {
 		thrown = false;
+		carry_player = noone;
         if (bounce) {
             grounded = false
             bounce = false
@@ -21,7 +22,7 @@ if !(grabbed) {
     x += hsp
     y += vsp
 
-    player_collision();
+    player_collision(true, false, (-sprite_width/2)+1,sprite_width/2,(-sprite_height/2)+1,(sprite_height/2)-1);
 } else {
     grounded = false
 }

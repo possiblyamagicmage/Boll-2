@@ -2,7 +2,7 @@ if (in_shell) {
 	if (in_shell > (shell_time/2.5)) {
 		sprite_index = spr_koopashellspin_skate; 
 		image_speed = 1;
-		if (hsp==0) {
+		if !(shell_move) {
 			image_speed = 0;
 			image_index = 0;
 		}

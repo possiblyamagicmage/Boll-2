@@ -51,9 +51,5 @@ if (global.debug) {
 		c_red,c_red,c_red,c_red,
 		false
 	)
-	gpu_set_blendmode(bm_add);
-	draw_box_poly(self);
-	gpu_set_blendmode(bm_normal);
 	draw_set_alpha(1)
-	draw_text(x,y,warp_out)
 }

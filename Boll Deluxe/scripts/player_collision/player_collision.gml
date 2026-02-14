@@ -82,14 +82,14 @@ function player_collision(shoveOutOfWalls=true,auto_coords=true,l=0,r=0,t=0,b=0,
 	if (auto_coords)
 	{
 		left = -hit_sizex;
-		right = hit_sizex;
+		right = hit_sizex-1;
 		top = -hit_sizey;
 		bottom = hit_sizey;
 	}
 	else
 	{
 		left = l;
-		right = r;
+		right = r-1;
 		top = t;
 		bottom = b;
 	}
@@ -145,16 +145,20 @@ function player_collision(shoveOutOfWalls=true,auto_coords=true,l=0,r=0,t=0,b=0,
 	if !grounded && vsp >= 0 {
 		if check_collision_rectangle(posx+left,posy,posx+right,posy+bottom, COL_BOTTOM) && (!check_collision_rectangle(posx+left,posy-2,posx+right,posy+bottom-2, COL_BOTTOM) || vsp>=2 ){
 			grounded = true
-			colflags |= COL_FLOOR;
+			if object_index == oSlime {
+				colflags |= COL_FLOOR;	
+			}
 			get_angle_rect(posx+left,posy+bottom-2,posx+right,posy+bottom + 3)
             
+			//move up
+			while check_collision_rectangle(posx+left,posy, posx+right, posy+bottom /*+ vsp*/, COL_BOTTOM) {
+				y --
+				posy = y 
+			}
 			
-			if self.object_index = oPlayer{
-				//move up
-				while check_collision_rectangle(posx+left,posy, posx+right, posy+bottom /*+ vsp*/, COL_BOTTOM) {
-					y --
-					posy = y 
-				}
+			y=floor(y);
+			
+			if object_index == oPlayer{
 				sig.Emit("floor_land")
 			} else {
 				gsp = hsp

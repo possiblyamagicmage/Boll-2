@@ -3,6 +3,7 @@ if global.paused exit
 no_dam = false
 
 if (in_shell) {
+	can_grab = true;
 	if (!shell_move) {
 		no_dam = true
 		in_shell--; //Decreases the time for the koopa to get up
@@ -10,6 +11,20 @@ if (in_shell) {
 			image_index=0;
 			getup_timer = getup_timer_max;
 			no_stomping = false;
+			if (grabbed) {
+				if instance_exists(carry_player) {
+					x=carry_player.x;
+					with(carry_player) {
+						grabbed_obj = noone;
+						is_grabbing = false;
+					}
+				}
+				grabbed=false;
+				carry_player = noone;
+				phaseid = noone;
+				phase_leeway = 0;
+			}
+			can_grab=false;
 		}
 	} else {
 		var blocklist=ds_list_create();
@@ -34,7 +49,37 @@ if (in_shell) {
 		}
 		
 		ds_list_destroy(blocklist);
+		
+		var enemy=check_hitbox_on_hitbox(id,oEnemy)
+
+		if (enemy) { //make sure shell is actually colliding with an enemy before trying to kill the enemy it collided with???
+			if (in_shell) && (abs(hsp)) {
+				if !(enemy.unshellable) {
+					if (enemy.phaseid==noone || enemy.phaseid.id!=id) {
+						instance_create_depth(x+hit_sizex*xsc,y,2,pImpact)
+			
+						enemy.enemyShelled.Emit(id, kickedplayer);
+			
+						if (kickedplayer==noone) || (kickedplayer.object_index != oPlayer) 
+						kickedplayer=nearestplayer()
+			
+						kickCombo=min(kickCombo+1,8)
+						VinylPlay(snd_enemykick,false,1,0.9+(kickCombo/10))
+			
+						if (kickCombo==8)
+						give_lives(kickedplayer.pNum, x + (hit_sizex / 2), y - 8)
+						else
+						instance_create_depth(enemy.x,enemy.y,5,pScoreText,{image_index : kickCombo})
+					}
+				} else {
+					instance_destroy();
+					killtype="spin";
+				}
+			}
+		}
 	}
+} else {
+	can_grab = false;
 }
 
 if (getup_timer) {
@@ -46,33 +91,5 @@ if (getup_timer) {
 }
 
 event_inherited();
-
-var enemy=check_hitbox_on_hitbox(id,oEnemy)
-
-if (enemy) { //make sure shell is actually colliding with an enemy before trying to kill the enemy it collided with???
-	if (in_shell) && (abs(hsp)) {
-		if !(enemy.unshellable) {
-			if (enemy.phaseid==noone || enemy.phaseid.id!=id) {
-				instance_create_depth(x+hit_sizex*xsc,y,2,pImpact)
-			
-				enemy.enemyShelled.Emit(id, kickedplayer);
-			
-				if (kickedplayer==noone) || (kickedplayer.object_index != oPlayer) 
-				kickedplayer=nearestplayer()
-			
-				kickCombo=min(kickCombo+1,8)
-				VinylPlay(snd_enemykick,false,1,0.9+(kickCombo/10))
-			
-				if (kickCombo==8)
-				give_lives(kickedplayer.pNum, x + (hit_sizex / 2), y - 8)
-				else
-				instance_create_depth(enemy.x,enemy.y,5,pScoreText,{image_index : kickCombo})
-			}
-		} else {
-			instance_destroy();
-			killtype="spin";
-		}
-	}
-}
 
 event_user(0);

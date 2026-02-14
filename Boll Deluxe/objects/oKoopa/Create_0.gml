@@ -64,7 +64,6 @@ enemyCollidePlayer.Connect( self, function(hit_p) {
 				instance_create_depth(x+hit_sizex*xsc,other.y,2,pImpact)
 			}
 			constantspd = 3.5;
-			_direction = sign(x-phaseid.x) 
 			shell_move = true
 			in_shell = shell_time
 			no_stomping = false
@@ -72,6 +71,7 @@ enemyCollidePlayer.Connect( self, function(hit_p) {
 			enemycoll=false;
 			phaseid=hit_p
 			phase_leeway=10;
+			_direction = sign(x-phaseid.x) 
 		}
 	}
 });
@@ -86,4 +86,34 @@ koopaEscapeShell.Connect( self, function() {
 	hit_sizex = start_hit_sizex;
 	hit_sizey = start_hit_sizey;
 	y -= (start_hit_sizey-6);
+	if (grabbed) {
+		if instance_exists(carry_player) {
+			x=carry_player.x;
+			with(carry_player) {
+				grabbed_obj = noone;
+				is_grabbing = false;
+			}
+		}
+		grabbed=false;
+		carry_player = noone;
+		phaseid = noone;
+		phase_leeway = 0;
+	}
+	can_grab=false;
+});
+
+onThrown.Connect( self, function(thrown_p) {
+	carry_player = thrown_p;
+	if !(carry_player.up) && !(carry_player.down) {
+		shell_move = true;
+		constantspd = 3.5;
+		_direction = thrown_p.xsc;
+		shell_move = true
+		in_shell = shell_time
+		no_stomping = false
+		kickedplayer = thrown_p
+		enemycoll=false;
+		phaseid=thrown_p
+		phase_leeway=10;
+    }
 });

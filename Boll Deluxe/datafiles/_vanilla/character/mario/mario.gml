@@ -985,4 +985,6 @@ stopsfx(charmName+"skid")
 stopsfx(charmName+"skid")
 
 #define throw_object
-kick=12;
+if !(down) {
+	kick=12;
+}

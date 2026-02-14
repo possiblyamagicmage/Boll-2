@@ -1,15 +1,34 @@
 function player_grab(){
     if (bkey && grabbed_obj == noone) {
-        var grabbing = collision_line(x, y, x + (hit_sizex*xsc)+hsp+(2*move), y, oGrabbable, false, true) 
+		var graby = y-hit_sizey+2;
+		var graby2 = y+hit_sizey-2;
+		var grabx = x + (hit_sizex*xsc)+hsp+(2*move);
+		var grabx2 = x;
+		
+		if (up) {
+			graby = y-(hit_sizey+2)+vsp;
+			graby2 = y;
+			grabx = x-(hit_sizex*xsc)+hsp;
+			grabx2 = x + (hit_sizex*xsc)+hsp+(2*move);
+		}
+		
+        var grabbing = collision_rectangle(grabx, graby, grabx2, graby2, oGrabbable, false, true); 
+		if (grabbing == noone) {
+			grabbing = check_rectangle_in_hitbox(grabx, graby, grabx2, graby2, oEnemy);
+		}
         if (grabbing) {
-            grabbed_obj = grabbing
-			is_grabbing = true
-            grabbing.grabbed = true
+			var can_grab = (object_is_ancestor(grabbing.object_index,oGrabbable) && !grabbing.grab_delay) || (object_is_ancestor(grabbing.object_index,oEnemy) && grabbing.phaseid!=id && grabbing.can_grab) 
+			if (can_grab) {
+	            grabbed_obj = grabbing
+				is_grabbing = true
+	            grabbing.grabbed = true
+				grabbed_obj.onPickup.Emit(id);
+			}
         }
     }
     
     if (grabbed_obj != noone) {
-        grabbed_obj.x = x + (12 * xsc) - (1 * xsc == -1)
+        grabbed_obj.x = x + (12 * xsc)
         grabbed_obj.y = y
         grabbed_obj.grabbed = true
 		is_grabbing = true
