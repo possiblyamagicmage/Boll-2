@@ -47,11 +47,10 @@ if check_collision_line(x+(hit_sizex+1)*_direction, y+(hit_sizey-2),x+(hit_sizex
 }
 
 if (enemycoll) {
-	var coll = check_rectangle_in_hitbox(x+(hit_sizex+1)*_direction,y+hit_sizey-3,x+(hit_sizex+1)*_direction,y-hit_sizey+3,oEnemy)
+	var coll = check_rectangle_in_hitbox(x+hsp+(hit_sizex+1)*_direction,y+hit_sizey-3,x+hsp+(hit_sizex+1)*_direction,y-hit_sizey+3,oEnemy)
 	
-	if (coll) && (coll.enemycoll) {
+	if (coll) && (coll.enemycoll) && !(turning) {
 		enemyTurnAround.Emit();
-		with(coll) if (_direction!=other._direction) enemyTurnAround.Emit();
 	}
 }
 
