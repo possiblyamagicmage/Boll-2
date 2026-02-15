@@ -344,12 +344,12 @@ if (state == "jump" || state == "") && !(grounded) && !piped && !(stun) {
 	}
 	
 	if !(spinjump) {
-		if (!akey && vsp < -2 && !canstopjump) {//Make player jump lower when jump is released
-			vsp *= 0.6;
+		if (!akey && vsp < -2.6 && !canstopjump) {//Make player jump lower when jump is released
+			vsp = -2.6;
 		}
 	} else {
-		if (!ckey && vsp < -2 && !canstopjump) { //Make player jump lower when jump is released
-			vsp *= 0.6;
+		if (!ckey && vsp < -2.6 && !canstopjump) { //Make player jump lower when jump is released
+			vsp = -2.6;
 		}
 	}
 	
@@ -882,7 +882,7 @@ starmanjump = false;
 
 #define enemy_stomped
 if (state != "groundpound") {
-	vsp= -(4 + akey*1.5)
+	vsp= -(4+akey*2.5)
 }
 
 #define collide_with_enemy
