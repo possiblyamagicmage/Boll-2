@@ -11,7 +11,10 @@ if (in_shell) {
 		image_speed = 1;
 	}
 } else {
-	if (turning) {
+	if (jump) {
+		sprite_index = spr_koopajump_skate;
+		image_speed = 1;
+	} else if (turning) {
 		sprite_index = spr_koopaturn_skate;
 	} else if (getup_timer) {
 		sprite_index = spr_koopapopout_skate;

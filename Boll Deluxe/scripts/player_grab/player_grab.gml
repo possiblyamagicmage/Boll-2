@@ -2,11 +2,11 @@ function player_grab(){
     if (bkey && grabbed_obj == noone && can_grab) {
 		var graby = y-hit_sizey+2;
 		var graby2 = y+hit_sizey-2;
-		var grabx = x + (hit_sizex*xsc)+hsp+(2*move);
+		var grabx = x + ((hit_sizex+2)*xsc)+hsp
 		var grabx2 = x;
 		
 		if (up) {
-			graby = y-(hit_sizey+2)+vsp;
+			graby = y-(hit_sizey+4)+vsp;
 			graby2 = y;
 			grabx = x-(hit_sizex*xsc)+hsp;
 			grabx2 = x + (hit_sizex*xsc)+hsp+(2*move);
@@ -34,6 +34,7 @@ function player_grab(){
 		is_grabbing = true
         
         if (!bkey) {
+			grabbed_obj.x = x;
             grabbed_obj.onThrown.Emit(id);
 			sig.Emit("throw_object");
             

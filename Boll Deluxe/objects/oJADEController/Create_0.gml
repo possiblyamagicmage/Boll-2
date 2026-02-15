@@ -64,7 +64,11 @@ JADE_initializeobj();
 current_tileset="tTilesetMain"
 deco_mode_type="";
 
-GUIcanvas = surface_create(guiw,guih);
+GUIcanvas = -1;
+
+if !os_is_paused() && guiw>0 && guih>0 {
+	GUIcanvas = surface_create(guiw,guih);
+}
 
 topbuttons = new JADEsmallbuttons(4,4,52,16)
 topbuttons.add("File", function() {

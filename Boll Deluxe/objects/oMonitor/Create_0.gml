@@ -23,7 +23,7 @@ blockHit.Connect( self, function(hit_p, obj) {
 	if (obj.object_index == oPlayer) {
 		i.player = obj
 	} else if (obj.object_index == oKoopa) || object_is_ancestor(obj.object_index,oKoopa) {
-		if (in_shell) {
+		if (obj.in_shell) {
 			i.player = obj.kickedplayer
 		}
 	}

@@ -1,7 +1,9 @@
 node_path_movement();
 
 if !(grabbed) {
-    grab_delay = max(grab_delay-1, 0)
+	if !(check_rectangle_in_hitbox((-sprite_width/2)+1,sprite_width/2,(-sprite_height/2)+1,(sprite_height/2)-1, oPlayer)) {
+		grab_delay = max(grab_delay-1, 0)
+	}
     if !(grounded) { 
         vsp=min(vsp+grav,6);
     }

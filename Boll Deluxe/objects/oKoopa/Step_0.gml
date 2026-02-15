@@ -3,8 +3,8 @@ if global.paused exit
 no_dam = false
 
 if (in_shell) {
-	can_grab = true;
 	if (!shell_move) {
+		can_grab = true;
 		in_shell--; //Decreases the time for the koopa to get up
 		if !(in_shell) {
 			image_index=0;
@@ -24,11 +24,12 @@ if (in_shell) {
 				phase_leeway = 0;
 				no_dam = false;
 			}
-			can_grab=false;
+			can_grab = false;
 		} else {
 			no_dam = true;
 		}
 	} else {
+		can_grab = false;
 		var blocklist=ds_list_create();
 		var num=collision_line_list(x+(hit_sizex*_direction)+hsp,y-(hit_sizey-2),x+(hit_sizex*_direction)+hsp,y+(hit_sizey-2),oHittable, false, true, blocklist, true)
 

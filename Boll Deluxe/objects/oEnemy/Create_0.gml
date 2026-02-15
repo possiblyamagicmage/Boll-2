@@ -98,6 +98,7 @@ onThrown.Connect( self, function(thrown_p) {
 	
 	grabbed = false;
 	thrown = true;
+	_direction = xsc;
 });
 
 enemyStomped.Connect( self, function(hit_p) {

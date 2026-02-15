@@ -1257,6 +1257,7 @@
     {"name":"spr_koopafall_g","order":6,"path":"sprites/spr_koopafall_g/spr_koopafall_g.yy",},
     {"name":"spr_koopafall_r","order":6,"path":"sprites/spr_koopafall_r/spr_koopafall_r.yy",},
     {"name":"spr_koopahitbox","order":3,"path":"sprites/spr_koopahitbox/spr_koopahitbox.yy",},
+    {"name":"spr_koopajump_skate","order":6,"path":"sprites/spr_koopajump_skate/spr_koopajump_skate.yy",},
     {"name":"spr_koopapopout_g","order":5,"path":"sprites/spr_koopapopout_g/spr_koopapopout_g.yy",},
     {"name":"spr_koopapopout_r","order":5,"path":"sprites/spr_koopapopout_r/spr_koopapopout_r.yy",},
     {"name":"spr_koopapopout_skate","order":5,"path":"sprites/spr_koopapopout_skate/spr_koopapopout_skate.yy",},

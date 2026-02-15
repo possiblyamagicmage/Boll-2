@@ -99,6 +99,7 @@ koopaEscapeShell.Connect( self, function() {
 		carry_player = noone;
 		phaseid = noone;
 		phase_leeway = 0;
+		_direction = xsc;
 	}
 	can_grab=false;
 });

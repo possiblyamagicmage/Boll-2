@@ -7,7 +7,13 @@ global.conductive_array=[oAmp]
 
 piping_object_depth = 0;
 
-HUDsurface=surface_create(camera_get_view_width(view_camera[0]),camera_get_view_height(view_camera[0]))
+HUDsurface=-1;
+
+var guiw = window_get_width();
+var guih = window_get_height();
+if !os_is_paused() && guiw>0 && guih>0 {
+	HUDsurface=surface_create(camera_get_view_width(view_camera[0]),camera_get_view_height(view_camera[0]))
+}
 bgMusic=undefined;
 fgMusic=undefined;
 bluefadeprog = shader_get_uniform(shd_bluefade, "staged_offset");

@@ -11,8 +11,12 @@ repeat(array_length(hidden_tile_layers)) {
 
 ///ACTIVATION vvvv
 
-if !surface_exists(HUDsurface) {
-	HUDsurface=surface_create(camera_get_view_width(view_camera[0]),camera_get_view_height(view_camera[0]))
+var guiw = window_get_width();
+var guih = window_get_height();
+if !os_is_paused() && guiw>0 && guih>0 {
+	if !surface_exists(HUDsurface) {
+		HUDsurface=surface_create(camera_get_view_width(view_camera[0]),camera_get_view_height(view_camera[0]))
+	}
 }
 
 instance_deactivate_all(true)

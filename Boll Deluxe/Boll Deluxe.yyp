@@ -1712,6 +1712,7 @@
     {"id":{"name":"spr_koopafall_g","path":"sprites/spr_koopafall_g/spr_koopafall_g.yy",},},
     {"id":{"name":"spr_koopafall_r","path":"sprites/spr_koopafall_r/spr_koopafall_r.yy",},},
     {"id":{"name":"spr_koopahitbox","path":"sprites/spr_koopahitbox/spr_koopahitbox.yy",},},
+    {"id":{"name":"spr_koopajump_skate","path":"sprites/spr_koopajump_skate/spr_koopajump_skate.yy",},},
     {"id":{"name":"spr_koopapopout_g","path":"sprites/spr_koopapopout_g/spr_koopapopout_g.yy",},},
     {"id":{"name":"spr_koopapopout_r","path":"sprites/spr_koopapopout_r/spr_koopapopout_r.yy",},},
     {"id":{"name":"spr_koopapopout_skate","path":"sprites/spr_koopapopout_skate/spr_koopapopout_skate.yy",},},
