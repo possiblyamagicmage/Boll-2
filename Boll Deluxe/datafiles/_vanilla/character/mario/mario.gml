@@ -152,6 +152,11 @@ if (state == "pound") || (state=="dive") || (alarm_get(2)) || (hurt) || (stun) |
 	no_move = true;
 }
 
+can_grab = true;
+if (state == "pound") || (state == "dive") || (spinjump) || (hurt) || (stun) || (finish && posed && no_move_prev) {
+	can_grab = false;
+}
+
 #endregion
 
 #region Jump Out Of Water
@@ -353,7 +358,7 @@ if (state == "jump" || state == "") && !(grounded) && !piped && !(stun) {
 		}
 	}
 	
-	if (downpress) && !(hurt) && !(stun) {
+	if (downpress && !is_grabbing) && !(hurt) && !(stun) {
 		component_mario_start_groundpound()
 	}
 	
@@ -364,7 +369,7 @@ if (state == "jump" || state == "") && !(grounded) && !piped && !(stun) {
 	if (move != 0) && !(crouch) && !(spinjump) {
 		//wall sliding
 		var coll=check_collision_line(x+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc),x+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc),COL_WALL)
-		if (!grounded) && !(stun) && !(hurt) && (coll) && (vsp > 0) {
+		if (!grounded) && (!is_grabbing) && !(stun) && !(hurt) && (coll) && (vsp > 0) {
 			state = "wallslide"
 		}
 	}

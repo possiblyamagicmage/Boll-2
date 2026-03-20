@@ -62,7 +62,7 @@ if (grounded) {
 
 #region Start Wallrunning
 var _move = (right-left) 
-if (_move!=0) && (vsp < 0) && (state!="wallrun") && (abs(wallrunstored_gsp) > 1) {
+if (_move!=0) && (vsp < 0) && (state!="wallrun") && !(is_grabbing) && (abs(wallrunstored_gsp) > 1) {
 	//wall sliding
 	var coll=check_collision_line(x+((hit_sizex+4)*xsc),y-((hit_sizey-2)*ysc),x+((hit_sizex+4)*xsc),y-((hit_sizey-2)*ysc),COL_WALL)
 	if (!grounded)
@@ -102,6 +102,11 @@ switch (size) {
 
 if (state == "jump" || state == "roll" || state == "spindash" || state == "crouch") && (size != "mini") {
 	hit_sizey = 6
+}
+
+can_grab = true;
+if (state == "wallrun") || (state == "roll") || (state == "spindash") || (dashed) || (activebound) || (hurt) || (finish && posed && no_move_prev) {
+	can_grab = false;
 }
 
 topspd = 3 + ((size != "mini") * 0.5) + ((invincible_type == 2) / 1.25);
@@ -206,7 +211,7 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 				state = ""
 			}
 			
-			if (apress || bpress || cpress && abs(gsp) <= 0.5) {
+			if (apress || bpress || cpress && abs(gsp) <= 0.5) && !(is_grabbing) {
 				component_sonic_start_spindash()
 			}
 		}
@@ -217,7 +222,7 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 		#endregion
 		
 		//handles slope influence
-		if (!(piped)) {
+		if !(piped) {
 			if (state == "roll") {
 				player_slide_sonic(nonroll_factor, true, rollup_factor, rolldown_factor);
 			}
@@ -237,13 +242,15 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 if (state == "jump") && !(piped) && !(hurt) && (state!="frozen") {
 	slopesliding = 0
 	
-	if (cpress && vsp >= -2.6 && !activebound) {
+	#region Bound Jump
+	if (cpress && vsp >= -2.6 && !activebound) && !(is_grabbing) {
 		activebound = true;
 		vsp = 8;
 		hsp = (hsp / 2);
 		stopsfx("sonicbounce")
 		playsfx("sonicbounce")
 	}
+	#endregion
 	
 	show_debug_message(boundjump)
 	
@@ -251,7 +258,7 @@ if (state == "jump") && !(piped) && !(hurt) && (state!="frozen") {
 		vsp = -2.6;
 	}
 	
-	if (apress) && !(dashed) {
+	if (apress) && !(dashed) && !(is_grabbing) {
 		if (vsp < -2.6) {
 			vsp = -2.6;
 		}
@@ -339,7 +346,7 @@ if (state != "roll" || !grounded) && !(piped) {
 }
 
 
-if (state == "" || state == "crouch" || state == "spindash") && (grounded && down && abs(gsp) > 1 ) && !(piped) {
+if (state == "" || state == "crouch" || state == "spindash") && (grounded && down && abs(gsp) > 1 ) && !(is_grabbing) && !(piped) {
 	stopsfx(charmName+"spin")
 	playsfx(charmName+"spin")
 	state = "roll"
@@ -398,49 +405,76 @@ switch (state) {
 
 	case "": {
 		if (abs(gsp) == 0) {
-			wait_timer += 1
-			spriteEvent="idle"
-			if (wait_timer > 440) {
-				spriteEvent="wait"
-			}
-			if (up) {
-				wait_timer = 0
-				spriteEvent="lookUp"
+			if !(is_grabbing) {
+				wait_timer += 1
+				spriteEvent="idle"
+				if (wait_timer > 440) {
+					spriteEvent="wait"
+				}
+				if (up) {
+					wait_timer = 0
+					spriteEvent="lookUp"
+				}
+			} else {
+				spriteEvent="carryIdle"
+				if (up) {
+					spriteEvent="carryLookUp"
+				}
 			}
 		} else {
 			wait_timer = 0;
 			
-			if (!skidding){
-				//icy slippy
+			if !(is_grabbing) {
+				if (!skidding) {
+					//icy slippy
+					var speed_mult = 1;
+					if (friction_mult>0) && (grounded) {
+						speed_mult = 1/(friction_mult);
+					}
+				
+					if (ceil(abs(gsp))>=3.4) {
+						frspd=(abs(gsp)/4)*speed_mult
+						spriteEvent="run"
+					}
+					else if (ceil(abs(gsp))>=5.9){
+						frspd=max(0.3, abs(gsp)/4)*speed_mult
+						spriteEvent="maxrun"
+					}
+					else {
+						frspd=max(0.3, abs(gsp)/4)*speed_mult
+						spriteEvent="walk"
+					}
+				} else {
+					spriteEvent="brake"
+				}
+			} else {
 				var speed_mult = 1;
 				if (friction_mult>0) && (grounded) {
 					speed_mult = 1/(friction_mult);
-				}
-			
-				if (ceil(abs(gsp))>=3.4) {
-					frspd=(abs(gsp)/4)*speed_mult
-					spriteEvent="run"
-				}
-				else if (ceil(abs(gsp))>=5.9){
 					frspd=max(0.3, abs(gsp)/4)*speed_mult
-					spriteEvent="maxrun"
+					spriteEvent="carryWalk"
 				}
-				else {
-					frspd=max(0.3, abs(gsp)/4)*speed_mult
-					spriteEvent="walk"
-				}
-			} else {
-				spriteEvent="brake"
 			}
 		}
 	} break;
 	case "crouch": {
-		spriteEvent="crouch"
+		if !(is_grabbing) {
+			spriteEvent="crouch"
+		} else {
+			spriteEvent="carryCrouch"
+		}
 	} break;
 	case "jump": {
-		spriteEvent="jump"
-		if (bonk) {
-			spriteEvent="bonk"
+		if !(is_grabbing) {
+			spriteEvent="jump"
+			if (bonk) {
+				spriteEvent="bonk"
+			}
+		} else {
+			spriteEvent="carryJump"
+			if (bonk) {
+				spriteEvent="carryBonk"
+			}
 		}
 	} break;
 	case "roll": {

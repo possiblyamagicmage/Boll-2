@@ -16,6 +16,13 @@ if (blowing) {
 					foundplayer=true
 					state = "frozen"
 					sig.Emit("on_freeze")
+					if (is_grabbing) {
+						up=false;
+						down=true;
+						grabbed_obj.onThrown.Emit(id);
+						grabbed_obj = noone;
+						is_grabbing = false;
+					}
 					while (check_collision_line(x-hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey,COL_BOTTOM)) {
 						y-=1
 					}

@@ -44,6 +44,7 @@ if (state != "frozen") {
 	}
 } else {
 	state = "frozen"
+	can_grab = false;
 	
 	hit_sizex=15;
 	hit_sizey=15;
