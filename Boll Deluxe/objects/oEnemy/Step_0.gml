@@ -4,11 +4,14 @@ if global.paused exit
 
 if !(grabbed) {
 
-if !on_screen(32,32) && !origin_on_screen(xstart,ystart,32,32) {
+if !on_screen(32,32) && !origin_on_screen(xstart,ystart,32,32) && !(respawned) {
 	x = xstart
 	y = ystart
+	enemyRespawn.Emit();
+	respawned=true;
 } else if on_screen(32,32) {
 	instance_activate_region(x-activation_region_width, y-activation_region_width, activation_region_width*2, activation_region_height*2, true)
+	respawned=false;
 }
 
 onceiling = check_collision_line(x-hit_sizex+hsp,y-hit_sizey-6,x+hit_sizex+hsp,y-hit_sizey-6,COL_TOP)

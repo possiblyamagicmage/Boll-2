@@ -104,6 +104,13 @@ koopaEscapeShell.Connect( self, function() {
 	can_grab=false;
 });
 
+enemyRespawn.Connect( self, function(thrown_p) {
+	shell_move = false;
+	in_shell = 0;
+	constantspd = 0.5;
+	koopaEscapeShell.Emit();
+});
+
 onThrown.Connect( self, function(thrown_p) {
 	carry_player = thrown_p;
 	if !(carry_player.up) && !(carry_player.down) {

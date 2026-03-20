@@ -61,6 +61,7 @@ frame=0
 fhaslooped=0
 dy=0
 
+can_stomp = true;
 cantslowanim=0
 flash=0
 water=0

@@ -157,6 +157,11 @@ if (state == "pound") || (state == "dive") || (spinjump) || (hurt) || (stun) || 
 	can_grab = false;
 }
 
+can_stomp = true
+if (state == "pound") {
+	can_stomp = false;
+}
+
 #endregion
 
 #region Jump Out Of Water
@@ -665,6 +670,7 @@ if (state == "jump") {
 }
 
 if (kick) {
+	frspd=1;
 	if (grounded) {
 		spriteEvent="carryKick"
 	} else {
@@ -673,14 +679,17 @@ if (kick) {
 }
 
 if (state == "dive") {
+	frspd=1;
 	spriteEvent="dive"
 }
 
 if (slopesliding) {
+	frspd=1;
 	spriteEvent="slopeSlide"
 }
 
 if (state == "pound") {
+	frspd=1;
 	if (pound_timer > 0) {
 		spriteEvent="groundPound" 
 	} else {
@@ -689,6 +698,7 @@ if (state == "pound") {
 }
 
 if (state == "wallslide") {
+	frspd=1;
 	spriteEvent="wallSlide"
 }
 
@@ -698,9 +708,11 @@ if (firing) && !(is_grabbing) {
 	} else {
 		spriteEvent="crouchFireToss"
 	}
+	frspd=1;
 }
 
 if (hurt || stun || state == "frozen") {
+	frspd=1;
 	spriteEvent="hurt"
 	if (dead) {
 		spriteEvent="dead"
@@ -708,6 +720,7 @@ if (hurt || stun || state == "frozen") {
 }
 
 if (electrocuted) {
+	frspd=1;
 	spriteEvent="electrocute"
 }
 #endregion
@@ -886,14 +899,14 @@ stun = false;
 starmanjump = false;
 
 #define enemy_stomped
-if (state != "groundpound") {
+if (state != "pound") {
 	vsp= -(4+akey*2.5)
 }
 
 #define collide_with_enemy
 var coll=check_hitbox_on_hitbox(id, oEnemy)
 if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
-	if (coll) && (!(slopesliding) || coll.damage_on_contact) && !(invincible_type && invincible_timer) && (coll.deal_dam) {
+	if (coll) && ((!slopesliding && state != "pound") || coll.damage_on_contact) && !(invincible_type && invincible_timer) && (coll.deal_dam) {
 		stopsfx(charmName+"skid")
 		stopsfx(charmName+"damage")
 		hurt=1
@@ -917,7 +930,11 @@ if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 			} break
 		}
 		grow = 60;
-	} else if (coll) && (invincible_type == 2) {
+	} else if (state == "pound") {
+		make_particle(pImpact,coll.x,coll.y,2)
+		increase_combo(coll.x,coll.y);
+		signal_emit(coll.enemyPounded, id);
+	} else if (slopesliding) || (invincible_type == 2) {
 		make_particle(pImpact,coll.x+coll.xsc,coll.y,2)
 		increase_combo(coll.x,coll.y);
 		signal_emit(coll.enemyRolledInto, id);

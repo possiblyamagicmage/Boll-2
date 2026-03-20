@@ -6,6 +6,11 @@ enemyKilled = new Signal();
 enemyTurnAround = new Signal();
 enemyShelled = new Signal();
 enemyRolledInto = new Signal();
+enemyPounded = new Signal();
+enemyRespawn = new Signal();
+
+respawned = false;
+
 grav=defaultgrav
 _direction = -1
 rot=0
@@ -158,8 +163,19 @@ enemyShelled.Connect( self, function(hit_obj, kick_p) {
 });
 
 enemyRolledInto.Connect( self, function(hit_p) {
-	hp-= 1
+	hp-=1;
 	vsp=-4;
+	phaseid=hit_p
+	phase_leeway=15;
+	killdir= esign(x-x,1)
+	killhsp= max(abs(hit_p.hsp)/1.75,2)
+	xsc= esign(hit_p.hsp,hit_p.xsc)
+	killvsp= -max(2,abs(hit_p.hsp)/1.5)
+	killtype= "spin"
+});
+
+enemyPounded.Connect( self, function(hit_p) {
+	hp-=1;
 	phaseid=hit_p
 	phase_leeway=15;
 	killdir= esign(x-x,1)
