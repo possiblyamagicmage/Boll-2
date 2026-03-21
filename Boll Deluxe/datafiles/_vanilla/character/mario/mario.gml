@@ -371,13 +371,15 @@ if (state == "jump" || state == "") && !(grounded) && !piped && !(stun) {
 		steep_slope = false;
 	}
 	
-	if (move != 0) && !(crouch) && !(spinjump) {
+	#region Wallsliding
+	if (move != 0) && !(crouch) && !(spinjump) && (state != "pound"){
 		//wall sliding
 		var coll=check_valid_wall(x+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc),x+((hit_sizex+1)*xsc),y-((hit_sizey-2)*ysc))
 		if (!grounded) && (!is_grabbing) && !(stun) && !(hurt) && (coll) && (vsp > 0) {
 			state = "wallslide"
 		}
 	}
+	#endregion
 }
 
 if ((state == "" || state=="crouch") && !hurt && !stun && apress && canjump > 0 && !spinjump) && !piped && !(underwater) {
@@ -412,13 +414,9 @@ if ((state == "" || state=="crouch") && !hurt && !stun && apress && canjump > 0 
 }
 #endregion
 
-#region Wallsliding
-
 if (state == "wallslide") && !piped && !(stun) {
 	component_mario_wallslide()
 }
-
-#endregion
 
 #region Spinjumping & Diving
 

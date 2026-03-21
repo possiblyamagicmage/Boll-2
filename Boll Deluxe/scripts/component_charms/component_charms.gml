@@ -128,13 +128,13 @@ function component_mario_wallslide(slideSpeed = 1, jumpVSpeed = 5, jumpHSpeed = 
 }
 
 function component_mario_start_groundpound(){
-	
-		stopsfx(charmName+"jump")
-		pound_timer = 10
-		state = "pound"
-		found_block = false;
-		playsfx(charmName+"pound")
-		pounding_block = true
+	hsp=0;
+	stopsfx(charmName+"jump")
+	pound_timer = 10
+	state = "pound"
+	found_block = false;
+	playsfx(charmName+"pound")
+	pounding_block = true
 }
 
 function component_mario_groundpound(fallSpeed = 7){
