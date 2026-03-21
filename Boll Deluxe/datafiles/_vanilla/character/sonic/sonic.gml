@@ -240,7 +240,7 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 }
 	
 #region Jumping
-if (state == "jump") && !(piped) && !(hurt) && (state!="frozen") {
+if (state == "jump") && !(piped) && !(hurt) && (state!="spindash") {
 	slopesliding = 0
 	
 	#region Bound Jump
@@ -474,6 +474,9 @@ switch (state) {
 			}
 		} else {
 			spriteEvent="carryJump"
+			if (vsp>0) {
+				spriteEvent="carryFall"
+			}
 			if (bonk) {
 				spriteEvent="carryBonk"
 			}
@@ -610,7 +613,7 @@ if (invincible_type != 2) && (state != "roll") && (state != "spindash") {
 }
 
 canstopjump = false;
-if state!="wallrun" && state!="frozen" {
+if (state!="wallrun") {
 	state = "";
 }
 bonk = 0;
@@ -660,8 +663,8 @@ if (activebound) {
 #define sprung_up
 canstopjump = true;
 crouch = false;
-if state != "frozen" {
-	state = "";
+if (state != "frozen") {
+	state = "jump";
 }
 activebound = false;
 
@@ -671,7 +674,7 @@ vsp= -(4+akey*1.5)
 #define collide_with_enemy
 var coll=check_hitbox_on_hitbox(id, oEnemy)
 if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
-	if ((state != "roll") && (state != "jump") && (state != "spindash") || coll.damage_on_contact) && !(invincible_type && invincible_timer) && (coll.deal_dam) {
+	if (state != "jump") && ((state != "roll" && state != "spindash") || coll.damage_on_contact) && !(invincible_type && invincible_timer) && (coll.deal_dam) {
 		stopsfx(charmName+"damage")
 		hurt=1
 		hsp = -2.25 * xsc
@@ -695,7 +698,7 @@ if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 			} break
 		}
 		grow = 60;
-	} else if (invincible_type == 2) || (state == "spindash") {
+	} else if (invincible_type == 2) || (state == "spindash") || (state == "roll") {
 		make_particle(pImpact,coll.x+coll.xsc,coll.y,2)
 		VinylPlay(snd_enemykick)
 		signal_emit(coll.enemyRolledInto, id);
