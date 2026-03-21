@@ -861,9 +861,6 @@ if (invincible_type != 2) && !(slopesliding) {
 
 gsp = hsp
 
-make_particle(pSkidDust, x - 1, y + hit_sizey, depth + 5, 1, -2.25, -0.1, -0.02, 0.2);
-make_particle(pSkidDust, x + 1, y + hit_sizey, depth + 5, -1, 2.25, -0.1, -0.02, 0.2);
-
 #region Groundpound Land
 if (state == "pound") {
 	poundjump = 16;
@@ -875,6 +872,8 @@ if (state == "pound") {
 	playsfx(charmName+"stomp");
 } else if state != "frozen"{
 	state = ""
+	make_particle(pSkidDust, x - 1, y + hit_sizey, depth + 5, 1, -2.25, -0.1, -0.02, 0.2);
+	make_particle(pSkidDust, x + 1, y + hit_sizey, depth + 5, -1, 2.25, -0.1, -0.02, 0.2);
 }
 #endregion
 vsp = 0
