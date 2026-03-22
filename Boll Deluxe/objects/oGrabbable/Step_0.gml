@@ -33,7 +33,7 @@ if !(grabbed) {
 	if (enemy) { //make sure shell is actually colliding with an enemy before trying to kill the enemy it collided with???
 		if !(enemy.unshellable) {
 			if (enemy.phaseid==noone || enemy.phaseid.id!=id) {
-				instance_create_depth(x+(sprite_width/2)*carry_player.xsc,y,2,pImpact)
+				instance_create_depth(x+(sprite_width/2)*carry_player.xsc,y,-5,pImpact)
 			
 				enemy.enemyShelled.Emit(id, carry_player);
 	
@@ -78,7 +78,7 @@ if (thrown) && (can_hit) {
 	if (enemy) { //make sure shell is actually colliding with an enemy before trying to kill the enemy it collided with???
 		if !(enemy.unshellable) {
 			if (enemy.phaseid==noone || enemy.phaseid.id!=id) {
-				instance_create_depth(x,y,2,pImpact)
+				instance_create_depth(x,y,-5,pImpact)
 			
 				enemy.enemyShelled.Emit(id, carry_player);
 			

@@ -113,7 +113,7 @@ enemyStomped.Connect( self, function(hit_p) {
 			increase_combo(other.x,other.y);
 			
 			sig.Emit("enemy_stomped")
-			instance_create_depth(x,y+hit_sizey,2,pImpact)
+			instance_create_depth(x,y+hit_sizey,-5,pImpact)
 		}
 		phaseid=hit_p
 		phase_leeway=7;
@@ -138,7 +138,7 @@ enemyCollidePlayer.Connect( self, function(hit_p) {
 enemyFireballed.Connect( self, function(proj, hit_p) {
 	VinylPlay(snd_enemykick)
 	hp-=1
-	instance_create_depth(proj.x,proj.y,2,pImpact)
+	instance_create_depth(proj.x,proj.y,-5,pImpact)
 	killhsp=1
 	xsc=esign(proj.hsp, xsc)
 	killtype="spin"
@@ -175,7 +175,7 @@ enemyRolledInto.Connect( self, function(hit_p) {
 });
 
 enemyPounded.Connect( self, function(hit_p) {
-	hp-=1;
+	hp=0;
 	phaseid=hit_p
 	phase_leeway=15;
 	killdir= esign(x-x,1)

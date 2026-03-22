@@ -58,7 +58,7 @@ if (in_shell) {
 		if (enemy) { //make sure shell is actually colliding with an enemy before trying to kill the enemy it collided with???
 			if !(enemy.unshellable) {
 				if (enemy.phaseid==noone || enemy.phaseid.id!=id) {
-					instance_create_depth(x+hit_sizex*xsc,y,2,pImpact)
+					instance_create_depth(x+hit_sizex*xsc,y,-5,pImpact)
 			
 					enemy.enemyShelled.Emit(id, kickedplayer);
 			
@@ -113,7 +113,7 @@ if (thrown) {
 	if (enemy) { //make sure shell is actually colliding with an enemy before trying to kill the enemy it collided with???
 		if !(enemy.unshellable) {
 			if (enemy.phaseid==noone || enemy.phaseid.id!=id) {
-				instance_create_depth(x+hit_sizex*xsc,y,2,pImpact)
+				instance_create_depth(x+hit_sizex*xsc,y,-5,pImpact)
 			
 				enemy.enemyShelled.Emit(id, kickedplayer);
 			

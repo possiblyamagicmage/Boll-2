@@ -1,4 +1,5 @@
 surface_free(HUDsurface)
+surface_free(gameoversurface)
 var i=0;
 repeat (array_length(playerPalettes)) {
 	sprite_delete(playerPalettes[i]);

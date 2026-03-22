@@ -48,7 +48,7 @@ enemyStomped.Connect( self, function(hit_p) {
 			increase_combo(other.x,other.y);
 			
 			sig.Emit("enemy_stomped")
-			instance_create_depth(x,y+hit_sizey,2,pImpact)
+			instance_create_depth(x,y+hit_sizey,-5,pImpact)
 		}
 		kickedplayer = noone;
 		kickCombo = 0;
@@ -61,7 +61,7 @@ enemyCollidePlayer.Connect( self, function(hit_p) {
 		if (in_shell) && !(shell_move) {
 			VinylPlay(snd_enemykick)
 			with (hit_p) {
-				instance_create_depth(x+hit_sizex*xsc,other.y,2,pImpact)
+				instance_create_depth(x+hit_sizex*xsc,other.y,-5,pImpact)
 			}
 			constantspd = 3.5;
 			shell_move = true

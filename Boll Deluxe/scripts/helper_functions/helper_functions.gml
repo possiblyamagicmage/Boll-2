@@ -228,7 +228,6 @@ function update_camerapos()
 {
 	global.camera_x = floor(camera_get_view_x(view_camera[0]));
 	global.camera_y = floor(camera_get_view_y(view_camera[0]));
-	show_debug_message("test")
 }
 
 function chance(percent){

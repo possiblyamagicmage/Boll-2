@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":2.8454876,
+  "duration":8.001995,
   "exportDir":"",
   "name":"mus_gameover",
   "parent":{
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"mus_gameover.wav",
+  "soundFile":"mus_gameover.ogg",
   "volume":1.0,
 }

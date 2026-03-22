@@ -144,17 +144,14 @@ if death_time {
 	death_time_counter++
 	
 	
-	if death_time_counter > 60 {
+	if (death_time_counter > 60) && !(global.midTransition) {
 		if (global.lives[0] < 1) { //game over. couldnt care less if player 2 has -4 lives You. Are. Not. Implemented!!
 			VinylStopAll();
 			VinylPlay(mus_gameover, 0, 0.4);
-			show_message("yeah you got the games over yeah. died alot and lost your lifes. its over  alright now GET OUTTA HERE");
-			if (!global.jade_testing)
-				room_goto(rIntro);
-			else {
-				global.jade_testing = false;
-				room_goto(rEditor);
-			}
+			var goto = rMainMenu;
+			if (global.jade_testing) goto = rEditor;
+			
+			TransitionStart(goto,sq_gameover,-1);
 			exit;
 		}
 		room_restart();

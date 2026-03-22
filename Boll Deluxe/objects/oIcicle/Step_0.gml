@@ -57,7 +57,7 @@ if (can_fall) {
 			enemy.hp=0
 			enemy.killtype="spin";
 			enemy.killhsp = sign(enemy.x-(x+8));
-			instance_create_depth(enemy.x,enemy.y,2,pImpact)
+			instance_create_depth(enemy.x,enemy.y,-5,pImpact)
 		}
 		
 		var coll=instance_place(x,y+1,oHittable) 

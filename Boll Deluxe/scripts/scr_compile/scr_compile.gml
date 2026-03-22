@@ -17,6 +17,7 @@ function compile_code(){
 			_folder = file_find_next();
 		}
 	}
+	
 	show_debug_message("END SCRIPT FOLDER SEARCH");
 	
 	_folder = file_find_close();

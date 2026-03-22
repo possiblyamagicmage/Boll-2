@@ -186,7 +186,7 @@ function player_interactions(){
 	if (bearballoon) && !(hurt) && !(dead) {
 		if vsp >= 0 vsp=-(2.5+akey*1.5);
 		sig.Emit("sprung");
-		instance_create_depth(bearballoon.x,bearballoon.y,2,pImpact)
+		instance_create_depth(bearballoon.x,bearballoon.y,-5,pImpact)
 		instance_destroy(bearballoon);
 	}
 	

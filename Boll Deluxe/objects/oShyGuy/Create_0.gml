@@ -46,7 +46,7 @@ enemyCollidePlayer.Connect( self, function(hit_p) {
 	} else if (grounded) {
 		VinylPlay(snd_enemykick)
 		with (hit_p) {
-			instance_create_depth(x+hit_sizex*xsc,other.y,2,pImpact)
+			instance_create_depth(x+hit_sizex*xsc,other.y,-5,pImpact)
 		}
 		hsp=sign(x-hit_p.x)*3;
 		vsp=-2;

@@ -19,13 +19,13 @@ enemyStomped.Connect( self, function(hit_p) {
 		VinylPlay(snd_enemystomp)
 		with(hit_p) {
 			sig.Emit("enemy_stomped")
-			instance_create_depth(x,y+hit_sizey,2,pImpact)
+			instance_create_depth(x,y+hit_sizey,-5,pImpact)
 		}
 	}
 });
 
 enemyFireballed.Connect( self, function(proj, hit_p) {
-	instance_create_depth(proj.x,proj.y,2,pImpact)
+	instance_create_depth(proj.x,proj.y,-5,pImpact)
 	VinylPlay(snd_enemykick)
 	vsp = -2;
 	grounded = false;

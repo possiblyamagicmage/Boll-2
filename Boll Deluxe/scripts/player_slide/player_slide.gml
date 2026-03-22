@@ -5,10 +5,10 @@ function player_slide(max_speed, slide_influence, steep_influence, do_steep_whil
 			gsp -= (steep_influence * dsin(colangle))
 			no_move = 1
 		}
-		if (down && !slopesliding) {
+		if (down && !slopesliding && !is_grabbing) {
 			slopesliding = 1;	
 		}
-	} else if (down && colslope != 0 && !slopesliding) {
+	} else if (down && colslope != 0 && !slopesliding && !is_grabbing) {
 		slopesliding = 1;
 	}
 	
