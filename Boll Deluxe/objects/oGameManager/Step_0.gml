@@ -15,3 +15,11 @@ if (VinylMixGetGain("music") > 0) {
 		}
 	}
 }
+
+game_timer += delta_time / 1000000;
+
+reserve_timer = lerp(reserve_timer,0,0.2);
+
+if (reserve_timer <= 0.01) {
+	reserve_timer = 0;
+}

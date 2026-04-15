@@ -6,8 +6,7 @@ if (player!=noone) && (player.object_index == oPlayer) {
 			break;
 		
 			case 1: //10 coin
-			global.coins_collected += 10;
-			VinylPlay(snd_itemcoin);
+			collect_coins(10);
 			break;
 		
 			case 2: //fire flower

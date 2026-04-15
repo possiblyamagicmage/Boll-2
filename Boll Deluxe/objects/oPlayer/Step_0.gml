@@ -27,6 +27,7 @@ if (input_enable) {
 		bpress = input_check_pressed("b");
 		ckey = input_check("c");
 		cpress = input_check_pressed("c");
+		vpress = input_check_pressed("v");
 	}
 }
 player_castlewalk()
@@ -135,6 +136,19 @@ switch(state) {
 			catspeak_execute(global.scripts[? $"{charmName}_step"]);
 		} else if (dead) {
 			catspeak_execute(global.scripts[? $"{charmName}_death"]);
+		}
+		
+		if (vpress) && (oGameManager.reserved_item!=noone) {
+			var i=instance_create_depth(x,y,0,oGameManager.reserved_item)
+			i.vsp=-2;
+			i.hsp=xsc*2;
+			i.phaseid=id;
+			i.phase_leeway = 0;
+			
+			with(oGameManager) {
+				reserved_item = noone;
+			}
+			VinylPlay(snd_itemappear);
 		}
 	break;
 }

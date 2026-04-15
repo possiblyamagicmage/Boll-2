@@ -73,7 +73,7 @@ function unreal(str, defaultval) {
 function nozerounreal(str, defaultval) {
 	var res,l,c,i,valid,dot;
 	res="" valid=0 dot=0 l=string_length(str)
-	var i=1;
+	i=1;
 	repeat(l) {
 	    c=string_char_at(str,i)
 	    if (c="," || c=".") {res+="." if (dot) {valid=0 break} dot=1}

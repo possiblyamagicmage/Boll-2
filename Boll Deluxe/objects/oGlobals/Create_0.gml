@@ -11,14 +11,16 @@ global.omiFont=font_add_sprite_ext(spr_omifont,"0123456789:;.,<=>}%/"+chr(92)+"-
 ScribblejrAttachSpritefont(global.omiFont,true,1)
 global.rulerGold=font_add_sprite_ext(spr_rulergold,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!?.,:;<>'"+chr(34)+"@#$%^&*(){}[]/|"+chr(92)+"_-=+`~ ",true,1)
 ScribblejrAttachSpritefont(global.rulerGold,true,1)
-global.matosseFont = font_add_sprite_ext(spr_matossefont,"ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!?&.,;:()"+chr(34)+"'/abcdefghijklmnopqrstuvwxyz",true,0)
+global.matosseFont = font_add_sprite_ext(spr_matossefont,"ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!?&.,;:()"+chr(34)+"'/abcdefghijklmnopqrstuvwxyz",true, 1)
 ScribblejrAttachSpritefont(global.matosseFont,true,1)
-global.titlesmallFont = font_add_sprite_ext(spr_titlesmallfont,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",true,0)
+global.titlesmallFont = font_add_sprite_ext(spr_titlesmallfont,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", true, 1)
 ScribblejrAttachSpritefont(global.matosseFont,true,1)
-global.titlebigFont = font_add_sprite_ext(spr_titlebigfont,"ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!?()-/&:.,'",true,0)
+global.titlebigFont = font_add_sprite_ext(spr_titlebigfont,"ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!?()-/&:.,'", true, 1)
 ScribblejrAttachSpritefont(global.matosseFont,true,1)
-global.titlelivesFont = font_add_sprite_ext(spr_livesfont,"x1234567890",true,0)
+global.titlelivesFont = font_add_sprite_ext(spr_livesfont,"x1234567890", true, 0)
 ScribblejrAttachSpritefont(global.titlelivesFont,true,1)
+global.hudFont=font_add_sprite_ext(spr_hudfont,"0123456789:.x ", true, 1)
+ScribblejrAttachSpritefont(global.hudFont,true,1)
 
 global.debug = false;
 global.show_collision = false;
@@ -51,6 +53,15 @@ GMLspeak.interface.compileFlags.checkForVariables = true;
 		GMLspeak.interface.exposeConstant("CAM_SENSOR_HEIGHT",CAM_SENSOR_HEIGHT)
 		GMLspeak.interface.exposeConstant("CAM_ZOOM_TIME",CAM_ZOOM_TIME)
 		GMLspeak.interface.exposeConstant("CAM_ZOOM_RATE",CAM_ZOOM_RATE)
+		
+		GMLspeak.interface.exposeAsset("oCoin");
+		GMLspeak.interface.exposeAsset("oMushroom");
+		GMLspeak.interface.exposeAsset("oFireFlower");
+		GMLspeak.interface.exposeAsset("oThunderFlower");
+		GMLspeak.interface.exposeAsset("oStar");
+		GMLspeak.interface.exposeAsset("o1up");
+		GMLspeak.interface.exposeAsset("o3up");
+		GMLspeak.interface.exposeAsset("oPoisonShroom");
 	#endregion
 	
 	#region Custom Functions
@@ -87,6 +98,8 @@ GMLspeak.interface.compileFlags.checkForVariables = true;
 		GMLspeak.interface.exposeFunction("make_particle", make_particle);
 		GMLspeak.interface.exposeFunction("increase_combo", increase_combo);
 		GMLspeak.interface.exposeFunction("check_valid_wall", check_valid_wall);
+		GMLspeak.interface.exposeFunction("collect_coins", collect_coins);
+		GMLspeak.interface.exposeFunction("reserve_item", reserve_item);
 		
 		GMLspeak.interface.exposeFunction("component_get_ground_friction", component_get_ground_friction);
 		GMLspeak.interface.exposeFunction("component_gravity_coneyor", component_gravity_coneyor);

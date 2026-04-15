@@ -199,8 +199,7 @@ function player_interactions(){
 	
 	var coin=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oCoin, false, true)
 	if (coin) && !(hurt) && !(dead) {
-		global.coins_collected++;
-		VinylPlay(snd_itemcoin);
+		collect_coins(1);
 		instance_create_depth(coin.x,coin.y,0,pGlitter);
 		instance_destroy(coin);
 	}
@@ -214,7 +213,7 @@ function player_interactions(){
 	}
 	
 	var item=check_hitbox_on_hitbox(id, oMushroom)
-	if (item) && !(hurt) && !(dead) {
+	if (item) && !(hurt) && !(dead) && (item.phaseid!=id) {
 		item.itemCollected.Emit(id);
 	}
 	

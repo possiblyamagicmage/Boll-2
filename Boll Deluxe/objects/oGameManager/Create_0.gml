@@ -10,6 +10,13 @@ piping_object_depth = 0;
 HUDsurface=-1;
 gameoversurface=-1;
 
+HUDcoinflash=0;
+
+game_timer = 0;
+
+reserved_item = noone;
+reserve_timer = 0;
+
 var guiw = window_get_width();
 var guih = window_get_height();
 if !os_is_paused() && guiw>0 && guih>0 {

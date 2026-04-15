@@ -19,7 +19,8 @@ if !is_array(pathing) {
 	if !grounded {
 		vsp = min(vsp+grav,4)
 	} else {
-		vsp = 0	
+		vsp = 0
+		hsp = approach_val(hsp,0,fric);
 	}
 
 	x += hsp;
@@ -27,7 +28,8 @@ if !is_array(pathing) {
 
 	player_collision()
 
-	if hsp != 0 xsc=esign(hsp,1)
+	if (hsp != 0) xsc=esign(hsp,1)
+	
 } else {
 	node_path_movement();
 }

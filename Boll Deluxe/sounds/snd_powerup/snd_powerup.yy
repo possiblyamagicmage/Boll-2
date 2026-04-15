@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.846122,
+  "duration":0.84612244,
   "exportDir":"",
   "name":"snd_powerup",
   "parent":{

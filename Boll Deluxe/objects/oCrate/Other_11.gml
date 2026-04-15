@@ -7,8 +7,7 @@ switch (content) {
 		var i=instance_create_depth(x,y,0,pCoinCollected)
 		i.vspeed=3*-1
 		i.gravity=0.15*-sign(i.vspeed)
-		VinylPlay(snd_itemcoin);
-		global.coins_collected++;
+		collect_coins(1);
 		exit;
 	} break;
 	

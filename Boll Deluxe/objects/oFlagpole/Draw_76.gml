@@ -28,8 +28,7 @@ if (state < 2) {
 if (reward) {
 	if (reward < 51) {
 		draw_text(x + 2, y - 128, string(reward));
-		global.coins_collected++;
-		VinylPlay(snd_itemcoin);
+		collect_coins(1);
 		if global.roomTimer & 1 {
 			instance_create_depth(x + random(32), y + random(8) - 128, depth + 1, pShine);
 		}

@@ -529,3 +529,21 @@ function increase_combo(_x,_y) {
 	else
 	instance_create_depth(_x,_y,5,pScoreText,{image_index : stompCombo})
 }
+
+function collect_coins(_amount,_playsound=true) {
+	global.coins_collected += _amount;
+	if (_playsound) {
+		VinylPlay(snd_itemcoin);
+	}
+	with(oGameManager) {
+		HUDcoinflash = 2;
+	}
+}
+
+function reserve_item(_object) {
+	with(oGameManager) {
+		reserve_timer = 1;
+		reserved_item = _object;
+	}
+	VinylPlay(snd_itemreserve,0,5);
+}

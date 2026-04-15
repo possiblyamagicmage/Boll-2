@@ -14,6 +14,8 @@ phase_leeway = 0;
 phaseid = noone;
 colangle = 0;
 
+fric = 0;
+
 collision_array=[oCollider, oEnemyGround];
 
 depth=2
@@ -28,11 +30,12 @@ itemType="mushroom"
 itemCollected = new Signal();
 escapeItemBox = new Signal();
 
-itemCollected.Connect( self, function(hit_p, obj) {
-	oPlayer.sig.Emit(itemType)
+itemCollected.Connect( self, function(hit_p) {
+	hit_p.sig.Emit(itemType)
+	
 	instance_destroy();
 });
 
-escapeItemBox.Connect( self, function(hit_p, obj) {
+escapeItemBox.Connect( self, function() {
 	hsp = 0.75*((nearestplayer().x > x) ? -1 : 1);
 });

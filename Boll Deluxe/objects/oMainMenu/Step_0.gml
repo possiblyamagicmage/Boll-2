@@ -117,7 +117,7 @@ if (!optionLock) {
 		break
 	
 		case "keybindsm":
-			var _binds = ["right","left","up","down","a","b","c"];
+			var _binds = ["right","left","up","down","a","b","c","v"];
 			optMAX = array_length(_binds);
 			if (akey) {
 				if (option!=7) {

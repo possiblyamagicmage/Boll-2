@@ -56,8 +56,7 @@ blockHit.Connect( self, function(hit_p, obj) {
 		var coin = collision_rectangle(bbox_left,bbox_top-bumpMax,bbox_right-1,bbox_top, oCoin, false, true);
 	
 		if (coin) {
-			global.coins_collected++;
-			VinylPlay(snd_itemcoin);
+			collect_coins(1);
 			var i=instance_create_depth(coin.x,coin.y,0,pCoinCollected);
 			i.vspeed=-3
 			i.gravity=0.15*-sign(i.vspeed)

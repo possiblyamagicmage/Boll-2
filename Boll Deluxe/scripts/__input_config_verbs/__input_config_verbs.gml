@@ -22,6 +22,7 @@ return {
 		a: input_binding_key("X"),
 		b: input_binding_key("Z"),
 		c: input_binding_key("C"),
+		v: input_binding_key("V"),
         
 		enter: input_binding_key(vk_enter),
 		
@@ -36,15 +37,11 @@ return {
         right: [input_binding_gamepad_axis(gp_axislh, false), input_binding_gamepad_button(gp_padr)],
         
         a:  input_binding_gamepad_button(gp_face1),
-        cancel:  input_binding_gamepad_button(gp_face2),
         b:  input_binding_gamepad_button(gp_face3),
         c: input_binding_gamepad_button(gp_face4),
-        
-        aim_up:    input_binding_gamepad_axis(gp_axisrv, true),
-        aim_down:  input_binding_gamepad_axis(gp_axisrv, false),
-        aim_left:  input_binding_gamepad_axis(gp_axisrh, true),
-        aim_right: input_binding_gamepad_axis(gp_axisrh, false),
-        shoot:     [input_binding_gamepad_button(gp_shoulderlb), input_binding_gamepad_button(gp_shoulderrb)],
+		v: input_binding_gamepad_button(gp_face2),
+		
+		enter: input_binding_gamepad_button(gp_select),
         
         pause: input_binding_gamepad_button(gp_start),
     },
