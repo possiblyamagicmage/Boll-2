@@ -707,10 +707,7 @@ if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 		}
 		grow = 60;
 	} else if (invincible_type == 2) || (state == "spindash") || (state == "roll") || (state == "jump") {
-		make_particle(pImpact,coll.x+coll.xsc,coll.y,2)
-		VinylPlay(snd_enemykick)
 		signal_emit(coll.enemyRolledInto, id);
-		increase_combo(coll.x,coll.y);
 		activebound = false;
 	}
 }

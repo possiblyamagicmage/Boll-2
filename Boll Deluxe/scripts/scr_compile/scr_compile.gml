@@ -122,8 +122,8 @@ function import_sheets() {
 			repeat (array_length(array)) {
 				if (array[g]!="_HUDicon") && file_exists($"{dir}\\sprites\\{sprite_yank}\\{array[g]}.png") { //make sure they arent trying to overwrite our HUD icon that we imported
 					var frames=nozerounreal(framedat[$ $"{sprite_yank} {array[g]} frames"], framedat[$ $"{array[g]} frames"])
-					var org_x=nozerounreal(framedat[$ $"{sprite_yank} {array[g]} orgx"],nozerounreal(framedat[$ $"{array[g]} orgx"], nozerounreal(framedat[$ "origin x"], CollageOrigin.CENTER)))
-					var org_y=nozerounreal(framedat[$ $"{sprite_yank} {array[g]} orgy"],nozerounreal(framedat[$ $"{array[g]} orgy"], nozerounreal(framedat[$ "origin y"], CollageOrigin.CENTER)))
+					var org_x=nozerounreal(framedat[$ $"{sprite_yank} {array[g]} orgx"],nozerounreal(framedat[$ $"{array[g]} origx"], nozerounreal(framedat[$ $"{sprite_yank} orgin x"],nozerounreal(framedat[$ "origin x"], CollageOrigin.CENTER))))
+					var org_y=nozerounreal(framedat[$ $"{sprite_yank} {array[g]} orgy"],nozerounreal(framedat[$ $"{array[g]} origy"], nozerounreal(framedat[$ $"{sprite_yank} orgin y"],nozerounreal(framedat[$ "origin y"], CollageOrigin.BOTTOM))))
 					oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\{sprite_yank}\\{array[g]}.png",$"spr_{_name}_{global.powerups[j]}_{array[g]}",frames,false,false,org_x,org_y)
 				}
 				show_debug_message($"adding sprite {array[g]}")

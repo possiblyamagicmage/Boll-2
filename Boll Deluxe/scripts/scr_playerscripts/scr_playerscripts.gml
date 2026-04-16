@@ -311,9 +311,9 @@ function init_player() {
 	init_sounds();
 }
 
-function draw_player(spr, _frame, _x = x, _y = y, _xsc = xsc, _ysc = ysc, _angle = sprite_angle*xsc, _alpha = alpha, _col = col) {
+function draw_player(spr, _frame, _x = x, _y = y, _xsc = xsc, _ysc = ysc, _angle = sprite_angle, _alpha = alpha, _col = col) {
 	//if (flash) exit
-	var yoff=(12-hit_sizey);
+	var yoff = -(hit_sizey+6);
 	
 	if (state == "boarding") yoff += 3;
 	
@@ -321,8 +321,8 @@ function draw_player(spr, _frame, _x = x, _y = y, _xsc = xsc, _ysc = ysc, _angle
 		CollageDrawImageExt(
 			spr, 
 			floor(_frame),
-			floor(_x) - (lengthdir_x(offset_x,(sprite_angle-90)*_xsc)) * -_xsc, 
-			floor(_y) - (lengthdir_y(offset_y,(sprite_angle-90)*_ysc) - dy - (6) - yoff) * -_ysc,
+			floor(_x) - (lengthdir_x(offset_x,(_angle-90)*_xsc)) * -_xsc, 
+			floor(_y) - (lengthdir_y(offset_y,(_angle-90)*_ysc) - dy - yoff) * -_ysc,
 			_xsc,
 			_ysc,
 			_angle,

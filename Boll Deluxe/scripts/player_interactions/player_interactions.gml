@@ -1,39 +1,41 @@
 function player_interactions(){
 	if (piped) || (hurt) || (dead)  exit
 	
-	if (state != "frozen") && (state != "boarding") {
-		var enemystomp=check_rectangle_in_hitbox(x-hit_sizex,y+hit_sizey+vsp,x+hit_sizex,y+hit_sizey+vsp, oEnemy)
-		if (enemystomp) && (enemystomp.phaseid==noone || enemystomp.phaseid.id!=id) && !(enemystomp.damage_on_contact) && !(enemystomp.no_stomping) && !(enemystomp.grabbed) && !(grounded) && (vsp > 0) && (can_stomp) && (y+hit_sizey+vsp < enemystomp.y) && (invincible_type != 2) {
-			enemystomp.enemyStomped.Emit(id);
-			enemystomp.phaseid=id;
-			enemystomp.phase_leeway=3;
-		} else {
+	switch(state) {
+		case "boarding":
+		case "frozen":
 			var enemy=check_hitbox_on_hitbox(id, oEnemy)
-			if (enemy) {
-				if (enemy.phaseid==noone || enemy.phaseid.id!=id) && !(enemy.grabbed) && !(can_grab && enemy.can_grab && bkey && !is_grabbing) {
-					if (invincible_type != 2) {
-						enemy.enemyCollidePlayer.Emit(id);
-					} else {
-						make_particle(pImpact,enemy.x+enemy.xsc,enemy.y,2)
-						increase_combo(enemy.x,enemy.y);
-						with(enemy) {
-							hp=0
+			if (enemy) && (enemy.phaseid==noone || enemy.phaseid.id!=id) {
+				if !(enemy.unshellable) {
+					enemy.enemyRolledInto.Emit(id);
+				}
+			}
+		break;
+		default:
+			var enemystomp=check_rectangle_in_hitbox(x-hit_sizex,y+hit_sizey+vsp,x+hit_sizex,y+hit_sizey+vsp, oEnemy)
+			if (enemystomp) && (enemystomp.phaseid==noone || enemystomp.phaseid.id!=id) && !(enemystomp.damage_on_contact) && !(enemystomp.no_stomping) && !(enemystomp.grabbed) && !(grounded) && (vsp > 0) && (can_stomp) && (y+hit_sizey+vsp < enemystomp.y) && (invincible_type != 2) {
+				enemystomp.enemyStomped.Emit(id);
+				enemystomp.phaseid=id;
+				enemystomp.phase_leeway=3;
+			} else {
+				var enemy=check_hitbox_on_hitbox(id, oEnemy)
+				if (enemy) {
+					if (enemy.phaseid==noone || enemy.phaseid.id!=id) && !(enemy.grabbed) && !(can_grab && enemy.can_grab && bkey && !is_grabbing) {
+						if (invincible_type != 2) {
+							enemy.enemyCollidePlayer.Emit(id);
+						} else {
+							make_particle(pImpact,enemy.x+enemy.xsc,enemy.y,2)
+							increase_combo(enemy.x,enemy.y);
+							enemy.phaseid = id;
+							enemy.phase_leeway = 15;
+							with(enemy) {
+								hp=0
+							}
 						}
 					}
 				}
 			}
-		}
-	} else {
-		var enemy=check_hitbox_on_hitbox(id, oEnemy)
-		if (enemy) && (enemy.phaseid==noone || enemy.phaseid.id!=id) {
-			if !(enemy.unshellable) {
-				enemy.enemyRolledInto.Emit(id);
-				
-				make_particle(pImpact,enemy.x+enemy.xsc,enemy.y,2);
-				
-				increase_combo(enemy.x,enemy.y);
-			}
-		}
+		break;
 	}
 	
 	var spring = collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oTerrainSpring, false, true)

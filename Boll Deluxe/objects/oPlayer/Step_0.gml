@@ -94,11 +94,28 @@ switch(state) {
 		can_grab = false;
 		
 		defaultgrav = 0.25;
+		maxspd = 10;
+		topspd = 3.5;
+		var accel_real = 0.25;
 		
-		hsp = (3 * xsc);
-		if (grounded) gsp = hsp;
+		if (abs(hsp) < topspd) && !(bonk) {
+			hsp += (xsc * accel_real);
+		}
+		
+		if (abs(hsp) > topspd) {
+			hsp -= hsp / 32
+		}
+		
+		if (grounded) {
+			bonk = false;
+			gsp = hsp;
+			vsp = 0;
+			sprite_angle = approach_val(sprite_angle,colangle,5);
+		} else {
+			sprite_angle = approach_val(sprite_angle,0,5);
+		}
 	
-		gsp -= (0.25 * dsin(colangle)) //regular slope speed
+		//gsp -= (0.25 * dsin(colangle)) //regular slope speed
 	
 		no_move = true
 	
@@ -120,14 +137,8 @@ switch(state) {
 			}
 		}
 	
-		fric = 0;
-	
-		maxspd = 10;
-		topspd = 3.5;
-	
 		component_gravity_coneyor();
-	
-		player_movement();
+		
 		basic_step_move();
 		post_wall();
 	break;

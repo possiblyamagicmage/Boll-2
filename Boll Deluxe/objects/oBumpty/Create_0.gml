@@ -34,14 +34,14 @@ enemyStomped.Connect( self, function(hit_p) {
 		sig.Emit("collide_with_enemy")
 	}
 	VinylPlay(snd_bumptybounce)
-	phaseid=hit_p
+	phaseid=hit_p;
 	phase_leeway=7;
 });
 
 enemyCollidePlayer.Destroy();
 
 enemyCollidePlayer.Connect( self, function(hit_p) {
-	var dir = sign(x-hit_p.x);
+	var dir = esign(x-hit_p.x,hit_p.xsc);
 	with(hit_p) {
 		hsp = other.bumpPower*-dir;
 		if (grounded) {
@@ -78,4 +78,42 @@ enemyTurnAround.Connect( self, function() {
 	show_debug_message(hsp);
 	
 	if (grounded) gsp=hsp;
+});
+
+enemyRolledInto.Destroy();
+
+enemyRolledInto.Connect( self, function(hit_p) {
+	if (hit_p.state == "frozen") {
+		hp-=1;
+		vsp=-4;
+		phaseid=hit_p
+		phase_leeway=15;
+		killdir= esign(x-x,1)
+		killhsp= max(abs(hit_p.hsp)/1.75,2)
+		xsc= esign(hit_p.hsp,hit_p.xsc)
+		killvsp= -max(2,abs(hit_p.hsp)/1.5)
+		killtype= "spin"
+		with(hit_p) {
+			make_particle(pImpact,x+hit_sizex*xsc,y,2)
+			increase_combo(x,y);
+		}
+		VinylPlay(snd_enemykick);
+	} else {
+		var dir = esign(x-hit_p.x,hit_p.xsc);
+		with(hit_p) {
+			hsp = other.bumpPower*-dir;
+			if (state == "boarding") {
+				bonk=true;
+			}
+			vsp = -2
+			grounded=false;
+		}
+		VinylPlay(snd_bumptybounce)
+		phaseid=hit_p;
+		phase_leeway=7;
+		hsp = 2 * dir;
+		vsp = -2
+		grounded = false;
+		bumped = true;
+	}
 });

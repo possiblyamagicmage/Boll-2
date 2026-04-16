@@ -148,7 +148,7 @@ function player_collision(shoveOutOfWalls=true,auto_coords=true,l=0,r=0,t=0,b=0,
 			if object_index == oSlime {
 				colflags |= COL_FLOOR;	
 			}
-			get_angle_rect(posx+left,posy+bottom-2,posx+right,posy+bottom + 3)
+			get_angle_rect(posx+left,posy+bottom-2,posx+right,posy+bottom + 4)
             
 			//move up
 			while check_collision_rectangle(posx+left,posy, posx+right, posy+bottom /*+ vsp*/, COL_BOTTOM) {

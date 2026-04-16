@@ -30,7 +30,7 @@ if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex())))
 		}
 	}
 	if (state == "boarding") {
-		draw_sprite(spr_snowboard,0,floor(x),floor(y)+hit_sizey-3)
+		draw_sprite_ext(spr_snowboard,0,floor(x)-lengthdir_x(3,sprite_angle-90),floor(y)+hit_sizey-lengthdir_y(3,sprite_angle-90),1,1,sprite_angle,c_white,1);
 	}
 	var normal_spr = oGameManager.PlayerColl.GetImageInfo(get_spriteindex())
 	draw_player(normal_spr, frame);

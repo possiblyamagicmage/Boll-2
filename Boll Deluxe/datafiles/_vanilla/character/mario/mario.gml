@@ -963,9 +963,7 @@ if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 		make_particle(pImpact,coll.x,coll.y,2)
 		increase_combo(coll.x,coll.y);
 		signal_emit(coll.enemyPounded, id);
-	} else if (slopesliding) || (invincible_type == 2) {
-		make_particle(pImpact,coll.x+coll.xsc,coll.y,2)
-		increase_combo(coll.x,coll.y);
+	} else if (slopesliding) {
 		signal_emit(coll.enemyRolledInto, id);
 	}
 }
