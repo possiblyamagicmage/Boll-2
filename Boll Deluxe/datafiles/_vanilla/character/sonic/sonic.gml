@@ -261,8 +261,6 @@ if (state == "jump") && !(piped) && !(hurt) && (state!="spindash") {
 	}
 	#endregion
 	
-	show_debug_message(boundjump)
-	
 	if (((!akey && !boundjump) || (!ckey && boundjump)) && vsp < -2.6 && !canstopjump) { //Make player jump lower when jump is released
 		vsp = -2.6;
 	}
@@ -443,66 +441,69 @@ switch (state) {
 					}
 				
 					if (ceil(abs(gsp))>=3.4) {
-						frspd=(abs(gsp)/4)*speed_mult
-						spriteEvent="run"
+						frspd=(abs(gsp)/4)*speed_mult;
+						spriteEvent="run";
 					}
 					else if (ceil(abs(gsp))>=5.9){
-						frspd=max(0.3, abs(gsp)/4)*speed_mult
-						spriteEvent="maxrun"
+						frspd=max(0.3, abs(gsp)/4)*speed_mult;
+						spriteEvent="maxrun";
 					}
 					else {
-						frspd=max(0.3, abs(gsp)/4)*speed_mult
-						spriteEvent="walk"
+						frspd=max(0.3, abs(gsp)/4)*speed_mult;
+						spriteEvent="walk";
 					}
 				} else {
-					spriteEvent="brake"
+					spriteEvent="brake";
 				}
 			} else {
 				var speed_mult = 1;
 				if (friction_mult>0) && (grounded) {
 					speed_mult = 1/(friction_mult);
-					frspd=max(0.3, abs(gsp)/4)*speed_mult
-					spriteEvent="carryWalk"
+					frspd=max(0.3, abs(gsp)/4)*speed_mult;
+					spriteEvent="carryWalk";
 				}
 			}
 		}
 	} break;
 	case "crouch": {
 		if !(is_grabbing) {
-			spriteEvent="crouch"
+			spriteEvent="crouch";
 		} else {
-			spriteEvent="carryCrouch"
+			spriteEvent="carryCrouch";
 		}
 	} break;
 	case "jump": {
 		if !(is_grabbing) {
-			spriteEvent="jump"
+			spriteEvent="jump";
 			if (bonk) {
-				spriteEvent="bonk"
+				spriteEvent="bonk";
 			}
 		} else {
-			spriteEvent="carryJump"
+			spriteEvent="carryJump";
 			if (vsp>0) {
-				spriteEvent="carryFall"
+				spriteEvent="carryFall";
 			}
 			if (bonk) {
-				spriteEvent="carryBonk"
+				spriteEvent="carryBonk";
 			}
 		}
 	} break;
 	case "roll": {
 		if (state == "roll") {
-			frspd=0.2+abs(gsp)/3
-			spriteEvent="roll"
+			frspd=0.2+abs(gsp)/3;
+			spriteEvent="roll";
 		}
 	} break;
 	case "spindash": {
-		spriteEvent="spinDash"
+		spriteEvent="spinDash";
 	} break;
 	case "wallrun": {
-		frspd=abs(vsp)/4
-		spriteEvent="wallRun"
+		frspd=abs(vsp)/4;
+		spriteEvent="wallRun";
 	}
+	case "boarding":
+		spriteEvent="boarding";
+	break;
 }
 
 if (kick) {
@@ -621,26 +622,13 @@ if (invincible_type != 2) && (state != "roll") && (state != "spindash") {
 }
 
 canstopjump = false;
-if (state!="wallrun") {
+if (state!="wallrun") && (state!="frozen") && (state!="boarding") {
 	state = "";
+	make_particle(pSkidDust, x - 1, y + hit_sizey, depth + 5, 1, -2.25, -0.1, -0.02, 0.2);
+	make_particle(pSkidDust, x + 1, y + hit_sizey, depth + 5, -1, 2.25, -0.1, -0.02, 0.2);
 }
 bonk = 0;
-gsp = hsp
-
-var i=instance_create_depth(x - 1, y + hit_sizey, 0, pSkidDust); //should prooobably get some kind of particle spawning function in later. too many giant blocks of particle here.
-i.depth = (depth + 5);
-i.image_xscale = 1;
-i.hspeed= -2.25
-i.friction=0.2;
-i.vspeed= -0.1;
-i.gravity= -0.02;
-var i=instance_create_depth(x + 1, y + hit_sizey, 0, pSkidDust);
-i.depth = (depth + 5);
-i.image_xscale = -1;
-i.hspeed=2.25
-i.friction=0.2;
-i.vspeed= -0.1;
-i.gravity= -0.02;
+gsp = hsp;
 
 //landing speed lol
 if (abs(colangle) >= 24 && abs(colangle) <= 90)
@@ -706,7 +694,7 @@ if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 			} break
 		}
 		grow = 60;
-	} else if (invincible_type == 2) || (state == "spindash") || (state == "roll") || (state == "jump") {
+	} else if (state == "spindash") || (state == "roll") || (state == "jump") {
 		signal_emit(coll.enemyRolledInto, id);
 		activebound = false;
 	}

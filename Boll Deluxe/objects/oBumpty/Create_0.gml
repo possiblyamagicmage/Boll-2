@@ -75,8 +75,6 @@ enemyTurnAround.Connect( self, function() {
 		hsp=-hsp;
 	}
 	
-	show_debug_message(hsp);
-	
 	if (grounded) gsp=hsp;
 });
 
@@ -94,7 +92,7 @@ enemyRolledInto.Connect( self, function(hit_p) {
 		killvsp= -max(2,abs(hit_p.hsp)/1.5)
 		killtype= "spin"
 		with(hit_p) {
-			make_particle(pImpact,x+hit_sizex*xsc,y,2)
+			make_particle(pImpact,x+hit_sizex*xsc,y,-5);
 			increase_combo(x,y);
 		}
 		VinylPlay(snd_enemykick);

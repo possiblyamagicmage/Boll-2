@@ -36,10 +36,6 @@ steep_slope = false
 if (abs(colangle) > 60) {
 	steep_slope = true
 }
-//show_debug_message(colangle)
-//if abs(colangle) > 60 && abs(colangle) < 300  && !(abs(colangle)>85 && abs(colangle)<95)  && !(abs(colangle)>90 && sign(colslope)<0) && !(abs(colangle)<90 && sign(colslope)>0) {
-//	steep_slope = true	
-//}
 
 switch(state) {
 	case "frozen":

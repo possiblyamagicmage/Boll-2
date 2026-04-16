@@ -52,6 +52,8 @@ hit_sizey = 6
 activation_region_width=32;
 activation_region_height=32;
 
+rolled_into = false;
+
 parent_pipe = noone;
 
 image_xscale=1;
@@ -128,10 +130,11 @@ enemyStomped.Connect( self, function(hit_p) {
 });
 
 enemyCollidePlayer.Connect( self, function(hit_p) {
+	rolled_into = false;
 	with(hit_p) {
 		sig.Emit("collide_with_enemy")
 	}
-	phaseid=hit_p
+	phaseid=hit_p;
 	phase_leeway=7;
 });
 
@@ -177,6 +180,7 @@ enemyRolledInto.Connect( self, function(hit_p) {
 		increase_combo(other.x,other.y);
 	}
 	VinylPlay(snd_enemykick);
+	rolled_into = true;
 });
 
 enemyPounded.Connect( self, function(hit_p) {

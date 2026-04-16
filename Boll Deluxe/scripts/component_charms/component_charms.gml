@@ -199,7 +199,6 @@ function component_sonic_spindash(){
 	if (apress || bpress || cpress) {
 		frame = 0
 		spindashTotal = min(spindashTotal + 2, 8)
-		show_debug_message(spindashTotal)
 		stopsfx(charmName+"spindash")
 		playsfx(charmName+"spindash",1+(spindashTotal/10))
 		
@@ -271,7 +270,6 @@ function component_sonic_roll(){
 		if grounded {
 			var signmatch = (sign(gsp) == sign(_move))
 			var accel_real = ((signmatch) ? accel : fastaccel)
-			show_debug_message(accel_real);
 			gsp += (_move * accel_real);
 		}else {
 			var signmatch = (sign(hsp) == sign(_move))

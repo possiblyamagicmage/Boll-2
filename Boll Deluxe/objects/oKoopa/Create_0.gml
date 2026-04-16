@@ -57,6 +57,11 @@ enemyStomped.Connect( self, function(hit_p) {
 });
 
 enemyCollidePlayer.Connect( self, function(hit_p) {
+	if (rolled_into) {
+		rolled_into = false;
+		exit;
+	}
+	
 	if (no_stomping) {
 		if (in_shell) && !(shell_move) {
 			VinylPlay(snd_enemykick)

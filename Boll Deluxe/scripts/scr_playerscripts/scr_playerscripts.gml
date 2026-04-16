@@ -545,5 +545,5 @@ function reserve_item(_object) {
 		reserve_timer = 1;
 		reserved_item = _object;
 	}
-	VinylPlay(snd_itemreserve,0,5);
+	VinylPlay(snd_itemreserve,0,3);
 }
