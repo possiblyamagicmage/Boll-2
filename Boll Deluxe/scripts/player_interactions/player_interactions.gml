@@ -215,7 +215,7 @@ function player_interactions(){
 	}
 	
 	var item=check_hitbox_on_hitbox(id, oMushroom)
-	if (item) && !(hurt) && !(dead) && (item.phaseid!=id) {
+	if (item) && !(hurt) && !(dead) && (item.phaseid!=id) && (item.going == 0) {
 		item.itemCollected.Emit(id);
 	}
 	
