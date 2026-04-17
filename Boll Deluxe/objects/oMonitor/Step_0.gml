@@ -9,4 +9,12 @@ if (physics_enabled) {
 	player_collision()
 }
 
-image_index=floor(global.roomTimer/4)
+true_img_index += image_speed;
+image_index = floor(true_img_index);
+
+if (image_index >= 4) {
+	true_img_index = 0;
+	image_index = 0;
+	image_speed = 0;
+	alarm[0] = 6 + irandom(72);
+}

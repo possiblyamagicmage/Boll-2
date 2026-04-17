@@ -1,4 +1,6 @@
-if (player!=noone) && (player.object_index == oPlayer) {
+if (collect) {
+	instance_destroy();
+} else if (player!=noone) && (player.object_index == oPlayer) {
 	with(player) {
 		switch(other.itemfr) {
 			case 0: //mushroom
@@ -36,4 +38,5 @@ if (player!=noone) && (player.object_index == oPlayer) {
 	}
 }
 
-instance_destroy();
+collect = 1;
+alarm[0] = 31;
