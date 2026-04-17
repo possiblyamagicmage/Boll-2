@@ -100,6 +100,8 @@ function JADE_initializeobj() {
 	properties.addCheckbox(oLongItemBox, "Is Dispenser", "eject", false)
 	registerobj(oMonitor, spr_monitor, 8, 8, 16, 16, false, false, containers, "Monitor", true)
 	properties.addDropdown(oMonitor, "Content", "content", "coin", ["10 Coins", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom"], ["coin", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
+	properties.addCheckbox(oMonitor, "Has Gravity", "physics_enabled", false)
+	properties.addCheckbox(oMonitor, "Bump From Below", "bumpable", false)
 	registerobj(oCrate, spr_crate, 8, 8, 16, 16, false, false, containers, "Crate", true)
 	properties.addDropdown(oCrate, "Content", "content", "coin", ["Single Coin", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom"], ["coin", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
 	blockcategory.add(containers);

@@ -1,5 +1,3 @@
-if (!physics_enabled) exit;
-
 if !grounded { 
 	vsp=min(vsp+grav,6);
 }

@@ -9,5 +9,4 @@ grav = 0.2
 grounded = 0;
 hit_sizex = 8
 hit_sizey = 8
-
-physics_enabled = false; //TODO - Monitors (broken or not) crash with physics and I don't know how that works.
+collision_array=[oCollider, oBarrier];

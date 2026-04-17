@@ -28,9 +28,9 @@ function player_movement(){
 		//move=0 //just in case
 		// chearii: mhomentunmnm
 		if (grounded) {
-			if (sign(gsp) = -1){
+			if (sign(gsp) = -1) {
 				gsp = min(0, gsp + fric*friction_mult)
-			}else{
+			} else {
 				gsp = max(0, gsp - fric*friction_mult)
 			}
 		}
@@ -41,12 +41,14 @@ function player_movement(){
 	
 	if (grounded) {
 		pollenated = false;
-		if sign(gsp)!=sign(colslope){
+		if sign(gsp)!=sign(colslope) {
 			vsp = gsp * -dsin(colangle)
 			hsp = gsp * dcos(colangle)
 		} else if dsin(colangle)!=0 && dcos(colangle)!=0 && dcos(colangle)<1 && (abs(colslope) == 1) {
 			vsp = gsp / -(dsin(colangle) * 1.25)
 			hsp = gsp / (dcos(colangle) * 1.25)
+		} else {
+			hsp = gsp; //fix for hsp being delayed by 1 frame all the time (no more sliding along the floor)	
 		}
 	} else {
 		if (abs(hsp) > topspd) {

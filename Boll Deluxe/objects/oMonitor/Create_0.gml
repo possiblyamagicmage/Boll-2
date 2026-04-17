@@ -8,9 +8,12 @@ bounce = false
 hit_sizex = 8
 hit_sizey = 8
 bounce_speed = vsp
-physics_enabled = false;
-static_frame = 0;
+collision_array=[oCollider, oBarrier];
 
+physics_enabled = false;
+bumpable = false;
+
+static_frame = 0;
 monitor_frame = 0;
 
 sprite_index = spr_monitorstatic;
@@ -24,7 +27,7 @@ blockHit.Connect( self, function(hit_p, obj) {
 	i.itemfr = monitor_frame
 	if (obj.object_index == oPlayer) {
 		i.player = obj
-		if (obj.bbox_top > (y + 8) && obj.vsp < 0) {
+		if (obj.bbox_top > (y + 8) && obj.vsp < 0 && !obj.grounded) {
 			with (obj) {
 				vsp = 2;
 				
@@ -39,10 +42,16 @@ blockHit.Connect( self, function(hit_p, obj) {
 			i.player = obj.kickedplayer
 		}
 	}
-	VinylPlay(snd_monitor)
-	instance_create_depth(x,y,0,pSmoke)
-	with (instance_create_depth(x,y,0,pBrokenMonitor)) {
-		vsp = brkvsp;	
+	if (brkvsp != 0 && bumpable) {
+		instance_destroy(i);
+		vsp = brkvsp;
+		physics_enabled = true;
+	} else {
+		VinylPlay(snd_monitor)
+		instance_create_depth(x,y,0,pSmoke)
+		with (instance_create_depth(x,y,0,pBrokenMonitor)) {
+			vsp = brkvsp;	
+		}
+		instance_destroy();
 	}
-	instance_destroy();
 });
