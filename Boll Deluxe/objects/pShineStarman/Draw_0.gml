@@ -1,0 +1,1 @@
+draw_sprite(sprite_index, timer div 3, x, y);

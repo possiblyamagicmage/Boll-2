@@ -187,7 +187,14 @@ if (invincible_timer) {
 				invincible_type = 1;
 				break;
 			}
-			instance_create(random_range(bbox_left,bbox_right),random_range(bbox_top,bbox_bottom),pShine)
+			
+			if (global.roomTimer & 0b11 == 2) {
+				instance_create(random_range(bbox_left - 4,bbox_right + 4),random_range(bbox_top-8,bbox_bottom),pShine)
+			} else if (global.roomTimer & 0b11 == 0) {
+				with (instance_create(x, y, pShineStarman)) {
+					owner = other;
+				}
+			}
 		} break;
 		case 1 : {
 			

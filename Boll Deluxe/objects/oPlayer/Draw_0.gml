@@ -47,6 +47,11 @@ if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex())))
 	if (state == "frozen") {
 		draw_sprite(spr_playericecube,5-frozen_health,floor(x),floor(y))
 	}
+	
+	if (invincible_type == 2) {
+		var star_shine_offset = ((global.roomTimer / 3) mod 5);
+		draw_sprite_circle(spr_pShineStarman,star_shine_offset,floor(x),floor(y),1,1, (bbox_bottom - bbox_top) + 4 ,2,(((global.roomTimer * 1.5) + (star_shine_offset * 16)) / 360) * (pi * 4))
+	}
 }
 
 if (global.debug) {
