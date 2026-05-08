@@ -5,3 +5,4 @@ left = false;
 top = false;
 right = false;
 bottom = false;
+constrain_offset = 0;

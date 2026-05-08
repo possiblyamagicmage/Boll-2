@@ -1,5 +1,5 @@
 function player_interactions(){
-	if (piped) || (hurt) || (dead)  exit
+	if (piped) || (hurt) || (dead) || (electrocuted) exit
 	
 	switch(state) {
 		case "boarding":
@@ -39,7 +39,7 @@ function player_interactions(){
 	}
 	
 	var spring = collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oTerrainSpring, false, true)
-	if (spring) && !(hurt) && !(dead) && !(sprung)  {
+	if (spring) && !(sprung)  {
 		switch(spring.image_angle) {
 			case 0:
 			vsp=min(-spring.spring_power,vsp) //dont set vsp if it exceeds power
@@ -91,7 +91,7 @@ function player_interactions(){
 	sprung = max(sprung-1,0);
 	
 	var amp = collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oAmp, false, true)
-	if (amp) && !(electrocuted) && !(hurt) && !(dead) {
+	if (amp) {
 		if !(invincible_type && invincible_timer) {
 			sig.Emit("electrocute");
 		}
@@ -127,28 +127,28 @@ function player_interactions(){
 	
 	#region Solid Spike Collision
 	var spike=collision_line(x-hit_sizex+hsp,y-hit_sizey+2,x-hit_sizex+hsp,y+hit_sizey-abs(vsp), oSolidSpike, false, true)
-	if (spike) && (spike.dir="right" || spike.dir="none") && !(hurt) {
+	if (spike) && (spike.dir="right" || spike.dir="none") {
 		if !(invincible_type && invincible_timer) {
 			sig.Emit("hurt_by_spike")
 		}
 	}
 	
 	var spike=collision_line(x+hit_sizex+hsp,y-hit_sizey+2,x+hit_sizex+hsp,y+hit_sizey-abs(vsp), oSolidSpike, false, true)
-	if (spike) && (spike.dir="left" || spike.dir="none") && !(hurt) {
+	if (spike) && (spike.dir="left" || spike.dir="none") {
 		if !(invincible_type && invincible_timer) {
 			sig.Emit("hurt_by_spike")
 		}
 	}
 	
 	var spike=collision_line(x-hit_sizex-1,y+hit_sizey+1,x+hit_sizex-1,y+hit_sizey+1, oSolidSpike, false, true)
-	if (spike) && (spike.dir="up" || spike.dir="none") && !(hurt) {
+	if (spike) && (spike.dir="up" || spike.dir="none") {
 		if !(invincible_type && invincible_timer) {
 			sig.Emit("hurt_by_spike")
 		}
 	}
 	
 	var spike=collision_line(x-hit_sizex-1,y-hit_sizey+vsp,x+hit_sizex-1,y-hit_sizey+vsp, oSolidSpike, false, true)
-	if (spike) && (spike.dir="down" || spike.dir="none") && !(hurt) {
+	if (spike) && (spike.dir="down" || spike.dir="none") {
 		if !(invincible_type && invincible_timer) {
 			sig.Emit("hurt_by_spike")
 		}
@@ -156,7 +156,7 @@ function player_interactions(){
 	#endregion
 	
 	var chainsaw=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oChainsaw, false, true)
-	if (chainsaw) && !(hurt) {
+	if (chainsaw) {
 		if !(invincible_type && invincible_timer) {
 			sig.Emit("hurt_by_spike")
 		}
@@ -169,14 +169,14 @@ function player_interactions(){
 	}
 	
 	var steely = collision_rectangle(x-hit_sizex,y-(hit_sizey-1),x+hit_sizex,y+(hit_sizey-1), oBigSteely, true, true)
-	if (steely) && !(hurt) && !(dead) {
+	if (steely) {
 		if !(invincible_type && invincible_timer) {
 			sig.Emit("hurt_by_spike");
 		}
 	}
 	
 	var flagpole=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oFlagpole, false, true)
-	if (flagpole) && !(finish) && !(dead) {
+	if (flagpole) && !(finish) {
 		if (flagpole.state == 0) {
 			finish = 1;
 			flagpole.state = 1;
@@ -185,7 +185,7 @@ function player_interactions(){
 	}
 	
 	var bearballoon=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oPolarBearBalloon, false, true)
-	if (bearballoon) && !(hurt) && !(dead) {
+	if (bearballoon) {
 		if vsp >= 0 vsp=-(2.5+akey*1.5);
 		sig.Emit("sprung");
 		instance_create_depth(bearballoon.x,bearballoon.y,-5,pImpact)
@@ -193,21 +193,21 @@ function player_interactions(){
 	}
 	
 	var crate=collision_line(x-(hit_sizex-1)-hsp,y+hit_sizey+vsp,x+(hit_sizex-1)-hsp,y+hit_sizey+vsp, oCrate, false, true) 
-	if (crate) && (vsp>=0) && !(hurt) && !(dead) {
+	if (crate) && (vsp>=0) {
 		vsp = -(2.5+akey*1.5);
 		sig.Emit("sprung");
 		crate.blockHit.Emit(-1, id);
 	}
 	
 	var coin=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oCoin, false, true)
-	if (coin) && !(hurt) && !(dead) {
+	if (coin) {
 		collect_coins(1);
 		instance_create_depth(coin.x,coin.y,0,pGlitter);
 		instance_destroy(coin);
 	}
 	
 	var dotcoin=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oDottedCoin, false, true)
-	if (dotcoin) && !(hurt) && !(dead) {
+	if (dotcoin) {
 		with(dotcoin) {
 			if !triggered
 			event_user(0);
@@ -215,12 +215,17 @@ function player_interactions(){
 	}
 	
 	var item=check_hitbox_on_hitbox(id, oMushroom)
-	if (item) && !(hurt) && !(dead) && (item.phaseid!=id) && (item.going == 0) {
+	if (item) && (item.phaseid!=id) && (item.going == 0) {
 		item.itemCollected.Emit(id);
 	}
 	
+	var shard=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oShard, false, true)
+	if (shard) {
+		shard.onCollect();
+	}
+	
 	var icicle=collision_rectangle(x-hit_sizex+hsp,y-hit_sizey,x+hit_sizex+hsp,y+hit_sizey-2-max(0,vsp),oIcicle,true,true)
-	if (icicle) && !(icicle.no_collide) && !(hurt) && !(dead) {
+	if (icicle) && !(icicle.no_collide) {
 		if !(invincible_type && invincible_timer) && (state != "frozen") {
 			sig.Emit("hurt_by_spike")
 		}

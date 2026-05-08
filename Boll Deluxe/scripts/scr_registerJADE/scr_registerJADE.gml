@@ -88,7 +88,7 @@ function JADE_initializeobj() {
 	
 	var containers = new JADElistcategory("Containers")
 	registerobj(oItemBox, spr_itemboxJADE, 8, 8, 16, 16, false, false, containers, "Item Box", true)
-	properties.addDropdown(oItemBox, "Content", "content", "coin", ["Single Coin", "Multiple Coins", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom"], ["coin", "multicoins", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
+	properties.addDropdown(oItemBox, "Content", "content", "coin", ["Single Coin", "Multiple Coins", "Supsher Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom"], ["coin", "multicoins", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
 	properties.addNumberInput(oItemBox, "Amount", "amount", 1, true)
 	properties.addCheckbox(oItemBox, "Is Brick", "bricked", false)
 	properties.addCheckbox(oItemBox, "Is Hidden", "hidden", false)
@@ -136,8 +136,8 @@ function JADE_initializeobj() {
 	registerobj(oStar, spr_starman, 8, 8, 16, 16, false, false, items, "Starman", true)
 	registerobj(o1up, spr_1up, 8, 8, 16, 16, false, false, items, "1-UP Mushroom", true)
 	registerobj(o3up, spr_3up, 8, 8, 16, 16, false, false, items, "3-UP Moon", true)
-	registerobj(oShard, spr_shardJADE, 8, 8, 16, 16, false, false, items, "Shard", true)
 	registerobj(oPoisonShroom, spr_poisonmushroom, 8, 8, 16, 16, false, false, items, "Poison Mushroom", true)
+	registerobj(oShard, spr_shard, 8, 8, 16, 16, false, false, items, "Boll Shard", true)
 	registerobj(oFrozenItem, spr_frozenitem, 8, 8, 16, 16, false, false, items, "Frozen Item")
 	properties.addDropdown(oFrozenItem, "Content", "content", "coin", ["Single Coin", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Mystery Orb"], ["coin", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "mysteryorb"])
 	registerobj(oGrabBlock, spr_grabblock, 8, 8, 16, 16, true, false, items, "Grab Block", true)
@@ -275,6 +275,7 @@ function JADE_initializeobj() {
 	properties.addCheckbox(oCameraRegion, "Constrain Right", "right", false)
 	properties.addCheckbox(oCameraRegion, "Constrain Top", "top", false)
 	properties.addCheckbox(oCameraRegion, "Constrain Bottom", "bottom", false)
+	properties.addNumberInput(oCameraRegion, "Constrain Offset", "constrain_offset", 0, true);
 	//registerobj(oCameraBoundary, spr_cameraboundary, 0, 0, 16, 16, false, false, gizmolist, "Camera Boundary")
 	registerobj(oActivationRegion, spr_activationregion, 0, 0, 16, 16, false, false, gizmolist, "Activation Region")
 	registerobj(oDeactivationRegion, spr_deactivationregion, 0, 0, 16, 16, false, false, gizmolist, "Deactivation Region")
@@ -617,6 +618,8 @@ function JADE_load(file=game_save_id+"\save.jade") {
 					node_objects[i][j][10] = [];
 					node_objects[i][j][11] = [2,0,false,false,false,true];
 				}
+				
+				
 				ds_list_add(node_layer_map, node_objects[i][j])
 			}
 			j++;

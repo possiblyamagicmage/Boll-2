@@ -1,13 +1,24 @@
-offset = random(64);
-other_angle = 0;
-draw_angle = 0;
-col_timer = 0;
-//image_blend = #4527CE;
-
-//TODO:
-//make the shard change color according to the angle of the triangle
-//make a proper shine graphic for the shard
+collect_timer = 0;
 
 //lifted from github's issues
 // Boll Shard HUD Element
 // Boll Shard Saving
+
+onCollect = function() {
+	if (collect_timer) exit;
+	
+	instance_create_depth(x,y,depth,pGlowRing);
+	
+	VinylPlay(snd_itemshard);
+	
+	/*with (instance_create(x,y,pScoreText)) {
+		image_index = 4;
+	}*/
+	
+	collect_timer = 1;
+	
+	image_speed=10;
+	
+	vspeed=-2.5;
+	gravity=0.15
+}

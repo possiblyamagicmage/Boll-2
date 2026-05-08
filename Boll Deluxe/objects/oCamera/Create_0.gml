@@ -178,22 +178,22 @@ update_view_pos = function() {
 					
 				if(_zone.left ){ // if dist from the zone edge to the center is shorter than previous it takes over
 					if(_zone_left == undefined || _zone.bbox_left < _zone_left){
-						_zone_left = _zone.bbox_left;
+						_zone_left = _zone.bbox_left+_zone.constrain_offset;;
 					}
 				}
 				if(_zone.right){
 					if(_zone_right == undefined || _zone.bbox_right > _zone_right){
-						_zone_right = _zone.bbox_right;
+						_zone_right = _zone.bbox_right-_zone.constrain_offset;;
 					}
 				}
 				if(_zone.top){
 					if(_zone_top == undefined || _zone.bbox_top < _zone_top){
-						_zone_top = _zone.bbox_top;
+						_zone_top = _zone.bbox_top+_zone.constrain_offset;;
 					}
 				}
 				if(_zone.bottom){
 					if(_zone_bottom == undefined || _zone.bbox_bottom > _zone_bottom){
-						_zone_bottom = _zone.bbox_bottom;
+						_zone_bottom = _zone.bbox_bottom-_zone.constrain_offset;
 					}
 				}
 			}

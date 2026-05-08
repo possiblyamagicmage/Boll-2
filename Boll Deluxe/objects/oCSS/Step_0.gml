@@ -13,21 +13,6 @@ var _RowCount=_charCount div _rowLimit, // number of rows
 	_topRowLimit=_charCount % _rowLimit, // how many cards are on the top row
 	_beyondTopLimit=(_select+(_rowLimit-_topRowLimit)); // check to see if going up will go beyond the amount of cards at the top
 
-// function to report current grid/position info (COPY THE ABOVE INTO IT IF YOU'RE UPDATING IT)
-var _debugMess = function() {
-	var	_RowCount=_charCount div _rowLimit,
-		_curRow=_select div _rowLimit,
-		_curPos=_select % _rowLimit,
-		_topRowLimit=_charCount % _rowLimit,
-		_beyondTopLimit=(_select+(_rowLimit-_topRowLimit));
-	
-	//show_debug_message($"Beyond Top Limit: {_beyondTopLimit}")
-	//show_debug_message($"Current Row: {_curRow}");
-	//show_debug_message($"Current Pos: {_curPos}");
-	//show_debug_message($"Sel: {_select}");
-	//show_debug_message($"Count: {_charCount}");
-}
-
 if (akey) {
 	if (instance_exists(oMainMenu))
 		var i = 0;
@@ -58,8 +43,6 @@ if (left) {
 		_select = _rowLimit*(_curRow+1)-1-(_rowLimit-_topRowLimit);
 	else if (_select<_rowLimit*_curRow)
 		_select = _rowLimit*(_curRow+1)-1;
-		
-	_debugMess();
 }
 
 if (right) {
@@ -69,16 +52,12 @@ if (right) {
 		_select = _rowLimit*(_curRow);
 	else if (_select>_rowLimit*(_curRow+1)-1)
 		_select = _rowLimit*(_curRow);
-		
-	_debugMess();
 }
 
 if (down) {
 	_select += _rowLimit;
 	if (_select>_charCount-1)
 		_select = _curPos;
-		
-	_debugMess();
 }
 
 if (up) {
@@ -91,5 +70,4 @@ if (up) {
 			_select = _charCount-(_rowLimit-_curPos)+1+(_rowLimit-(_topRowLimit+1));
 		}
 	}
-	_debugMess();
 }
