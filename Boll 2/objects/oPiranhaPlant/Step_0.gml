@@ -2,15 +2,10 @@
 event_inherited();
 
 if (parent_pipe == noone) {
-	player_collision();
-	
-	x += hsp
-	y += vsp
-	
-	if !grounded {
-		vsp = clamp(vsp + grav,-8,8)
-	}
 	exit;
+} else {
+	has_collision = false;
+	grav=0;
 }
 
 if (go == 0) {

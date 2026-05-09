@@ -103,7 +103,9 @@ if (shootblock) && (shootblock.goDirection!=0) && !(phaseid) {
 x += hsp
 y += vsp
 
-player_collision();
+if (has_collision) {
+	player_collision();
+}
 
 if !(overridexsc) && !(in_shell)
 if gsp != 0 && (hp > 0) xsc=-esign(gsp,-1)

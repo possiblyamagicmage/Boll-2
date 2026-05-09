@@ -1,8 +1,9 @@
 event_inherited();
 
 if (parent_pipe == noone) {
-	player_collision();
+	has_collision = true;
 	if !grounded {
+		grav=0;
 		if round(vsp) < 0 {
 			sprite_index=fly_sprite
 			vsp=lerp(vsp,0,0.04)
@@ -13,6 +14,7 @@ if (parent_pipe == noone) {
 		}
 		timer=90;
 	} else {
+		grav=defaultgrav;
 		sprite_index=fly_sprite
 		timer=max(0,timer-1)
 
@@ -22,9 +24,10 @@ if (parent_pipe == noone) {
 			timer=90;
 		}
 	}
-	x+=hsp
-	y+=vsp
-	exit
+	exit;
+} else {
+	has_collision = false;
+	grav=0;
 }
 
 if (travel <= 0) && (vsp > 0) && (dojump) {
