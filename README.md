@@ -11,10 +11,10 @@ https://docs.google.com/document/d/1Pk0B2v3YO71YAq32v4xs2YGsvMUyVazocIokcUpVisQ/
 We also have a trello but it cannot be shared to the public, so i will work on merging all of the Trello boards into github issues.
 
 GAME CONTROLS:
-A: X key
-B: Z Key
-C: C Key
-V: V Key
+X key: A Button
+Z Key: B Button
+C Key: C Button
+V Key: V Button
 
 EDITOR CONTROLS:
 CTRL + S: Save File
