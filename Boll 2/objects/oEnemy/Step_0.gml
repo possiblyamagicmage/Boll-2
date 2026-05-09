@@ -45,7 +45,7 @@ if (steely) && (abs(steely.hsp)>0 || abs(steely.vsp)>0) {
 	hp=0
 }
 
-if check_collision_line(x+(hit_sizex+1)*_direction, y+(hit_sizey-2),x+(hit_sizex+1)*_direction, y-(hit_sizey-2), COL_WALL) {
+if check_collision_line(x+(hit_sizex+1)*_direction, y+(hit_sizey-2),x+(hit_sizex+1)*_direction, y-(hit_sizey-2), COL_WALL) && (has_collision) {
 	enemyTurnAround.Emit();
 }
 
@@ -161,6 +161,6 @@ if (turning) && !(in_shell) && !(no_turn_anim) {
 	turning = 0;
 }
 
-if !check_rectangle_in_hitbox(x+(hit_sizex+1)*_direction,y+hit_sizey-3,x+(hit_sizex+1)*_direction,y-hit_sizey+3,oEnemy) && !check_collision_line(x+(hit_sizex+1)*_direction,y+hit_sizey-3,x+(hit_sizex+1)*_direction,y-hit_sizey+3,COL_WALL) {
+if !check_rectangle_in_hitbox(x+(hit_sizex+1)*_direction,y+hit_sizey-3,x+(hit_sizex+1)*_direction,y-hit_sizey+3,oEnemy) && ((!check_collision_line(x+(hit_sizex+1)*_direction,y+hit_sizey-3,x+(hit_sizex+1)*_direction,y-hit_sizey+3,COL_WALL) && has_collision) || !has_collision) {
 	flipped = 0;
 }
