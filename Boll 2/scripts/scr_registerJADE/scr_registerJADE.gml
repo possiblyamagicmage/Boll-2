@@ -9,6 +9,7 @@ global.tilesets[$ "tTilesetMain"]=[spr_TilesetMain, tTilesetMain, "Floragrande T
 global.tilesets[$ "tTilesetPipes"]=[spr_TilesetPipes, tTilesetPipes, "Pipe Tiles"]
 global.tilesets[$ "tTilesetMainDeco"]=[spr_TilesetMainDeco, tTilesetMainDeco, "Floragrande Decoration"]
 global.tilesets[$ "tTilesetWorld5"]=[spr_TilesetWorld5, tTilesetWorld5, "Frigid Dark Tiles"]
+global.tilesets[$ "tTilesetWorld5BG"]=[spr_TilesetWorld5BG, tTilesetWorld5BG, "Frigid Dark Background Tiles"]
 global.tilesets[$ "tTilesetWorld5Deco"]=[spr_TilesetWorld5Deco, tTilesetWorld5Deco, "Frigid Dark Decoration"]
 global.tilesets[$ "tTilesetPipesW5"]=[spr_TilesetPipesW5, tTilesetPipesW5, "Pipe Tiles (Frigid Dark)"]
 global.tilesets[$ "tTilesetBowserLand"]=[spr_TilesetBowserLand, tTilesetBowserLand, "Bowser Land Tiles"]
@@ -56,6 +57,7 @@ function JADE_initializeobj() {
 	"tTilesetPipes",
 	"tTilesetMainDeco",
 	"tTilesetWorld5",
+	"tTilesetWorld5BG",
 	"tTilesetPipesW5",
 	"tTilesetWorld5Deco",
 	"tTilesetBowserLand",

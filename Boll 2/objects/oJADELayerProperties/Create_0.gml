@@ -10,6 +10,7 @@ tilesetlist=[
 "tTilesetPipes",
 "tTilesetMainDeco",
 "tTilesetWorld5",
+"tTilesetWorld5BG",
 "tTilesetPipesW5",
 "tTilesetWorld5Deco",
 "tTilesetBowserLand",
