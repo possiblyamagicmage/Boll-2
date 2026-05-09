@@ -119,10 +119,10 @@ if (!optionLock) {
 		break
 	
 		case "keybindsm":
-			var _binds = ["right","left","up","down","a","b","c","v"];
+			var _binds = ["right","left","up","down","a","b","c","v","reset"];
 			optMAX = array_length(_binds);
 			if (akey) {
-				if (option!=7) {
+				if (option!=8) {
 					rebindKey(_binds[option])
 				} else {
 					input_profile_reset_bindings(INPUT_AUTO_PROFILE_FOR_KEYBOARD);
