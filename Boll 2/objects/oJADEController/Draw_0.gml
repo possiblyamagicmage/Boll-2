@@ -26,6 +26,8 @@ if (objects_visible || selected_mode == OBJECT_MODE) {
 		}
 		i++;
 	}
+	var alpha=1;
+	if (selected_mode != OBJECT_MODE && selected_tool != NODE_TOOL) alpha=0.5;
 	draw_sprite_ext(spr_spawner, 1, testpoint_x + 8, testpoint_y + 8, 1, 1, 0, c_white, alpha);
 	draw_sprite_ext(spr_spawner, 0, spawnpoint_x + 8, spawnpoint_y + 8, 1, 1, 0, c_white, alpha);
 }
