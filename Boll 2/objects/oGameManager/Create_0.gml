@@ -7,6 +7,9 @@ global.conductive_array=[oAmp]
 
 piping_object_depth = 0;
 
+shard_count = 0;
+collected_shards = [];
+
 HUDsurface=-1;
 gameoversurface=-1;
 

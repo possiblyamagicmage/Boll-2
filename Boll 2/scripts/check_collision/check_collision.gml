@@ -52,7 +52,7 @@ function check_collision_line(x1, y1, x2, y2, type = 0, object = collision_array
 	    repeat (found_size) {    
 	        var found = found_list[| i];
 		     if !(found.no_collide) {
-				if (type == COL_TOP) {
+				if (type == COL_TOP && !found.semi) {
 					if (!found.ceiling_only) || (found.ceiling_only && floor(y1)>found.bbox_top && floor(y2)>found.bbox_top) {
 						ds_list_destroy(found_list)
 					    return true;

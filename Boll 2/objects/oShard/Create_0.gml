@@ -1,4 +1,5 @@
 collect_timer = 0;
+shardid = 0;
 
 //lifted from github's issues
 // Boll Shard HUD Element

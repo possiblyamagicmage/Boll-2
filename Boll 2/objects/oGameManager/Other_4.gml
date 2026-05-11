@@ -39,20 +39,14 @@ if (global.settings[$ "fullscreen_type"]==1) {
 }
 
 parse_level(global.nextlevel)
-
-/*stanncam_init(RESOLUTION_X, RESOLUTION_Y, w, h,RESOLUTION_X,RESOLUTION_Y,mode);
-main_camera = new stanncam(oPlayer.x, oPlayer.y, RESOLUTION_X, RESOLUTION_Y);
-main_camera.follow = oPlayer; // This will follow the player object*/
-
-/*with(oCamera) {
-	xwidth = camera_get_view_width(view_camera[0]);
-	ywidth = camera_get_view_height(view_camera[0]);
-
-	xx = median(0, xmax, target.x + (x - xprevious) - (xwidth/2));
-	yy = median(0, ymax, target.y + (y - yprevious) - (ywidth/2));
-	
-	camera_set_view_pos(view_camera[0],xx,yy);
-}*/
-
+instance_activate_object(oShard)
+var maxid = -1;
+with(oShard) {
+	if (shardid > maxid) {
+		maxid = shardid
+		other.shard_count++;
+	}
+}
+collected_shards = array_create(shard_count,0);
 
 alarm[0]=1;

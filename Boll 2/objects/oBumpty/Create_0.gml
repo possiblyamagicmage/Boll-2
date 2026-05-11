@@ -31,7 +31,19 @@ enemyStomped.Destroy();
 enemyStomped.Connect( self, function(hit_p) {
 	with(hit_p) {
 		vsp = -other.bumpPower
-		sig.Emit("collide_with_enemy")
+		sig.Emit("stomp_failed");
+	}
+	VinylPlay(snd_bumptybounce)
+	phaseid=hit_p;
+	phase_leeway=7;
+});
+
+enemyPounded.Destroy();
+
+enemyPounded.Connect( self, function(hit_p) {
+	with(hit_p) {
+		vsp = -other.bumpPower
+		sig.Emit("pound_failed");
 	}
 	VinylPlay(snd_bumptybounce)
 	phaseid=hit_p;

@@ -695,29 +695,31 @@ vsp= -(4+akey*1.5)
 var coll=check_hitbox_on_hitbox(id, oEnemy)
 if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 	if ((state != "roll" && state != "spindash" && state != "jump") || coll.damage_on_contact) && !(invincible_type && invincible_timer) {
-		stopsfx(charmName+"damage")
-		hurt=1
-		hsp = -2.25 * xsc
-		vsp = -4
-		canstopjump=true
-		state=""
-		grounded=false
-		activebound = false;
-		oldsize = size;
-		switch (size) {
-			case "basic": {
-				signal_emit(sig, "on_kill", charmName)
-			} break
-			case "big": {
-				size = "basic";
-				playsfx(charmName+"damage")
-			} break
-			default: {
-				size = "big";
-				playsfx(charmName+"damage")
-			} break
+		if (coll.deal_dam) {
+			stopsfx(charmName+"damage")
+			hurt=1
+			hsp = -2.25 * xsc
+			vsp = -4
+			canstopjump=true
+			state=""
+			grounded=false
+			activebound = false;
+			oldsize = size;
+			switch (size) {
+				case "basic": {
+					signal_emit(sig, "on_kill", charmName)
+				} break
+				case "big": {
+					size = "basic";
+					playsfx(charmName+"damage")
+				} break
+				default: {
+					size = "big";
+					playsfx(charmName+"damage")
+				} break
+			}
+			grow = 60;
 		}
-		grow = 60;
 	} else if (state == "spindash") || (state == "roll") || (state == "jump") {
 		signal_emit(coll.enemyRolledInto, id);
 		activebound = false;
