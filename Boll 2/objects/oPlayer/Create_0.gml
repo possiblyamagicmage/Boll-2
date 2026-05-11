@@ -1,7 +1,6 @@
 //PLAYER SIGNALS
 
 sig = new Signal();
-updateBox = new Signal();
 sig.Connect( self, function(str_var) {
 	catspeak_execute(global.scripts[? $"{charmName}_{str_var}"]);
 });

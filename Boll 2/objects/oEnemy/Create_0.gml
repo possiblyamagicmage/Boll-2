@@ -8,6 +8,8 @@ enemyShelled = new Signal();
 enemyRolledInto = new Signal();
 enemyPounded = new Signal();
 enemyRespawn = new Signal();
+onThrown = new Signal();
+onPickup = new Signal();
 
 respawned = false;
 
@@ -66,9 +68,6 @@ thrown = false;
 carry_player = noone;
 grabbed = false;
 can_grab = false;
-
-onThrown = new Signal();
-onPickup = new Signal();
 
 onPickup.Connect( self, function(carry_p) {
 	carry_player = carry_p;

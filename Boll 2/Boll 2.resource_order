@@ -81,7 +81,6 @@
     {"name":"JADE","order":1,"path":"folders/Objects/Out Of Game/JADE.yy",},
     {"name":"Particles","order":7,"path":"folders/Objects/Particles.yy",},
     {"name":"Projectiles","order":6,"path":"folders/Objects/Projectiles.yy",},
-    {"name":"sidescroller","order":10,"path":"folders/Objects/sidescroller.yy",},
     {"name":"Particle Systems","order":296,"path":"folders/Particle Systems.yy",},
     {"name":"Paths","order":286,"path":"folders/Paths.yy",},
     {"name":"Retro Palette Swap","order":300,"path":"folders/Retro Palette Swap.yy",},

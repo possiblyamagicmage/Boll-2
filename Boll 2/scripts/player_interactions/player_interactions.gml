@@ -24,7 +24,7 @@ function player_interactions(){
 						if (invincible_type != 2) {
 							enemy.enemyCollidePlayer.Emit(id);
 						} else {
-							make_particle(pImpact,enemy.x+enemy.xsc,enemy.y,2)
+							make_particle(pImpact,enemy.x+enemy.xsc,enemy.y,2);
 							increase_combo(enemy.x,enemy.y);
 							enemy.phaseid = id;
 							enemy.phase_leeway = 15;

@@ -29,6 +29,6 @@ findConnectedObjects = function(obj) {
 fr=0;
 onConducted=new Signal();
 
-onConducted.Connect( self, function(conductor) {
+onConducted.Connect( self, function() {
 	
 });
