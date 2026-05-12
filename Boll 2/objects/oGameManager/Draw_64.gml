@@ -66,6 +66,8 @@ if surface_exists(HUDsurface) {
 	draw_set_valign(0);
 	draw_sprite(spr_clockhudicon,0,HUDrighthandle-timewidth-clock_spacing,yy);
 	
+	draw_set_valign(fa_center);
+	
 	//Lives
 	yy += 24;
 	

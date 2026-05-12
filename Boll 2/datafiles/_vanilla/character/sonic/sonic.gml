@@ -1,5 +1,5 @@
 #define datalist
-spriteEvents=split_string("idle,wait,lookUp,victory,crouch,hurt,dead,walk,run,runMax,wallRun,airWalk,brake,spring,springFall,jump,bonk,roll,spinDash,spinCharge,dropDash,carryIdle,carryWalk,carryRun,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,roll,carrySwim,pushing,balancing,dive,fireToss,electrocute,gateClimbing,flagPole,hang,monkeyBars,boarding,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
+spriteEvents=split_string("idle,wait,lookUp,victory,crouch,hurt,dead,walk,run,runMax,wallRun,wallJump,airWalk,brake,spring,springFall,jump,bonk,roll,spinDash,spinCharge,dropDash,airDash,carryIdle,carryWalk,carryRun,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,roll,carrySwim,pushing,balancing,dive,fireToss,electrocute,gateClimbing,flagPole,hang,monkeyBars,boarding,snowBoarding,frozen,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
 sound_list=split_string("airdash,damage,die,jump,release,skid,spin,spindash,bounce",",");
 
 #define create
@@ -25,7 +25,7 @@ state = "";
 control_lock = 0;
 real_sprite_angle = 0;
 walljump = false;
-dashed = false;
+airdash = false;
 boundjump = 0;
 activebound = false;
 base_terminal_vel = terminal_vel;
@@ -63,7 +63,7 @@ if (grounded) {
 
 #region Start Wallrunning
 var _move = (right-left) 
-if (_move!=0) && (vsp < 0) && (state!="wallrun") && !(is_grabbing) && (abs(wallrunstored_gsp) > 1) {
+if (_move!=0) && ((vsp < 0) || airdash) && (state!="wallrun") && !(is_grabbing) && (abs(wallrunstored_gsp) > 1) {
 	//wall sliding
 	var coll=check_valid_wall(x+((hit_sizex+4)*xsc),y-((hit_sizey-2)*ysc),x+((hit_sizex+4)*xsc),y-((hit_sizey-2)*ysc))
 	if (!grounded)
@@ -74,7 +74,11 @@ if (_move!=0) && (vsp < 0) && (state!="wallrun") && !(is_grabbing) && (abs(wallr
 			var maxsp = 8;
 			var minsp = 4;
 			yvol=clamp(abs(wallrunstored_hsp), minsp, maxsp) //get amount of upward velocity calculated from horizontal AND vertical speed
+			if (airdash) {
+				vsp = -yvol;
+			}
 			state = "wallrun"
+			walljump = false;
 			no_move=true;
 			wallrunperiod=5;
 		}
@@ -106,14 +110,6 @@ if ((state == "jump" && !is_grabbing) || state == "roll" || state == "spindash" 
 }
 
 topspd = 3 + ((size != "mini") * 0.5) + ((invincible_type == 2) / 1.25);
-if (dashed){
-	afterimage = true
-	if (grounded) {
-		topspd = 6.5 + ((invincible_type == 2) / 1.25);
-	}
-} else {
-	afterimage = false
-}
 
 maxspd = 11;
 if (state == "roll") {
@@ -130,7 +126,7 @@ if (hurt) {
 }
 
 can_grab = true;
-if (state == "wallrun") || (state == "roll") || (state == "spindash") || (dashed) || (activebound) || (hurt) || (finish && posed && no_move_prev) {
+if (state == "wallrun") || (state == "roll") || (state == "spindash") || (airdash) || (activebound) || (hurt) || (finish && posed && no_move_prev) {
 	can_grab = false;
 }
 
@@ -183,10 +179,6 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 				invincible_type = 1;
 				invincible_timer = 75;
 			}
-		}
-		
-		if (abs(gsp) < 3.5 && dashed) {
-			dashed = false
 		}
 		
 		if !(hurt) {
@@ -254,6 +246,7 @@ if (state == "jump") && !(piped) && !(hurt) && (state!="spindash") {
 	#region Bound Jump
 	if (cpress && vsp >= -2.6 && !activebound) && !(is_grabbing) {
 		activebound = true;
+		afterimage = true;
 		vsp = 8;
 		hsp = (hsp / 2);
 		stopsfx("sonicbounce")
@@ -265,30 +258,28 @@ if (state == "jump") && !(piped) && !(hurt) && (state!="spindash") {
 		vsp = -2.6;
 	}
 	
-	if (apress) && !(dashed) && !(is_grabbing) {
+	#region Air Dash
+	if (apress) && !(airdash) && !(is_grabbing) && !(walljump) {
 		if (vsp < -2.6) {
 			vsp = -2.6;
 		}
 		playsfx("sonicairdash")
-		dashed = true;
+		airdash = true;
 		var _move = (right-left)
 		if (_move == 0) {
 			_move = xsc	
 		}
-		var dash_speed = 1.5;
-		var max_dash_speed = 7;
-		if (sign(hsp) == _move) {
-			hsp = clamp(hsp + (dash_speed *_move), -max_dash_speed, max_dash_speed)  + (0.33 * _move);
-		} else {
-			hsp += ((dash_speed * 2) * _move)*dash_speed;
-		}
+		var divisi = max(1,abs(hsp)/3)
+		var dash_speed = 3/divisi;
+		hsp += (dash_speed * _move);
 	}
+	#endregion
 }
 
 if (state == "" || state == "roll") && (apress) && (canjump > 0) && !(piped) {
 	var speed_bonus = min((abs(hsp) / 5) * 0.3, 1.3)
 	component_sonic_start_jump(5.2 + speed_bonus)
-	dashed = false;
+	airdash = false;
 }
 #endregion
 
@@ -299,7 +290,7 @@ if (state == "wallrun") && !piped {
 
 	no_move=true;
 	move=storeddir;
-	if round(vsp) >= 0 {
+	if (round(vsp) >= 0) {
 		vsp=0
 		wallrunperiod=max(0,wallrunperiod-1);
 	} else {
@@ -346,9 +337,6 @@ if (state != "roll" || !grounded) && !(piped) {
 	if (!grounded) {
 		accel = 0.09375
 		fastaccel = 0.09375
-	}
-	if (dashed && abs(gsp) > 3.5 && grounded) {
-		accel = (accel / 3)
 	}
 }
 
@@ -475,6 +463,12 @@ switch (state) {
 	case "jump": {
 		if !(is_grabbing) {
 			spriteEvent="jump";
+			if (airdash) {
+				spriteEvent="airDash"
+			}
+			if (walljump) {
+				spriteEvent="wallJump"
+			}
 			if (bonk) {
 				spriteEvent="bonk";
 			}
@@ -499,10 +493,13 @@ switch (state) {
 	} break;
 	case "wallrun": {
 		frspd=abs(vsp)/4;
-		spriteEvent="wallRun";
-	}
+		spriteEvent = "wallRun"
+	} break;
 	case "boarding":
-		spriteEvent="boarding";
+		spriteEvent="snowBoarding";
+	break;
+	case "frozen":
+		spriteEvent="frozen";
 	break;
 }
 
@@ -518,7 +515,7 @@ if (state != "") {
 	wait_timer = 0;
 }
 
-if (hurt || state == "frozen") {
+if (hurt) {
 	spriteEvent="hurt"
 	if (dead) {
 		spriteEvent="dead"
@@ -668,6 +665,8 @@ if (abs(colangle) >= 24 && abs(colangle) <= 90)
 
 vsp = 0
 
+airdash = false;
+
 if (activebound) {
 	var heights = [5.33,5.8,6.25]
 	vsp -= heights[boundjump] * dcos(colangle);
@@ -675,6 +674,7 @@ if (activebound) {
 	activebound = false;
 	grounded = false;
 	state = "jump"
+	afterimage = false;
 	boundjump = min(2, boundjump + 1);
 } else {
 	boundjump = 0;
@@ -690,11 +690,12 @@ activebound = false;
 
 #define enemy_stomped
 vsp= -(4+akey*1.5)
+walljump = false;
 
 #define collide_with_enemy
 var coll=check_hitbox_on_hitbox(id, oEnemy)
 if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
-	if ((state != "roll" && state != "spindash" && state != "jump") || coll.damage_on_contact) && !(invincible_type && invincible_timer) {
+	if ((state != "roll" && state != "spindash" && state != "jump") || (airdash) || (walljump) || coll.damage_on_contact) && !(invincible_type && invincible_timer) {
 		if (coll.deal_dam) {
 			stopsfx(charmName+"damage")
 			hurt=1

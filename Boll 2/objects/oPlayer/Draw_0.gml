@@ -14,13 +14,14 @@ if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex())))
 	}
 	if (afterimage)
 	{
-		for (var i = 0; i < 3; ++i) 
-		{
-			if((global.roomTimer mod 3) = i )
+		gpu_set_blendmode(bm_add);
+		var i=0;
+		repeat(5) {
+			if((global.roomTimer mod 3) == i)
 			{
 				if(hsp != 0 || vsp != 0)
 				{
-					var gap = 6 - (2 * i);
+					var gap = 5 - i;
 					draw_player(
 						record_sprite[max(record_timer - gap, 0) mod 60], 
 						record_frame[max(record_timer - gap, 0) mod 60],
@@ -28,11 +29,13 @@ if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex())))
 						record_y[max(record_timer - gap, 0) mod 60], 
 						record_xscale[max(record_timer - gap, 0) mod 60], 
 						record_yscale[max(record_timer - gap, 0) mod 60], 
-						record_angle[max(record_timer - gap, 0) mod 60],
+						record_angle[max(record_timer - gap, 0) mod 60]
 					)
 				}
 			}
+			i++;
 		}
+		gpu_set_blendmode(bm_normal);
 	}
 	
 	if (state == "boarding") {
