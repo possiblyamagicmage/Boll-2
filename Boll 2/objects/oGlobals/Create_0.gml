@@ -294,23 +294,9 @@ GMLspeak.interface.compileFlags.checkForVariables = true;
 
 #endregion
 
-//// Charm Loading ////
-#region Charm Loading
-	_charmList = []; //Names of all charmsa
-	var _chCharm = file_find_first($"{working_directory}\\_vanilla\\character\\*", fa_directory);
-	var _chIndex = 0;
-
-	// Find/load all the charms
-	if (_chCharm != "" && _chCharm != "<null>")
-	{
-		while(_chCharm != "" && _chCharm != "<null>")
-		{
-			array_push(_charmList,_chCharm);
-			_chCharm  = file_find_next();
-			_chIndex++;
-		}
-	}
-#endregion
+_charmList = []; //Names of all charmsa
+_moddedCharms = []; //Which charms are modded
+global._playerChars = [];
 
 //// Level Loading ////
 global.levellist=0;
@@ -319,7 +305,6 @@ load_levels();
 global.zoom_on_start = false; // does this level have the starting zoom-in?
 
 //// General data ////
-global._playerChars = [];
 
 
 //global.touchscreen = 1

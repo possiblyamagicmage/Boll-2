@@ -4,44 +4,50 @@ function compile_code(){
 	var def_names = []
 	var	found_folders = []
 	
-	var _folder = file_find_first($"{working_directory}\\_vanilla\\character\\*", fa_directory)
-	while(_folder != "") {
-		
-		show_debug_message("SCRIPT FOLDER FOUND! `" + _folder + "`");
-		
-		if string_starts_with(_folder, "!") {
-			show_debug_message("WARNING: Terminate symbol found in `" + _folder + "`. Ignoring...");
-			_folder = file_find_next();
-		}else {
-			found_folders[index++] = "character\\" + _folder
-			_folder = file_find_next();
+	var _chCharm = file_find_first($"{working_directory}\\_vanilla\\character\\*", fa_directory);
+
+	// Find/load all the charms
+	if (_chCharm != "" && _chCharm != "<null>")
+	{
+		while(_chCharm != "" && _chCharm != "<null>")
+		{
+			array_push(_charmList,_chCharm);
+			array_push(_moddedCharms,0);
+			found_folders[index] = "_vanilla\\character\\" + _chCharm
+			index++;
+			_chCharm  = file_find_next();
 		}
 	}
+	file_find_close();
 	
-	show_debug_message("END SCRIPT FOLDER SEARCH");
-	
-	_folder = file_find_close();
+	var _chCharm = file_find_first($"{working_directory}\\mods\\character\\*", fa_directory);
+
+	// Find/load all the charms
+	if (_chCharm != "" && _chCharm != "<null>")
+	{
+		while(_chCharm != "" && _chCharm != "<null>")
+		{
+			array_push(_charmList,_chCharm);
+			array_push(_moddedCharms,1);
+			found_folders[index] = "mods\\character\\" + _chCharm
+			index++;
+			_chCharm  = file_find_next();
+		}
+	}
+	file_find_close();
 	
 	var j=0;
 	repeat(array_length(found_folders)) {
 		
-		var _file = file_find_first($"{working_directory}\\_vanilla\\" + found_folders[j] + "\\*.gml",0)
-		show_debug_message("BEGIN SCRIPT COMPILE IN `" + found_folders[j] + "`");
-	
+		var _file = file_find_first($"{working_directory}\\" + found_folders[j] + "\\*.gml",0)
 		while(_file != "") {
-			show_debug_message("SCRIPT FILE FOUND! `" + _file + "`");
-			
-			var _filepath = $"{working_directory}\\_vanilla\\" + found_folders[j] + "\\" + _file
-			show_debug_message(_filepath)
-			//show_debug_message(_filepath2)
+			var _filepath = $"{working_directory}\\" + found_folders[j] + "\\" + _file
 			_file = string_delete(_file, string_length(_file) -3, 4)
 			def_names = global._findDefine( _filepath)
 			var i=0;
 			repeat(array_length(def_names)) {
 			
 				var store = _file + "_" + def_names[i]
-				show_debug_message(store)
-				//show_message(store);
 			
 				if !is_undefined(_compiled[? store]) {
 					show_message("WARNING: `" + store + "` already has a script compiled.")
@@ -52,12 +58,8 @@ function compile_code(){
 				
 				i++;
 			}
-			
-			show_debug_message("END SCRIPT EXTRACT IN FILE " + _file);
 			_file = file_find_next();
 		}
-		
-		show_debug_message("END SCRIPT COMPILE IN FOLDER " + found_folders[j]);
 		_file = file_find_close();
 		j++;
 	}
@@ -85,12 +87,18 @@ function import_sheets() {
 	oGameManager.PlayerColl.StartBatch();
 	var i=0;
 	repeat(array_length(global._playerChars)) {
-		var _name = global._playerChars[i]; 
-		var dir=$"{working_directory}\\_vanilla\\character\\{_name}"
-		
 		var _name = global._playerChars[i];
-		global.animdat[i]=[];
+		var _modded = oGlobals._moddedCharms[array_get_index(oGlobals._charmList,_name)];
 		var dir=$"{working_directory}\\_vanilla\\character\\{_name}"
+		if (_modded) {
+			dir=$"{working_directory}\mods\\character\\{_name}"
+		}
+		
+		global.animdat[i]=[];
+		if !(file_exists($"{dir}\\config.ini")) {
+			throw $"Config file does not exist in {_name}!"
+		}
+		
 		var buffer = buffer_load($"{dir}\\config.ini");
 		var _string = buffer_read(buffer,buffer_string);
 		buffer_delete(buffer);
