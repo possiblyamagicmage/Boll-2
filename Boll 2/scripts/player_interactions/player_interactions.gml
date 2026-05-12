@@ -237,6 +237,11 @@ function player_interactions(){
 		}
 	}
 	
+	var checkpoint=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oCheckpoint, false, true)
+	if (checkpoint) {
+		checkpoint.activate.Emit(id);
+	}
+	
 	if (collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey,oSnowboardGiver,false,true)) && (state != "boarding") {
 		state = "boarding";
 		sig.Emit("start_boarding");
