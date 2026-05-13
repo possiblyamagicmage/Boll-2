@@ -38,7 +38,7 @@ if (state == "boarding") {
 	
 if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex()))) {
 		
-	if palette != 0 {
+	if (palette != 0) {
 		pal_swap_set(oGameManager.playerPalettes[pNum],palette,false)
 	}
 	
@@ -51,6 +51,8 @@ if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex())))
 }
 
 shader_reset();
+
+sig.Emit("draw_over");
 
 if (state == "frozen") {
 	draw_sprite(spr_playericecube,5-frozen_health,floor(x),floor(y))

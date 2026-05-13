@@ -157,10 +157,11 @@ function get_size() { //returns the array index of the player's current sprite
 function skin_animationdata(slot,name,list) {
 	var t,spr;
 
+	var spritedat = global.animdat[pNum][0]
+	var animdat = global.animdat[pNum][1]
+
 	var j=0;
 	repeat (array_length(global.powerups)) {
-		var spritedat = global.animdat[pNum][0]
-		var animdat = global.animdat[pNum][1]
 		var sprite_yank = spritedat[$ $"{global.powerups[j]} override"];
 		if (is_undefined(sprite_yank)) {
 			sprite_yank = spritedat[$ $"{global.powerups[j]} copy"];
@@ -249,6 +250,64 @@ function skin_animationdata(slot,name,list) {
 		
 		j++;
 	}
+	
+	var _name = global._playerChars[pNum];
+	var _modded = oGlobals._moddedCharms[array_get_index(oGlobals._charmList,_name)];
+	var dir=$"{working_directory}\\_vanilla\\character\\{_name}"
+	if (_modded) {
+		dir=$"{working_directory}\mods\\character\\{_name}"
+	}
+	
+	//misc sprites stuff
+	var i=0;
+	repeat(array_length(miscSprites)) {
+		var miscspr = miscSprites[i];
+		var struct = {};
+
+		if !is_undefined(animdat[$ $"{miscspr} frames"])
+		struct[$ "frames"]=animdat[$ $"{miscspr} frames"]
+		else struct[$ "frames"]=1
+		
+		if !is_undefined(animdat[$ $"{miscspr} orgx"])
+		struct[$ "orgx"]=animdat[$ $"{miscspr} orgx"]
+		else struct[$ "orgx"]=CollageOrigin.CENTER
+		
+		if !is_undefined(animdat[$ $"{miscspr} orgy"])
+		struct[$ "orgy"]=animdat[$ $"{miscspr} orgy"]
+		else struct[$ "orgy"]=CollageOrigin.CENTER
+		
+		if !is_undefined(animdat[$ $"{miscspr} offx"])
+		struct[$ "offx"]=animdat[$ $"{miscspr} offx"]
+		else struct[$ "offx"]=0
+		
+		if !is_undefined(animdat[$ $"{miscspr} offy"])
+		struct[$ "offy"]=animdat[$ $"{miscspr} offy"]
+		else struct[$ "offy"]=0
+		
+		//read animation speed
+		if !is_undefined(animdat[$ $"{miscspr} speed"])
+		t=animdat[$ $"{miscspr} speed"]
+		else t=1
+		if !(ceil(t)) t=1
+	    
+		struct[$ "speed"]=t
+		
+		//read animation loop
+		var loop=1;
+		if !is_undefined(animdat[$ $"{miscspr} loop"])
+		loop=animdat[$ $"{miscspr} loop"]
+		else loop=1
+		struct[$ "loop"]=max(1,loop)
+      
+		if !is_undefined(animdat[$ $"{miscspr} frametimes"]) && is_array(animdat[$ $"{miscspr} frametimes"])
+		struct[$ "frametimes"]=animdat[$ $"{miscspr} frametimes"]
+		else struct[$ "frametimes"]=array_create(struct[$ "frames"],1)
+		
+		miscSpritesMap[$ miscspr]=struct;
+		
+		oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\misc\\{miscspr}.png",$"spr_{_name}_misc_{miscspr}",struct[$ "frames"],false,false,struct[$ "orgx"],struct[$ "orgy"])
+		i++;
+	}
 }
 
 function init_sounds() {
@@ -284,9 +343,34 @@ function stopsfx(sound) {
 	}
 }
 
+function draw_charm_sprite(_name,_frame,_x,_y,_xsc=1,_ysc=1,_angle=0,_col=c_white,_alpha=1) {
+	var struct = miscSpritesMap[$ _name];
+	
+	var spr = oGameManager.PlayerColl.GetImageInfo($"spr_{charmName}_misc_{_name}");
+	
+	var xoff = struct.offx
+	var yoff = struct.offy
+	
+	if CollageImageExists(spr) {
+		CollageDrawImageExt(
+			spr, 
+			floor(_frame),
+			floor(_x) - (lengthdir_x(xoff,(_angle-90)*_xsc)) * -_xsc, 
+			floor(_y) - (lengthdir_y(yoff,(_angle-90)*_ysc)) * -_ysc,
+			_xsc,
+			_ysc,
+			_angle,
+			_col,
+			_alpha
+		)
+	}
+}
+
 function init_player() {
 	spriteEvents=["idle"];
 	spriteMap={};
+	miscSprites=[];
+	miscSpritesMap={};
 	sound_list=[]; //failsafe
 	catspeak_execute(global.scripts[? $"{charmName}_datalist"]); //sprite list
 	frames_list=[1];
@@ -381,7 +465,7 @@ function animate_player() {
 		}
 		frl=loops_list[spri]-1 //loop point  
 		//if (water && !cantslowanim) frs*=wf                       
-		if (piped!=2) frame+=frs
+		frame+=frs
 		if (frame<0) frame+=frn
 		if (frame>=frn) {
 			frame=frame-frn; 
@@ -398,6 +482,38 @@ function animate_player() {
 	}
 	
 	catspeak_execute(global.scripts[? $"{charmName}_upd_frame"]);
+}
+
+function animate_charm_sprite(_name,_frame) {
+	var struct = miscSpritesMap[$ _name];
+	var _fr = _frame;
+	
+	var frn=struct.frames //frame number
+	var times=struct.frametimes;
+	var frspd=struct.speed;
+	var frs=frspd/max(1,times[floor(_fr)]) //(game speed * percent * sprite speed) / frame time
+	var frl=struct.loop-1 //loop point  
+	_fr+=frs
+	if (_fr<0) _fr+=frn
+	if (_fr>=frn) {
+		_fr=_fr-frn; 
+		if (frl<frn) _fr=frl;
+	}
+	_fr=modulo(_fr,0,frn)
+	
+	return _fr;
+}
+
+function restart_charm_sprite(_name,_frame) {
+	var struct = miscSpritesMap[$ _name];
+	
+	var frn=struct.frames //frame number
+	var frl=struct.loop-1 //loop point
+	if (floor(_frame) >= frl) || (_frame>=frn) {
+		return frl;
+	} else {
+		return 0;
+	}
 }
 
 function finish_death() {

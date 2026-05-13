@@ -469,6 +469,7 @@
     {"$GMIncludedFile":"","%Name":"walkcarry.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/sonic/sprites/big","name":"walkcarry.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"walljump.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/sonic/sprites/big","name":"walljump.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"wallrun.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/sonic/sprites/big","name":"wallrun.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"spindashdust.png","CopyToMask":-1,"filePath":"datafiles/_vanilla/character/sonic/sprites/misc","name":"spindashdust.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"buzzybumpboarding.jade","CopyToMask":-1,"filePath":"datafiles/_vanilla/level","name":"buzzybumpboarding.jade","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"iceskatefreeze.jade","CopyToMask":-1,"filePath":"datafiles/_vanilla/level","name":"iceskatefreeze.jade","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"UpHighInTheNightSky.jade","CopyToMask":-1,"filePath":"datafiles/_vanilla/level","name":"UpHighInTheNightSky.jade","resourceType":"GMIncludedFile","resourceVersion":"2.0",},

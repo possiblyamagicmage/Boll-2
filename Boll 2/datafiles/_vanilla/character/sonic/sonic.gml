@@ -1,5 +1,6 @@
 #define datalist
 spriteEvents=split_string("idle,wait,lookUp,victory,crouch,hurt,dead,walk,run,runMax,wallRun,wallJump,airWalk,brake,spring,springFall,jump,bonk,roll,spinDash,spinCharge,dropDash,airDash,carryIdle,carryWalk,carryRun,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,roll,carrySwim,pushing,balancing,dive,fireToss,electrocute,gateClimbing,flagPole,hang,monkeyBars,boarding,snowBoarding,frozen,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
+miscSprites=split_string("spindashdust",",");
 sound_list=split_string("airdash,damage,die,jump,release,skid,spin,spindash,bounce",",");
 
 #define create
@@ -30,6 +31,7 @@ boundjump = 0;
 activebound = false;
 base_terminal_vel = terminal_vel;
 kick = 0;
+spindashdust_fr = 0;
 
 // wallrun junk
 wallrunstored_hsp = 0;
@@ -211,6 +213,9 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 		}
 		
 		if (state == "spindash") && !(piped) {
+			if (apress || bpress || cpress) {
+				spindashdust_fr = restart_charm_sprite("spindashdust",spindashdust_fr);
+			}
 			component_sonic_spindash()
 		}
 		#endregion
@@ -548,7 +553,12 @@ if (piped) {
 
 #endregion
 
-//chopp: to handle any signals, make sure you define the code here with the same name 
+#define draw_over
+if (state == "spindash") {
+	spindashdust_fr = animate_charm_sprite("spindashdust",spindashdust_fr);
+	
+	draw_charm_sprite("spindashdust",spindashdust_fr,x-16*xsc,y-2,xsc);
+}
 
 #define on_kill
 playsfx(charmName+"die")
