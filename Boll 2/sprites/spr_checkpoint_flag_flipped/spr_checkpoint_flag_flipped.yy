@@ -24,7 +24,7 @@
   ],
   "name":"spr_checkpoint_flag_flipped",
   "nineSlice":null,
-  "origin":0,
+  "origin":2,
   "parent":{
     "name":"Objects",
     "path":"folders/Sprites/Objects.yy",
@@ -79,7 +79,7 @@
     ],
     "visibleRange":null,
     "volume":1.0,
-    "xorigin":0,
+    "xorigin":20,
     "yorigin":0,
   },
   "swatchColours":null,

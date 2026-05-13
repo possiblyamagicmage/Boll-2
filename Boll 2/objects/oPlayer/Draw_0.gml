@@ -2,59 +2,64 @@ animate_player();
 
 if (invincible_type == 1 && invincible_timer mod 5 < 2.5) exit;
 
+if (invincible_type == 2) {
+	shader_set(shd_colormod)
+	var unitime = shader_get_uniform(shd_colormod,"time")
+	shader_set_uniform_f(unitime, global.roomTimer / game_get_speed(gamespeed_fps));
+}
+if (afterimage)
+{
+	gpu_set_blendmode(bm_add);
+	var i=0;
+	repeat(5) {
+		if ((global.roomTimer mod 3) == i) {
+			if(hsp != 0 || vsp != 0)
+			{
+				var gap = 5 - i;
+				draw_player(
+					record_sprite[max(record_timer - gap, 0) mod 60], 
+					record_frame[max(record_timer - gap, 0) mod 60],
+					record_x[max(record_timer - gap, 0) mod 60], 
+					record_y[max(record_timer - gap, 0) mod 60], 
+					record_xscale[max(record_timer - gap, 0) mod 60], 
+					record_yscale[max(record_timer - gap, 0) mod 60], 
+					record_angle[max(record_timer - gap, 0) mod 60]
+				)
+			}
+		}
+		i++;
+	}
+	gpu_set_blendmode(bm_normal);
+}
+	
+if (state == "boarding") {
+	draw_sprite_ext(spr_snowboard,0,floor(x)-lengthdir_x(3,sprite_angle-90),floor(y)+hit_sizey-lengthdir_y(3,sprite_angle-90),1,1,sprite_angle,c_white,1);
+}
+	
 if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex()))) {
+		
 	if palette != 0 {
 		pal_swap_set(oGameManager.playerPalettes[pNum],palette,false)
 	}
 	
-	if (invincible_type == 2) {
-		shader_set(shd_colormod)
-		var unitime = shader_get_uniform(shd_colormod,"time")
-		shader_set_uniform_f(unitime, global.roomTimer / game_get_speed(gamespeed_fps));
-	}
-	if (afterimage)
-	{
-		gpu_set_blendmode(bm_add);
-		var i=0;
-		repeat(5) {
-			if ((global.roomTimer mod 3) == i) {
-				if(hsp != 0 || vsp != 0)
-				{
-					var gap = 5 - i;
-					draw_player(
-						record_sprite[max(record_timer - gap, 0) mod 60], 
-						record_frame[max(record_timer - gap, 0) mod 60],
-						record_x[max(record_timer - gap, 0) mod 60], 
-						record_y[max(record_timer - gap, 0) mod 60], 
-						record_xscale[max(record_timer - gap, 0) mod 60], 
-						record_yscale[max(record_timer - gap, 0) mod 60], 
-						record_angle[max(record_timer - gap, 0) mod 60]
-					)
-				}
-			}
-			i++;
-		}
-		gpu_set_blendmode(bm_normal);
-	}
-	
-	if (state == "boarding") {
-		draw_sprite_ext(spr_snowboard,0,floor(x)-lengthdir_x(3,sprite_angle-90),floor(y)+hit_sizey-lengthdir_y(3,sprite_angle-90),1,1,sprite_angle,c_white,1);
-	}
 	var normal_spr = oGameManager.PlayerColl.GetImageInfo(get_spriteindex())
 	draw_player(normal_spr, frame);
-	if palette != 0 {
-		pal_swap_reset()
-	}
-	shader_reset();
-	if (state == "frozen") {
-		draw_sprite(spr_playericecube,5-frozen_health,floor(x),floor(y))
-	}
 	
-	if (invincible_type == 2) {
-		var _star_shine_offset = ((global.roomTimer / 3) mod 5);
-		var _final_angle = ((global.roomTimer + ((global.roomTimer & 1) * 90)) * 1.5) + ((_star_shine_offset) * 16)
-		draw_sprite_circle(spr_pShineStarman,_star_shine_offset,floor(x),floor(y),1,1, (bbox_bottom - bbox_top) + 2, 2, (_final_angle / 360) * (pi * 4))
+	if (palette != 0) {
+		pal_swap_reset();
 	}
+}
+
+shader_reset();
+
+if (state == "frozen") {
+	draw_sprite(spr_playericecube,5-frozen_health,floor(x),floor(y))
+}
+	
+if (invincible_type == 2) {
+	var _star_shine_offset = ((global.roomTimer / 3) mod 5);
+	var _final_angle = ((global.roomTimer + ((global.roomTimer & 1) * 90)) * 1.5) + ((_star_shine_offset) * 16)
+	draw_sprite_circle(spr_pShineStarman,_star_shine_offset,floor(x),floor(y),1,1, (bbox_bottom - bbox_top) + 2, 2, (_final_angle / 360) * (pi * 4))
 }
 
 if (global.debug) {

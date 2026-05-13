@@ -19,8 +19,8 @@ if (spinning) {
 			spin_amount--;
 		} else {
 			spinning = false;
-			flag_scale = dir ? -1 : 1;
-			spin_dir = dir ? 180 : 0;
+			flag_scale = 1;
+			spin_dir = 0;
 			spin_speed = 0;
 		}
 	}

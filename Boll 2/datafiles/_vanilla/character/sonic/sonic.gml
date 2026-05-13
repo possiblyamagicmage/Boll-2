@@ -58,7 +58,7 @@ wallrunstored_hsp = hsp;
 
 #region Start Wallrunning
 var _move = (right-left) 
-if (_move!=0 || walljump) && !(grounded) && (vsp <= 0 || airdash) && (state!="wallrun") && !(activebound) && !(is_grabbing) && (abs(wallrunstored_hsp) > 1.5) {
+if (_move!=0 || walljump) && !(grounded) && ((vsp <= 0 && abs(wallrunstored_hsp) > 1.5) || airdash) && (state!="wallrun") && !(activebound) && !(is_grabbing) {
 	var coll=check_valid_wall(x+((hit_sizex+1)*xsc)+hsp,y-((hit_sizey-2)*ysc)+vsp,x+((hit_sizex+1)*xsc)+hsp,y-((hit_sizey-2)*ysc)+vsp)
 	if (coll) {
 		storeddir=esign(_move,xsc);

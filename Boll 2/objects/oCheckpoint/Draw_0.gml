@@ -22,7 +22,7 @@ if !(draw_front) {
 } else {
 	var offset = 1;
 	if (dir) offset = -1;
-	draw_sprite_ext(spr_checkpoint_flag_front,flag_index,x+flag_scale*offset,y+4,esign(flag_scale,-1),1,0,c_white,1);
+	draw_sprite_ext(spr_checkpoint_flag_front,flag_index,x+flag_scale*offset,y+4,esign(flag_scale*offset,offset),1,0,c_white,1);
 }
 
 if (global.debug) {
