@@ -5,6 +5,7 @@ subopt=0;
 suboptMAX=3;
 optionLock=0;
 startLock = 10;
+lemmebind = -1;
 
 temp_settings = global.settings
 
@@ -43,11 +44,12 @@ backAmenu = function (_goback) {
 //Rebind Menu
 rebindKey = function(_giveBind) {
 	lemmebind = _giveBind;
-	input_binding_scan_abort();
-	input_binding_scan_start(function(_binding)
-	{
-		input_binding_set_safe(lemmebind, _binding);
-	});
+	var _device = InputPlayerGetDevice();
+	//Begin rebinding for the device that the player is currently using
+	var _ignoreArray = [
+		vk_alt, vk_capslock, vk_printscreen,vk_escape,gp_start
+	];
+	InputDeviceSetRebinding(_device, true, _ignoreArray);
 }
 
 //Touch Control

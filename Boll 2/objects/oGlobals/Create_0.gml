@@ -35,8 +35,6 @@ global.checkpointX = no_checkpoint;
 global.checkpointY = no_checkpoint;
 global.checkpointDir = 0;
 
-if !(instance_exists(input_controller_object)) instance_create_depth(0,0,16001,input_controller_object)
-
 GMLspeak.interface.exposeEverythingIDontCareIfModdersCanEditUsersSaveFilesJustLetMeDoThis = true
 GMLspeak.enableWritingIOProperties(true)
 GMLspeak.interface.compileFlags.checkForVariables = true;
@@ -125,7 +123,7 @@ GMLspeak.interface.compileFlags.checkForVariables = true;
 	#endregion
 
 	#region Input
-		GMLspeak.interface.exposeFunction("input_check_pressed", input_check_pressed);
+		/*GMLspeak.interface.exposeFunction("input_check_pressed", input_check_pressed);
 		GMLspeak.interface.exposeFunction("input_check", input_check);
 		GMLspeak.interface.exposeFunction("input_check_released", input_check_released);
 		GMLspeak.interface.exposeFunction("input_is_analogue", input_is_analogue);
@@ -142,7 +140,7 @@ GMLspeak.interface.compileFlags.checkForVariables = true;
 		GMLspeak.interface.exposeFunction("input_gamepad_check", input_gamepad_check);
 		GMLspeak.interface.exposeFunction("input_gamepad_check_pressed", input_gamepad_check_pressed);
 		GMLspeak.interface.exposeFunction("input_gamepad_check_released", input_gamepad_check_released);
-		GMLspeak.interface.exposeFunction("input_gamepad_value", input_gamepad_value);
+		GMLspeak.interface.exposeFunction("input_gamepad_value", input_gamepad_value);*/
 	#endregion
 	
 	#region Vinyl
@@ -270,10 +268,6 @@ GMLspeak.interface.compileFlags.checkForVariables = true;
 		GMLspeak.interface.exposeFunction("CollageDrawImageTiled", CollageDrawImageTiled);
 		GMLspeak.interface.exposeFunction("CollageDrawImageTiledExt", CollageDrawImageTiledExt);
 		GMLspeak.interface.exposeFunction("CollageGet", CollageGet);
-		GMLspeak.interface.exposeFunction("CollageGetImageSurface", CollageGetImageSurface);
-		GMLspeak.interface.exposeFunction("CollageGetImageTexture", CollageGetImageTexture);
-		GMLspeak.interface.exposeFunction("CollageGetImageTexturePage", CollageGetImageTexturePage);
-		GMLspeak.interface.exposeFunction("CollageGetImageUVs", CollageGetImageUVs);
 		GMLspeak.interface.exposeFunction("CollageImageExists", CollageImageExists);
 		GMLspeak.interface.exposeFunction("CollageImageGetInfo", CollageImageGetInfo);
 		GMLspeak.interface.exposeFunction("CollageImageGetUVsArray", CollageImageGetUVsArray);

@@ -164,6 +164,7 @@ bkey = false
 bpress = false
 ckey = false
 cpress = false
+vpress = false
 
 death_time = false
 death_time_counter = 0

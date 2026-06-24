@@ -1,17 +1,20 @@
-right = input_check("right");
-left = input_check("left");
-up = input_check("up");
-down = input_check("down");
-downpress = input_check_pressed("down");
+right = InputCheck(INPUT_VERB.RIGHT);
+rightpress = InputPressed(INPUT_VERB.RIGHT);
+left = InputCheck(INPUT_VERB.LEFT);
+leftpress = InputPressed(INPUT_VERB.LEFT);
+up = InputCheck(INPUT_VERB.UP);
+uppress = InputPressed(INPUT_VERB.UP);
+down = InputCheck(INPUT_VERB.DOWN);
+downpress = InputPressed(INPUT_VERB.DOWN);
 if !finish {
-	akey = input_check("a");
-	apress = input_check_pressed("a");
-	bkey = input_check("b");
-	bpress = input_check_pressed("b");
-	ckey = input_check("c");
-	cpress = input_check_pressed("c");
+	akey = InputCheck(INPUT_VERB.A);
+	apress = InputPressed(INPUT_VERB.A);
+	bkey = InputCheck(INPUT_VERB.B);
+	bpress = InputPressed(INPUT_VERB.B);
+	ckey = InputCheck(INPUT_VERB.C);
+	cpress = InputPressed(INPUT_VERB.C);
+	vpress = InputPressed(INPUT_VERB.V);
 }
-
 maxspd=2.5;
 
 movedir=point_direction(0,0,right-left,down-up)

@@ -13,7 +13,8 @@ global.settings[$ "master_vol"] = 1
 global.settings[$ "music_vol"] = 1
 global.settings[$ "sound_vol"] = 1
 global.settings[$ "alternate_hud"] = 0
-global.settings[$ "keybinds"] = input_player_export()
+global.settings[$ "keybinds_kb"] = InputBindingsExport(false)
+global.settings[$ "keybinds_gp"] = InputBindingsExport(true)
 
 if file_exists(game_save_id+"\settings.ini")
 {
@@ -24,8 +25,14 @@ if file_exists(game_save_id+"\settings.ini")
 		if (!struct_exists(global.settings, "alternate_hud")) {
 			global.settings[$ "alternate_hud"] = 0;
 		}
-		var opstruct = global.settings[$ "keybinds"]
-		if input_player_verify(opstruct) input_player_import(opstruct);
+		var opstruct = global.settings[$ "keybinds_kb"]
+		if !(is_undefined(opstruct)) {
+			InputBindingsImport(false,opstruct)
+		}
+		opstruct = global.settings[$ "keybinds_gp"]
+		if !(is_undefined(opstruct)) {
+			InputBindingsImport(true,opstruct)
+		}
 		buffer_delete(loaded)
 		buffer_delete(save_file)
 	}

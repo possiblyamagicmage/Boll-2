@@ -1,10 +1,9 @@
-/// @func CollageGetImageUVs(collage_image_or_name, image_index)
+/// @func CollageImageGetUVs(collage_image_or_name, image_index)
 /// @param {Struct.__CollageImageClass, String} collage_image_or_name
 /// @param {Real} image_index
 /// @return {Struct.__CollageUVsClass}
-/* Feather ignore all */
-function CollageGetImageUVs(_identifier, _imageIndex) {
-	gml_pragma("forceinline");
+/// feather ignore all
+function CollageImageGetUVs(_identifier, _imageIndex) {
 	static __system = __CollageSystem();
 	if (is_string(_identifier)) {
 		if (!__COLLAGE_IMAGES_ARE_PUBLIC) {

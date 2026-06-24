@@ -12,22 +12,22 @@ if collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey,oDeathPit
 
 // chearii: guessing these are a buncha quickvars
 if (input_enable) {
-	right = input_check("right");
-	rightpress = input_check_pressed("right");
-	left = input_check("left");
-	leftpress = input_check_pressed("left");
-	up = input_check("up");
-	uppress = input_check_pressed("up");
-	down = input_check("down");
-	downpress = input_check_pressed("down");
+	right = InputCheck(INPUT_VERB.RIGHT);
+	rightpress = InputPressed(INPUT_VERB.RIGHT);
+	left = InputCheck(INPUT_VERB.LEFT);
+	leftpress = InputPressed(INPUT_VERB.LEFT);
+	up = InputCheck(INPUT_VERB.UP);
+	uppress = InputPressed(INPUT_VERB.UP);
+	down = InputCheck(INPUT_VERB.DOWN);
+	downpress = InputPressed(INPUT_VERB.DOWN);
 	if !finish {
-		akey = input_check("a");
-		apress = input_check_pressed("a");
-		bkey = input_check("b");
-		bpress = input_check_pressed("b");
-		ckey = input_check("c");
-		cpress = input_check_pressed("c");
-		vpress = input_check_pressed("v");
+		akey = InputCheck(INPUT_VERB.A);
+		apress = InputPressed(INPUT_VERB.A);
+		bkey = InputCheck(INPUT_VERB.B);
+		bpress = InputPressed(INPUT_VERB.B);
+		ckey = InputCheck(INPUT_VERB.C);
+		cpress = InputPressed(INPUT_VERB.C);
+		vpress = InputPressed(INPUT_VERB.V);
 	}
 }
 player_castlewalk()

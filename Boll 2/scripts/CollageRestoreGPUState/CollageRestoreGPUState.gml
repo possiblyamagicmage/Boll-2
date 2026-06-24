@@ -1,7 +1,7 @@
 /// @func CollageRestoreGPUState()
-/* Feather ignore all */
+/// feather ignore all
 function CollageRestoreGPUState() {
-	/* Feather ignore all */
+	/// feather ignore all
 	gml_pragma("forceinline");
 	var _instance = __CollageGPUStateSingleton();
 	if (!_instance.isSterilized) {
@@ -34,6 +34,9 @@ function CollageRestoreGPUState() {
 	matrix_set(matrix_world, _instance.matrixWorld);
 	matrix_set(matrix_view, _instance.matrixView);
 	matrix_set(matrix_projection, _instance.matrixProj);
+	gpu_set_blendequation(_instance.blendEquation);
+	gpu_set_depth(_instance.depth);
+	gpu_set_sprite_cull(_instance.spriteCull);
 	// Feather ignore once GM1009 
 	if (_instance.shader != -1) {
 		shader_set(_instance.shader);	

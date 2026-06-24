@@ -1,5 +1,5 @@
 /// @ignore
-/* Feather ignore all */
+/// feather ignore all
 function __CollageTexturePageClass(_width, _height) constructor {
 		static __idCount = 0;
 		static __system = __CollageSystem();
@@ -166,6 +166,20 @@ function __CollageTexturePageClass(_width, _height) constructor {
 				__surface = -1;
 				__HandleLoad(false);
 			}
+		}
+		
+		static ToQOIF = function() {
+			__Init();
+			var _buff = buffer_create(buffer_get_size(__buffer)+16, buffer_fixed, 1);
+			
+			buffer_write(_buff, buffer_u32, 0x20574152);
+			buffer_write(_buff, buffer_s32, __width);
+			buffer_write(_buff, buffer_s32, __height);
+			buffer_write(_buff, buffer_s32, 0);
+			buffer_copy(__buffer, 0, buffer_get_size(__buffer), _buff, buffer_tell(_buff));
+			buffer_seek(__buffer, buffer_seek_start, 0);
+			
+			return _buff;
 		}
 		
 		static GetTexture = function() {

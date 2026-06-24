@@ -1,11 +1,11 @@
 if (!optionLock) {
-	right	=input_check_pressed("right");
-	left	=input_check_pressed("left");
-	up		=input_check_pressed("up");
-	down	=input_check_pressed("down");
-	akey	=(input_check_pressed("a") || input_check_pressed("enter"));
-	bkey	=input_check_pressed("b") || input_check_pressed("pause");
-	ckey	=input_check_pressed("c");
+	left	=InputPressed(INPUT_VERB.LEFT);
+	right	=InputPressed(INPUT_VERB.RIGHT);
+	up		=InputPressed(INPUT_VERB.UP);
+	down	=InputPressed(INPUT_VERB.DOWN);
+	akey	=(InputPressed(INPUT_VERB.A) || InputPressed(INPUT_VERB.ENTER));
+	bkey	=(InputPressed(INPUT_VERB.B) || InputPressed(INPUT_VERB.PAUSE));
+	ckey	=InputPressed(INPUT_VERB.C)
 	
 	if (startLock) { //discard inputs when first created to prevent immediately being booted to the level select sometimes
 		akey		=0;
@@ -119,17 +119,38 @@ if (!optionLock) {
 		break
 	
 		case "keybindsm":
-			var _binds = ["right","left","up","down","a","b","c","v","reset"];
+			var _binds = [INPUT_VERB.RIGHT,INPUT_VERB.LEFT,INPUT_VERB.UP,INPUT_VERB.DOWN,INPUT_VERB.A,INPUT_VERB.B,INPUT_VERB.C,INPUT_VERB.V,"reset"];
 			optMAX = array_length(_binds);
-			if (akey) {
-				if (option!=8) {
-					rebindKey(_binds[option])
+			
+			if (lemmebind!=-1) {
+				var _device = InputPlayerGetDevice();
+				if (InputDeviceGetRebinding(_device))
+				{
+				    var _result = InputDeviceGetRebindingResult(_device);
+				    if (_result != undefined)
+				    {
+				        //Rebind the jump verb once we get a response
+				        InputBindingSet(InputDeviceIsGamepad(_device), lemmebind, _result);
+
+				        //Make sure we turn off rebinding once a binding has been found
+				        InputDeviceSetRebinding(_device, false);
+						lemmebind=-1;
+				    }
 				} else {
-					input_profile_reset_bindings(INPUT_AUTO_PROFILE_FOR_KEYBOARD);
+					lemmebind=-1;
 				}
-			}
-			if (bkey) {
-				backAmenu("settings");
+			} else {
+				if (akey) {
+					if (option!=8) {
+						rebindKey(_binds[option])
+					} else {
+						InputBindingsReset(false);
+						InputBindingsReset(true);
+					}
+				}
+				if (bkey) {
+					backAmenu("settings");
+				}
 			}
 		break
 	}

@@ -1,10 +1,10 @@
-left	=input_check_pressed("left");
-right	=input_check_pressed("right");
-up		=input_check_pressed("up");
-down	=input_check_pressed("down");
-akey	=(input_check_pressed("a") || input_check_pressed("enter"));
-bkey	=input_check_pressed("b");
-ckey	=input_check_pressed("c");
+left	=InputPressed(INPUT_VERB.LEFT);
+right	=InputPressed(INPUT_VERB.RIGHT);
+up		=InputPressed(INPUT_VERB.UP);
+down	=InputPressed(INPUT_VERB.DOWN);
+akey	=(InputPressed(INPUT_VERB.A) || InputPressed(INPUT_VERB.ENTER));
+bkey	=InputPressed(INPUT_VERB.B)
+ckey	=InputPressed(INPUT_VERB.C)
 
 // vars so you don't copy and paste the same shit over and over
 var _RowCount=_charCount div _rowLimit, // number of rows

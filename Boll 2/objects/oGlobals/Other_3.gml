@@ -1,4 +1,5 @@
-global.settings[$ "keybinds"] = input_player_export()
+global.settings[$ "keybinds_kb"] = InputBindingsExport(false);
+global.settings[$ "keybinds_gp"] = InputBindingsExport(true);
 
 var _json=json_stringify(global.settings); //compile all saved things
 var save_file = buffer_create(string_byte_length(_json), buffer_grow, 1);
