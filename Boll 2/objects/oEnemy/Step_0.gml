@@ -108,7 +108,7 @@ if (has_collision) {
 }
 
 if !(overridexsc) && !(in_shell)
-if gsp != 0 && (hp > 0) xsc=-esign(gsp,-1)
+if (gsp != 0) && (hp > 0) && !(turning) xsc=-esign(gsp,-1)
 
 } else {
 	if instance_exists(carry_player) {
@@ -141,6 +141,12 @@ if gsp != 0 && (hp > 0) xsc=-esign(gsp,-1)
 }
 
 prevsprite_index = sprite_index
+
+if (turning) && !(in_shell) && !(no_turn_anim) {
+	xsc = -turnxsc;
+	image_speed = 0;
+}
+
 event_user(0); //animation controller
 
 if (sprite_index!=prevsprite_index) {
@@ -151,11 +157,9 @@ if (turning) && !(in_shell) && !(no_turn_anim) {
 	flipped = 0;
 	turning=max(0,turning-1);
 	xsc = -turnxsc;
-	image_speed = 0;
 	if !(turning) {
 		image_speed = 1
 	}
-	
 	image_index = (turning > 5)
 } else if (in_shell) {
 	turning = 0;

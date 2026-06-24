@@ -43,6 +43,11 @@ not_on_gui=
 !point_in_rectangle(curs_x,curs_y,guiw-240,24,guiw,guih)&&
 !point_in_rectangle(curs_x,curs_y,0,56,192,guih)&&
 !playtestbutton.checkoverlap()&&
+!objectvisibility.checkoverlap()&&
+!gizmovisibility.checkoverlap()&&
+!tilelayervisibility.checkoverlap()&&
+!assetlayervisibility.checkoverlap()&&
+!bglayervisibility.checkoverlap()&&
 !on_dropdown
 
 if (mbleftpress) {

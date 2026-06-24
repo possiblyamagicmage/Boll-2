@@ -155,6 +155,7 @@ enemyTurnAround.Connect( self, function() {
 	if (walker && !grounded) {
 		hsp=-hsp;
 	}
+	event_user(1);
 });
 
 enemyShelled.Connect( self, function(hit_obj, kick_p) {
