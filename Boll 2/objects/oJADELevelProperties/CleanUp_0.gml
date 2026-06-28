@@ -1,2 +1,2 @@
 delete exitbutton;
-delete tilesetselector;
+delete musicselector;

@@ -11,6 +11,17 @@ function parse_level(dir=game_save_id+"\save.jade") {
 	if is_struct(level_data) {
 		var jadeversion = level_data[$ "version"]
 		if (jadeversion == JADE_VERSION) {
+			if (struct_exists(level_data, "level_properties")) {
+				level_properties = level_data[$ "level_properties"]
+				show_debug_message("LEVEL PROPERTIES LOADED!!! Level name: " + level_properties.name)
+			} else {
+				level_properties =
+				{
+				    name : "Danger Room",
+				    desc : "",
+					music_track: "floragrande"
+				};
+			}
 			var layers = level_data[$ "layers"]
 			var len=array_length(layers);
 			var spawnpoints = array_create(4, 0);
