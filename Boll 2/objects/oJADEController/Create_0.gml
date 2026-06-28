@@ -61,6 +61,13 @@ clipboard.contents = [];
 
 JADE_initializeobj();
 
+level_properties =
+{
+    name : "Danger Room",
+    desc : "",
+	music_track: "floragrande"
+};
+
 current_tileset="tTilesetMain"
 deco_mode_type="";
 

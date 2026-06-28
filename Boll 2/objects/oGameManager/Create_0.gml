@@ -1,3 +1,7 @@
+#macro MUSIC_GAIN 0.35
+#macro MUSIC_GAIN_INACTIVE_MUFFLED 0.1
+#macro MUSIC_GAIN_INACTIVE 0.225
+
 global.yellow_switch=0;
 global.cyan_switch=0;
 global.magenta_switch=0;

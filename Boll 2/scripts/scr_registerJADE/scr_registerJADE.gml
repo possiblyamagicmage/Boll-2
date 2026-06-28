@@ -16,11 +16,14 @@ global.tilesets[$ "tTilesetBowserLand"]=[spr_TilesetBowserLand, tTilesetBowserLa
 
 global.musiclist={}
 
+//Music tracks list
 global.musiclist[$ "floragrande"]={
+	formatted_name: "Floragrande",
 	leadmix: "overworld bgm FG",
 	backmix: "overworld bgm BG"
 }
 global.musiclist[$ "frigiddark"]={
+	formatted_name: "Frigid Dark",
 	leadmix: "frigid dark bgm",
 	backmix: undefined
 }
@@ -483,6 +486,7 @@ function JADE_save(file=game_save_id+"\save.jade") {
 	struct[$ "objects"] = obj_arr;
 	struct[$ "node_objects"] = node_arr;
 	struct[$ "layers"]=layerarr;
+	struct[$ "level_properties"]=level_properties;
 	struct[$ "version"]=JADE_VERSION
 	struct[$ "spawnpoints"] = [spawnpoint_x, spawnpoint_y, testpoint_x, testpoint_y];
 	var _json=json_stringify(struct); //compile all saved things
@@ -501,6 +505,17 @@ function JADE_load(file=game_save_id+"\save.jade") {
 	var save_file = buffer_decompress(loaded)
 	var level_data = json_parse(buffer_read(save_file,buffer_string))
 	if (level_data[$ "version"]==JADE_VERSION) {
+		if (struct_exists(level_data, "level_properties")) {
+			level_properties = level_data[$ "level_properties"]
+			show_debug_message("LEVEL PROPERTIES LOADED!!! Level name: " + level_properties.name)
+		} else {
+			level_properties =
+			{
+			    name : "Danger Room",
+			    desc : "",
+				music_track: "floragrande"
+			};
+		}
 		var layers = level_data[$ "layers"]
 		layerlist.wipe();
 		var len=array_length(layers);
