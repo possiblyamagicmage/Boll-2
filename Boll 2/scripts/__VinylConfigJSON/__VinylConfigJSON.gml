@@ -133,14 +133,8 @@ global.VinylConfigSON = [
             mus_overworld_BG_loop,
 			mus_overworld_FG_head,
             mus_overworld_FG_loop,
-			{
-				sound: mus_frigiddark_head,
-				gain: 2
-			},
-			{
-				sound: mus_frigiddark_tail,
-				gain: 2
-			},
+			mus_frigiddark_head,
+			mus_frigiddark_tail,
 			mus_gameover,
 			mus_editor_head,
 			mus_editor_loop,
