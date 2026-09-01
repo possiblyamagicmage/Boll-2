@@ -1,0 +1,1 @@
+menumus=VinylPlayFadeIn(mus_menu,true)
