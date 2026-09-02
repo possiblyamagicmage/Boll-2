@@ -6,6 +6,44 @@ akey	=(InputPressed(INPUT_VERB.A) || InputPressed(INPUT_VERB.ENTER));
 bkey	=InputPressed(INPUT_VERB.B)
 ckey	=InputPressed(INPUT_VERB.C)
 
+if (demo_build) {
+    if (left) {
+	   _select = 0; VinylPlay(test_ui_highlight)
+    }
+    
+    if (right) {
+    	_select = 1; VinylPlay(test_ui_highlight)
+    }
+    
+    if (akey) {
+    	if (instance_exists(oMainMenu))
+    		var i;
+            VinylPlay(test_ui_select)
+            i = 0;
+    		repeat(4) {
+    		    global.lives[i]=5
+    			i++
+    		}
+    		
+    		FadeTransition(0.5, function() {
+    			room_goto(rGame);
+    		});
+    		global._playerChars = [demo_char[_select]];
+    	instance_destroy();
+    }
+    
+    if (bkey) {
+    	if (instance_exists(oMainMenu)) {
+    		with (oMainMenu) {
+    			backAmenu("levelselectm");
+    			optionLock=0;
+    		}
+    	}
+    	instance_destroy();
+    }
+    exit
+}
+
 // vars so you don't copy and paste the same shit over and over
 var _RowCount=_charCount div _rowLimit, // number of rows
 	_curRow=_select div _rowLimit, // current row (y)
@@ -15,7 +53,9 @@ var _RowCount=_charCount div _rowLimit, // number of rows
 
 if (akey) {
 	if (instance_exists(oMainMenu))
-		var i = 0;
+		var i;
+        
+        i = 0;
 		repeat(4) {
 		    global.lives[i]=5
 			i++
@@ -31,7 +71,7 @@ if (akey) {
 if (bkey) {
 	if (instance_exists(oMainMenu)) {
 		with (oMainMenu) {
-			//backAmenu("levelselectm");
+			backAmenu("levelselectm");
 			optionLock=0;
 		}
 	}

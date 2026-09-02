@@ -7,6 +7,10 @@ optionLock=0;
 startLock = 10;
 lemmebind = -1;
 
+on_title = 1;
+
+title_offset = 0;
+
 temp_settings = global.settings
 
 menusurface=surface_create(camera_get_view_width(view_camera[0]),camera_get_view_height(view_camera[0]))
@@ -18,22 +22,27 @@ selectArrowWidthtrans = 0;
 
 // General
 OptionMover = function () {
-	if (up)
-	option-=1
-	else if (down)
-	option+=1
+	if (up) {
+	   option-=1 VinylPlay(test_ui_highlight);
+    }
+	else if (down) {
+	   option+=1 VinylPlay(test_ui_highlight);
+    }
 	
 	option	=wrap_val(option,0,optMAX);
 }
 subOptMover = function () {
-	if (up)
-	subopt-=1
-	else if (down)
-	subopt+=1
+	if (up) {
+	   subopt-=1 VinylPlay(test_ui_highlight);
+    }
+	else if (down) {
+	   subopt+=1 VinylPlay(test_ui_highlight);
+    }
 	
 	subopt	=wrap_val(subopt,0,suboptMAX);
 }
 backAmenu = function (_goback) {
+    VinylPlay(test_ui_cancel);
 	crMenu=_goback
 	option=0
 	

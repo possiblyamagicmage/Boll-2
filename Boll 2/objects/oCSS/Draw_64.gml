@@ -1,3 +1,10 @@
+if (demo_build) {
+    draw_sprite(spr_TECHDEMO_css_portraits, _select, (RESOLUTION_X/2), (RESOLUTION_Y/2))
+    
+    draw_sprite(spr_TECHDEMO_css_nametags, _select, (RESOLUTION_X/2) + ((RESOLUTION_X/4) * (((1 - _select) * 2) - 1)), (RESOLUTION_Y/2))
+    exit;
+}
+
 var _spacing=0, _cardSizeW=sprite_get_width(spr_rostercard);
 var _startX=(RESOLUTION_X/2),
 	_startY=(RESOLUTION_Y/2);

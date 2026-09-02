@@ -1,1 +1,1 @@
-menumus=VinylPlayFadeIn(mus_menu,true)
+menumus=VinylPlay("test menu bgm", true)

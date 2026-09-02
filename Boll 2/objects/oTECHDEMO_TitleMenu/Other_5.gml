@@ -1,1 +1,1 @@
-VinylFadeOut(menumus)
+VinylStop(menumus)

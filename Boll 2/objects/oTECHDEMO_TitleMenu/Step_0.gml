@@ -1,3 +1,34 @@
+if (on_title) {
+    right	=0;
+	left	=0;
+	up		=0;
+	down	=0;
+    
+    akey	=(InputPressed(INPUT_VERB.A) || InputPressed(INPUT_VERB.ENTER));
+	bkey	=(InputPressed(INPUT_VERB.B) || InputPressed(INPUT_VERB.PAUSE));
+	ckey	=InputPressed(INPUT_VERB.C)
+	
+	if (startLock) {
+		akey		=0;
+		bkey		=0;
+		ckey		=0;
+		startLock -= 1;
+	}
+    
+    if (akey || ckey || InputPressed(INPUT_VERB.ENTER)) {
+        on_title = -64;
+        title_offset++;
+        
+        VinylPlay(test_ui_alternate);
+    }
+    
+    on_title = ((++on_title) mod 48) + 1
+        
+    exit;
+}
+
+if (title_offset < 100) title_offset += 2;
+
 if (!optionLock) {
 	left	=InputPressed(INPUT_VERB.LEFT);
 	right	=InputPressed(INPUT_VERB.RIGHT);
@@ -32,9 +63,9 @@ if (!optionLock) {
 			optMAX = 3;
 			if (akey) {
 				switch option {
-					case 0: crMenu="levelselectm" option=0 break;
-					case 1: crMenu="settings" option=0 break;
-					case 2: global.save_dir="" room_goto(rEditor) option=0 break;
+					case 0: VinylPlay(test_ui_select); crMenu="levelselectm" option=0 break;
+					case 1: VinylPlay(test_ui_select); crMenu="settings" option=0 break;
+					case 2: VinylPlay(test_ui_select); global.save_dir="" room_goto(rEditor) option=0 break;
 					//case 3: global.save_dir="" room_goto(rWMEditor) option=0 break;
 					//case 3: room_goto(rIntro) option=0 break;
 					case 3: game_end(); break;
@@ -46,6 +77,7 @@ if (!optionLock) {
 		case "settings":
 			optMAX = 7;
 			if (akey) {
+                VinylPlay(test_ui_select);
 				switch option {
 					case 5:
 						crMenu="accessibility" option=0
@@ -83,6 +115,7 @@ if (!optionLock) {
 				safe = 1
 			}
 			if (left || right) {
+                if (option < 5) VinylPlay(test_ui_highlight);
 				switch (option) {
 					case 0: temp_settings.resolution_scale = clamp(temp_settings.resolution_scale + floor(right - left),1,5) break;
 					case 1: temp_settings.fullscreen_type = clamp(temp_settings.fullscreen_type + floor(right - left),0,2) break;
@@ -100,6 +133,7 @@ if (!optionLock) {
 		case "accessibility":
 			optMAX = 3;
 			if (akey) {
+                VinylPlay(test_ui_select);
 				switch option {
 					case 3:
 						crMenu="settings" option=0
@@ -112,6 +146,7 @@ if (!optionLock) {
 				safe = 1
 			}
 			if (left || right) {
+                if (option < 2) VinylPlay(test_ui_highlight);
 				switch (option) {
 					case 0: temp_settings.alternate_hud = !temp_settings.alternate_hud break;
 					case 1: temp_settings.sensitive_sound = !temp_settings.sensitive_sound break;
@@ -126,6 +161,7 @@ if (!optionLock) {
 		case "levelselectm":
 			optMAX = array_length(global.levellist)-1;
 			if (akey) {
+                VinylPlay(test_ui_select)
 				crMenu="cssm";
 				var struct = global.levellist[option];
 				global.nextlevel=$"{working_directory}{struct.dir}"
@@ -170,8 +206,10 @@ if (!optionLock) {
 			} else {
 				if (akey) {
 					if (option!=8) {
+                        VinylPlay(test_ui_select)
 						rebindKey(_binds[option])
 					} else {
+                        VinylPlay(test_ui_alternate)
 						InputBindingsReset(false);
 						InputBindingsReset(true);
 					}
